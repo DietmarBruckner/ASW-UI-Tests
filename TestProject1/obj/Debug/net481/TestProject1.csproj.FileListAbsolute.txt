@@ -19,3 +19,4 @@ C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\TestProject1\obj\Debug\net
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\TestProject1\obj\Debug\net481\TestProject1.exe.config
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\TestProject1\bin\Debug\net481\FlaUI.Core.dll
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\TestProject1\bin\Debug\net481\System.CodeDom.dll
+C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\TestProject1\bin\Debug\net481\FlaUI.UIA2.dll
