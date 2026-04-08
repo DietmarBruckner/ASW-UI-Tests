@@ -9,7 +9,7 @@
                 "${workspaceFolder}/ASW-UI-Tests.sln",
                 "/t:Build",
                 "/p:Configuration=Debug",
-                "/p:Platform=\"Any CPU\""
+                "/p:Platform=AnyCPU"
             ],
             "problemMatcher": [
                 "$msCompile"
@@ -23,7 +23,7 @@
                 "${workspaceFolder}/TestProject1/TestProject1.csproj",
                 "/t:Build",
                 "/p:Configuration=Debug",
-                "/p:Platform=\"Any CPU\""
+                "/p:Platform=AnyCPU"
             ],
             "problemMatcher": [
                 "$msCompile"
@@ -37,7 +37,7 @@
                 "${workspaceFolder}/TestProject2/TestProject2.csproj",
                 "/t:Build",
                 "/p:Configuration=Debug",
-                "/p:Platform=\"Any CPU\""
+                "/p:Platform=AnyCPU"
             ],
             "problemMatcher": [
                 "$msCompile"
