@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "25IURsrrguY=",
+  "dgSpecHash": "u8RuBrvJCDo=",
   "success": true,
-  "projectFilePath": "c:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\TestProject1\\TestProject1.csproj",
+  "projectFilePath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\TestProject1\\TestProject1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\flaui.core\\5.0.0\\flaui.core.5.0.0.nupkg.sha512",
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\flaui.uia2\\5.0.0\\flaui.uia2.5.0.0.nupkg.sha512",
