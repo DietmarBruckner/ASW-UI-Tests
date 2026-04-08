@@ -4,6 +4,7 @@
     <TargetFramework>net481</TargetFramework>
     <RootNamespace>TestProject1</RootNamespace>
     <AssemblyName>TestProject1</AssemblyName>
+    <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FlaUI.Core" Version="5.0.0" />
