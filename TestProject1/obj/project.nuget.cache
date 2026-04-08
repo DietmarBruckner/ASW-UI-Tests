@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "/5OQtqQZH7g=",
+  "dgSpecHash": "25IURsrrguY=",
   "success": true,
   "projectFilePath": "c:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\TestProject1\\TestProject1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\flaui.core\\5.0.0\\flaui.core.5.0.0.nupkg.sha512",
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\flaui.uia2\\5.0.0\\flaui.uia2.5.0.0.nupkg.sha512",
+    "C:\\Users\\ATDIBRU\\.nuget\\packages\\microsoft.codecoverage\\17.14.1\\microsoft.codecoverage.17.14.1.nupkg.sha512",
+    "C:\\Users\\ATDIBRU\\.nuget\\packages\\microsoft.net.test.sdk\\17.14.1\\microsoft.net.test.sdk.17.14.1.nupkg.sha512",
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\system.codedom\\8.0.0\\system.codedom.8.0.0.nupkg.sha512",
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\system.management\\8.0.0\\system.management.8.0.0.nupkg.sha512",
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\xunit\\2.4.2\\xunit.2.4.2.nupkg.sha512",
