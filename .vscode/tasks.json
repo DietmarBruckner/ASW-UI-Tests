@@ -2,16 +2,46 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build-debug",
-            "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe",
+            "label": "build-solution",
+            "command": "dotnet",
             "type": "process",
             "args": [
-                "${workspaceFolder}/TestProject2/TestProject2.csproj",
-                "/t:Build",
-                "/p:Configuration=Debug",
-                "/p:Platform=AnyCPU"
+                "build",
+                "${workspaceFolder}/ASW-UI-Tests.sln",
+                "-c",
+                "Debug"
             ],
-
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "build-testproject1",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/TestProject1/TestProject1.csproj",
+                "-c",
+                "Debug"
+            ],
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "build-testproject2",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/TestProject2/TestProject2.csproj",
+                "-c",
+                "Debug"
+            ],
+            "problemMatcher": [
+                "$msCompile"
+            ]
         }
     ]
 }
