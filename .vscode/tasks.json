@@ -3,13 +3,13 @@
     "tasks": [
         {
             "label": "build-solution",
-            "command": "dotnet",
+            "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe",
             "type": "process",
             "args": [
-                "build",
                 "${workspaceFolder}/ASW-UI-Tests.sln",
-                "-c",
-                "Debug"
+                "/t:Build",
+                "/p:Configuration=Debug",
+                "/p:Platform=\"Any CPU\""
             ],
             "problemMatcher": [
                 "$msCompile"
@@ -17,13 +17,13 @@
         },
         {
             "label": "build-testproject1",
-            "command": "dotnet",
+            "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe",
             "type": "process",
             "args": [
-                "build",
                 "${workspaceFolder}/TestProject1/TestProject1.csproj",
-                "-c",
-                "Debug"
+                "/t:Build",
+                "/p:Configuration=Debug",
+                "/p:Platform=\"Any CPU\""
             ],
             "problemMatcher": [
                 "$msCompile"
@@ -31,13 +31,13 @@
         },
         {
             "label": "build-testproject2",
-            "command": "dotnet",
+            "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe",
             "type": "process",
             "args": [
-                "build",
                 "${workspaceFolder}/TestProject2/TestProject2.csproj",
-                "-c",
-                "Debug"
+                "/t:Build",
+                "/p:Configuration=Debug",
+                "/p:Platform=\"Any CPU\""
             ],
             "problemMatcher": [
                 "$msCompile"
