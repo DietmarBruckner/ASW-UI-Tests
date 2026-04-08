@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-04-07T16:06:42.439970" rpa="false" schemaversion="5">
+<suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
+<suite id="s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\tests">
+<suite id="s1-s1-s1" name="First" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\tests\first.robot">
+<test id="s1-s1-s1-t1" name="First Test" line="2">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-04-07T16:06:42.486355" level="INFO">Hello, World!</msg>
+<arg>Hello, World!</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-04-07T16:06:42.486014" elapsed="0.000577"/>
+</kw>
+<status status="PASS" start="2026-04-07T16:06:42.482501" elapsed="0.004362"/>
+</test>
+<status status="PASS" start="2026-04-07T16:06:42.479792" elapsed="0.010350"/>
+</suite>
+<status status="PASS" start="2026-04-07T16:06:42.476045" elapsed="0.020800"/>
+</suite>
+<status status="PASS" start="2026-04-07T16:06:42.445450" elapsed="0.054056"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="ASW-UI-Tests" id="s1" pass="1" fail="0" skip="0">ASW-UI-Tests</stat>
+<stat name="Tests" id="s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.Tests</stat>
+<stat name="First" id="s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.Tests.First</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

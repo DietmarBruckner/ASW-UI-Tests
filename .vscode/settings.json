@@ -1,0 +1,4 @@
+{
+    "dotnet.defaultSolution": "ASW-UI-FlaUI-Tests.sln",
+    "gitdoc.enabled": true,
+}

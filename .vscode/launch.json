@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug_csharp",
+            "type": "clr",
+            "request": "launch",
+            "preLaunchTask": "build-debug",
+            "program": "${workspaceFolder}/bin/Debug/TestProject2.exe",
+            "args": [],
+            "console": "internalConsole",
+            "stopAtEntry": false
+        }
+    ]
+}
