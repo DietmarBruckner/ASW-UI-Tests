@@ -2,6 +2,84 @@
   "version": 3,
   "targets": {
     ".NETFramework,Version=v4.8.1": {
+      "FlaUI.Core/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Management": "8.0.0"
+        },
+        "frameworkAssemblies": [
+          "Accessibility",
+          "PresentationCore",
+          "PresentationFramework",
+          "System.IO.Compression",
+          "System.Management",
+          "System.Net.Http",
+          "System.Windows.Forms",
+          "WindowsBase"
+        ],
+        "compile": {
+          "lib/net48/FlaUI.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net48/FlaUI.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FlaUI.UIA2/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0"
+        },
+        "frameworkAssemblies": [
+          "UIAutomationClient",
+          "UIAutomationTypes",
+          "WindowsBase"
+        ],
+        "compile": {
+          "lib/net48/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net48/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.CodeDom/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net462/System.CodeDom.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.CodeDom.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
+        }
+      },
+      "System.Management/8.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.CodeDom": "8.0.0"
+        },
+        "frameworkAssemblies": [
+          "System.Management"
+        ],
+        "compile": {
+          "lib/net462/_._": {}
+        },
+        "runtime": {
+          "lib/net462/_._": {}
+        }
+      },
       "xunit/2.4.2": {
         "type": "package",
         "dependencies": {
@@ -100,6 +178,84 @@
       }
     },
     ".NETFramework,Version=v4.8.1/win-x86": {
+      "FlaUI.Core/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Management": "8.0.0"
+        },
+        "frameworkAssemblies": [
+          "Accessibility",
+          "PresentationCore",
+          "PresentationFramework",
+          "System.IO.Compression",
+          "System.Management",
+          "System.Net.Http",
+          "System.Windows.Forms",
+          "WindowsBase"
+        ],
+        "compile": {
+          "lib/net48/FlaUI.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net48/FlaUI.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FlaUI.UIA2/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0"
+        },
+        "frameworkAssemblies": [
+          "UIAutomationClient",
+          "UIAutomationTypes",
+          "WindowsBase"
+        ],
+        "compile": {
+          "lib/net48/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net48/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.CodeDom/8.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net462/System.CodeDom.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.CodeDom.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
+        }
+      },
+      "System.Management/8.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.CodeDom": "8.0.0"
+        },
+        "frameworkAssemblies": [
+          "System.Management"
+        ],
+        "compile": {
+          "lib/net462/_._": {}
+        },
+        "runtime": {
+          "lib/net462/_._": {}
+        }
+      },
       "xunit/2.4.2": {
         "type": "package",
         "dependencies": {
@@ -199,6 +355,108 @@
     }
   },
   "libraries": {
+    "FlaUI.Core/5.0.0": {
+      "sha512": "VWWYqwjsYkii2BrUsz5+bpXEp27NherKhLt19hTxHwJP4KrfyZoeo1FdBov4ZTh655wZAKDGIjR7NJLDesuzeg==",
+      "type": "package",
+      "path": "flaui.core/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "CHANGELOG.md",
+        "FlaUI.png",
+        "LICENSE.txt",
+        "flaui.core.5.0.0.nupkg.sha512",
+        "flaui.core.nuspec",
+        "lib/net48/FlaUI.Core.dll",
+        "lib/net48/FlaUI.Core.xml",
+        "lib/net6.0-windows7.0/FlaUI.Core.dll",
+        "lib/net6.0-windows7.0/FlaUI.Core.xml",
+        "lib/net8.0-windows7.0/FlaUI.Core.dll",
+        "lib/net8.0-windows7.0/FlaUI.Core.xml"
+      ]
+    },
+    "FlaUI.UIA2/5.0.0": {
+      "sha512": "0pQGeIm5W4/NRekL+2uPty1bIIZC7KsL7giz3aaHbPMD0vSsMaWcvVwDX2Vk6ZIoz/W4EujC7s0XFj/J9ev2aw==",
+      "type": "package",
+      "path": "flaui.uia2/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "CHANGELOG.md",
+        "FlaUI.png",
+        "LICENSE.txt",
+        "flaui.uia2.5.0.0.nupkg.sha512",
+        "flaui.uia2.nuspec",
+        "lib/net48/FlaUI.UIA2.dll",
+        "lib/net48/FlaUI.UIA2.xml",
+        "lib/net6.0-windows7.0/FlaUI.UIA2.dll",
+        "lib/net6.0-windows7.0/FlaUI.UIA2.xml",
+        "lib/net8.0-windows7.0/FlaUI.UIA2.dll",
+        "lib/net8.0-windows7.0/FlaUI.UIA2.xml"
+      ]
+    },
+    "System.CodeDom/8.0.0": {
+      "sha512": "WTlRjL6KWIMr/pAaq3rYqh0TJlzpouaQ/W1eelssHgtlwHAH25jXTkUphTYx9HaIIf7XA6qs/0+YhtLEQRkJ+Q==",
+      "type": "package",
+      "path": "system.codedom/8.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.CodeDom.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/System.CodeDom.targets",
+        "lib/net462/System.CodeDom.dll",
+        "lib/net462/System.CodeDom.xml",
+        "lib/net6.0/System.CodeDom.dll",
+        "lib/net6.0/System.CodeDom.xml",
+        "lib/net7.0/System.CodeDom.dll",
+        "lib/net7.0/System.CodeDom.xml",
+        "lib/net8.0/System.CodeDom.dll",
+        "lib/net8.0/System.CodeDom.xml",
+        "lib/netstandard2.0/System.CodeDom.dll",
+        "lib/netstandard2.0/System.CodeDom.xml",
+        "system.codedom.8.0.0.nupkg.sha512",
+        "system.codedom.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Management/8.0.0": {
+      "sha512": "jrK22i5LRzxZCfGb+tGmke2VH7oE0DvcDlJ1HAKYU8cPmD8XnpUT0bYn2Gy98GEhGjtfbR/sxKTVb+dE770pfA==",
+      "type": "package",
+      "path": "system.management/8.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Management.targets",
+        "lib/net462/_._",
+        "lib/net6.0/System.Management.dll",
+        "lib/net6.0/System.Management.xml",
+        "lib/net7.0/System.Management.dll",
+        "lib/net7.0/System.Management.xml",
+        "lib/net8.0/System.Management.dll",
+        "lib/net8.0/System.Management.xml",
+        "lib/netstandard2.0/System.Management.dll",
+        "lib/netstandard2.0/System.Management.xml",
+        "runtimes/win/lib/net6.0/System.Management.dll",
+        "runtimes/win/lib/net6.0/System.Management.xml",
+        "runtimes/win/lib/net7.0/System.Management.dll",
+        "runtimes/win/lib/net7.0/System.Management.xml",
+        "runtimes/win/lib/net8.0/System.Management.dll",
+        "runtimes/win/lib/net8.0/System.Management.xml",
+        "system.management.8.0.0.nupkg.sha512",
+        "system.management.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "xunit/2.4.2": {
       "sha512": "6Mj73Ont3zj2CJuoykVJfE0ZmRwn7C+pTuRP8c4bnaaTFjwNG6tGe0prJ1yIbMe9AHrpDys63ctWacSsFJWK/w==",
       "type": "package",
@@ -347,6 +605,8 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.8.1": [
+      "FlaUI.Core >= 5.0.0",
+      "FlaUI.UIA2 >= 5.0.0",
       "xunit >= 2.4.2",
       "xunit.runner.visualstudio >= 2.4.5"
     ]
@@ -357,11 +617,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\TestProject1\\TestProject1.csproj",
+      "projectUniqueName": "c:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\TestProject1\\TestProject1.csproj",
       "projectName": "TestProject1",
-      "projectPath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\TestProject1\\TestProject1.csproj",
+      "projectPath": "c:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\TestProject1\\TestProject1.csproj",
       "packagesPath": "C:\\Users\\ATDIBRU\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\TestProject1\\obj\\",
+      "outputPath": "c:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\TestProject1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ATDIBRU\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -394,6 +654,14 @@
       "net481": {
         "targetAlias": "net481",
         "dependencies": {
+          "FlaUI.Core": {
+            "target": "Package",
+            "version": "[5.0.0, )"
+          },
+          "FlaUI.UIA2": {
+            "target": "Package",
+            "version": "[5.0.0, )"
+          },
           "xunit": {
             "target": "Package",
             "version": "[2.4.2, )"
