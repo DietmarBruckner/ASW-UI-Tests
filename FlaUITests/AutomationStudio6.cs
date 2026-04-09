@@ -48,10 +48,10 @@ namespace FlaUITests {
             if (IsProjectLoaded()) {
                 string[] paths = Projectpath();
                 FileMenu.Click(); // Click File menu
-                Menu newFileMenu = _mainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
-                AutomationElement toolBar = newFileMenu.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar));
+                Menu newFileMenu = _mainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
+                AutomationElement toolBar = newFileMenu.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
                 MenuItem closeProjectMenuItem = null;
-                while((closeProjectMenuItem = toolBar.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("Close Project"))).AsMenuItem()) == null) {
+                while((closeProjectMenuItem = toolBar.FindFirstChild(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("Close Project"))).AsMenuItem()) == null) {
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3)); // Wait for the Close Project menu item to appear
                     FileMenu.Click(); // Click File menu again to refresh the menu items
                 }   
@@ -62,8 +62,8 @@ namespace FlaUITests {
         }
         public void OpenProject(string projectPath) {
             FileMenu.Click(); // Click File menu
-            Menu newFileMenu = _mainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
-            AutomationElement toolBar = newFileMenu.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar));
+            Menu newFileMenu = _mainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
+            AutomationElement toolBar = newFileMenu.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
             MenuItem openProjectMenuItem = null;
             bool isNotViewMenu = true;
             while(isNotViewMenu) {
