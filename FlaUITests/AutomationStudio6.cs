@@ -90,12 +90,12 @@ namespace FlaUITests {
             Window openProjectDialog = _mainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains("Open"));
             if (openProjectDialog != null) {
                 AutomationElement pane3 = openProjectDialog.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("40965")));
-                //AutomationElement comboBox = pane3.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("41477")));
-                //ProgressBar progressBar = comboBox.FindFirstChild(cf => cf.ByControlType(ControlType.ProgressBar)).AsProgressBar();
-                //AutomationElement pane = progressBar.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
+                AutomationElement comboBox = pane3.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("41477")));
+                ProgressBar progressBar = comboBox.FindFirstChild(cf => cf.ByControlType(ControlType.ProgressBar)).AsProgressBar();
+                AutomationElement pane = progressBar.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
                 //AutomationElement toolBar = pane.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
                 //pane3.Focus();
-                Point point = new Point { X = pane3.BoundingRectangle.Left+ pane3.BoundingRectangle.Width / 2, Y = pane3.BoundingRectangle.Right + pane3.BoundingRectangle.Height / 2 };
+                Point point = new Point { X = pane.BoundingRectangle.Left+ pane.BoundingRectangle.Width / 2, Y = pane.BoundingRectangle.Right + pane.BoundingRectangle.Height / 2 };
                 Mouse.LeftClick(point);
                 Keyboard.Type(projectPath + "\n"); // Enter the project path
                 AutomationElement pane1 = openProjectDialog.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("17344")));
