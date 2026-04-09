@@ -9,6 +9,7 @@ namespace TestProject1
         {
             as6 = new AutomationStudio6();
             as6.OpenApplication();
+            as6.readProject();
             as6.FileMenu.Click();
             Console.WriteLine("File menu clicked successfully.");
             as6.CloseApplication();
