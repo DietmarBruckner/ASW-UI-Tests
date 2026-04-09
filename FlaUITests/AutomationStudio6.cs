@@ -44,6 +44,37 @@ namespace FlaUITests {
         public bool IsProjectLoaded() {
             return TitleBar != null && !string.IsNullOrEmpty(TitleBar.Name) && TitleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
          }
+         public void InvokeMenuItem(Menu menu, string menuItemName) {
+            string nameMenu = menu.Name;
+            int i = 3;
+            while (i-- > 0) {
+                try {
+                    menu.Click(); // Click the menu to open it
+                    Menu m = _mainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(nameMenu))).AsMenu();
+                    AutomationElement toolBar = m.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
+                    MenuItem mi = null;
+                    bool notFound = true;
+                    AutomationElement[] children = toolBar.FindAllChildren();
+                    foreach (AutomationElement child in children) {
+                        string name = child.Name;
+                        if (name == null) continue;
+                        if (name.IndexOf(menuItemName, StringComparison.OrdinalIgnoreCase) >= 0) {
+                            mi = child.AsMenuItem();
+                            notFound = false;
+                            break;
+                        }
+                    }
+                    if (notFound) 
+                        continue; 
+                    mi.Invoke();
+                    break;
+                }
+                catch (Exception) {
+                    Console.WriteLine("Error while trying to click" + menuItemName + " not found in menu " + nameMenu + ".");
+                }
+            }
+        }
+
         public void CloseProject() {
             if (IsProjectLoaded()) {
                 string[] paths = Projectpath();
@@ -63,7 +94,7 @@ namespace FlaUITests {
                         closeProjectMenuItem.Invoke(); // Click Close Project
                     }
                     catch (Exception ex) {
-                        Console.WriteLine("Error while trying to close project: " + ex.Message);
+                        Console.WriteLine("Error while trying to click close project");
                     }
                 }
                 Console.WriteLine("Project " + paths[2] + " closed.");
