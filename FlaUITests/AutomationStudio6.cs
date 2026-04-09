@@ -91,7 +91,8 @@ namespace FlaUITests {
                 AutomationElement comboBox = pane3.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("41477")));
                 ProgressBar progressBar = comboBox.FindFirstChild(cf => cf.ByControlType(ControlType.ProgressBar)).AsProgressBar();
                 AutomationElement pane = progressBar.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
-                AutomationElement [] children = pane.FindAllChildren();
+                AutomationElement toolBar = pane.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
+                AutomationElement [] children = toolBar.FindAllChildren();
                 TextBox folderTextBox = comboBox.FindFirstChild(cf => cf.ByControlType(ControlType.Edit).And(cf.ByName("Address"))).AsTextBox();
                 folderTextBox.Text = projectPath + "\n"; // Enter the project path
                 Button openButton = openProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("1"))).AsButton();
