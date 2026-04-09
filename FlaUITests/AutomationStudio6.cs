@@ -93,8 +93,8 @@ namespace FlaUITests {
                 ProgressBar progressBar = comboBox.FindFirstChild(cf => cf.ByControlType(ControlType.ProgressBar)).AsProgressBar();
                 AutomationElement pane = progressBar.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
                 AutomationElement toolBar = pane.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
-                toolBar.Focus(); // Click the toolbar to focus it
-                toolBar.Click(); // Click the toolbar to focus it
+                toolBar.Focus();
+                toolBar.Click();
                 Keyboard.Type(projectPath + "\n"); // Enter the project path
 
 
