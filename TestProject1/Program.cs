@@ -4,9 +4,14 @@ namespace TestProject1
 {
     class Program
     {
+        static AutomationStudio6 as6;
         static void Main(string[] args)
         {
-            Console.WriteLine("Add result: " + Calculator.Add(2, 2));
+            as6 = new AutomationStudio6();
+            as6.OpenApplication();
+            as6.FileMenu.Click();
+            Console.WriteLine("File menu clicked successfully.");
+            as6.CloseApplication();
         }
-    }
+    } 
 }

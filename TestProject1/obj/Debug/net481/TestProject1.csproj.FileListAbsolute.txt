@@ -20,3 +20,4 @@ C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\TestProject1\bin\Debug\net
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\TestProject1\bin\Debug\net481\System.CodeDom.dll
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\TestProject1\bin\Debug\net481\FlaUI.UIA2.dll
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\TestProject1\bin\Debug\net481\Microsoft.VisualStudio.CodeCoverage.Shim.dll
+C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\TestProject1\obj\Debug\net481\TestProject1.exe.config
