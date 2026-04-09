@@ -79,10 +79,12 @@ namespace FlaUITests {
             return new string[] { folder, configString, projectString };
         }
         public void ReadProject() {
-            string[] paths = Projectpath();
-            string folder = paths[0];
-            string configString = paths[1];
-            HardwareTopology hardwareTopology = new HardwareConfigReader(folder, configString).ReadHardwareTopology();
+            if (IsProjectLoaded()) {
+                string[] paths = Projectpath();
+                string folder = paths[0];
+                string configString = paths[1];
+                HardwareTopology hardwareTopology = new HardwareConfigReader(folder, configString).ReadHardwareTopology();
+             }
         }
         /// <summary>
         /// Opens the Automation Studio 6 application and initializes all IDE items
