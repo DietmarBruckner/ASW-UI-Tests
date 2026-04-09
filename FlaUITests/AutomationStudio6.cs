@@ -51,6 +51,7 @@ namespace FlaUITests {
                 MenuItem closeProjectMenuItem = null;
                 while((closeProjectMenuItem = newFileMenu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("Close Project"))).AsMenuItem()) == null) {
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the Close Project menu item to appear
+                    FileMenu.Click(); // Click File menu again to refresh the menu items
                 }   
                 closeProjectMenuItem.Click(); // Click Close Project
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the project to close
