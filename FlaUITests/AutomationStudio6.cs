@@ -183,5 +183,9 @@ namespace FlaUITests {
         {
             return _automation;
         }
+        public Application GetApplication()
+        {
+            return _app;
+        }
     }
 }
