@@ -11,7 +11,7 @@ namespace FlaUITests
             as6.OpenApplication();
             while (!as6.IsProjectLoaded()) {
                 Console.WriteLine("Waiting for project to load...");
-            as6.GetApplication().WaitWhileBusy(TimeSpan.FromSeconds(20));
+                as6.GetApplication().WaitWhileBusy(TimeSpan.FromSeconds(20));
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             }
             as6.closeProject();
