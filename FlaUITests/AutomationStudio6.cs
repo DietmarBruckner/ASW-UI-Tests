@@ -15,38 +15,37 @@ namespace FlaUITests {
         private UIA2Automation _automation;
         private Window _mainWindow;
         private ConditionFactory _cf;
-        public Menu FileMenu { get; private set; }
-        public Menu EditMenu { get; private set; }
-        public Menu ViewMenu { get; private set; }
-        public Menu OpenMenu { get; private set; }
-        public Menu ProjectMenu { get; private set; }
-        public Menu DebugMenu { get; private set; }
-        public Menu OnlineMenu { get; private set; }
-        public Menu ToolsMenu { get; private set; }
-        public Menu WindowMenu { get; private set; }
-        public Menu HelpMenu { get; private set; }
+        public Menu FileMenu { get; }
+        public Menu EditMenu { get; }
+        public Menu ViewMenu { get; }
+        public Menu OpenMenu { get; }
+        public Menu ProjectMenu { get; }
+        public Menu DebugMenu { get; }
+        public Menu OnlineMenu { get; }
+        public Menu ToolsMenu { get; }
+        public Menu WindowMenu { get; }
+        public Menu HelpMenu { get; }
 
         // Common AS6 main window elements
-        public AutomationElement Views { get; private set; }
-        public AutomationElement Toolbox { get; private set; }
-        public AutomationElement PropertyWindow { get; private set; }
-        public AutomationElement OutputWindow { get; private set; }
-        public AutomationElement StatusBar { get; private set; }
-        public TitleBar TitleBar { get; private set; }
-        public AutomationElement ToolBars { get; private set; }
-        public AutomationElement StandardToolBar { get; private set; }
-        public AutomationElement BuildToolBar { get; private set; }
-        public AutomationElement OnlineToolBar { get; private set; }
-        public AutomationElement UnittestToolBar { get; private set; }
-        public AutomationElement EditToolBar { get; private set; }
-        public AutomationElement FormatToolBar { get; private set; }
-        public AutomationElement ZoomToolBar { get; private set; }
-        public AutomationElement DebugToolBar { get; private set; }
-
+        public AutomationElement Views { get; }
+        public AutomationElement Toolbox { get; }
+        public AutomationElement PropertyWindow { get; }
+        public AutomationElement OutputWindow { get; }
+        public AutomationElement StatusBar { get; }
+        public TitleBar TitleBar { get; }
+        public AutomationElement ToolBars { get; }
+        public AutomationElement StandardToolBar { get; }
+        public AutomationElement BuildToolBar { get; }
+        public AutomationElement OnlineToolBar { get; }
+        public AutomationElement UnittestToolBar { get; }
+        public AutomationElement EditToolBar { get; }
+        public AutomationElement FormatToolBar { get; }
+        public AutomationElement ZoomToolBar { get; }
+        public AutomationElement DebugToolBar { get; }
         public bool IsProjectLoaded() {
             return TitleBar != null && !string.IsNullOrEmpty(TitleBar.Name) && TitleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
          }
-         public void InvokeMenuItem(Menu menu, string menuItemName) {
+        public void InvokeMenuItem(Menu menu, string menuItemName) {
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'M' from the menu name
             int i = 3;
             while (i-- > 0) {
@@ -76,7 +75,6 @@ namespace FlaUITests {
                 }
             }
         }
-
         public void CloseProject() {
             if (IsProjectLoaded()) {
                 string[] paths = Projectpath();
@@ -104,7 +102,7 @@ namespace FlaUITests {
                 Console.WriteLine("Project " + projectPath + " opened.");
             }
         }
-        string[] Projectpath()
+        private string[] Projectpath()
         {
             String titleString = TitleBar.Name;
             String configString = "";
@@ -207,7 +205,6 @@ namespace FlaUITests {
             TitleBar = _mainWindow.TitleBar;
             Console.WriteLine("Application opened successfully. Main elements initialized.");
         }
-
         /// <summary>
         /// Closes the Automation Studio 6 application
         /// </summary>
@@ -223,7 +220,6 @@ namespace FlaUITests {
                 Console.WriteLine("Warning: Application was not open.");
             }
         }
-
         /// <summary>
         /// Gets the main window of the application
         /// </summary>
@@ -231,7 +227,6 @@ namespace FlaUITests {
         {
             return _mainWindow;
         }
-
         /// <summary>
         /// Gets the automation element
         /// </summary>
