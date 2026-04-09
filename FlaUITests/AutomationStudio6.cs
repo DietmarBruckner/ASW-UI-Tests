@@ -78,53 +78,12 @@ namespace FlaUITests {
         public void CloseProject() {
             if (IsProjectLoaded()) {
                 string[] paths = Projectpath();
-                FileMenu.Click(); // Click File menu
-                int i = 3;
-                while (i-- > 0) {
-                    try {
-                        Menu newFileMenu = _mainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
-                        AutomationElement toolBar = newFileMenu.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
-                        MenuItem closeProjectMenuItem = null;
-                        while((closeProjectMenuItem = toolBar.FindFirstChild(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("Close Project"))).AsMenuItem()) == null) {
-                            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3)); // Wait for the Close Project menu item to appear
-                            FileMenu.Click(); // Click File menu again to refresh the menu items
-                            newFileMenu = _mainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
-                            toolBar = newFileMenu.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
-                        }   
-                        closeProjectMenuItem.Invoke(); // Click Close Project
-                    }
-                    catch (Exception ex) {
-                        Console.WriteLine("Error while trying to click close project");
-                    }
-                }
+                InvokeMenuItem(FileMenu, "Close Project");
                 Console.WriteLine("Project " + paths[2] + " closed.");
             }
         }
         public void OpenProject(string projectPath) {
-            FileMenu.Click(); // Click File menu
-            Menu newFileMenu = _mainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
-            AutomationElement toolBar = newFileMenu.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
-            MenuItem openProjectMenuItem = null;
-            bool isNotViewMenu = true;
-            while(isNotViewMenu) {
-                AutomationElement[] children = toolBar.FindAllChildren();
-                foreach (AutomationElement child in children) {
-                    string name = child.Name;
-                    if (name == null) continue;
-                    if (name.IndexOf("Open Project", StringComparison.OrdinalIgnoreCase) >= 0) {
-                        openProjectMenuItem = child.AsMenuItem();
-                        isNotViewMenu = false;
-                        break;
-                    }
-                }
-                if (isNotViewMenu) {
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3)); // Wait for the Open Project menu item to appear
-                    FileMenu.Click(); // Click File menu again to refresh the menu items
-                    newFileMenu = _mainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
-                    toolBar = newFileMenu.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
-                }
-            }
-            openProjectMenuItem.Invoke(); // Click Open Project
+            InvokeMenuItem(FileMenu, "Open Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the Open Project dialog to appear
             Window openProjectDialog = _mainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains("Open Project"));
             if (openProjectDialog != null) {
