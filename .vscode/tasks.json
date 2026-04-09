@@ -16,25 +16,11 @@
             ]
         },
         {
-            "label": "build-testproject1",
+            "label": "build-FlaUITests",
             "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe",
             "type": "process",
             "args": [
-                "${workspaceFolder}/TestProject1/TestProject1.csproj",
-                "/t:Build",
-                "/p:Configuration=Debug",
-                "/p:Platform=AnyCPU"
-            ],
-            "problemMatcher": [
-                "$msCompile"
-            ]
-        },
-        {
-            "label": "build-testproject2",
-            "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe",
-            "type": "process",
-            "args": [
-                "${workspaceFolder}/TestProject2/TestProject2.csproj",
+                "${workspaceFolder}/FlaUITests/TestProject1.csproj",
                 "/t:Build",
                 "/p:Configuration=Debug",
                 "/p:Platform=AnyCPU"

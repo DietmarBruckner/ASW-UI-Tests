@@ -1,6 +1,6 @@
 is_global = true
-build_property.RootNamespace = TestProject1
-build_property.ProjectDir = C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\TestProject1\
+build_property.RootNamespace = FlaUITests
+build_property.ProjectDir = C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTUseWindowsUIXamlProjections = false

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net481</TargetFramework>
-    <RootNamespace>TestProject1</RootNamespace>
+    <RootNamespace>FlaUITests</RootNamespace>
     <AssemblyName>TestProject1</AssemblyName>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>

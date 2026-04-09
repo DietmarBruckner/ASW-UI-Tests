@@ -2,21 +2,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug TestProject1",
+            "name": "Debug FlaUITests",
             "type": "clr",
             "request": "launch",
-            "preLaunchTask": "build-testproject1",
-            "program": "${workspaceFolder}/TestProject1/bin/Debug/net481/TestProject1.exe",
-            "args": [],
-            "console": "internalConsole",
-            "stopAtEntry": false
-        },
-        {
-            "name": "Debug TestProject2",
-            "type": "clr",
-            "request": "launch",
-            "preLaunchTask": "build-testproject2",
-            "program": "${workspaceFolder}/TestProject2/bin/Debug/TestProject2.exe",
+            "preLaunchTask": "build-FlaUITests",
+            "program": "${workspaceFolder}/FlaUITests/bin/Debug/net481/TestProject1.exe",
             "args": [],
             "console": "internalConsole",
             "stopAtEntry": false

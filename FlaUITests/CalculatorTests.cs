@@ -4,7 +4,7 @@ using FlaUI.Core.Conditions;
 using FlaUI.UIA2;
 using Xunit;
 
-namespace TestProject1
+namespace FlaUITests
 {
     public class CalculatorTests
     {
