@@ -85,7 +85,7 @@ namespace FlaUITests {
         public void OpenProject(string projectPath) {
             InvokeMenuItem(FileMenu, "Open Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the Open Project dialog to appear
-            Window openProjectDialog = _mainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains("Open Project"));
+            Window openProjectDialog = _mainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains("Open"));
             if (openProjectDialog != null) {
                 TextBox fileNameTextBox = openProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("1148"))).AsTextBox();
                 fileNameTextBox.Text = projectPath; // Enter the project path
