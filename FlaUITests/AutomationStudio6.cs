@@ -15,33 +15,33 @@ namespace FlaUITests {
         private UIA2Automation _automation;
         private Window _mainWindow;
         private ConditionFactory _cf;
-        public Menu FileMenu { get; }
-        public Menu EditMenu { get; }
-        public Menu ViewMenu { get; }
-        public Menu OpenMenu { get; }
-        public Menu ProjectMenu { get; }
-        public Menu DebugMenu { get; }
-        public Menu OnlineMenu { get; }
-        public Menu ToolsMenu { get; }
-        public Menu WindowMenu { get; }
-        public Menu HelpMenu { get; }
+        private Menu FileMenu; 
+        private Menu EditMenu;
+        private Menu ViewMenu;
+        private Menu OpenMenu;
+        private Menu ProjectMenu;
+        private Menu DebugMenu;
+        private Menu OnlineMenu;
+        private Menu ToolsMenu;
+        private Menu WindowMenu;
+        private Menu HelpMenu;
 
         // Common AS6 main window elements
-        public AutomationElement Views { get; }
-        public AutomationElement Toolbox { get; }
-        public AutomationElement PropertyWindow { get; }
-        public AutomationElement OutputWindow { get; }
-        public AutomationElement StatusBar { get; }
-        public TitleBar TitleBar { get; }
-        public AutomationElement ToolBars { get; }
-        public AutomationElement StandardToolBar { get; }
-        public AutomationElement BuildToolBar { get; }
-        public AutomationElement OnlineToolBar { get; }
-        public AutomationElement UnittestToolBar { get; }
-        public AutomationElement EditToolBar { get; }
-        public AutomationElement FormatToolBar { get; }
-        public AutomationElement ZoomToolBar { get; }
-        public AutomationElement DebugToolBar { get; }
+        private AutomationElement Views;
+        private AutomationElement Toolbox;
+        private AutomationElement PropertyWindow;
+        private AutomationElement OutputWindow;
+        private AutomationElement StatusBar;
+        private TitleBar TitleBar;
+        private AutomationElement ToolBars;
+        private AutomationElement StandardToolBar;
+        private AutomationElement BuildToolBar;
+        private AutomationElement OnlineToolBar;
+        private AutomationElement UnittestToolBar;
+        private AutomationElement EditToolBar;
+        private AutomationElement FormatToolBar;
+        private AutomationElement ZoomToolBar;
+        private AutomationElement DebugToolBar;
         public bool IsProjectLoaded() {
             return TitleBar != null && !string.IsNullOrEmpty(TitleBar.Name) && TitleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
          }
