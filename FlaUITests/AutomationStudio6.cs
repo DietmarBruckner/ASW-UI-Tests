@@ -95,7 +95,7 @@ namespace FlaUITests {
                 AutomationElement pane = progressBar.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
                 //AutomationElement toolBar = pane.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
                 //pane3.Focus();
-                Point point = new Point { X = pane.BoundingRectangle.Left+ pane.BoundingRectangle.Width / 2, Y = pane.BoundingRectangle.Bottom + pane.BoundingRectangle.Height / 2 };
+                Point point = new Point { X = pane.BoundingRectangle.Left+ pane.BoundingRectangle.Width / 2, Y = pane.BoundingRectangle.Top + pane.BoundingRectangle.Height / 2 };
                 Mouse.LeftClick(point);
                 Keyboard.Type(projectPath + "\n"); // Enter the project path
                 AutomationElement pane1 = openProjectDialog.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("17344")));
