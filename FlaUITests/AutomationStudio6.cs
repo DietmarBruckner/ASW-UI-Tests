@@ -15,35 +15,35 @@ namespace FlaUITests {
         private UIA2Automation _automation;
         private Window _mainWindow;
         private ConditionFactory _cf;
-        private Menu FileMenu; 
-        private Menu EditMenu;
-        private Menu ViewMenu;
-        private Menu OpenMenu;
-        private Menu ProjectMenu;
-        private Menu DebugMenu;
-        private Menu OnlineMenu;
-        private Menu ToolsMenu;
-        private Menu WindowMenu;
-        private Menu HelpMenu;
+        private Menu _fileMenu; 
+        private Menu _editMenu;
+        private Menu _viewMenu;
+        private Menu _openMenu;
+        private Menu _projectMenu;
+        private Menu _debugMenu;
+        private Menu _onlineMenu;
+        private Menu _toolsMenu;
+        private Menu _windowMenu;
+        private Menu _helpMenu;
 
         // Common AS6 main window elements
-        private AutomationElement Views;
-        private AutomationElement Toolbox;
-        private AutomationElement PropertyWindow;
-        private AutomationElement OutputWindow;
-        private AutomationElement StatusBar;
-        private TitleBar TitleBar;
-        private AutomationElement ToolBars;
-        private AutomationElement StandardToolBar;
-        private AutomationElement BuildToolBar;
-        private AutomationElement OnlineToolBar;
-        private AutomationElement UnittestToolBar;
-        private AutomationElement EditToolBar;
-        private AutomationElement FormatToolBar;
-        private AutomationElement ZoomToolBar;
-        private AutomationElement DebugToolBar;
+        private AutomationElement _views;
+        private AutomationElement _toolbox;
+        private AutomationElement _propertyWindow;
+        private AutomationElement _outputWindow;
+        private AutomationElement _statusBar;
+        private TitleBar _titleBar;
+        private AutomationElement _toolBars;
+        private AutomationElement _standardToolBar;
+        private AutomationElement _buildToolBar;
+        private AutomationElement _onlineToolBar;
+        private AutomationElement _unittestToolBar;
+        private AutomationElement _editToolBar;
+        private AutomationElement _formatToolBar;
+        private AutomationElement _zoomToolBar;
+        private AutomationElement _debugToolBar;
         public bool IsProjectLoaded() {
-            return TitleBar != null && !string.IsNullOrEmpty(TitleBar.Name) && TitleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
+            return _titleBar != null && !string.IsNullOrEmpty(_titleBar.Name) && _titleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
          }
         public void InvokeMenuItem(Menu menu, string menuItemName) {
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'M' from the menu name
@@ -78,12 +78,12 @@ namespace FlaUITests {
         public void CloseProject() {
             if (IsProjectLoaded()) {
                 string[] paths = Projectpath();
-                InvokeMenuItem(FileMenu, "Close Project");
+                InvokeMenuItem(_fileMenu, "Close Project");
                 Console.WriteLine("Project " + paths[2] + " closed.");
             }
         }
         public void OpenProject(string projectPath) {
-            InvokeMenuItem(FileMenu, "Open Project...");
+            InvokeMenuItem(_fileMenu, "Open Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the Open Project dialog to appear
             Window openProjectDialog = _mainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains("Open"));
             if (openProjectDialog != null) {
@@ -104,7 +104,7 @@ namespace FlaUITests {
         }
         private string[] Projectpath()
         {
-            String titleString = TitleBar.Name;
+            String titleString = _titleBar.Name;
             String configString = "";
             String projectString = "";
             String folder = "";
@@ -147,16 +147,16 @@ namespace FlaUITests {
             AutomationElement[] menus = menu.FindAllDescendants();
 
             // Initialize all menu items
-            FileMenu = menus[0].AsMenu();
-            EditMenu = menus[1].AsMenu();
-            ViewMenu = menus[2].AsMenu();
-            OpenMenu = menus[3].AsMenu();
-            ProjectMenu = menus[4].AsMenu();
-            DebugMenu = menus[5].AsMenu();
-            OnlineMenu = menus[6].AsMenu();
-            ToolsMenu = menus[7].AsMenu();
-            WindowMenu = menus[8].AsMenu();
-            HelpMenu = menus[9].AsMenu();
+            _fileMenu = menus[0].AsMenu();
+            _editMenu = menus[1].AsMenu();
+            _viewMenu = menus[2].AsMenu();
+            _openMenu = menus[3].AsMenu();
+            _projectMenu = menus[4].AsMenu();
+            _debugMenu = menus[5].AsMenu();
+            _onlineMenu = menus[6].AsMenu();
+            _toolsMenu = menus[7].AsMenu();
+            _windowMenu = menus[8].AsMenu();
+            _helpMenu = menus[9].AsMenu();
 
             AutomationElement[] allPanes = _mainWindow.FindAllChildren(_cf.ByControlType(ControlType.Pane));
             foreach (AutomationElement a in allPanes) {
@@ -164,45 +164,45 @@ namespace FlaUITests {
                 if (name == null) continue;
                 if (name != "") {
                     if (name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0)
-                        Views = a;
+                        _views = a;
                     else if (name.IndexOf("Toolbox", StringComparison.OrdinalIgnoreCase) >= 0)
-                        Toolbox = a;
+                        _toolbox = a;
                     else if (name.IndexOf("Property", StringComparison.OrdinalIgnoreCase) >= 0)
-                        PropertyWindow = a;
+                        _propertyWindow = a;
                     else if (name.IndexOf("Output", StringComparison.OrdinalIgnoreCase) >= 0)
-                        OutputWindow = a;
+                        _outputWindow = a;
                 }
                 else {
                     AutomationElement[] children = a.FindAllChildren();
                     if(children.Any(c => c.ControlType == ControlType.ToolBar)) {
-                        ToolBars = a;
+                        _toolBars = a;
                         foreach (AutomationElement child in children) {
                             string childName = child.Name;
                             if (childName == null) continue;
                             if (childName.IndexOf("Standard", StringComparison.OrdinalIgnoreCase) >= 0)
-                                StandardToolBar = child;
+                                _standardToolBar = child;
                             else if (childName.IndexOf("Build", StringComparison.OrdinalIgnoreCase) >= 0)
-                                BuildToolBar = child;
+                                _buildToolBar = child;
                             else if (childName.IndexOf("Online", StringComparison.OrdinalIgnoreCase) >= 0)
-                                OnlineToolBar = child;
+                                _onlineToolBar = child;
                             else if (childName.IndexOf("Unit", StringComparison.OrdinalIgnoreCase) >= 0)
-                                UnittestToolBar = child;
+                                _unittestToolBar = child;
                             else if (childName.IndexOf("Edit", StringComparison.OrdinalIgnoreCase) >= 0)
-                                EditToolBar = child;
+                                _editToolBar = child;
                             else if (childName.IndexOf("Format", StringComparison.OrdinalIgnoreCase) >= 0)
-                                FormatToolBar = child;
+                                _formatToolBar = child;
                             else if (childName.IndexOf("Zoom", StringComparison.OrdinalIgnoreCase) >= 0)
-                                ZoomToolBar = child;
+                                _zoomToolBar = child;
                             else if (childName.IndexOf("Debug", StringComparison.OrdinalIgnoreCase) >= 0)
-                                DebugToolBar = child;
+                                _debugToolBar = child;
                         }
                     }
                 }
             }
             allPanes = _mainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar));
             if (allPanes.Length > 0)
-                StatusBar = allPanes[0];
-            TitleBar = _mainWindow.TitleBar;
+                _statusBar = allPanes[0];
+            _titleBar = _mainWindow.TitleBar;
             Console.WriteLine("Application opened successfully. Main elements initialized.");
         }
         /// <summary>
