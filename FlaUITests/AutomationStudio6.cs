@@ -56,9 +56,12 @@ namespace FlaUITests {
                 }   
                 closeProjectMenuItem.Click(); // Click Close Project
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the project to close
+                string[] paths = Projectpath();
+                Console.WriteLine("Project " + paths[2] + " closed.");
             }
         }
-        public void readProject() {
+        string [] Projectpath()
+        {
             String titleString = TitleBar.Name;
             String configString = "";
             String projectString = "";
@@ -73,6 +76,12 @@ namespace FlaUITests {
             i = projectString.LastIndexOf("\\", StringComparison.OrdinalIgnoreCase);
             if (i >= 0)
                 folder = projectString.Substring(0, i);
+            return new string[] { folder, configString, projectString };
+        }
+        public void readProject() {
+            string[] paths = Projectpath();
+            string folder = paths[0];
+            string configString = paths[1];
             HardwareTopology hardwareTopology = new HardwareConfigReader(folder, configString).ReadHardwareTopology();
         }
         /// <summary>
