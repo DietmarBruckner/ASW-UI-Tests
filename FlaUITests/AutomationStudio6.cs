@@ -4,6 +4,7 @@ using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
 using FlaUI.Core.Definitions;
+using FlaUI.Core.Input;
 using FlaUI.UIA2;
 using Menu = FlaUI.Core.AutomationElements.Menu;
 
@@ -92,6 +93,11 @@ namespace FlaUITests {
                 ProgressBar progressBar = comboBox.FindFirstChild(cf => cf.ByControlType(ControlType.ProgressBar)).AsProgressBar();
                 AutomationElement pane = progressBar.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
                 AutomationElement toolBar = pane.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
+                toolBar.Focus(); // Click the toolbar to focus it
+                toolBar.Click(); // Click the toolbar to focus it
+                Keyboard.Type(projectPath + "\n"); // Enter the project path
+
+
                 AutomationElement [] children = toolBar.FindAllChildren();
                 TextBox folderTextBox = comboBox.FindFirstChild(cf => cf.ByControlType(ControlType.Edit).And(cf.ByName("Address"))).AsTextBox();
                 folderTextBox.Text = projectPath + "\n"; // Enter the project path
