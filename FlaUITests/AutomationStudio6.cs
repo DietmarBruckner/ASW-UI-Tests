@@ -44,7 +44,12 @@ namespace FlaUITests {
         public bool IsProjectLoaded() {
             return TitleBar != null && !string.IsNullOrEmpty(TitleBar.Name) && TitleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
          }
-
+        public void closeProject() {
+            if (IsProjectLoaded()) {
+                FileMenu.Items[0].Click(); // Click "Close" in the File menu
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the project to close
+            }
+        }
         public void readProject() {
             String titleString = TitleBar.Name;
             String configString = "";
