@@ -45,7 +45,7 @@ namespace FlaUITests {
             return TitleBar != null && !string.IsNullOrEmpty(TitleBar.Name) && TitleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
          }
          public void InvokeMenuItem(Menu menu, string menuItemName) {
-            string nameMenu = menu.Name;
+            string nameMenu = menu.Name.Substring(2, menu.Name.Length - 3); // Remove the trailing 'M' from the menu name
             int i = 3;
             while (i-- > 0) {
                 try {
@@ -70,7 +70,7 @@ namespace FlaUITests {
                     break;
                 }
                 catch (Exception) {
-                    Console.WriteLine("Error while trying to click" + menuItemName + " not found in menu " + nameMenu + ".");
+                    Console.WriteLine("Error while trying to click " + menuItemName + " in menu " + nameMenu + ".");
                 }
             }
         }
