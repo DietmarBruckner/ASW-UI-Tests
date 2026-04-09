@@ -96,11 +96,11 @@ namespace FlaUITests {
                 toolBar.Focus();
                 toolBar.Click();
                 Keyboard.Type(projectPath + "\n"); // Enter the project path
+                AutomationElement pane1 = openProjectDialog.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("17344")));
+
+                AutomationElement [] children = pane1.FindAllChildren();
 
 
-                AutomationElement [] children = toolBar.FindAllChildren();
-                TextBox folderTextBox = comboBox.FindFirstChild(cf => cf.ByControlType(ControlType.Edit).And(cf.ByName("Address"))).AsTextBox();
-                folderTextBox.Text = projectPath + "\n"; // Enter the project path
                 Button openButton = openProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("1"))).AsButton();
                 openButton.Invoke(); // Click Open button
                 Console.WriteLine("Project " + projectPath + " opened.");
