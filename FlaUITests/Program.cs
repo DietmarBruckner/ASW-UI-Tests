@@ -11,7 +11,7 @@ namespace FlaUITests {
                 as6.GetApplication().WaitWhileBusy(TimeSpan.FromSeconds(20));
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             }
-            as6.CloseProject();
+            //as6.CloseProject();
             as6.OpenProject("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\test_Mot");
             as6.ReadProject();
             as6.CloseApplication();
