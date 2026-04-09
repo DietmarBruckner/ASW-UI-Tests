@@ -46,7 +46,10 @@ namespace FlaUITests {
          }
         public void closeProject() {
             if (IsProjectLoaded()) {
-                FileMenu.Items[0].Click(); // Click "Close" in the File menu
+                FileMenu.Click(); // Click File menu
+                Menu newFileMenu = _mainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
+                var closeProjectMenuItem = newFileMenu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("Close Project"))).AsMenuItem();
+                closeProjectMenuItem.Click(); // Click Close Project
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the project to close
             }
         }
