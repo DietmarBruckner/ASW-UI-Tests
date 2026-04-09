@@ -82,6 +82,8 @@ namespace FlaUITests {
                 if (isNotViewMenu) {
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3)); // Wait for the Open Project menu item to appear
                     FileMenu.Click(); // Click File menu again to refresh the menu items
+                    newFileMenu = _mainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
+                    toolBar = newFileMenu.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
                 }
             }
             openProjectMenuItem.Invoke(); // Click Open Project
