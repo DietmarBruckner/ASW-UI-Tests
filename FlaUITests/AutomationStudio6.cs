@@ -98,7 +98,7 @@ namespace FlaUITests {
                 Point point = new Point { X = pane.BoundingRectangle.Left+ pane.BoundingRectangle.Width / 2, Y = pane.BoundingRectangle.Top + pane.BoundingRectangle.Height / 2 };
                 Mouse.LeftClick(point);
                 Keyboard.Type(projectPath + "\n"); // Enter the project path
-                AutomationElement pane1 = openProjectDialog.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("17344")));
+                AutomationElement pane1 = openProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Shell Folder View")));
 
                 AutomationElement [] children = pane1.FindAllChildren();
 
