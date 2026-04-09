@@ -14,8 +14,8 @@ namespace FlaUITests
                 as6.GetApplication().WaitWhileBusy(TimeSpan.FromSeconds(20));
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             }
-            as6.closeProject();
-            as6.readProject();
+            as6.CloseProject();
+            as6.ReadProject();
             as6.FileMenu.Click();
             Console.WriteLine("File menu clicked successfully.");
             as6.CloseApplication();

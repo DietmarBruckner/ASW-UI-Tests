@@ -44,8 +44,9 @@ namespace FlaUITests {
         public bool IsProjectLoaded() {
             return TitleBar != null && !string.IsNullOrEmpty(TitleBar.Name) && TitleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
          }
-        public void closeProject() {
+        public void CloseProject() {
             if (IsProjectLoaded()) {
+                string[] paths = Projectpath();
                 FileMenu.Click(); // Click File menu
                 Menu newFileMenu = _mainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
                 AutomationElement toolBar = newFileMenu.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar));
@@ -56,11 +57,10 @@ namespace FlaUITests {
                 }   
                 closeProjectMenuItem.Click(); // Click Close Project
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the project to close
-                string[] paths = Projectpath();
                 Console.WriteLine("Project " + paths[2] + " closed.");
             }
         }
-        string [] Projectpath()
+        string[] Projectpath()
         {
             String titleString = TitleBar.Name;
             String configString = "";
@@ -78,7 +78,7 @@ namespace FlaUITests {
                 folder = projectString.Substring(0, i);
             return new string[] { folder, configString, projectString };
         }
-        public void readProject() {
+        public void ReadProject() {
             string[] paths = Projectpath();
             string folder = paths[0];
             string configString = paths[1];
