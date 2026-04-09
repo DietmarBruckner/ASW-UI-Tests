@@ -88,6 +88,7 @@ namespace FlaUITests {
             Window openProjectDialog = _mainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains("Open"));
             if (openProjectDialog != null) {
                 AutomationElement pane3 = openProjectDialog.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("40965")));
+                AutomationElement [] children = pane3.FindAllChildren();
                 //AutomationElement progressBar = pane3.FindFirstChild(cf => cf.ByControlType(ControlType.ProgressBar));
                 ComboBox comboBox = pane3.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox)).AsComboBox();
                 TextBox folderTextBox = comboBox.FindFirstChild(cf => cf.ByControlType(ControlType.Edit).And(cf.ByName("Address"))).AsTextBox();
