@@ -94,7 +94,7 @@ namespace FlaUITests {
                 AutomationElement pane = progressBar.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
                 AutomationElement toolBar = pane.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
                 toolBar.Focus();
-                toolBar.Click();
+                toolBar.Click(true);
                 Keyboard.Type(projectPath + "\n"); // Enter the project path
                 AutomationElement pane1 = openProjectDialog.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("17344")));
 
