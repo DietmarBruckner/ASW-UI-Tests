@@ -65,10 +65,23 @@ namespace FlaUITests {
             Menu newFileMenu = _mainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
             AutomationElement toolBar = newFileMenu.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar));
             MenuItem openProjectMenuItem = null;
-            while((openProjectMenuItem = toolBar.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("Open Project"))).AsMenuItem()) == null) {
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3)); // Wait for the Open Project menu item to appear
-                FileMenu.Click(); // Click File menu again to refresh the menu items
-            }   
+            bool isNotViewMenu = true;
+            while(isNotViewMenu) {
+                AutomationElement[] children = toolBar.FindAllChildren();
+                foreach (AutomationElement child in children) {
+                    string name = child.Name;
+                    if (name == null) continue;
+                    if (name.IndexOf("Open Project", StringComparison.OrdinalIgnoreCase) >= 0) {
+                        openProjectMenuItem = child.AsMenuItem();
+                        isNotViewMenu = false;
+                        break;
+                    }
+                }
+                if (isNotViewMenu) {
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3)); // Wait for the Open Project menu item to appear
+                    FileMenu.Click(); // Click File menu again to refresh the menu items
+                }
+            }
             openProjectMenuItem.Invoke(); // Click Open Project
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the Open Project dialog to appear
             Window openProjectDialog = _mainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains("Open Project"));
