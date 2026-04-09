@@ -7,7 +7,7 @@ using FlaUI.Core.Definitions;
 using FlaUI.UIA2;
 using Menu = FlaUI.Core.AutomationElements.Menu;
 
-namespace TestProject1 {
+namespace FlaUITests {
     public class AutomationStudio6 {
         private Application _app;
         private UIA2Automation _automation;
@@ -41,6 +41,10 @@ namespace TestProject1 {
         public AutomationElement ZoomToolBar { get; private set; }
         public AutomationElement DebugToolBar { get; private set; }
 
+        public bool IsProjectLoaded() {
+            return TitleBar != null && !string.IsNullOrEmpty(TitleBar.Name) && TitleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
+         }
+
         public void readProject() {
             String titleString = TitleBar.Name;
             String configString = "";
@@ -65,13 +69,15 @@ namespace TestProject1 {
             _app = Application.Launch(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
             _app.WaitWhileMainHandleIsMissing(TimeSpan.FromSeconds(20));
             _app.WaitWhileBusy(TimeSpan.FromSeconds(20));
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(10));
 
             _automation = new UIA2Automation();
             _mainWindow = _app.GetMainWindow(_automation);
             _cf = new ConditionFactory(new UIA2PropertyLibrary());
 
-            Menu menu = _mainWindow.FindFirstDescendant(_cf.Menu()).AsMenu();
+            Menu menu;
+            if ((menu = _mainWindow.FindFirstDescendant(_cf.Menu()).AsMenu()) == null) {
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
             AutomationElement[] menus = menu.FindAllDescendants();
 
             // Initialize all menu items
@@ -131,7 +137,7 @@ namespace TestProject1 {
             if (allPanes.Length > 0)
                 StatusBar = allPanes[0];
             TitleBar = _mainWindow.TitleBar;
-            Console.WriteLine("Application opened successfully. Menus and main elements initialized.");
+            Console.WriteLine("Application opened successfully. Main elements initialized.");
         }
 
         /// <summary>

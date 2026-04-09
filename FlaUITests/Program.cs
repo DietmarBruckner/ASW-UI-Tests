@@ -9,6 +9,10 @@ namespace TestProject1
         {
             as6 = new AutomationStudio6();
             as6.OpenApplication();
+            while (!as6.IsProjectLoaded()) {
+                Console.WriteLine("Waiting for project to load...");
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
             as6.readProject();
             as6.FileMenu.Click();
             Console.WriteLine("File menu clicked successfully.");
