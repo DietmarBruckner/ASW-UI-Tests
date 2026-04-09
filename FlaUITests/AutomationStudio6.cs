@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Linq;
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
@@ -94,7 +95,8 @@ namespace FlaUITests {
                 AutomationElement pane = progressBar.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
                 AutomationElement toolBar = pane.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
                 toolBar.Focus();
-                toolBar.Click(true);
+                Point point = new Point { X = toolBar.BoundingRectangle.Left+ toolBar.BoundingRectangle.Width / 2, Y = toolBar.BoundingRectangle.Right + toolBar.BoundingRectangle.Height / 2 };
+                Mouse.LeftClick(point);
                 Keyboard.Type(projectPath + "\n"); // Enter the project path
                 AutomationElement pane1 = openProjectDialog.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("17344")));
 
