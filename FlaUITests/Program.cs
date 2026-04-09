@@ -16,8 +16,8 @@ namespace FlaUITests
             }
             as6.CloseProject();
             as6.ReadProject();
+            as6.OpenProject("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\test_Mot");
             as6.FileMenu.Click();
-            Console.WriteLine("File menu clicked successfully.");
             as6.CloseApplication();
         }
     } 

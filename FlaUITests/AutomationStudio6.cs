@@ -60,6 +60,26 @@ namespace FlaUITests {
                 Console.WriteLine("Project " + paths[2] + " closed.");
             }
         }
+        public void OpenProject(string projectPath) {
+            FileMenu.Click(); // Click File menu
+            Menu newFileMenu = _mainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName("File"))).AsMenu();
+            AutomationElement toolBar = newFileMenu.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar));
+            MenuItem openProjectMenuItem = null;
+            while((openProjectMenuItem = toolBar.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("Open Project"))).AsMenuItem()) == null) {
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3)); // Wait for the Open Project menu item to appear
+                FileMenu.Click(); // Click File menu again to refresh the menu items
+            }   
+            openProjectMenuItem.Invoke(); // Click Open Project
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the Open Project dialog to appear
+            Window openProjectDialog = _mainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains("Open Project"));
+            if (openProjectDialog != null) {
+                TextBox fileNameTextBox = openProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("1148"))).AsTextBox();
+                fileNameTextBox.Text = projectPath; // Enter the project path
+                Button openButton = openProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("1"))).AsButton();
+                openButton.Invoke(); // Click Open button
+                Console.WriteLine("Project " + projectPath + " opened.");
+            }
+        }
         string[] Projectpath()
         {
             String titleString = TitleBar.Name;
