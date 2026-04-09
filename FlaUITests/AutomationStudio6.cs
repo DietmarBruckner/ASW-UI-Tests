@@ -93,18 +93,14 @@ namespace FlaUITests {
                 AutomationElement comboBox = pane3.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("41477")));
                 ProgressBar progressBar = comboBox.FindFirstChild(cf => cf.ByControlType(ControlType.ProgressBar)).AsProgressBar();
                 AutomationElement pane = progressBar.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
-                //AutomationElement toolBar = pane.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
-                //pane3.Focus();
                 Point point = new Point { X = pane.BoundingRectangle.Left+ pane.BoundingRectangle.Width / 2, Y = pane.BoundingRectangle.Top + pane.BoundingRectangle.Height / 2 };
                 Mouse.LeftClick(point);
-                Keyboard.Type(projectPath + "\n"); // Enter the project path
+                Keyboard.Type(projectPath + "\n");
                 AutomationElement pane1 = openProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Shell Folder View")));
-
-                AutomationElement [] children = pane1.FindAllChildren();
-
-
-                Button openButton = openProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("1"))).AsButton();
-                openButton.Invoke(); // Click Open button
+                AutomationElement fileList = pane1.FindFirstChild(cf => cf.ByControlType(ControlType.List));
+                AutomationElement [] children = fileList.FindAllChildren();
+                AutomationElement targetItem = children.FirstOrDefault(c => c.Name.Contains(".apj"));
+                targetItem.DoubleClick();
                 Console.WriteLine("Project " + projectPath + " opened.");
             }
         }
