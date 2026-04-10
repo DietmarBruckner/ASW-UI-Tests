@@ -98,6 +98,11 @@ namespace FlaUITests {
                 AutomationElement fileList = pane1.FindFirstChild(cf => cf.ByControlType(ControlType.List));
                 AutomationElement [] children = fileList.FindAllChildren();
                 AutomationElement targetItem = children.FirstOrDefault(c => c.Name.Contains(".apj"));
+                if (targetItem == null)
+                {
+                    Console.WriteLine("Error: Could not find project file in Open Project dialog.");
+                    return;
+                }
                 targetItem.DoubleClick();
                 Console.WriteLine("Project " + projectPath + " opened.");
             }
