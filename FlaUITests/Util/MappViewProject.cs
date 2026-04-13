@@ -8,9 +8,13 @@ namespace FlaUITests.Util {
         AutomationElement toolBoxCategories;
         AutomationElement toolBoxContextContent;
         public MappViewProject(IDE_Main ideMain) : base(ideMain) {
+            InitMappView();
         }
         public MappViewProject(IDE_Main ideMain, string name, string path, string config, string cpu) : base(ideMain, name, path, config, cpu) {
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
+            InitMappView();
+        }
+        public void InitMappView() {
             toolbox = _ideMain.Toolbox;
             if (toolbox == null) {
                 _ideMain.InvokeMenuItem(_ideMain.GetMenu("View"), "Toolbox");
@@ -22,6 +26,7 @@ namespace FlaUITests.Util {
             AutomationElement mappViewToolBoxItem = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName("mapp View"))) ?? throw new Exception("mapp View toolbox item not found - not installed?");
             AutomationElement [] allDesc = mappViewToolBoxItem.FindAllDescendants();
             mappViewToolBoxItem.Click();
+            
         }
     }
 }
