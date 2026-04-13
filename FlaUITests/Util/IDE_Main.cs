@@ -12,9 +12,9 @@ using Menu = FlaUI.Core.AutomationElements.Menu;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
-        private Application _app;
+        public Application App { get; private set; }
         private UIA2Automation _automation;
-        private Window _mainWindow;
+        public Window MainWindow { get; private set; }
         private ConditionFactory _cf;
         private Menu _fileMenu; 
         private Menu _editMenu;
@@ -28,7 +28,7 @@ namespace FlaUITests.Util {
         private Menu _helpMenu;
         private Dictionary<string, Menu> _menus;
         private AutomationElement _views;
-        private AutomationElement _toolbox;
+        public AutomationElement Toolbox { get; private set; }
         private AutomationElement _propertyWindow;
         private AutomationElement _outputWindow;
         public AutomationElement StatusBar { get; private set; }
@@ -44,17 +44,17 @@ namespace FlaUITests.Util {
         private AutomationElement _debugToolBar;
 
         public IDE_Main (Application app) {
-            _app = app;
-            _app.WaitWhileMainHandleIsMissing(TimeSpan.FromSeconds(20));
-            _app.WaitWhileBusy(TimeSpan.FromSeconds(20));
+            App = app;
+            App.WaitWhileMainHandleIsMissing(TimeSpan.FromSeconds(20));
+            App.WaitWhileBusy(TimeSpan.FromSeconds(20));
             _automation = new UIA2Automation();
-            _mainWindow = _app.GetMainWindow(_automation);
+            MainWindow = App.GetMainWindow(_automation);
             _cf = new ConditionFactory(new UIA2PropertyLibrary());
             Init();
         }
         void Init() {
             Menu menu;
-            if ((menu = _mainWindow.FindFirstDescendant(_cf.Menu()).AsMenu()) == null) {
+            if ((menu = MainWindow.FindFirstDescendant(_cf.Menu()).AsMenu()) == null) {
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             }
             AutomationElement[] menus = menu.FindAllDescendants();
@@ -82,11 +82,11 @@ namespace FlaUITests.Util {
                 {"Window", _windowMenu},
                 {"Help", _helpMenu}
             };
-            AutomationElement[] allPanes = _mainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar));
+            AutomationElement[] allPanes = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar));
             if (allPanes.Length > 0)
                 StatusBar = allPanes[0];
             while (StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0);
-            allPanes = _mainWindow.FindAllChildren(_cf.ByControlType(ControlType.Pane));
+            allPanes = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.Pane));
             foreach (AutomationElement a in allPanes) {
                 string name = a.Name;
                 if (name == null) continue;
@@ -94,7 +94,7 @@ namespace FlaUITests.Util {
                     if (name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0)
                         _views = a;
                     else if (name.IndexOf("Toolbox", StringComparison.OrdinalIgnoreCase) >= 0)
-                        _toolbox = a;
+                        Toolbox = a;
                     else if (name.IndexOf("Property", StringComparison.OrdinalIgnoreCase) >= 0)
                         _propertyWindow = a;
                     else if (name.IndexOf("Output", StringComparison.OrdinalIgnoreCase) >= 0)
@@ -127,7 +127,7 @@ namespace FlaUITests.Util {
                     }
                 }
             }
-            _titleBar = _mainWindow.TitleBar;
+            _titleBar = MainWindow.TitleBar;
             Console.WriteLine("Application opened successfully. Main elements initialized.");
             
         }
@@ -137,7 +137,7 @@ namespace FlaUITests.Util {
             while (i-- > 0) {
                 try {
                     menu.Click(); // Click the menu to open it
-                    Menu m = _mainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(nameMenu))).AsMenu();
+                    Menu m = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(nameMenu))).AsMenu();
                     AutomationElement toolBar = m.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
                     MenuItem mi = null;
                     bool notFound = true;
@@ -189,7 +189,7 @@ namespace FlaUITests.Util {
             return null;
         }
         public Window GetModalWindow(String name) {
-            return _mainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains(name));
+            return MainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains(name));
         }
     }
 }

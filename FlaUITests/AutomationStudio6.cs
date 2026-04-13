@@ -8,7 +8,7 @@ namespace FlaUITests {
     public class AutomationStudio6 {
         private Application _app;
         public IDE_Main Ide_Main { get; private set; }
-        public AppProject Project { get; private set; }
+        public AppProject Project { get; set; }
 
         public AutomationStudio6() {
             OpenApplication();
@@ -18,12 +18,11 @@ namespace FlaUITests {
         /// Opens the Automation Studio 6 application and initializes main items
         /// </summary>
         void OpenApplication() {
-            _app = Application.Launch(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
+            _app = Application.Attach(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
+            //_app = Application.Launch(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
             Ide_Main = new IDE_Main(_app);
             if (Ide_Main.IsProjectLoaded())
                 Project = new AppProject(Ide_Main);
-            else
-                Console.WriteLine("No project loaded.");
         }
         /// <summary>
         /// Closes the Automation Studio 6 application
