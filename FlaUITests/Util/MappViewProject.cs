@@ -25,8 +25,10 @@ namespace FlaUITests.Util {
             toolBoxContextContent = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
             AutomationElement mappViewToolBoxItem = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName("mapp View"))) ?? throw new Exception("mapp View toolbox item not found - not installed?");
             AutomationElement [] allDesc = mappViewToolBoxItem.FindAllDescendants();
-            mappViewToolBoxItem.Click();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
+            if (allDesc[0].AsCheckBox().IsChecked == false) {
+                mappViewToolBoxItem.Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
+            }
             AutomationElement mappViewElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName("mapp View"))) ?? throw new Exception("mapp View element not found");
             mappViewElementItem.DoubleClick();
         }
