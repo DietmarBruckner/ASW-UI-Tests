@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-
 using System.Collections.Generic;
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
@@ -27,9 +26,9 @@ namespace FlaUITests.Util {
         private Menu _windowMenu;
         private Menu _helpMenu;
         private Dictionary<string, Menu> _menus;
-        private AutomationElement _views;
+        public AutomationElement ProjectExplorer { get; private set; }
         public AutomationElement Toolbox { get; private set; }
-        private AutomationElement _propertyWindow;
+        public AutomationElement PropertyWindow { get; private set; }
         public AutomationElement OutputWindow { get; private set; }
         public AutomationElement StatusBar { get; private set; }
         private TitleBar _titleBar;
@@ -92,11 +91,11 @@ namespace FlaUITests.Util {
                 if (name == null) continue;
                 if (name != "") {
                     if (name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0)
-                        _views = a;
+                        ProjectExplorer = a;
                     else if (name.IndexOf("Toolbox", StringComparison.OrdinalIgnoreCase) >= 0)
                         Toolbox = a;
                     else if (name.IndexOf("Property", StringComparison.OrdinalIgnoreCase) >= 0)
-                        _propertyWindow = a;
+                        PropertyWindow = a;
                     else if (name.IndexOf("Output", StringComparison.OrdinalIgnoreCase) >= 0)
                         OutputWindow = a;
                 }
@@ -209,6 +208,48 @@ namespace FlaUITests.Util {
         }
         public Window GetModalWindow(String name) {
             return MainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains(name));
+        }
+        public void InitializeViews(bool projectExplorer = false, bool toolbox = false, bool propertyWindow = false, bool outputResults = false, bool statusBar = false) {
+            if (projectExplorer) {
+                ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
+                if (ProjectExplorer == null) {
+                    InvokeMenuItem(GetMenu("View"), "Project Explorer", "Logical View");
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
+                }
+            }
+            if (toolbox) {
+                Toolbox = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Toolbox")));
+                if (Toolbox == null) {
+                    InvokeMenuItem(GetMenu("View"), "Toolbox");
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    Toolbox = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Toolbox")));
+                }
+            }
+            if (propertyWindow) {
+                PropertyWindow = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Property Window")));
+                if (PropertyWindow == null) {
+                    InvokeMenuItem(GetMenu("View"), "Property Window");
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    PropertyWindow = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Property Window")));
+                }
+            }
+            if (outputResults) {
+                OutputWindow = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Output Results")));
+                if (OutputWindow == null) {
+                    InvokeMenuItem(GetMenu("View"), "Output", "Output Results");
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    OutputWindow = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Output Results")));
+                }
+            }
+            if (statusBar) {
+                StatusBar = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.StatusBar));
+                if (StatusBar == null) {
+                    InvokeMenuItem(GetMenu("View"), "Status Bar");
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    StatusBar = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.StatusBar));
+                }
+            }
         }
     }
 }
