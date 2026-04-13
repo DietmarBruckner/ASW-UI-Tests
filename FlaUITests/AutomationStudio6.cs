@@ -7,17 +7,23 @@ using FlaUITests.Util;
 namespace FlaUITests {
     public class AutomationStudio6 {
         private Application _app;
-        private IDE_Main _ideMain;
-        private Project _project;
+        public IDE_Main Ide_Main { get; private set; }
+        public AppProject Project { get; private set; }
+
+        public AutomationStudio6() {
+            OpenApplication();
+        }
 
         /// <summary>
         /// Opens the Automation Studio 6 application and initializes main items
         /// </summary>
-        public void OpenApplication() {
+        void OpenApplication() {
             _app = Application.Launch(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
-            _app.WaitWhileMainHandleIsMissing(TimeSpan.FromSeconds(20));
-            _app.WaitWhileBusy(TimeSpan.FromSeconds(20));
-            _ideMain = new IDE_Main(_app);
+            Ide_Main = new IDE_Main(_app);
+            if (Ide_Main.IsProjectLoaded())
+                Project = new AppProject(Ide_Main);
+            else
+                Console.WriteLine("No project loaded.");
         }
         /// <summary>
         /// Closes the Automation Studio 6 application

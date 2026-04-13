@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
-using System.ComponentModel;
+
+using System.Collections.Generic;
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
@@ -25,12 +26,12 @@ namespace FlaUITests.Util {
         private Menu _toolsMenu;
         private Menu _windowMenu;
         private Menu _helpMenu;
-        // Common AS6 main window elements
+        private Dictionary<string, Menu> _menus;
         private AutomationElement _views;
         private AutomationElement _toolbox;
         private AutomationElement _propertyWindow;
         private AutomationElement _outputWindow;
-        private AutomationElement _statusBar;
+        public AutomationElement StatusBar { get; private set; }
         private TitleBar _titleBar;
         private AutomationElement _toolBars;
         private AutomationElement _standardToolBar;
@@ -44,6 +45,8 @@ namespace FlaUITests.Util {
 
         public IDE_Main (Application app) {
             _app = app;
+            _app.WaitWhileMainHandleIsMissing(TimeSpan.FromSeconds(20));
+            _app.WaitWhileBusy(TimeSpan.FromSeconds(20));
             _automation = new UIA2Automation();
             _mainWindow = _app.GetMainWindow(_automation);
             _cf = new ConditionFactory(new UIA2PropertyLibrary());
@@ -66,7 +69,24 @@ namespace FlaUITests.Util {
             _toolsMenu = menus[7].AsMenu();
             _windowMenu = menus[8].AsMenu();
             _helpMenu = menus[9].AsMenu();
-            AutomationElement[] allPanes = _mainWindow.FindAllChildren(_cf.ByControlType(ControlType.Pane));
+            _menus = new Dictionary<string, Menu>
+            {
+                {"File", _fileMenu},
+                {"Edit", _editMenu},
+                {"View", _viewMenu},
+                {"Open", _openMenu},
+                {"Project", _projectMenu},
+                {"Debug", _debugMenu},
+                {"Online", _onlineMenu},
+                {"Tools", _toolsMenu},
+                {"Window", _windowMenu},
+                {"Help", _helpMenu}
+            };
+            AutomationElement[] allPanes = _mainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar));
+            if (allPanes.Length > 0)
+                StatusBar = allPanes[0];
+            while (StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0);
+            allPanes = _mainWindow.FindAllChildren(_cf.ByControlType(ControlType.Pane));
             foreach (AutomationElement a in allPanes) {
                 string name = a.Name;
                 if (name == null) continue;
@@ -107,9 +127,6 @@ namespace FlaUITests.Util {
                     }
                 }
             }
-            allPanes = _mainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar));
-            if (allPanes.Length > 0)
-                _statusBar = allPanes[0];
             _titleBar = _mainWindow.TitleBar;
             Console.WriteLine("Application opened successfully. Main elements initialized.");
             
@@ -144,7 +161,7 @@ namespace FlaUITests.Util {
                 }
             }
         }
-        private string[] Projectpath()
+        public string[] GetProjectpath()
         {
             String titleString = _titleBar.Name;
             String configString = "";
@@ -164,6 +181,15 @@ namespace FlaUITests.Util {
         }
         public bool IsProjectLoaded() {
             return _titleBar != null && !string.IsNullOrEmpty(_titleBar.Name) && _titleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
+        }
+        public Menu GetMenu(string menuName) {
+            if (_menus.ContainsKey(menuName)) {
+                return _menus[menuName];
+            }
+            return null;
+        }
+        public Window GetModalWindow(String name) {
+            return _mainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains(name));
         }
     }
 }

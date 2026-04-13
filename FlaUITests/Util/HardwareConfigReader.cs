@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace FlaUITests {
+namespace FlaUITests.Util {
     /// <summary>
     /// Represents a single module from the Hardware.hwl configuration
     /// </summary>
