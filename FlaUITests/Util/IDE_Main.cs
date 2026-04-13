@@ -30,7 +30,7 @@ namespace FlaUITests.Util {
         private AutomationElement _views;
         public AutomationElement Toolbox { get; private set; }
         private AutomationElement _propertyWindow;
-        private AutomationElement _outputWindow;
+        public AutomationElement OutputWindow { get; private set; }
         public AutomationElement StatusBar { get; private set; }
         private TitleBar _titleBar;
         private AutomationElement _toolBars;
@@ -98,7 +98,7 @@ namespace FlaUITests.Util {
                     else if (name.IndexOf("Property", StringComparison.OrdinalIgnoreCase) >= 0)
                         _propertyWindow = a;
                     else if (name.IndexOf("Output", StringComparison.OrdinalIgnoreCase) >= 0)
-                        _outputWindow = a;
+                        OutputWindow = a;
                 }
                 else {
                     AutomationElement[] children = a.FindAllChildren();
@@ -131,7 +131,7 @@ namespace FlaUITests.Util {
             Console.WriteLine("Application opened successfully. Main elements initialized.");
             
         }
-        public void InvokeMenuItem(Menu menu, string menuItemName) {
+        public void InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'BR&' from the menu name
             int i = 3;
             while (i-- > 0) {
@@ -154,13 +154,32 @@ namespace FlaUITests.Util {
                     if (notFound) 
                         continue; 
                     mi.Invoke();
+                    if (subMenuItemName != null) {
+                        Menu subMenu = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(menuItemName))).AsMenu();
+                        toolBar = m.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
+                        mi = null;
+                        notFound = true;
+                        AutomationElement[] subChildren = subMenu.FindAllChildren();
+                        foreach (AutomationElement child in subChildren) {
+                            string name = child.Name;
+                            if (name == null) continue;
+                            if (name.IndexOf(subMenuItemName, StringComparison.OrdinalIgnoreCase) >= 0) {
+                                mi = child.AsMenuItem();
+                                notFound = false;
+                                break;
+                            }
+                        if (notFound) 
+                            continue; 
+                        mi.Invoke();}
+                    }
                     break;
                 }
                 catch (Exception) {
-                    Console.WriteLine("Error while trying to click " + menuItemName + " in menu " + nameMenu + ".");
+                    Console.WriteLine("Error while trying to click " + menuItemName + " in menu " + nameMenu + ((subMenuItemName != null)? " in submenu " + subMenuItemName : "") + ".");
                 }
             }
         }
+
         public string[] GetProjectpath()
         {
             String titleString = _titleBar.Name;
