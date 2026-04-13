@@ -42,12 +42,12 @@ namespace FlaUITests.Util {
         private AutomationElement _zoomToolBar;
         private AutomationElement _debugToolBar;
 
-        public IDE_Main (Application app, Window mainWindow, UIA2Automation automation, ConditionFactory cf) {
-             _app = app;
-             _mainWindow = mainWindow;
-             _automation = automation;
-             _cf = cf;
-             Init();
+        public IDE_Main (Application app) {
+            _app = app;
+            _automation = new UIA2Automation();
+            _mainWindow = _app.GetMainWindow(_automation);
+            _cf = new ConditionFactory(new UIA2PropertyLibrary());
+            Init();
         }
         void Init() {
             Menu menu;
