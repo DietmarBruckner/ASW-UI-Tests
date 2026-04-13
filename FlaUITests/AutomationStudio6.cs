@@ -34,20 +34,6 @@ namespace FlaUITests {
                 Console.WriteLine("Warning: Application was not open.");
             }
         }
-        /// <summary>
-        /// Gets the main window of the application
-        /// </summary>
-        public Window GetMainWindow()
-        {
-            return _mainWindow;
-        }
-        /// <summary>
-        /// Gets the automation element
-        /// </summary>
-        public UIA2Automation GetAutomation()
-        {
-            return _automation;
-        }
         public Application GetApplication()
         {
             return _app;
