@@ -17,12 +17,7 @@ namespace FlaUITests.Util {
             InitMappView();
         }
         public void InitMappView() {
-            toolbox = _ideMain.Toolbox;
-            if (toolbox == null) {
-                _ideMain.InvokeMenuItem(_ideMain.GetMenu("View"), "Toolbox");
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-                toolbox = _ideMain.MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Toolbox")));
-            }
+            _ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
             toolBoxCategories = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId("_categoriesListView")));
             toolBoxContextContent = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
             AutomationElement mappViewToolBoxItem = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName("mapp View"))) ?? throw new Exception("mapp View toolbox item not found - not installed?");
@@ -50,21 +45,7 @@ namespace FlaUITests.Util {
             Random rand = new Random();
             int index = rand.Next(allTemplates.Length);
             allTemplates[index].DoubleClick(); //Select a random template to create some variation in the created projects
-            outputWindow = _ideMain.OutputWindow;
-            if (outputWindow == null) {
-                _ideMain.InvokeMenuItem(_ideMain.GetMenu("View"), "Output", "Output Results");
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-                outputWindow = _ideMain.MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Output")));
-            }
-            bool done = false;
-            while (!done) {
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-                AutomationElement outputListView = outputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
-                AutomationElement [] allMessages = outputListView.FindAllDescendants(cf => cf.ByControlType(ControlType.DataItem));
-                AutomationElement [] allMessagesTexts = allMessages[allMessages.Length - 1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
-                if (allMessagesTexts.Any(m => m.Name.IndexOf("Parsing finished", StringComparison.OrdinalIgnoreCase) >= 0))
-                    done = true;
-            }
+            _ideMain.WaitParsing();
         }
     }
 }
