@@ -337,6 +337,17 @@ namespace FlaUITests.Util {
             }
         }
         public void SwitchView(ViewType view) {
+            Point point;
+            Rectangle projectExplorerRect = ProjectExplorer.BoundingRectangle;
+            if (projectExplorerRect.Width <= 400 || projectExplorerRect.Height <= 250) {
+                Console.WriteLine("Project Explorer size too small - trying to make it bigger.");
+                point = new Point { X = projectExplorerRect.Right + 1, Y = projectExplorerRect.Top + 30};
+                Mouse.MoveTo(point);
+                Mouse.DragHorizontally(point, 400 - projectExplorerRect.Width);
+                point = new Point { X = projectExplorerRect.Left + 30, Y = projectExplorerRect.Bottom + 1};
+                Mouse.MoveTo(point);
+                Mouse.DragVertically(point, 250 - projectExplorerRect.Height);
+            }
             AutomationElement ViewTab = null;
             switch (view) {
                 case ViewType.LogicalView:
@@ -349,7 +360,7 @@ namespace FlaUITests.Util {
                     ViewTab = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Physical View"))).FirstOrDefault();
                     break;
             }
-            Point point = new Point { X = ViewTab.BoundingRectangle.Left + ViewTab.BoundingRectangle.Width / 2, Y = ViewTab.BoundingRectangle.Top + ViewTab.BoundingRectangle.Height / 2 };
+            point = new Point { X = ViewTab.BoundingRectangle.Left + ViewTab.BoundingRectangle.Width / 2, Y = ViewTab.BoundingRectangle.Top + ViewTab.BoundingRectangle.Height / 2 };
             Mouse.LeftClick(point);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
@@ -358,6 +369,10 @@ namespace FlaUITests.Util {
             AutomationElement treeElement = ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree).And(cf.ByAutomationId("ConfigurationTree")));
             AutomationElement [] allConfigurations = treeElement.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
             return allConfigurations.First(cf => cf.Name.IndexOf("[Active]", StringComparison.OrdinalIgnoreCase) >= 0) ?? throw new Exception("Active configuration not found");
+        }
+        public AutomationElement GetLogicalViewRoot(AppProject project) {
+            SwitchView(ViewType.LogicalView);
+            return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name)));
         }
     }
 }
