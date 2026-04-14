@@ -21,6 +21,7 @@ namespace FlaUITests.Util {
             //InsertMappView();
             AutomationElement activeConfig = _ideMain.GetActiveConfigurtion();
             AutomationElement cpuTreeItem = activeConfig.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
+            AutomationElement clickElement = cpuTreeItem.FindFirstChild(cf => cf.ByName("BR_" + CPU + "_Configuration"));
             Rectangle cpuTreeItemRect = cpuTreeItem.BoundingRectangle;
             Point point = new Point { X = cpuTreeItemRect.Left + 10, Y = cpuTreeItemRect.Top + cpuTreeItemRect.Height / 2 };
             //Mouse.MoveTo(point);
