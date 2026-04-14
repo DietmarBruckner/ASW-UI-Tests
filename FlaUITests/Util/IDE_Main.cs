@@ -301,6 +301,15 @@ namespace FlaUITests.Util {
                     Mouse.DragVertically(point, 100 - categoriesListViewRect.Height);
                 }
             }
+            else {
+                if (elementsListViewRect.Height < 100) {
+                    Console.WriteLine("Elements list size too small to make elements visible - trying to make it bigger.");
+                    Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
+                    Mouse.MoveTo(point);
+                    Mouse.DragVertically(point, elementsListViewRect.Height - 100);
+                }
+            }
+
         }
         public void WaitParsing() {
             InvokeMenuItem(GetMenu("View"), "Go To", "Output Results");
