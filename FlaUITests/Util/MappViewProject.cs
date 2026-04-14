@@ -83,6 +83,7 @@ namespace FlaUITests.Util {
             Rectangle elementRect = clickElement.BoundingRectangle;
             Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
             Mouse.Click(clickPoint);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             AutomationElement comboBox = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox));
         }
