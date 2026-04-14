@@ -38,7 +38,7 @@ namespace FlaUITests.Util {
         public AutomationElement Workspace { get; private set; }
         private TitleBar _titleBar;
         private AutomationElement _toolBars;
-        private AutomationElement _standardToolBar;
+        public AutomationElement ToolBarStandard { get; private set; }
         private AutomationElement _buildToolBar;
         private AutomationElement _onlineToolBar;
         private AutomationElement _unittestToolBar;
@@ -143,7 +143,7 @@ namespace FlaUITests.Util {
                             string childName = child.Name;
                             if (childName == null) continue;
                             if (childName.IndexOf("Standard", StringComparison.OrdinalIgnoreCase) >= 0)
-                                _standardToolBar = child;
+                                ToolBarStandard = child;
                             else if (childName.IndexOf("Build", StringComparison.OrdinalIgnoreCase) >= 0)
                                 _buildToolBar = child;
                             else if (childName.IndexOf("Online", StringComparison.OrdinalIgnoreCase) >= 0)
@@ -349,7 +349,7 @@ namespace FlaUITests.Util {
         }
         public void SwitchView(ViewType view) {
             Point point;
-            Rectangle projectExplorerRect = ProjectExplorer.BoundingRectangle;
+            Rectangle projectExplorerRect = UIElementsBounds["ProjectExplorer"];
             if (projectExplorerRect.Width < 400) {
                 Console.WriteLine("Project Explorer size too small - trying to make it bigger.");
                 point = new Point { X = projectExplorerRect.Right + 1, Y = projectExplorerRect.Top + 30};
