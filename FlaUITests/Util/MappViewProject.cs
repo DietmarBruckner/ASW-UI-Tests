@@ -83,6 +83,7 @@ namespace FlaUITests.Util {
             Rectangle elementRect = clickElement.BoundingRectangle;
             Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
             Mouse.Click(clickPoint);
+            AutomationElement comboBox = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox));
         }
     }
 }
