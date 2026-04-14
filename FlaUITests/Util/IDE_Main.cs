@@ -340,9 +340,9 @@ namespace FlaUITests.Util {
             AutomationElement pane101 = ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("101")));
             AutomationElement [] allChildren = ProjectExplorer.FindAllDescendants();
             Rectangle pane101Rect = pane101.BoundingRectangle;
-            allChildren = pane101.FindAllChildren();
-            AutomationElement viewPane = pane101.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
-            Rectangle viewPaneRect = viewPane.BoundingRectangle;
+            //allChildren = pane101.FindAllChildren();
+            //AutomationElement viewPane = pane101.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
+            //Rectangle viewPaneRect = viewPane.BoundingRectangle;
             AutomationElement LogicalViewTab = pane101.FindFirstDescendant(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Logical View")));
             Point point = new Point { X = LogicalViewTab.BoundingRectangle.Left + LogicalViewTab.BoundingRectangle.Width / 2, Y = LogicalViewTab.BoundingRectangle.Top + LogicalViewTab.BoundingRectangle.Height / 2 };
             Mouse.MoveTo(point);
