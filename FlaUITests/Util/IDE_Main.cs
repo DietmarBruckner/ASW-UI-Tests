@@ -282,15 +282,15 @@ namespace FlaUITests.Util {
             AutomationElement [] allChildren = a.FindAllChildren();
             Rectangle categoriesListViewRect = allChildren[0].FindAllDescendants().First(c => c.AutomationId == "_categoriesListView").BoundingRectangle;
             Rectangle elementsListViewRect = allChildren[1].FindAllDescendants().First(c => c.AutomationId == "_elementsListView").BoundingRectangle;
-            //min size of 250 px (or height of categories list + 30) height and 400 px width for the Toolbox to ensure all elements are visible and can be clicked
-            if (splitviewRect.Height < 250 || splitviewRect.Width < 400 || splitviewRect.Height < categoriesListViewRect.Height + 30) {
+            //min size of 250 px (or height of categories list + 50) height and 400 px width for the Toolbox to ensure all elements are visible and can be clicked
+            if (splitviewRect.Height < 250 || splitviewRect.Width < 400 || splitviewRect.Height < categoriesListViewRect.Height + 50) {
                 Console.WriteLine("Toolbox size too small to make toolbox elements visible - trying to make it bigger.");
                 Point point = new Point { X = splitviewRect.Left - 1, Y = categoriesListViewRect.Top + 30 };
                 Mouse.MoveTo(point);
                 Mouse.DragHorizontally(point, splitviewRect.Width - 400);
                 point = new Point { X = splitviewRect.Left + 30, Y = splitviewRect.Bottom + 1};
                 Mouse.MoveTo(point);
-                Mouse.DragVertically(point, Math.Max(250, categoriesListViewRect.Height + 30) - splitviewRect.Height);
+                Mouse.DragVertically(point, Math.Max(250, categoriesListViewRect.Height + 50) - splitviewRect.Height);
             }
             //min size of 200 px height and 400 px width for the Categories list to ensure all elements are visible and can be clicked
             if (categories) {
