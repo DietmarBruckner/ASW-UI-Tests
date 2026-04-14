@@ -67,7 +67,7 @@ namespace FlaUITests.Util {
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
             ClickConfigTreeItem(ae, "_Configuration", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
-            ClickConfigTreeItem(ae, "_Configuration", true);
+            ClickConfigTreeItem(ae, "_Configuration", true);*/
 
             AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllDescendants(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
@@ -76,7 +76,7 @@ namespace FlaUITests.Util {
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             ClickComboBoxTreeItem(1); //Select "Enabled"
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); */
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); 
             _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
             while (_ideMain.StatusBar.Name.IndexOf("Saving", StringComparison.OrdinalIgnoreCase) >= 0);
         }
