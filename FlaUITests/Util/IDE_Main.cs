@@ -8,6 +8,7 @@ using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.UIA2;
 using Menu = FlaUI.Core.AutomationElements.Menu;
+using System.Drawing;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -41,6 +42,33 @@ namespace FlaUITests.Util {
         private AutomationElement _formatToolBar;
         private AutomationElement _zoomToolBar;
         private AutomationElement _debugToolBar;
+        public Dictionary<string, Rectangle> UIElementsBounds { get {
+                AutomationElement a;
+                Dictionary<string, Rectangle> bounds = new Dictionary<string, Rectangle> {
+                    { "MainWindow", MainWindow.BoundingRectangle }
+                };
+                if ((a = MainWindow.TitleBar) != null)
+                    bounds.Add("TitleBar", a.BoundingRectangle);
+                if ((a = MainWindow.FindFirstDescendant(_cf.Menu()).AsMenu()) != null)
+                    bounds.Add("Menus", a.BoundingRectangle);
+                if ((a = MainWindow.FindFirstDescendant(_cf.ByControlType(ControlType.Pane).And(_cf.ByAutomationId("59419")))) != null)
+                    bounds.Add("ToolBar", a.BoundingRectangle);
+                if (ProjectExplorer != null)
+                    bounds.Add("ProjectExplorer", ProjectExplorer.BoundingRectangle);
+                if (Toolbox != null)
+                    bounds.Add("Toolbox", Toolbox.BoundingRectangle);
+                a = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("_splitContainer")));
+                AutomationElement [] allChildren = a.FindAllChildren();
+                foreach (AutomationElement child in allChildren)
+                    bounds.Add("Toolbox Part " + allChildren.ToList().IndexOf(child), child.BoundingRectangle);
+                if (PropertyWindow != null)
+                    bounds.Add("PropertyWindow", PropertyWindow.BoundingRectangle);
+                if (OutputWindow != null)
+                    bounds.Add("OutputWindow", OutputWindow.BoundingRectangle);
+                if ((a = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar))[0]) != null)
+                    bounds.Add("StatusBar", a.BoundingRectangle);
+                return bounds;
+            } }
 
         public IDE_Main (Application app) {
             App = app;
