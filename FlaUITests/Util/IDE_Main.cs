@@ -275,7 +275,7 @@ namespace FlaUITests.Util {
                 }
             }
         }
-        public void makeToolBoxElementsVisible(bool categories) {
+        public void MakeToolBoxElementsVisible(bool categories) {
             Rectangle splitviewRect = UIElementsBounds["Toolbox"];
             AutomationElement a = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("_splitContainer")));
             AutomationElement [] allChildren = a.FindAllDescendants();
