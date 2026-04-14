@@ -30,6 +30,7 @@ namespace FlaUITests {
             }
             _app.WaitWhileMainHandleIsMissing();
             Ide_Main = new IDE_Main(_app);
+            Ide_Main.MainWindow.Focus();
             if (Ide_Main.IsProjectLoaded())
                 Project = new AppProject(Ide_Main);
         }
