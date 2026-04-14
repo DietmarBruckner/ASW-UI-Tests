@@ -125,7 +125,7 @@ namespace FlaUITests.Util {
                         Toolbox = a;
                     else if (name.IndexOf("Property", StringComparison.OrdinalIgnoreCase) >= 0)
                         PropertyWindow = a;
-                    else if (name.IndexOf("Workspace", StringComparison.OrdinalIgnoreCase) >= 0)
+                    else if (a.AutomationId == "59648")
                         Workspace = a;
                     else if (name.IndexOf("Output", StringComparison.OrdinalIgnoreCase) >= 0)
                         OutputWindow = a;
