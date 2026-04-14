@@ -294,11 +294,11 @@ namespace FlaUITests.Util {
             }
             //min size of 200 px height and 400 px width for the Categories list to ensure all elements are visible and can be clicked
             if (categories) {
-                if (categoriesListViewRect.Height < 200) {
+                if (categoriesListViewRect.Height < 100) {
                     Console.WriteLine("Categories list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
                     Mouse.MoveTo(point);
-                    Mouse.DragVertically(point, 200 - categoriesListViewRect.Height);
+                    Mouse.DragVertically(point, 100 - categoriesListViewRect.Height);
                 }
             }
         }
