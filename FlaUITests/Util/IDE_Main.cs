@@ -353,5 +353,11 @@ namespace FlaUITests.Util {
             Mouse.LeftClick(point);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
+        public AutomationElement GetActiveConfigurtion() {
+            SwitchView(ViewType.ConfigurationView);
+            AutomationElement treeElement = ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree).And(cf.ByName("ConfigurationTree")));
+            AutomationElement [] allConfigurations = treeElement.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
+            return allConfigurations.First(cf => cf.Name.IndexOf("[Active]", StringComparison.OrdinalIgnoreCase) >= 0) ?? throw new Exception("Active configuration not found");
+        }
     }
 }
