@@ -221,6 +221,7 @@ namespace FlaUITests.Util {
             i = projectString.LastIndexOf("\\", StringComparison.OrdinalIgnoreCase);
             if (i >= 0)
                 folder = projectString.Substring(0, i);
+            projectString = projectString.Substring(i + 1, projectString.Length - i - 1);
             return new string[] { folder, configString, projectString };
         }
         public bool IsProjectLoaded() {
