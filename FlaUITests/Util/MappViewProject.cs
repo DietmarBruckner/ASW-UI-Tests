@@ -74,7 +74,7 @@ namespace FlaUITests.Util {
             DoubleClickConfigTreeItem(opcUACSitem);
             AutomationElement uaCsConfigItem = opcUACSitem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
             DoubleClickConfigTreeItem(uaCsConfigItem);
-            AutomationElement workSpaceWindows = _ideMain.Workspace.FindAllDescendants(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.ByName("BR_UaCsConfig.uacfg"));
+            AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllDescendants(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("BR_UaCsConfig.uacfg") >= 0);
         }
     }
 }
