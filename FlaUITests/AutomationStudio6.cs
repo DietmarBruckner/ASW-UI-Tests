@@ -18,8 +18,17 @@ namespace FlaUITests {
         /// Opens the Automation Studio 6 application and initializes main items
         /// </summary>
         void OpenApplication() {
-            _app = Application.Attach(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
-            //_app = Application.Launch(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
+            try {
+                _app = Application.Attach(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
+            }
+            catch (Exception ex) {
+                _app = Application.Launch(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
+            }
+            if (_app == null) {
+                Console.WriteLine("Error: Could not find or start Automation Studio 6 process.");
+                return;
+            }
+            _app.WaitWhileMainHandleIsMissing();
             Ide_Main = new IDE_Main(_app);
             if (Ide_Main.IsProjectLoaded())
                 Project = new AppProject(Ide_Main);
