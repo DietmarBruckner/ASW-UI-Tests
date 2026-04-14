@@ -278,9 +278,9 @@ namespace FlaUITests.Util {
         public void MakeToolBoxElementsVisible(bool categories) {
             Rectangle splitviewRect = UIElementsBounds["Toolbox"];
             AutomationElement a = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("_splitContainer")));
-            AutomationElement [] allChildren = a.FindAllDescendants();
-            Rectangle categoriesListViewRect = allChildren.First(c => c.AutomationId == "_categoriesListView").BoundingRectangle;
-            Rectangle elementsListViewRect = allChildren.First(c => c.AutomationId == "_elementsListView").BoundingRectangle;
+            AutomationElement [] allChildren = a.FindAllChildren();
+            Rectangle categoriesListViewRect = allChildren[0].FindAllDescendants().First(c => c.AutomationId == "_categoriesListView").BoundingRectangle;
+            Rectangle elementsListViewRect = allChildren[1].FindAllDescendants().First(c => c.AutomationId == "_elementsListView").BoundingRectangle;
         }
         public void WaitParsing() {
             InvokeMenuItem(GetMenu("View"), "Go To", "Output Results");
