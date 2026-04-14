@@ -251,5 +251,18 @@ namespace FlaUITests.Util {
                 }
             }
         }
+        public void WaitParsing() {
+            InvokeMenuItem(GetMenu("View"), "Go To", "Output Results");
+            bool done = false;
+            while (!done) {
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                AutomationElement outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
+                AutomationElement [] allMessages = outputListView.FindAllDescendants(cf => cf.ByControlType(ControlType.DataItem));
+                AutomationElement [] allMessagesTexts = allMessages[allMessages.Length - 1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
+                if (allMessagesTexts.Any(m => m.Name.IndexOf("Parsing finished", StringComparison.OrdinalIgnoreCase) >= 0))
+                    done = true;
+            }
+
+        }
     }
 }
