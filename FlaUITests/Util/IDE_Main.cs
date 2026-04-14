@@ -57,10 +57,6 @@ namespace FlaUITests.Util {
                     bounds.Add("ProjectExplorer", ProjectExplorer.BoundingRectangle);
                 if (Toolbox != null)
                     bounds.Add("Toolbox", Toolbox.BoundingRectangle);
-                a = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("_splitContainer")));
-                AutomationElement [] allChildren = a.FindAllChildren();
-                foreach (AutomationElement child in allChildren)
-                    bounds.Add("Toolbox Part " + allChildren.ToList().IndexOf(child), child.BoundingRectangle);
                 if (PropertyWindow != null)
                     bounds.Add("PropertyWindow", PropertyWindow.BoundingRectangle);
                 if (OutputWindow != null)
@@ -278,6 +274,13 @@ namespace FlaUITests.Util {
                     StatusBar = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.StatusBar));
                 }
             }
+        }
+        public void makeToolBoxElementsVisible(bool categories) {
+            Rectangle splitviewRect = UIElementsBounds["Toolbox"];
+            AutomationElement a = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("_splitContainer")));
+            AutomationElement [] allChildren = a.FindAllDescendants();
+            Rectangle categoriesListViewRect = allChildren.First(c => c.AutomationId == "_categoriesListView").BoundingRectangle;
+            Rectangle elementsListViewRect = allChildren.First(c => c.AutomationId == "_elementsListView").BoundingRectangle;
         }
         public void WaitParsing() {
             InvokeMenuItem(GetMenu("View"), "Go To", "Output Results");
