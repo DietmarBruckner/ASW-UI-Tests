@@ -18,15 +18,17 @@ namespace FlaUITests.Util {
 
         public AppProject(IDE_Main ideMain) {
             _ideMain = ideMain;
-                if (_ideMain.IsProjectLoaded()) {
-                    string[] paths = _ideMain.GetProjectpath();
-                    Name = paths[2];
-                    Path = paths[0];
-                    Config = paths[1];
-                }
-                else {
-                    Console.WriteLine("No project loaded.");
-                }
+            if (_ideMain.IsProjectLoaded()) {
+                string[] paths = _ideMain.GetProjectpath();
+                Name = paths[2];
+                Path = paths[0];
+                Config = paths[1];
+                AutomationElement activeConfig = _ideMain.GetActiveConfigurtion();
+                AutomationElement [] allTreeItems = activeConfig.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem));
+            }
+            else {
+                Console.WriteLine("No project loaded.");
+            }
         }
         public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu) {
             _ideMain = ideMain;
