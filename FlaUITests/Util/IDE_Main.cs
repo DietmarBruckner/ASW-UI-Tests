@@ -281,6 +281,18 @@ namespace FlaUITests.Util {
             AutomationElement [] allChildren = a.FindAllChildren();
             Rectangle categoriesListViewRect = allChildren[0].FindAllDescendants().First(c => c.AutomationId == "_categoriesListView").BoundingRectangle;
             Rectangle elementsListViewRect = allChildren[1].FindAllDescendants().First(c => c.AutomationId == "_elementsListView").BoundingRectangle;
+            //min size of 200 px height and 400 px width for the list views to ensure all elements are visible and can be clicked
+            if (categories) {
+                if (categoriesListViewRect.Height < 200 || categoriesListViewRect.Width < 400) {
+                    if (splitviewRect.Height < 250 || splitviewRect.Width < 400) {
+                        Console.WriteLine("Splitview size too small to make toolbox elements visible - trying to make it bigger.");
+                        Point point = new Point { X = splitviewRect.Left, Y = categoriesListViewRect.Top + 30 };
+                        Mouse.DragHorizontally(point, splitviewRect.Left - 400 + splitviewRect.Width);
+                        point = new Point { X = splitviewRect.Left + 30, Y = categoriesListViewRect.Bottom};
+                        Mouse.DragVertically(point, splitviewRect.Bottom + 250 - splitviewRect.Height);
+                    }
+                }
+            }
         }
         public void WaitParsing() {
             InvokeMenuItem(GetMenu("View"), "Go To", "Output Results");
