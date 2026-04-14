@@ -72,7 +72,7 @@ namespace FlaUITests.Util {
             AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllDescendants(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement uacsenable = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OPC UA Client/Server")));
-            ClickConfigTreeItem(uacsenable, "_Value", false);
+            ClickConfigTreeItem(uacsenable, "_Value");
             /* AutomationElement clickElement = uacsenable.FindFirstChild(cf => cf.ByName(uacsenable.Name + "_Value"));
             Rectangle elementRect = clickElement.BoundingRectangle;
             Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
