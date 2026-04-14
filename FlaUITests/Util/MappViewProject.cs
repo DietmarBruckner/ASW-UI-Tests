@@ -17,33 +17,22 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
             InitMappView();
         }
+        void DoubleClickConfigTreeItem(AutomationElement element) {
+            AutomationElement clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + "_Configuration"));
+            Rectangle elementRect = element.BoundingRectangle;
+            Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
+            Mouse.DoubleClick(clickPoint);
+        }
         public void InitMappView() {
             //InsertMappView();
-            AutomationElement activeConfig = _ideMain.GetActiveConfigurtion();
-            AutomationElement cpuTreeItem = activeConfig.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
-            AutomationElement clickElement = cpuTreeItem.FindFirstChild(cf => cf.ByName("BR_" + CPU + "_Configuration"));
-            Rectangle cpuTreeItemRect = cpuTreeItem.BoundingRectangle;
-            Point point = new Point { X = cpuTreeItemRect.Left + 10, Y = cpuTreeItemRect.Top + cpuTreeItemRect.Height / 2 };
-            //Mouse.MoveTo(point);
-            Mouse.Click(point);
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
+            AutomationElement cpuTreeItem = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
+            DoubleClickConfigTreeItem(cpuTreeItem);
             AutomationElement connectivityItem = cpuTreeItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
-            Rectangle connectivityItemRect = connectivityItem.BoundingRectangle;
-            point = new Point { X = connectivityItemRect.Left + 10, Y = connectivityItemRect.Top + connectivityItemRect.Height / 2 };
-            //Mouse.MoveTo(point);
-            Mouse.Click(point);
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
+            DoubleClickConfigTreeItem(connectivityItem);
             AutomationElement opcUACSitem = connectivityItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
-            Rectangle opcUaCsItemRect = opcUACSitem.BoundingRectangle;
-            point = new Point { X = opcUaCsItemRect.Left + 10, Y = opcUaCsItemRect.Top + opcUaCsItemRect.Height / 2 };
-            //Mouse.MoveTo(point); 
-            Mouse.Click(point);
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
+            DoubleClickConfigTreeItem(opcUACSitem);
             AutomationElement uaCsConfigItem = opcUACSitem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
-            Rectangle uaCsConfigItemRect = uaCsConfigItem.BoundingRectangle;
-            point = new Point { X = uaCsConfigItemRect.Left + 10, Y = uaCsConfigItemRect.Top + uaCsConfigItemRect.Height / 2 };
-            //Mouse.MoveTo(point);
-            Mouse.DoubleClick(point);
+            DoubleClickConfigTreeItem(uaCsConfigItem);
         }
         void InsertMappView() {
             _ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
