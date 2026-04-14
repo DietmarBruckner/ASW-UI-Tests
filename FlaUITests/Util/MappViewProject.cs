@@ -89,7 +89,7 @@ namespace FlaUITests.Util {
             ClickConfigTreeItem(ae, "_Name", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Authentication Methods")));
             ClickConfigTreeItem(ae, "_Name", true);
-            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Anonymus")));
+            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Anonymous")));
             ClickConfigTreeItem(ae, "_Value");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
