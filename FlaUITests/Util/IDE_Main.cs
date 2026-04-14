@@ -312,21 +312,15 @@ namespace FlaUITests.Util {
         }
         public void SearchToolBox(string searchTerm) {
             AutomationElement searchTextBox = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox")));
-            Point point = new Point { X = searchTextBox.BoundingRectangle.Left+ searchTextBox.BoundingRectangle.Width / 2, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 };
-            Mouse.LeftClick(point);
             if (searchTextBox.Name != searchTerm) {
-                point = new Point { X = point.X - 10, Y = point.Y };
+                Point point = new Point { X = searchTextBox.BoundingRectangle.Left - 10, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 };
                 Mouse.LeftClick(point);
-                point = new Point { X = point.X + 10, Y = point.Y };
+                point = point = new Point { X = searchTextBox.BoundingRectangle.Left+ searchTextBox.BoundingRectangle.Width / 2, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 };
                 Mouse.LeftClick(point);
                 foreach (char ch in searchTerm) {
                     Keyboard.Type(ch);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                 }
-            }
-            foreach (char ch in searchTerm) {
-                Keyboard.Type(ch);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             }
         }
         public void WaitParsing() {
