@@ -25,7 +25,7 @@ namespace FlaUITests.Util {
                 Config = paths[1];
                 AutomationElement activeConfig = _ideMain.GetActiveConfigurtion();
                 AutomationElement [] allTreeItems = activeConfig.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem));
-                CPU = allTreeItems[2].Name.Substring(2); //Assuming the CPU tree item is always the third tree item and starts with "BR_"
+                CPU = allTreeItems[2].Name.Substring(3); //Assuming the CPU tree item is always the third tree item and starts with "BR_"
             }
             else {
                 Console.WriteLine("No project loaded.");
