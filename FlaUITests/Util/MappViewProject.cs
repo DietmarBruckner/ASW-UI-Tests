@@ -61,13 +61,13 @@ namespace FlaUITests.Util {
         }
         void ActivateOPCUACS () {
             AutomationElement cpuTreeItem = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
-            ClickConfigTreeItem(cpuTreeItem, "_configuration", true);
+            ClickConfigTreeItem(cpuTreeItem, "_Configuration", true);
             AutomationElement connectivityItem = cpuTreeItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
-            ClickConfigTreeItem(connectivityItem, "_configuration", true);
+            ClickConfigTreeItem(connectivityItem, "_Configuration", true);
             AutomationElement opcUACSitem = connectivityItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
-            ClickConfigTreeItem(opcUACSitem, "_configuration", true);
+            ClickConfigTreeItem(opcUACSitem, "_Configuration", true);
             AutomationElement uaCsConfigItem = opcUACSitem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
-            ClickConfigTreeItem(uaCsConfigItem, "_configuration", true);
+            ClickConfigTreeItem(uaCsConfigItem, "_Configuration", true);
 
             AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllDescendants(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
