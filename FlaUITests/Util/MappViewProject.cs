@@ -73,7 +73,8 @@ namespace FlaUITests.Util {
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement uaToolbar = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Client/Server Configuration")));
             AutomationElement advancedVisibilityButton = uaToolbar.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Change Advanced Parameter Visibility")));
-            advancedVisibilityButton.Click();
+            if (!advancedVisibilityButton.IsEnabled)
+                advancedVisibilityButton.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             AutomationElement [] children = configTree.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem));
 /*             AutomationElement uacsenable = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OPC UA Client/Server")));
