@@ -23,14 +23,14 @@ namespace FlaUITests.Util {
             AutomationElement cpuTreeItem = activeConfig.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
             Rectangle cpuTreeItemRect = cpuTreeItem.BoundingRectangle;
             Point point = new Point { X = cpuTreeItemRect.Left + 50, Y = cpuTreeItemRect.Top + cpuTreeItemRect.Height / 2 };
-            Mouse.MoveTo(point);
-            Mouse.Click();
+            //Mouse.MoveTo(point);
+            Mouse.Click(point);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
             AutomationElement connectivityItem = cpuTreeItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
             Rectangle connectivityItemRect = connectivityItem.BoundingRectangle;
-            point = new Point { X = cpuTreeItemRect.Left + 100, Y = cpuTreeItemRect.Top + cpuTreeItemRect.Height / 2 };
-            Mouse.MoveTo(point);
-            Mouse.Click();
+            point = new Point { X = connectivityItemRect.Left + 50, Y = connectivityItemRect.Top + connectivityItemRect.Height / 2 };
+            //Mouse.MoveTo(point);
+            Mouse.Click(point);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
         }
         void InsertMappView() {
