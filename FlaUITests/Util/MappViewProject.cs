@@ -61,28 +61,25 @@ namespace FlaUITests.Util {
         }
         void ActivateOPCUACS () {
             AutomationElement cpuTreeItem = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
-            DoubleClickConfigTreeItem(cpuTreeItem);
+            ClickConfigTreeItem(cpuTreeItem, "_configuration", true);
             AutomationElement connectivityItem = cpuTreeItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
-            DoubleClickConfigTreeItem(connectivityItem);
+            ClickConfigTreeItem(connectivityItem, "_configuration", true);
             AutomationElement opcUACSitem = connectivityItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
-            DoubleClickConfigTreeItem(opcUACSitem);
+            ClickConfigTreeItem(opcUACSitem, "_configuration", true);
             AutomationElement uaCsConfigItem = opcUACSitem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
-            DoubleClickConfigTreeItem(uaCsConfigItem);
+            ClickConfigTreeItem(uaCsConfigItem, "_configuration", true);
 
             AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllDescendants(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement uacsenable = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OPC UA Client/Server")));
-            AutomationElement clickElement = uacsenable.FindFirstChild(cf => cf.ByName(uacsenable.Name + "_Value"));
+            ClickConfigTreeItem(uacsenable, "_Value", false);
+            /* AutomationElement clickElement = uacsenable.FindFirstChild(cf => cf.ByName(uacsenable.Name + "_Value"));
             Rectangle elementRect = clickElement.BoundingRectangle;
             Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
-            Mouse.Click(clickPoint);
+            Mouse.Click(clickPoint); */
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            AutomationElement comboBox = _ideMain.MainWindow.Parent.FindFirstDescendant(cf => cf.ByControlType(ControlType.List));
-            AutomationElement item = comboBox.FindAllChildren()[1];
-            elementRect = item.BoundingRectangle;
-            clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
-            Mouse.Click(clickPoint);
+            ClickComboBoxTreeItem(1); //Select "Enabled, Server and Client"
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
     }
