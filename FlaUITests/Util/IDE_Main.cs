@@ -376,6 +376,7 @@ namespace FlaUITests.Util {
         }
         public AutomationElement GetLogicalViewRoot(AppProject project) {
             SwitchView(ViewType.LogicalView);
+            AutomationElement [] allTreeItems = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem));
             AutomationElement a = ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name)));
             return a;
         }
