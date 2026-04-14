@@ -339,6 +339,7 @@ namespace FlaUITests.Util {
         public void SwitchView(ViewType view) {
             AutomationElement pane101 = ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("101")));
             Rectangle pane101Rect = pane101.BoundingRectangle;
+            AutomationElement [] allChildren = pane101.FindAllChildren();
             AutomationElement viewPane = pane101.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
             Rectangle viewPaneRect = viewPane.BoundingRectangle;
             AutomationElement LogicalViewTab = pane101.FindFirstDescendant(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Logical View")));
