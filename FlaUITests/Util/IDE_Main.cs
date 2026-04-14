@@ -376,8 +376,7 @@ namespace FlaUITests.Util {
         }
         public AutomationElement GetLogicalViewRoot(AppProject project) {
             SwitchView(ViewType.LogicalView);
-            string s = "BR_" + project.Name.Substring(0, project.Name.IndexOf(".")-1);
-            return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(s)));
+            return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
         }
     }
 }
