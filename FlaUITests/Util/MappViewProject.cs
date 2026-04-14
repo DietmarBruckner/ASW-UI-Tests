@@ -22,11 +22,11 @@ namespace FlaUITests.Util {
             AutomationElement activeConfig = _ideMain.GetActiveConfigurtion();
             AutomationElement cpuTreeItem = activeConfig.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
             Rectangle cpuTreeItemRect = cpuTreeItem.BoundingRectangle;
-            Point point = new Point { X = cpuTreeItemRect.Left + 100, Y = cpuTreeItemRect.Top + cpuTreeItemRect.Height / 2 };
+            Point point = new Point { X = cpuTreeItemRect.Left + 50, Y = cpuTreeItemRect.Top + cpuTreeItemRect.Height / 2 };
             Mouse.MoveTo(point);
             Mouse.Click();
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
-            AutomationElement connectivityItem = cpuTreeItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("Connectivity")));
+            AutomationElement connectivityItem = cpuTreeItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
             Rectangle connectivityItemRect = connectivityItem.BoundingRectangle;
             point = new Point { X = cpuTreeItemRect.Left + 100, Y = cpuTreeItemRect.Top + cpuTreeItemRect.Height / 2 };
             Mouse.MoveTo(point);
