@@ -289,10 +289,10 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Toolbox size too small to make toolbox elements visible - trying to make it bigger.");
                 Point point = new Point { X = splitviewRect.Left - 1, Y = categoriesListViewRect.Top + 30 };
                 Mouse.MoveTo(point);
-                Mouse.DragHorizontally(point, splitviewRect.Width - 400);
+                Mouse.DragHorizontally(point, splitviewRect.Width - 401);
                 point = new Point { X = splitviewRect.Left + 30, Y = splitviewRect.Bottom + 1};
                 Mouse.MoveTo(point);
-                Mouse.DragVertically(point, Math.Max(250, categoriesListViewRect.Height + 50) - splitviewRect.Height);
+                Mouse.DragVertically(point, Math.Max(251, categoriesListViewRect.Height + 50) - splitviewRect.Height);
             }
             //min size of 200 px height and 400 px width for the Categories list to ensure all elements are visible and can be clicked
             if (categories) {
@@ -300,7 +300,7 @@ namespace FlaUITests.Util {
                     Console.WriteLine("Categories list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
                     Mouse.MoveTo(point);
-                    Mouse.DragVertically(point, 100 - categoriesListViewRect.Height);
+                    Mouse.DragVertically(point, 101 - categoriesListViewRect.Height);
                 }
             }
             else {
@@ -308,7 +308,7 @@ namespace FlaUITests.Util {
                     Console.WriteLine("Elements list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
                     Mouse.MoveTo(point);
-                    Mouse.DragVertically(point, elementsListViewRect.Height - 100);
+                    Mouse.DragVertically(point, elementsListViewRect.Height - 101);
                 }
             }
         }
@@ -344,13 +344,13 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Project Explorer size too small - trying to make it bigger.");
                 point = new Point { X = projectExplorerRect.Right + 1, Y = projectExplorerRect.Top + 30};
                 Mouse.MoveTo(point);
-                Mouse.DragHorizontally(point, 400 - projectExplorerRect.Width);
+                Mouse.DragHorizontally(point, 401 - projectExplorerRect.Width);
             }
             if (projectExplorerRect.Height <= 400) {
                 Console.WriteLine("Project Explorer size too small - trying to make it bigger.");
                 point = new Point { X = projectExplorerRect.Left + 30, Y = projectExplorerRect.Bottom + 1};
                 Mouse.MoveTo(point);
-                Mouse.DragVertically(point, 400 - projectExplorerRect.Height);
+                Mouse.DragVertically(point, 401 - projectExplorerRect.Height);
             }
             AutomationElement ViewTab = null;
             switch (view) {
