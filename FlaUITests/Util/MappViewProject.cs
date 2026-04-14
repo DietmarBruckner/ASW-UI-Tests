@@ -18,6 +18,7 @@ namespace FlaUITests.Util {
         }
         public void InitMappView() {
             //InsertMappView();
+            AutomationElement activeConfig = _ideMain.GetActiveConfiguration();
             _ideMain.SwitchView(IDE_Main.ViewType.ConfigurationView);
         }
         void InsertMappView() {
