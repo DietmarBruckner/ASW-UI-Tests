@@ -355,7 +355,7 @@ namespace FlaUITests.Util {
         }
         public AutomationElement GetActiveConfigurtion() {
             SwitchView(ViewType.ConfigurationView);
-            AutomationElement [] allchildren = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem));
+            AutomationElement [] allchildren = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement treeElement = ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree).And(cf.ByName("ConfigurationTree")));
             AutomationElement [] allConfigurations = treeElement.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
             return allConfigurations.First(cf => cf.Name.IndexOf("[Active]", StringComparison.OrdinalIgnoreCase) >= 0) ?? throw new Exception("Active configuration not found");
