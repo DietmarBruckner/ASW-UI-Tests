@@ -20,7 +20,7 @@ namespace FlaUITests.Util {
         }
         void DoubleClickConfigTreeItem(AutomationElement element) {
             AutomationElement clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + "_Configuration"));
-            Rectangle elementRect = element.BoundingRectangle;
+            Rectangle elementRect = clickElement.BoundingRectangle;
             Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
             Mouse.DoubleClick(clickPoint);
         }
@@ -77,6 +77,12 @@ namespace FlaUITests.Util {
             //AutomationElement uaConfigWindow = _ideMain.GetModalWindow("BR_UaCsConfig.uacfg");
             //AutomationElement [] allDescendants = _ideMain.Workspace.FindAllDescendants();
             AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllDescendants(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
+            AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            AutomationElement uacsenable = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OPC UA Client/Server")));
+            AutomationElement clickElement = uacsenable.FindFirstChild(cf => cf.ByName(uacsenable.Name + "_Value"));
+            Rectangle elementRect = clickElement.BoundingRectangle;
+            Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
+            Mouse.Click(clickPoint);
         }
     }
 }
