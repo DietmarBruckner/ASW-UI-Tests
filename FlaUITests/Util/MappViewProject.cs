@@ -17,6 +17,10 @@ namespace FlaUITests.Util {
             InitMappView();
         }
         public void InitMappView() {
+            //InsertMappView();
+            _ideMain.SwitchView(IDE_Main.ViewType.ConfigurationView);
+        }
+        void InsertMappView() {
             _ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
             _ideMain.MakeToolBoxElementsVisible(categories: true);
             _ideMain.SearchToolBox("mapp view");
@@ -50,7 +54,6 @@ namespace FlaUITests.Util {
             int index = rand.Next(allTemplates.Length);
             allTemplates[index].DoubleClick(); //Select a random template to create some variation in the created projects
             _ideMain.WaitParsing();
-            _ideMain.SwitchView(IDE_Main.ViewType.ConfigurationView);
         }
     }
 }
