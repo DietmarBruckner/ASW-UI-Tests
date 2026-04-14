@@ -64,7 +64,7 @@ namespace FlaUITests.Util {
                 Keyboard.Type(config);
             }
             nextButton.Invoke();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
             TextBox searchTextBox = newProjectDialog.FindAllDescendants(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox")))[0].AsTextBox();
             point = new Point { X = searchTextBox.BoundingRectangle.Left+ searchTextBox.BoundingRectangle.Width / 2, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 };
             Mouse.LeftClick(point);
