@@ -78,7 +78,7 @@ namespace FlaUITests.Util {
             ClickComboBoxTreeItem(1); //Select "Enabled"
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); */
             AutomationElement [] buttons = _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button));
-            AutomationElement saveButton = _ideMain.ToolBarStandard.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("BR_\nSave"))).AsButton();
+            AutomationElement saveButton = buttons.FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0);
             _ideMain.ToolBarStandard.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("BR_\nSave"))).AsButton().Invoke();
             while (_ideMain.StatusBar.Name.IndexOf("Saving", StringComparison.OrdinalIgnoreCase) >= 0);
         }
