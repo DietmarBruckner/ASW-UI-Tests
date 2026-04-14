@@ -18,6 +18,7 @@ namespace FlaUITests.Util {
         }
         public void InitMappView() {
             _ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
+            toolbox = _ideMain.Toolbox;
             toolBoxCategories = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId("_categoriesListView")));
             toolBoxContextContent = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
             AutomationElement mappViewToolBoxItem = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName("mapp View"))) ?? throw new Exception("mapp View toolbox item not found - not installed?");
