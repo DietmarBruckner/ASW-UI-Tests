@@ -1,6 +1,8 @@
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
+using FlaUI.Core.Input;
 using System;
+using System.Drawing;
 using System.Linq;
 
 namespace FlaUITests.Util {
@@ -19,7 +21,12 @@ namespace FlaUITests.Util {
         public void InitMappView() {
             //InsertMappView();
             AutomationElement activeConfig = _ideMain.GetActiveConfigurtion();
-            AutomationElement [] allDesc = activeConfig.FindAllDescendants();
+            AutomationElement cpuTreeItem = activeConfig.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
+            Rectangle cpuTreeItemRect = cpuTreeItem.BoundingRectangle;
+            Point point = new Point { X = cpuTreeItemRect.Left + 50, Y = cpuTreeItemRect.Top + cpuTreeItemRect.Height / 2 };
+            Mouse.MoveTo(point);
+            Mouse.Click();
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
         }
         void InsertMappView() {
             _ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
