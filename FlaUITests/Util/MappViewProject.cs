@@ -50,6 +50,7 @@ namespace FlaUITests.Util {
             int index = rand.Next(allTemplates.Length);
             allTemplates[index].DoubleClick(); //Select a random template to create some variation in the created projects
             _ideMain.WaitParsing();
+            _ideMain.SwitchView(IDE_Main.ViewType.ConfigurationView);
         }
     }
 }

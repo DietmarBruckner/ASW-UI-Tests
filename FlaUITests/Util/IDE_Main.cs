@@ -17,6 +17,7 @@ namespace FlaUITests.Util {
         private UIA2Automation _automation;
         public Window MainWindow { get; private set; }
         private ConditionFactory _cf;
+        public enum ViewType { LogicalView, ConfigurationView, PhysicalView }
         private Menu _fileMenu; 
         private Menu _editMenu;
         private Menu _viewMenu;
@@ -283,7 +284,7 @@ namespace FlaUITests.Util {
             Rectangle categoriesListViewRect = allChildren[0].FindAllDescendants().First(c => c.AutomationId == "_categoriesListView").BoundingRectangle;
             Rectangle elementsListViewRect = allChildren[1].FindAllDescendants().First(c => c.AutomationId == "_elementsListView").BoundingRectangle;
             //min size of 250 px (or height of categories list + 50) height and 400 px width for the Toolbox to ensure all elements are visible and can be clicked
-            if (splitviewRect.Height < 250 || splitviewRect.Width < 400 || splitviewRect.Height < categoriesListViewRect.Height + 50) {
+            if (splitviewRect.Height <= 250 || splitviewRect.Width <= 400 || splitviewRect.Height <= categoriesListViewRect.Height + 50) {
                 Console.WriteLine("Toolbox size too small to make toolbox elements visible - trying to make it bigger.");
                 Point point = new Point { X = splitviewRect.Left - 1, Y = categoriesListViewRect.Top + 30 };
                 Mouse.MoveTo(point);
@@ -294,7 +295,7 @@ namespace FlaUITests.Util {
             }
             //min size of 200 px height and 400 px width for the Categories list to ensure all elements are visible and can be clicked
             if (categories) {
-                if (categoriesListViewRect.Height < 100) {
+                if (categoriesListViewRect.Height <= 100) {
                     Console.WriteLine("Categories list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
                     Mouse.MoveTo(point);
@@ -302,7 +303,7 @@ namespace FlaUITests.Util {
                 }
             }
             else {
-                if (elementsListViewRect.Height < 100) {
+                if (elementsListViewRect.Height <= 100) {
                     Console.WriteLine("Elements list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
                     Mouse.MoveTo(point);
@@ -334,7 +335,27 @@ namespace FlaUITests.Util {
                 if (allMessagesTexts.Any(m => m.Name.IndexOf("Parsing finished", StringComparison.OrdinalIgnoreCase) >= 0))
                     done = true;
             }
-
+        }
+        public void SwitchView(ViewType view) {
+            AutomationElement pane101 = ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("101")));
+            Rectangle pane101Rect = pane101.BoundingRectangle;
+            AutomationElement viewPane = pane101.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
+            Rectangle viewPaneRect = viewPane.BoundingRectangle;
+            AutomationElement LogicalViewTab = pane101.FindFirstDescendant(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Logical View")));
+            Point point = new Point { X = LogicalViewTab.BoundingRectangle.Left + LogicalViewTab.BoundingRectangle.Width / 2, Y = LogicalViewTab.BoundingRectangle.Top + LogicalViewTab.BoundingRectangle.Height / 2 };
+            Mouse.MoveTo(point);
+            switch (view) {
+                case ViewType.LogicalView:
+                    InvokeMenuItem(GetMenu("View"), "Logical View");
+                    break;
+                case ViewType.ConfigurationView:
+                    InvokeMenuItem(GetMenu("View"), "Configuration View");
+                    break;
+                case ViewType.PhysicalView:
+                    InvokeMenuItem(GetMenu("View"), "Physical View");
+                    break;
+            }
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
     }
 }
