@@ -339,14 +339,17 @@ namespace FlaUITests.Util {
         public void SwitchView(ViewType view) {
             Point point;
             Rectangle projectExplorerRect = ProjectExplorer.BoundingRectangle;
-            if (projectExplorerRect.Width <= 400 || projectExplorerRect.Height <= 250) {
+            if (projectExplorerRect.Width <= 400) {
                 Console.WriteLine("Project Explorer size too small - trying to make it bigger.");
                 point = new Point { X = projectExplorerRect.Right + 1, Y = projectExplorerRect.Top + 30};
                 Mouse.MoveTo(point);
                 Mouse.DragHorizontally(point, 400 - projectExplorerRect.Width);
+            }
+            if (projectExplorerRect.Height <= 400) {
+                Console.WriteLine("Project Explorer size too small - trying to make it bigger.");
                 point = new Point { X = projectExplorerRect.Left + 30, Y = projectExplorerRect.Bottom + 1};
                 Mouse.MoveTo(point);
-                Mouse.DragVertically(point, 250 - projectExplorerRect.Height);
+                Mouse.DragVertically(point, 400 - projectExplorerRect.Height);
             }
             AutomationElement ViewTab = null;
             switch (view) {
