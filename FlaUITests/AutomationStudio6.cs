@@ -21,7 +21,7 @@ namespace FlaUITests {
             try {
                 _app = Application.Attach(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
             }
-            catch (Exception ex) {
+            catch (Exception) {
                 _app = Application.Launch(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
             }
             if (_app == null) {
