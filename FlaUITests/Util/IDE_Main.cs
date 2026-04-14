@@ -10,6 +10,7 @@ using FlaUI.UIA2;
 using Menu = FlaUI.Core.AutomationElements.Menu;
 using System.Drawing;
 using Xunit.Sdk;
+using System.Linq.Expressions;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -117,6 +118,8 @@ namespace FlaUITests.Util {
             allPanes = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.Pane));
             foreach (AutomationElement a in allPanes) {
                 string name = a.Name;
+                string autoId;
+                try {autoId = a.AutomationId;} catch (Exception) { autoId = ""; }
                 if (name == null) continue;
                 if (name != "") {
                     if (name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0)
@@ -125,7 +128,7 @@ namespace FlaUITests.Util {
                         Toolbox = a;
                     else if (name.IndexOf("Property", StringComparison.OrdinalIgnoreCase) >= 0)
                         PropertyWindow = a;
-                    else if (a.AutomationId == "59648")
+                    else if (autoId == "59648")
                         Workspace = a;
                     else if (name.IndexOf("Output", StringComparison.OrdinalIgnoreCase) >= 0)
                         OutputWindow = a;
