@@ -314,8 +314,16 @@ namespace FlaUITests.Util {
             AutomationElement searchTextBox = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox")));
             Point point = new Point { X = searchTextBox.BoundingRectangle.Left+ searchTextBox.BoundingRectangle.Width / 2, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 };
             Mouse.LeftClick(point);
-            Keyboard.TypeSimultaneously(new FlaUI.Core.WindowsAPI.VirtualKeyShort[] { FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A });
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
+            if (searchTextBox.Name != searchTerm) {
+                point = new Point { X = point.X - 10, Y = point.Y };
+                Mouse.LeftClick(point);
+                point = new Point { X = point.X + 10, Y = point.Y };
+                Mouse.LeftClick(point);
+                foreach (char ch in searchTerm) {
+                    Keyboard.Type(ch);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                }
+            }
             foreach (char ch in searchTerm) {
                 Keyboard.Type(ch);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
