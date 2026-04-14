@@ -86,7 +86,8 @@ namespace FlaUITests.Util {
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             ComboBox comboBox = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox)).AsComboBox();
-            comboBox.Select(1);
+            AutomationElement [] allDescendants = comboBox.FindAllDescendants();
+            //comboBox.Select(1);
         }
     }
 }
