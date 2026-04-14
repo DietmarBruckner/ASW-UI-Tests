@@ -337,26 +337,20 @@ namespace FlaUITests.Util {
             }
         }
         public void SwitchView(ViewType view) {
-            AutomationElement pane101 = ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("101")));
-            AutomationElement [] allChildren = ProjectExplorer.FindAllDescendants();
-            Rectangle pane101Rect = pane101.BoundingRectangle;
-            //allChildren = pane101.FindAllChildren();
-            //AutomationElement viewPane = pane101.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
-            //Rectangle viewPaneRect = viewPane.BoundingRectangle;
-            AutomationElement LogicalViewTab = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Logical View"))).FirstOrDefault();
-            Point point = new Point { X = LogicalViewTab.BoundingRectangle.Left + LogicalViewTab.BoundingRectangle.Width / 2, Y = LogicalViewTab.BoundingRectangle.Top + LogicalViewTab.BoundingRectangle.Height / 2 };
-            Mouse.MoveTo(point);
+            AutomationElement ViewTab = null;
             switch (view) {
                 case ViewType.LogicalView:
-                    InvokeMenuItem(GetMenu("View"), "Logical View");
+                    ViewTab = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Logical View"))).FirstOrDefault();
                     break;
                 case ViewType.ConfigurationView:
-                    InvokeMenuItem(GetMenu("View"), "Configuration View");
+                    ViewTab = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Configuration View"))).FirstOrDefault();
                     break;
                 case ViewType.PhysicalView:
-                    InvokeMenuItem(GetMenu("View"), "Physical View");
+                    ViewTab = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Physical View"))).FirstOrDefault();
                     break;
             }
+            Point point = new Point { X = ViewTab.BoundingRectangle.Left + ViewTab.BoundingRectangle.Width / 2, Y = ViewTab.BoundingRectangle.Top + ViewTab.BoundingRectangle.Height / 2 };
+            Mouse.LeftClick(point);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
     }
