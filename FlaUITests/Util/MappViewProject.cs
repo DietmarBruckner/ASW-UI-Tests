@@ -3,6 +3,7 @@ using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using System;
 using System.Drawing;
+using System.Linq;
 
 namespace FlaUITests.Util {
     public class MappViewProject : AppProject {
@@ -24,15 +25,10 @@ namespace FlaUITests.Util {
             Mouse.DoubleClick(clickPoint);
         }
         public void InitMappView() {
-            //InsertMappView();
-            AutomationElement cpuTreeItem = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
-            DoubleClickConfigTreeItem(cpuTreeItem);
-            AutomationElement connectivityItem = cpuTreeItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
-            DoubleClickConfigTreeItem(connectivityItem);
-            AutomationElement opcUACSitem = connectivityItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
-            DoubleClickConfigTreeItem(opcUACSitem);
-            AutomationElement uaCsConfigItem = opcUACSitem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
-            DoubleClickConfigTreeItem(uaCsConfigItem);
+            if (!_ideMain.GetLogicalViewRoot(this).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0)) {
+                InsertMappView();
+            }
+            ActivateOPCUACS();
         }
         void InsertMappView() {
             _ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
@@ -68,6 +64,17 @@ namespace FlaUITests.Util {
             int index = rand.Next(allTemplates.Length);
             allTemplates[index].DoubleClick(); //Select a random template to create some variation in the created projects
             _ideMain.WaitParsing();
+        }
+        void ActivateOPCUACS () {
+            AutomationElement cpuTreeItem = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
+            DoubleClickConfigTreeItem(cpuTreeItem);
+            AutomationElement connectivityItem = cpuTreeItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
+            DoubleClickConfigTreeItem(connectivityItem);
+            AutomationElement opcUACSitem = connectivityItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
+            DoubleClickConfigTreeItem(opcUACSitem);
+            AutomationElement uaCsConfigItem = opcUACSitem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
+            DoubleClickConfigTreeItem(uaCsConfigItem);
+            
         }
     }
 }
