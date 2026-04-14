@@ -22,16 +22,27 @@ namespace FlaUITests.Util {
             AutomationElement activeConfig = _ideMain.GetActiveConfigurtion();
             AutomationElement cpuTreeItem = activeConfig.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
             Rectangle cpuTreeItemRect = cpuTreeItem.BoundingRectangle;
-            Point point = new Point { X = cpuTreeItemRect.Left + 50, Y = cpuTreeItemRect.Top + cpuTreeItemRect.Height / 2 };
+            Point point = new Point { X = cpuTreeItemRect.Left + 10, Y = cpuTreeItemRect.Top + cpuTreeItemRect.Height / 2 };
             //Mouse.MoveTo(point);
             Mouse.Click(point);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
             AutomationElement connectivityItem = cpuTreeItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
             Rectangle connectivityItemRect = connectivityItem.BoundingRectangle;
-            point = new Point { X = connectivityItemRect.Left + 50, Y = connectivityItemRect.Top + connectivityItemRect.Height / 2 };
+            point = new Point { X = connectivityItemRect.Left + 10, Y = connectivityItemRect.Top + connectivityItemRect.Height / 2 };
             //Mouse.MoveTo(point);
             Mouse.Click(point);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
+            AutomationElement opcUACSitem = connectivityItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
+            Rectangle opcUaCsItemRect = opcUACSitem.BoundingRectangle;
+            point = new Point { X = opcUaCsItemRect.Left + 10, Y = opcUaCsItemRect.Top + opcUaCsItemRect.Height / 2 };
+            //Mouse.MoveTo(point); 
+            Mouse.Click(point);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
+            AutomationElement uaCsConfigItem = opcUACSitem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
+            Rectangle uaCsConfigItemRect = uaCsConfigItem.BoundingRectangle;
+            point = new Point { X = uaCsConfigItemRect.Left + 10, Y = uaCsConfigItemRect.Top + uaCsConfigItemRect.Height / 2 };
+            //Mouse.MoveTo(point);
+            Mouse.DoubleClick(point);
         }
         void InsertMappView() {
             _ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
