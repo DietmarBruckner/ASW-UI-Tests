@@ -60,14 +60,14 @@ namespace FlaUITests.Util {
             _ideMain.WaitParsing();
         }
         void ActivateOPCUACS () {
-            AutomationElement cpuTreeItem = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
-            ClickConfigTreeItem(cpuTreeItem, "_Configuration", true);
-            AutomationElement connectivityItem = cpuTreeItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
-            ClickConfigTreeItem(connectivityItem, "_Configuration", true);
-            AutomationElement opcUACSitem = connectivityItem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
-            ClickConfigTreeItem(opcUACSitem, "_Configuration", true);
-            AutomationElement uaCsConfigItem = opcUACSitem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
-            ClickConfigTreeItem(uaCsConfigItem, "_Configuration", true);
+            AutomationElement ae = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
+            ClickConfigTreeItem(ae, "_Configuration", true);
+            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
+            ClickConfigTreeItem(ae, "_Configuration", true);
+            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
+            ClickConfigTreeItem(ae, "_Configuration", true);
+            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
+            ClickConfigTreeItem(ae, "_Configuration", true);
 
             AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllDescendants(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
