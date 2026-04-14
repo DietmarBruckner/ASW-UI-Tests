@@ -288,10 +288,10 @@ namespace FlaUITests.Util {
                         Console.WriteLine("Splitview size too small to make toolbox elements visible - trying to make it bigger.");
                         Point point = new Point { X = splitviewRect.Left - 1, Y = categoriesListViewRect.Top + 30 };
                         Mouse.MoveTo(point);
-                        Mouse.DragHorizontally(point, splitviewRect.Left - 400 + splitviewRect.Width);
-                        point = new Point { X = splitviewRect.Left + 30, Y = categoriesListViewRect.Bottom};
+                        Mouse.DragHorizontally(point, splitviewRect.Width - 400);
+                        point = new Point { X = splitviewRect.Left + 30, Y = splitviewRect.Bottom + 1};
                         Mouse.MoveTo(point);
-                        Mouse.DragVertically(point, splitviewRect.Bottom + 250 - splitviewRect.Height);
+                        Mouse.DragVertically(point, 250 - splitviewRect.Height);
                     }
                 }
             }
