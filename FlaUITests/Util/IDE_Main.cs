@@ -309,7 +309,15 @@ namespace FlaUITests.Util {
                     Mouse.DragVertically(point, elementsListViewRect.Height - 100);
                 }
             }
-
+        }
+        public void SearchToolBox(string searchTerm) {
+            AutomationElement searchTextBox = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox")));
+            Point point = new Point { X = searchTextBox.BoundingRectangle.Left+ searchTextBox.BoundingRectangle.Width / 2, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 };
+            Mouse.LeftClick(point);
+            foreach (char ch in searchTerm) {
+                Keyboard.Type(ch);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            }
         }
         public void WaitParsing() {
             InvokeMenuItem(GetMenu("View"), "Go To", "Output Results");

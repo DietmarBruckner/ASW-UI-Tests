@@ -19,9 +19,9 @@ namespace FlaUITests.Util {
         public void InitMappView() {
             _ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
             _ideMain.MakeToolBoxElementsVisible(categories: true);
+            _ideMain.SearchToolBox("mapp view");
             toolbox = _ideMain.Toolbox;
             toolBoxCategories = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId("_categoriesListView")));
-            toolBoxContextContent = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
             AutomationElement mappViewToolBoxItem = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName("mapp View"))) ?? throw new Exception("mapp View toolbox item not found - not installed?");
             AutomationElement [] allDesc = mappViewToolBoxItem.FindAllDescendants();
             if (allDesc[0].AsCheckBox().IsChecked == false) {
@@ -29,6 +29,7 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
             }
             _ideMain.MakeToolBoxElementsVisible(categories: false);
+            toolBoxContextContent = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
             AutomationElement mappViewElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName("mapp View"))) ?? throw new Exception("mapp View element not found");
             mappViewElementItem.DoubleClick();  //mapp View wizard opens
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
