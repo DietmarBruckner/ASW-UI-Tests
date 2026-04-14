@@ -96,6 +96,12 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Project " + Name + " closed.");
             }
         }
+        protected void DoubleClickConfigTreeItem(AutomationElement element) {
+            AutomationElement clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + "_Configuration"));
+            Rectangle elementRect = clickElement.BoundingRectangle;
+            Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
+            Mouse.DoubleClick(clickPoint);
+        }
         public void OpenProject(string projectPath) {
             _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "Open Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the Open Project dialog to appear

@@ -18,12 +18,6 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
             InitMappView();
         }
-        void DoubleClickConfigTreeItem(AutomationElement element) {
-            AutomationElement clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + "_Configuration"));
-            Rectangle elementRect = clickElement.BoundingRectangle;
-            Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
-            Mouse.DoubleClick(clickPoint);
-        }
         public void InitMappView() {
             if (!_ideMain.GetLogicalViewRoot(this).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0)) {
                 InsertMappView();
@@ -74,8 +68,7 @@ namespace FlaUITests.Util {
             DoubleClickConfigTreeItem(opcUACSitem);
             AutomationElement uaCsConfigItem = opcUACSitem.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
             DoubleClickConfigTreeItem(uaCsConfigItem);
-            //AutomationElement uaConfigWindow = _ideMain.GetModalWindow("BR_UaCsConfig.uacfg");
-            //AutomationElement [] allDescendants = _ideMain.Workspace.FindAllDescendants();
+
             AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllDescendants(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement uacsenable = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OPC UA Client/Server")));
@@ -85,16 +78,10 @@ namespace FlaUITests.Util {
             Mouse.Click(clickPoint);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            var con = _ideMain.MainWindow.ContextMenu;
             AutomationElement comboBox = _ideMain.MainWindow.Parent.FindFirstDescendant(cf => cf.ByControlType(ControlType.List));
             AutomationElement item = comboBox.FindAllChildren()[1];
             elementRect = item.BoundingRectangle;
             clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
-            Mouse.Click(clickPoint);
-            
-            ComboBox comboBox1 = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox)).AsComboBox();
-            elementRect = comboBox.BoundingRectangle;
-            clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height * 5 / 2 };
             Mouse.Click(clickPoint);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
