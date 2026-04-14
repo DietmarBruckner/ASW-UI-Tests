@@ -34,6 +34,7 @@ namespace FlaUITests.Util {
         public AutomationElement PropertyWindow { get; private set; }
         public AutomationElement OutputWindow { get; private set; }
         public AutomationElement StatusBar { get; private set; }
+        public AutomationElement Workspace { get; private set; }
         private TitleBar _titleBar;
         private AutomationElement _toolBars;
         private AutomationElement _standardToolBar;
@@ -57,6 +58,8 @@ namespace FlaUITests.Util {
                     bounds.Add("ToolBar", a.BoundingRectangle);
                 if (ProjectExplorer != null)
                     bounds.Add("ProjectExplorer", ProjectExplorer.BoundingRectangle);
+                if (Workspace != null)
+                    bounds.Add("Workspace", Workspace.BoundingRectangle);
                 if (Toolbox != null)
                     bounds.Add("Toolbox", Toolbox.BoundingRectangle);
                 if (PropertyWindow != null)
@@ -122,6 +125,8 @@ namespace FlaUITests.Util {
                         Toolbox = a;
                     else if (name.IndexOf("Property", StringComparison.OrdinalIgnoreCase) >= 0)
                         PropertyWindow = a;
+                    else if (name.IndexOf("Workspace", StringComparison.OrdinalIgnoreCase) >= 0)
+                        Workspace = a;
                     else if (name.IndexOf("Output", StringComparison.OrdinalIgnoreCase) >= 0)
                         OutputWindow = a;
                 }
