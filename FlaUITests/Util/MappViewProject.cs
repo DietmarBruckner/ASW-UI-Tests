@@ -73,14 +73,12 @@ namespace FlaUITests.Util {
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement uacsenable = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OPC UA Client/Server")));
             ClickConfigTreeItem(uacsenable, "_Value");
-            /* AutomationElement clickElement = uacsenable.FindFirstChild(cf => cf.ByName(uacsenable.Name + "_Value"));
-            Rectangle elementRect = clickElement.BoundingRectangle;
-            Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
-            Mouse.Click(clickPoint); */
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            ClickComboBoxTreeItem(1); //Select "Enabled, Server and Client"
+            ClickComboBoxTreeItem(1); //Select "Enabled"
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            _ideMain.ToolBarStandard.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("BR_Save"))).AsButton().Invoke();
+             while (_ideMain.StatusBar.Name.IndexOf("Saving", StringComparison.OrdinalIgnoreCase) >= 0);
         }
     }
 }
