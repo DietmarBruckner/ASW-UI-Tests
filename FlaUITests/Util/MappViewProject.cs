@@ -17,7 +17,7 @@ namespace FlaUITests.Util {
             if (!_ideMain.GetLogicalViewRoot(this).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0)) {
                 InsertMappView();
             }
-            //ActivateOPCUACS();
+            ActivateOPCUACS();
             ConfigureMappViewServer();
             _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
         }
