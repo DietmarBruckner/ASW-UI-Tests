@@ -2,7 +2,6 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using System;
-using System.Drawing;
 using System.Linq;
 
 namespace FlaUITests.Util {
@@ -61,13 +60,13 @@ namespace FlaUITests.Util {
         }
         void ActivateOPCUACS () {
              AutomationElement ae = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
-            ClickConfigTreeItem(ae, "_Configuration", true);
+            TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
-            ClickConfigTreeItem(ae, "_Configuration", true);
+            TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
-            ClickConfigTreeItem(ae, "_Configuration", true);
+            TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
-            ClickConfigTreeItem(ae, "_Configuration", true);
+            TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
  
             AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllDescendants(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
@@ -77,23 +76,23 @@ namespace FlaUITests.Util {
                 advancedVisibilityButton.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             AutomationElement uacsenable = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OPC UA Client/Server")));
-            ClickConfigTreeItem(uacsenable, "_Value");
+            TreeConfig.ClickConfigTreeItem(uacsenable, "_Value");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            ClickComboBoxTreeItem(1); //Select "Enabled"
+            TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 1); //Select "Enabled"
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
 
             ae = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Security")));
-            ClickConfigTreeItem(ae, "_Name", true);
+            TreeConfig.ClickConfigTreeItem(ae, "_Name", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Authentication")));
-            ClickConfigTreeItem(ae, "_Name", true);
+            TreeConfig.ClickConfigTreeItem(ae, "_Name", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Authentication Methods")));
-            ClickConfigTreeItem(ae, "_Name", true);
+            TreeConfig.ClickConfigTreeItem(ae, "_Name", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Anonymous")));
-            ClickConfigTreeItem(ae, "_Value");
+            TreeConfig.ClickConfigTreeItem(ae, "_Value");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            ClickComboBoxTreeItem(1); //Select "Enabled"
+            TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 1); //Select "Enabled"
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
 
             _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
