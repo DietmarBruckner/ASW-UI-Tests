@@ -71,19 +71,22 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             //set OPC UA Client/Server to Enabled
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
-            AutomationElement uacsenable = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OPC UA Client/Server")));
-            TreeConfig.ClickConfigTreeItem(uacsenable, "_Value");
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            AutomationElement uacsConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
+            TreeConfig.ActivateTreeLeave(TreeConfig.ViewType.Workspace, new string[] { "BR_OPC UA Client/Server" }, new string[] { "_Value" }, uacsConfigRoot);
+
+            //AutomationElement uacsenable = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OPC UA Client/Server")));
+            //TreeConfig.ClickConfigTreeItem(uacsenable, "_Value");
+            //Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            //System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 1); //Select "Enabled"
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            //System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             //set anonymous authentication to Enabled
             TreeConfig.ActivateTreeLeave(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authentication", "BR_Authentication Methods", "BR_Anonymous" }, 
-            new string[] { "_Name", "_Name", "_Name", "_Value" }, configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration"))));
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
+            //Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            //System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 1); //Select "Enabled"
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            //System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
 
             _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
         }
