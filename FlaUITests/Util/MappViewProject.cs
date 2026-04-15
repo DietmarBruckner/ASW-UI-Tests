@@ -59,9 +59,9 @@ namespace FlaUITests.Util {
             _ideMain.WaitParsing();
         }
         void ActivateOPCUACS () {
-            //TreeConfig.ActivateTreeLeave(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_UaCsConfig.uacfg"}, new string[] { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
+            TreeConfig.ActivateTreeLeave(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_UaCsConfig.uacfg"}, new string[] { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
             AutomationElement ae = null;
-            ae = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
+/*             ae = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
             TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
             TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
@@ -69,7 +69,7 @@ namespace FlaUITests.Util {
             TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
             TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true); 
- 
+ */ 
             AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllDescendants(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement uaToolbar = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Client/Server Configuration")));
