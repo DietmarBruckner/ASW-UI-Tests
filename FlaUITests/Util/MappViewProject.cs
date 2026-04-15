@@ -46,10 +46,11 @@ namespace FlaUITests.Util {
             _ideMain.WaitParsing();
         }
         void ActivateOPCUACS() {
+            string uaconfig = "BR_UaCsConfig.uacfg";
              //open UACS configuration page
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_UaCsConfig.uacfg"}, new string[] { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_Connectivity", "BR_OpcUaCs", uaconfig}, new string[] { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
             //activate advanced visibility
-            AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
+            AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(uaconfig.Substring(3, uaconfig.Length)) >= 0);
             AutomationElement uaToolbar = uaConfigWorkspaceWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Client/Server Configuration")));
             AutomationElement advancedVisibilityButton = uaToolbar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Change Advanced Parameter Visibility")));
             if (!advancedVisibilityButton.IsEnabled)
@@ -68,8 +69,11 @@ namespace FlaUITests.Util {
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 2); //Select "BR_Engineer"           
         }
         void ConfigureMappViewServer() {
+            string mvconfig = "BR_mappView Config.mappviewcfg";
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_mappView"}, new string[] { "_Configuration", "_Configuration" });
             TreeConfig.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, _ideMain, "mapp View", "mapp View Configuration");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_mappView", mvconfig }, new string[] { "_Configuration", "_Configuration", "_Configuration" });
+            AutomationElement mvaConfigWorkspaceWindow = _ideMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(mvconfig.Substring(3, mvconfig.Length)) >= 0);
 
         }
     }
