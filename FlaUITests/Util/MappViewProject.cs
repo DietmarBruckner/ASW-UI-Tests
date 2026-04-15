@@ -19,7 +19,7 @@ namespace FlaUITests.Util {
                  InsertMappView();
             ActivateOPCUACS();
             ConfigureMappViewServer();
-            _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
+            _ideMain.Save();
             _ideMain.Build();
             _ideMain.Transfer();
         }
