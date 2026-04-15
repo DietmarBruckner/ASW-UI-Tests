@@ -22,6 +22,7 @@ namespace FlaUITests.Util {
             _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
             _ideMain.ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nBuild", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
             while (_ideMain.StatusBar.Name.IndexOf("Builds", StringComparison.OrdinalIgnoreCase) >= 0);
+            _ideMain.WaitForMessage("Build:");
         }
         void InsertMappView() {
             TreeConfig.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, _ideMain, "mapp View", "mapp View");
@@ -41,7 +42,7 @@ namespace FlaUITests.Util {
             Random rand = new Random();
             int index = rand.Next(allTemplates.Length);
             allTemplates[index].DoubleClick(); //Select a random template to create some variation in the created projects
-            _ideMain.WaitParsing();
+            _ideMain.WaitForMessage("Parsing finished");
         }
         void ActivateOPCUACS() {
             string uaconfig = "BR_UaCsConfig.uacfg";

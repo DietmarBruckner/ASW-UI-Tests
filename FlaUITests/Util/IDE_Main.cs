@@ -333,7 +333,7 @@ namespace FlaUITests.Util {
                 }
             }
         }
-        public void WaitParsing() {
+        public void WaitForMessage(string message) {
             InvokeMenuItem(GetMenu("View"), "Go To", "Output Results");
             bool done = false;
             while (!done) {
@@ -341,7 +341,7 @@ namespace FlaUITests.Util {
                 AutomationElement outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
                 AutomationElement [] allMessages = outputListView.FindAllDescendants(cf => cf.ByControlType(ControlType.DataItem));
                 AutomationElement [] allMessagesTexts = allMessages[allMessages.Length - 1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
-                if (allMessagesTexts.Any(m => m.Name.IndexOf("Parsing finished", StringComparison.OrdinalIgnoreCase) >= 0))
+                if (allMessagesTexts.Any(m => m.Name.IndexOf(message, StringComparison.OrdinalIgnoreCase) >= 0))
                     done = true;
             }
         }
