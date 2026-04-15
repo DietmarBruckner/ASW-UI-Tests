@@ -14,6 +14,7 @@ namespace FlaUITests.Util {
             InitMappView();
         }
         public void InitMappView() {
+            _ideMain.InitializeViews(projectExplorer: true);
             if (!_ideMain.GetLogicalViewRoot(this).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0)) {
                 InsertMappView();
             }
