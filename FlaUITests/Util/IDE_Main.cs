@@ -430,5 +430,14 @@ namespace FlaUITests.Util {
                 closeButton.Click();
             }
         }
+        public void Build() {
+            ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nBuild", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
+            while (StatusBar.Name.IndexOf("Builds", StringComparison.OrdinalIgnoreCase) >= 0);
+            WaitForMessage("Build:");
+            ActivateSimulation();
+        }
+        public void Save() {
+            ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
+        }
     }
 }

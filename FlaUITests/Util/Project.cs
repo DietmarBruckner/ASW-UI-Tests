@@ -85,12 +85,6 @@ namespace FlaUITests.Util {
                 }
             System.IO.Directory.Delete(Path + "\\" + Name + "\\", true);
         }
-        public void BuildProject() {
-            if (_ideMain.IsProjectLoaded()) {
-                _ideMain.InvokeMenuItem(_ideMain.GetMenu("Build"), "Build Solution");
-                Console.WriteLine("Project " + Name + " build initiated.");
-            }
-        }
         public void CloseProject() {
             if (_ideMain.IsProjectLoaded()) {
                 _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "Close Project");
