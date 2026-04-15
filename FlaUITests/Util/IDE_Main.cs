@@ -38,7 +38,7 @@ namespace FlaUITests.Util {
         private TitleBar _titleBar;
         private AutomationElement _toolBars;
         public AutomationElement ToolBarStandard { get; private set; }
-        private AutomationElement _buildToolBar;
+        public AutomationElement ToolBarBuild { get; private set; }
         private AutomationElement _onlineToolBar;
         private AutomationElement _unittestToolBar;
         private AutomationElement _editToolBar;
@@ -144,7 +144,7 @@ namespace FlaUITests.Util {
                             if (childName.IndexOf("Standard", StringComparison.OrdinalIgnoreCase) >= 0)
                                 ToolBarStandard = child;
                             else if (childName.IndexOf("Build", StringComparison.OrdinalIgnoreCase) >= 0)
-                                _buildToolBar = child;
+                                ToolBarBuild = child;
                             else if (childName.IndexOf("Online", StringComparison.OrdinalIgnoreCase) >= 0)
                                 _onlineToolBar = child;
                             else if (childName.IndexOf("Unit", StringComparison.OrdinalIgnoreCase) >= 0)

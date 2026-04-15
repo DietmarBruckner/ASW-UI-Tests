@@ -15,12 +15,12 @@ namespace FlaUITests.Util {
         }
         public void InitMappView() {
             _ideMain.InitializeViews(projectExplorer: true);
-/*             if (!_ideMain.GetLogicalViewRoot(this).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0)) {
-                InsertMappView();
-            }
- */            //ActivateOPCUACS();
-            ConfigureMappViewServer();
+            //if (!_ideMain.GetLogicalViewRoot(this).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
+/*                 InsertMappView();
+            ActivateOPCUACS();
+            ConfigureMappViewServer(); */
             _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
+            _ideMain.ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nBuild", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
         }
         void InsertMappView() {
             TreeConfig.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, _ideMain, "mapp View", "mapp View");
