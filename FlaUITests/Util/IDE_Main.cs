@@ -407,7 +407,6 @@ namespace FlaUITests.Util {
         }
         public void ActivateSimulation() {
             InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
-            while (StatusBar.Name.IndexOf("Starting", StringComparison.OrdinalIgnoreCase) >= 0);
         }
     }
 }
