@@ -24,7 +24,7 @@ namespace FlaUITests.Util {
                 Path = paths[0];
                 Config = paths[1];
                 AutomationElement activeConfig = _ideMain.GetActiveConfigurtion();
-                AutomationElement [] allTreeItems = activeConfig.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem));
+                AutomationElement [] allTreeItems = activeConfig.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
                 CPU = allTreeItems[2].Name.Substring(3); //Assuming the CPU tree item is always the third tree item and starts with "BR_"
             }
             else {
