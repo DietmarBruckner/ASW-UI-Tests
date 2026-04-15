@@ -8,6 +8,7 @@ namespace FlaUITests.Util {
     public static class TreeConfig {
         public enum ViewType { LogicalView, ConfigurationView, PhysicalView, Workspace }
         public static IDE_Main IdeMain { get; set; }
+        public static AppProject CurrentProject { get; set; }
         public static void ClickConfigTreeItem(AutomationElement element, string sub, bool doubleClick = false) {
             AutomationElement clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
             Rectangle elementRect = clickElement.BoundingRectangle;
@@ -32,6 +33,10 @@ namespace FlaUITests.Util {
             AutomationElement ae = null;
             switch (viewType) {
                 case ViewType.LogicalView:
+                    ae = IdeMain.GetLogicalViewRoot(CurrentProject);
+                    ClickConfigTreeItem(ae, "_Object Name", true);
+                    if (leaves == null)
+                        return;
                     break;
                 case ViewType.ConfigurationView:
                     ae = IdeMain.GetActiveConfigurtion();
