@@ -10,7 +10,7 @@ namespace FlaUITests.Util {
             InitMappView();
         }
         public MappViewProject(IDE_Main ideMain, string name, string path, string config, string cpu) : base(ideMain, name, path, config, cpu) {
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
             InitMappView();
         }
         public void InitMappView() {
