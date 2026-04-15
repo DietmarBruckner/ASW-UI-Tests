@@ -77,8 +77,8 @@ namespace FlaUITests.Util {
             ideMain.SearchToolBox(category);
             AutomationElement toolbox = ideMain.Toolbox;
             AutomationElement toolBoxCategories = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId("_categoriesListView")));
-            AutomationElement desiredToolBoxItem = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(category))) ?? throw new Exception(category + " toolbox item not found - not installed?");
-            AutomationElement [] allDesc = desiredToolBoxItem.FindAllDescendants();
+            AutomationElement desiredToolBoxItem = toolBoxCategories.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(category))) ?? throw new Exception(category + " toolbox item not found - not installed?");
+            AutomationElement [] allDesc = desiredToolBoxItem.FindAllChildren();
             if (allDesc[0].AsCheckBox().IsChecked == false) {
                 desiredToolBoxItem.Click();
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
