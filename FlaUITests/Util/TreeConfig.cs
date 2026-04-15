@@ -20,7 +20,7 @@ namespace FlaUITests.Util {
         }
         public static void ClickComboBoxTreeItem(Window window, int index) {
             AutomationElement [] allItems = window.Parent.FindAllChildren();
-            AutomationElement comboBox = window.Parent.FindFirstDescendant(cf => cf.ByControlType(ControlType.List));
+            AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
             AutomationElement [] allItems1 = comboBox.FindAllChildren();
             AutomationElement item = comboBox.FindAllChildren()[index];
             Rectangle elementRect = item.BoundingRectangle;
