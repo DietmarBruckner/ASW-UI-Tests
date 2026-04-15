@@ -183,6 +183,8 @@ namespace FlaUITests.Util {
         }
         public void InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'BR&' from the menu name
+            if (nameMenu == "&nline")
+                nameMenu = "Online";
             int i = 3;
             while (i-- > 0) {
                 try {
