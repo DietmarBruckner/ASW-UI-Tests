@@ -199,7 +199,6 @@ namespace FlaUITests.Util {
                         if (name == null) continue;
                         if (name.IndexOf(menuItemName, StringComparison.OrdinalIgnoreCase) >= 0) {
                             mi = child.AsMenuItem();
-                            Console.WriteLine(mi.ToString());
                             notFound = false;
                             break;
                         }
@@ -406,7 +405,8 @@ namespace FlaUITests.Util {
             return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
         }
         public void ActivateSimulation() {
-            InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
+            if (!(StatusBar.Name.IndexOf("ARsim", StringComparison.OrdinalIgnoreCase) >= 0) && (StatusBar.Name.IndexOf("RUN", StringComparison.OrdinalIgnoreCase) >= 0))
+                InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
     }
 }
