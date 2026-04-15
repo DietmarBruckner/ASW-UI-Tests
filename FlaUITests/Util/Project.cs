@@ -78,6 +78,7 @@ namespace FlaUITests.Util {
             nextButton.Invoke();
             while (_ideMain.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0);
             Name += ".apj";
+            TreeConfig.CurrentProject = this;
         }
         public void DeleteProject() {
             if (!_ideMain.App.HasExited) {

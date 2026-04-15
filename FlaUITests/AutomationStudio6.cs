@@ -32,8 +32,10 @@ namespace FlaUITests {
             Ide_Main = new IDE_Main(_app);
             TreeConfig.IdeMain = Ide_Main;
             Ide_Main.MainWindow.Focus();
-            if (Ide_Main.IsProjectLoaded())
+            if (Ide_Main.IsProjectLoaded()) {
                 Project = new AppProject(Ide_Main);
+                TreeConfig.CurrentProject = Project;
+            }
         }
         /// <summary>
         /// Closes the Automation Studio 6 application
