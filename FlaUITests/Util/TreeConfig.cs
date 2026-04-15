@@ -51,7 +51,7 @@ namespace FlaUITests.Util {
                 if (viewType == ViewType.Workspace) { //no double clicking, but expanding via right arrow
                     ClickConfigTreeItem(ae, toClickSubstrings[Array.IndexOf(leaves, sub)]);
                     if (Array.IndexOf(leaves, sub) == leaves.Length - 1) {
-                        AutomationElement [] allChildren = root.Parent.FindAllChildren();
+                        AutomationElement [] allChildren = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindAllChildren();
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                     }
                     else
