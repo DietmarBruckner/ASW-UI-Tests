@@ -404,7 +404,7 @@ namespace FlaUITests.Util {
             return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
         }
         public void ActivateSimulation() {
-            InvokeMenuItem(GetMenu("&nline"), "Activate Simulation");
+            InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
             while (StatusBar.Name.IndexOf("Starting", StringComparison.OrdinalIgnoreCase) >= 0);
         }
     }
