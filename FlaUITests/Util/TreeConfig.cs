@@ -54,6 +54,8 @@ namespace FlaUITests.Util {
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                         AutomationElement [] allChildren = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindAllChildren();
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                        AutomationElement [] allChildren1 = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindAllChildren();
                     }
                     else
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
