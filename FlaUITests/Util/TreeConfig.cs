@@ -26,7 +26,7 @@ namespace FlaUITests.Util {
             Mouse.Click(clickPoint);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
         }
-        public static void ActivateTreeLeave(ViewType viewType, string [] leaves, string [] toClickSubstrings, AutomationElement root = null) {
+        public static void ActivateTreeLeaf(ViewType viewType, string [] leaves, string [] toClickSubstrings, AutomationElement root = null) {
             AutomationElement ae = null;
             switch (viewType) {
                 case ViewType.LogicalView:

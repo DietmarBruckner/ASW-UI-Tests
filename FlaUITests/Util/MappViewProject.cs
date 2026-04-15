@@ -22,6 +22,7 @@ namespace FlaUITests.Util {
                 InsertMappView();
             }
             ActivateOPCUACS();
+            _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
         }
         void InsertMappView() {
             _ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
@@ -60,8 +61,7 @@ namespace FlaUITests.Util {
         }
         void ActivateOPCUACS () {
             //open UACS configuration page
-            TreeConfig.ActivateTreeLeave(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_UaCsConfig.uacfg"}, 
-            new string[] { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_UaCsConfig.uacfg"}, new string[] { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
             //activate advanced visibility
             AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
             AutomationElement uaToolbar = uaConfigWorkspaceWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Client/Server Configuration")));
@@ -72,23 +72,13 @@ namespace FlaUITests.Util {
             //set OPC UA Client/Server to Enabled
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement uacsConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
-            TreeConfig.ActivateTreeLeave(TreeConfig.ViewType.Workspace, new string[] { "BR_OPC UA Client/Server" }, new string[] { "_Value" }, uacsConfigRoot);
-
-            //AutomationElement uacsenable = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OPC UA Client/Server")));
-            //TreeConfig.ClickConfigTreeItem(uacsenable, "_Value");
-            //Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-            //System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_OPC UA Client/Server" }, new string[] { "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 1); //Select "Enabled"
-            //System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             //set anonymous authentication to Enabled
-            TreeConfig.ActivateTreeLeave(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authentication", "BR_Authentication Methods", "BR_Anonymous" }, 
-            new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
-            //Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-            //System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authentication", "BR_Authentication Methods", "BR_Anonymous" }, new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 1); //Select "Enabled"
-            //System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
 
-            _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
+            
         }
     }
 }
