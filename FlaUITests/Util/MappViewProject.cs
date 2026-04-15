@@ -60,8 +60,9 @@ namespace FlaUITests.Util {
         }
         void ActivateOPCUACS () {
             TreeConfig.ActivateTreeLeave(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_UaCsConfig.uacfg"}, new string[] { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
-             AutomationElement ae = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
-/*            TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
+            AutomationElement ae = null;
+/*            _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
+            TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
             TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));

@@ -2,9 +2,12 @@ using FlaUI.Core.AutomationElements;
 using System.Drawing;
 using FlaUI.Core.Input;
 using FlaUI.Core.Definitions;
+using System;
 
 namespace FlaUITests.Util {
     public static class TreeConfig {
+        public enum ViewType { LogicalView, ConfigurationView, PhysicalView, Workspace }
+        public static IDE_Main IdeMain { get; set; }
         public static void ClickConfigTreeItem(AutomationElement element, string sub, bool doubleClick = false) {
             AutomationElement clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
             Rectangle elementRect = clickElement.BoundingRectangle;
@@ -21,6 +24,31 @@ namespace FlaUITests.Util {
             Rectangle elementRect = item.BoundingRectangle;
             Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
             Mouse.Click(clickPoint);
+        }
+        public static void ActivateTreeLeave(ViewType viewType, string [] leaves, string [] toClickSubstrings) {
+            AutomationElement ae = null;
+            switch (viewType) {
+                case ViewType.LogicalView:
+                    break;
+                case ViewType.ConfigurationView:
+                    ae = IdeMain.GetActiveConfigurtion();
+                    break;
+                case ViewType.PhysicalView:
+                    break;
+            }
+            foreach (var sub in leaves) {
+                ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
+                ClickConfigTreeItem(ae, toClickSubstrings[Array.IndexOf(leaves, sub)], true);
+            }
+/*             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
+            ClickConfigTreeItem(ae, "_Configuration", true);
+            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
+            ClickConfigTreeItem(ae, "_Configuration", true);
+            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
+            ClickConfigTreeItem(ae, "_Configuration", true);
+            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
+            ClickConfigTreeItem(ae, "_Configuration", true);
+ */
         }
     }
 }

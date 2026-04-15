@@ -96,23 +96,6 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Project " + Name + " closed.");
             }
         }
-        protected void ClickConfigTreeItem(AutomationElement element, string sub, bool doubleClick = false) {
-            AutomationElement clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
-            Rectangle elementRect = clickElement.BoundingRectangle;
-            Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
-            if (doubleClick) {
-                Mouse.DoubleClick(clickPoint);
-            } else {
-                Mouse.Click(clickPoint);
-            }
-        }
-        protected void ClickComboBoxTreeItem(int index) {
-            AutomationElement comboBox = _ideMain.MainWindow.Parent.FindFirstDescendant(cf => cf.ByControlType(ControlType.List));
-            AutomationElement item = comboBox.FindAllChildren()[index];
-            Rectangle elementRect = item.BoundingRectangle;
-            Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
-            Mouse.Click(clickPoint);
-        }
         public void OpenProject(string projectPath) {
             _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "Open Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the Open Project dialog to appear

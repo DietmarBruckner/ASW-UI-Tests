@@ -18,7 +18,6 @@ namespace FlaUITests.Util {
         private UIA2Automation _automation;
         public Window MainWindow { get; private set; }
         private ConditionFactory _cf;
-        public enum ViewType { LogicalView, ConfigurationView, PhysicalView }
         private Menu _fileMenu; 
         private Menu _editMenu;
         private Menu _viewMenu;
@@ -347,7 +346,7 @@ namespace FlaUITests.Util {
                     done = true;
             }
         }
-        public void SwitchView(ViewType view) {
+        public void SwitchView(TreeConfig.ViewType view) {
             Point point;
             Rectangle projectExplorerRect = UIElementsBounds["ProjectExplorer"];
             if (projectExplorerRect.Width < 400) {
@@ -364,13 +363,13 @@ namespace FlaUITests.Util {
             }
             AutomationElement ViewTab = null;
             switch (view) {
-                case ViewType.LogicalView:
+                case TreeConfig.ViewType.LogicalView:
                     ViewTab = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Logical View"))).FirstOrDefault();
                     break;
-                case ViewType.ConfigurationView:
+                case TreeConfig.ViewType.ConfigurationView:
                     ViewTab = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Configuration View"))).FirstOrDefault();
                     break;
-                case ViewType.PhysicalView:
+                case TreeConfig.ViewType.PhysicalView:
                     ViewTab = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Physical View"))).FirstOrDefault();
                     break;
             }
@@ -379,13 +378,13 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
         public AutomationElement GetActiveConfigurtion() {
-            SwitchView(ViewType.ConfigurationView);
+            SwitchView(TreeConfig.ViewType.ConfigurationView);
             AutomationElement treeElement = ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree).And(cf.ByAutomationId("ConfigurationTree")));
             AutomationElement [] allConfigurations = treeElement.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
             return allConfigurations.First(cf => cf.Name.IndexOf("[Active]", StringComparison.OrdinalIgnoreCase) >= 0) ?? throw new Exception("Active configuration not found");
         }
         public AutomationElement GetLogicalViewRoot(AppProject project) {
-            SwitchView(ViewType.LogicalView);
+            SwitchView(TreeConfig.ViewType.LogicalView);
             return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
         }
     }
