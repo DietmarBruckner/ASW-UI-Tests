@@ -54,7 +54,7 @@ namespace FlaUITests.Util {
                     ClickConfigTreeItem(ae, toClickSubstrings[Array.IndexOf(leaves, sub)]); //combobox in final leaf node needs some steps to activate
                     if (Array.IndexOf(leaves, sub) == leaves.Length - 1) {
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                         AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
                         Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
                         Mouse.MoveTo(expandButton.GetClickablePoint());
