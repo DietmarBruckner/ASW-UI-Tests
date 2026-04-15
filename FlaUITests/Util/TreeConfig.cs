@@ -39,11 +39,11 @@ namespace FlaUITests.Util {
             foreach (var sub in leaves) {
                 AutomationElement oldAe = ae;
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
-                AutomationElement [] allChildren = ae.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
+                //AutomationElement [] allChildren = ae.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
                 ClickConfigTreeItem(ae, toClickSubstrings[Array.IndexOf(leaves, sub)], true);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
-                allChildren = ae.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
+                //allChildren = ae.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
             }
 /*             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
             ClickConfigTreeItem(ae, "_Configuration", true);
