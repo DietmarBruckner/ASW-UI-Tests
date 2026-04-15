@@ -49,7 +49,7 @@ namespace FlaUITests.Util {
                 AutomationElement oldAe = ae;
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
                 if (viewType == ViewType.Workspace) { //no double clicking, but expanding via right arrow
-                    ClickConfigTreeItem(ae, toClickSubstrings[Array.IndexOf(leaves, sub)]);
+                    ClickConfigTreeItem(ae, toClickSubstrings[Array.IndexOf(leaves, sub)]); //combobox in final leaf node needs some steps to activate
                     if (Array.IndexOf(leaves, sub) == leaves.Length - 1) {
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
@@ -66,15 +66,6 @@ namespace FlaUITests.Util {
                 //After clicking the tree item, the tree is refreshed and we need to find the tree item again to be able to continue expanding the tree
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    
             }
-/*             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
-            ClickConfigTreeItem(ae, "_Configuration", true);
-            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
-            ClickConfigTreeItem(ae, "_Configuration", true);
-            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
-            ClickConfigTreeItem(ae, "_Configuration", true);
-            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
-            ClickConfigTreeItem(ae, "_Configuration", true);
- */
         }
     }
 }
