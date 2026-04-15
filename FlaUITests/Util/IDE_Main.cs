@@ -324,10 +324,9 @@ namespace FlaUITests.Util {
         public void SearchToolBox(string searchTerm) {
             AutomationElement searchTextBox = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox")));
             if (searchTextBox.Name != searchTerm) {
-                Point point = new Point { X = searchTextBox.BoundingRectangle.Left - 10, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 };
-                Mouse.LeftClick(point);
-                point = point = new Point { X = searchTextBox.BoundingRectangle.Left+ searchTextBox.BoundingRectangle.Width / 2, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 };
-                Mouse.LeftClick(point);
+                Button clearButton = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar).And(cf.ByAutomationId("_toolStrip"))).FindAllChildren(cf => cf.ByControlType(ControlType.Button))[1].AsButton();
+                clearButton.Click();
+                Mouse.LeftClick(new Point { X = searchTextBox.BoundingRectangle.Left+ searchTextBox.BoundingRectangle.Width / 2, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 });
                 foreach (char ch in searchTerm) {
                     Keyboard.Type(ch);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
