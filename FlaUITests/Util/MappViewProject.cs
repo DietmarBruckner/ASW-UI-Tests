@@ -6,10 +6,6 @@ using System.Linq;
 
 namespace FlaUITests.Util {
     public class MappViewProject : AppProject {
-        AutomationElement toolbox;
-        //AutomationElement outputWindow;
-        AutomationElement toolBoxCategories;
-        AutomationElement toolBoxContextContent;
         public MappViewProject(IDE_Main ideMain) : base(ideMain) {
             InitMappView();
         }
