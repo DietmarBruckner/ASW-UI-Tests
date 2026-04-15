@@ -58,6 +58,8 @@ namespace FlaUITests.Util {
                         AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
                         Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
                         Mouse.MoveTo(expandButton.GetClickablePoint());
+                        if (IdeMain.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
+                             Mouse.Click();
                         //Mouse.Click();
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                         return;
