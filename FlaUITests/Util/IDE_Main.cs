@@ -361,16 +361,16 @@ namespace FlaUITests.Util {
                 Mouse.MoveTo(point);
                 Mouse.DragVertically(point, 401 - projectExplorerRect.Height);
             }
-            AutomationElement ViewTab = null;
+            AutomationElement ViewTab = ProjectExplorer.FindFirstChild();
             switch (view) {
                 case TreeConfig.ViewType.LogicalView:
-                    ViewTab = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Logical View"))).FirstOrDefault();
+                    ViewTab = ViewTab.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Logical View")));
                     break;
                 case TreeConfig.ViewType.ConfigurationView:
-                    ViewTab = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Configuration View"))).FirstOrDefault();
+                    ViewTab = ViewTab.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Configuration View")));
                     break;
                 case TreeConfig.ViewType.PhysicalView:
-                    ViewTab = ProjectExplorer.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Physical View"))).FirstOrDefault();
+                    ViewTab = ViewTab.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Physical View")));
                     break;
             }
             point = new Point { X = ViewTab.BoundingRectangle.Left + ViewTab.BoundingRectangle.Width / 2, Y = ViewTab.BoundingRectangle.Top + ViewTab.BoundingRectangle.Height / 2 };

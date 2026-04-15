@@ -77,8 +77,9 @@ namespace FlaUITests.Util {
             //set anonymous authentication to Enabled
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authentication", "BR_Authentication Methods", "BR_Anonymous" }, new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 1); //Select "Enabled"
-
-            
+            //add BR_Engineer as user role
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authorization", "BR_Anonymous Access", "BR_User Role 1" }, new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
+            TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 2); //Select "BR_Engineer"           
         }
     }
 }
