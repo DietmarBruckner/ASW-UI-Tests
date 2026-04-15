@@ -40,7 +40,7 @@ namespace FlaUITests.Util {
                     if (root == null)
                         throw new Exception("Root element must be provided for Workspace view type");
                     ae = root;
-                    ClickConfigTreeItem(ae, "_Configuration", true);
+                    ClickConfigTreeItem(ae, "_Name", true);
                     break;
             }
             foreach (var sub in leaves) {
