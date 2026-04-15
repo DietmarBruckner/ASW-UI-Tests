@@ -387,7 +387,7 @@ namespace FlaUITests.Util {
             return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
         }
         public void ActivateSimulation() {
-            MenuItem activateSimMenuItem = GetMenu("Debug").Items.FirstOrDefault(i => i.Name.IndexOf("Activate Simulation", StringComparison.OrdinalIgnoreCase) >= 0);
+            MenuItem activateSimMenuItem = GetMenu("Online").Items.FirstOrDefault(i => i.Name.IndexOf("Activate Simulation", StringComparison.OrdinalIgnoreCase) >= 0);
             Console.WriteLine(activateSimMenuItem.ToString());
             InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
             while (StatusBar.Name.IndexOf("Starting", StringComparison.OrdinalIgnoreCase) >= 0);
