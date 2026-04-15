@@ -405,10 +405,30 @@ namespace FlaUITests.Util {
             return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
         }
         public void ActivateSimulation() {
-            AutomationElement sb4 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar4")));
-            AutomationElement sb5 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar5")));
-            if (!((sb4.Name.IndexOf("ARsim", StringComparison.OrdinalIgnoreCase) >= 0) && (sb5.Name.IndexOf("RUN", StringComparison.OrdinalIgnoreCase) >= 0)))
+            TextBox sb4 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar4"))).AsTextBox();
+            TextBox sb5 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar5"))).AsTextBox();
+            if (!((sb4.Text.IndexOf("ARsim", StringComparison.OrdinalIgnoreCase) >= 0) && (sb5.Text.IndexOf("RUN", StringComparison.OrdinalIgnoreCase) >= 0)))
                 InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
+        }
+        public void Transfer () {
+            ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nTransfer", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
+            Window transferDialog;
+            while ((transferDialog = GetModalWindow("Transfer to target")) == null)
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            Button transferButton = transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Transfer"))).AsButton();
+            AutomationElement infoPane = transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("pStepsOutline")));
+            if (infoPane.Name.IndexOf("initial", StringComparison.OrdinalIgnoreCase) >= 0) {
+                transferButton.Click();
+                Window deletionWarningDialog;
+                while ((deletionWarningDialog = GetModalWindow("Target application storage will be deleted")) == null)
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                Button yesButton = deletionWarningDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Yes"))).AsButton();
+                yesButton.Click();
+                while (transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text).And(cf.ByAutomationId("tBInfo"))).AsTextBox().Text.IndexOf("Install finished", StringComparison.OrdinalIgnoreCase) < 0)
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                Button closeButton = transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("bClose"))).AsButton();
+                closeButton.Click();
+            }
         }
     }
 }
