@@ -405,7 +405,9 @@ namespace FlaUITests.Util {
             return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
         }
         public void ActivateSimulation() {
-            if (!(StatusBar.Name.IndexOf("ARsim", StringComparison.OrdinalIgnoreCase) >= 0) && (StatusBar.Name.IndexOf("RUN", StringComparison.OrdinalIgnoreCase) >= 0))
+            AutomationElement sb4 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar4")));
+            AutomationElement sb5 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar5")));
+            if (!((sb4.Name.IndexOf("ARsim", StringComparison.OrdinalIgnoreCase) >= 0) && (sb5.Name.IndexOf("RUN", StringComparison.OrdinalIgnoreCase) >= 0)))
                 InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
     }
