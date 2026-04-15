@@ -55,6 +55,7 @@ namespace FlaUITests.Util {
             int itemsCount = uacsConfigRoot.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).Length;
             advancedVisibilityButton.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            int itemsCount1 = uacsConfigRoot.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).Length;
             if (uacsConfigRoot.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).Length <= itemsCount) {
                 advancedVisibilityButton.Click();
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
