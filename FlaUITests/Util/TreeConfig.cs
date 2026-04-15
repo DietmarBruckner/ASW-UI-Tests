@@ -50,8 +50,10 @@ namespace FlaUITests.Util {
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
                 if (viewType == ViewType.Workspace) { //no double clicking, but expanding via right arrow
                     ClickConfigTreeItem(ae, toClickSubstrings[Array.IndexOf(leaves, sub)]);
-                    if (Array.IndexOf(leaves, sub) == leaves.Length - 1)
+                    if (Array.IndexOf(leaves, sub) == leaves.Length - 1) {
+                        AutomationElement [] allChildren = ae.FindAllChildren();
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                    }
                     else
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
                 }
