@@ -19,10 +19,11 @@ namespace FlaUITests.Util {
 /*                 InsertMappView();
             ActivateOPCUACS();
             ConfigureMappViewServer(); */
-            _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
+/*             _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
             _ideMain.ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nBuild", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
             while (_ideMain.StatusBar.Name.IndexOf("Builds", StringComparison.OrdinalIgnoreCase) >= 0);
-            _ideMain.WaitForMessage("Build:");
+ */            _ideMain.WaitForMessage("Build:");
+            _ideMain.ActivateSimulation();
         }
         void InsertMappView() {
             TreeConfig.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, _ideMain, "mapp View", "mapp View");
