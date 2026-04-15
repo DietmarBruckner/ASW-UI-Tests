@@ -24,6 +24,7 @@ namespace FlaUITests.Util {
             _ideMain.Transfer();
         }
         void InsertMappView() {
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
             TreeConfig.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, _ideMain, "mapp View", "mapp View");
             Window newMappViewDialog = _ideMain.GetModalWindow("Insert mapp View solution");
             AutomationElement defaultTemplate = null;
