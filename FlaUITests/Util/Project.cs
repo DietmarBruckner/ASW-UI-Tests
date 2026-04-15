@@ -38,7 +38,7 @@ namespace FlaUITests.Util {
             Config = config;
             CPU = cpu;
 
-             _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
+            _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the New Project dialog to appear
             Window newProjectDialog = _ideMain.GetModalWindow("New Project");
             if (newProjectDialog == null) {
