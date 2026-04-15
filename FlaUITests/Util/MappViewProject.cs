@@ -21,11 +21,12 @@ namespace FlaUITests.Util {
             if (!_ideMain.GetLogicalViewRoot(this).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0)) {
                 InsertMappView();
             }
-            ActivateOPCUACS();
+            //ActivateOPCUACS();
             _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
         }
         void InsertMappView() {
-            _ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
+            TreeConfig.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, _ideMain, "mapp View", "mapp View");
+/*             _ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
             _ideMain.MakeToolBoxElementsVisible(categories: true);
             _ideMain.SearchToolBox("mapp view");
             toolbox = _ideMain.Toolbox;
@@ -41,7 +42,7 @@ namespace FlaUITests.Util {
             AutomationElement mappViewElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName("mapp View"))) ?? throw new Exception("mapp View element not found");
             mappViewElementItem.DoubleClick();  //mapp View wizard opens
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            Window newMappViewDialog = _ideMain.GetModalWindow("Insert mapp View solution");
+ */            Window newMappViewDialog = _ideMain.GetModalWindow("Insert mapp View solution");
             AutomationElement defaultTemplate = null;
             AutomationElement [] allElements = newMappViewDialog.FindAllDescendants();
             foreach (var element in allElements) {
@@ -59,7 +60,7 @@ namespace FlaUITests.Util {
             allTemplates[index].DoubleClick(); //Select a random template to create some variation in the created projects
             _ideMain.WaitParsing();
         }
-        void ActivateOPCUACS () {
+        void ActivateOPCUACS() {
              //open UACS configuration page
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_UaCsConfig.uacfg"}, new string[] { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
             //activate advanced visibility
@@ -78,8 +79,12 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authentication", "BR_Authentication Methods", "BR_Anonymous" }, new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 1); //Select "Enabled"
             //add BR_Engineer as user role
-             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authorization", "BR_Anonymous Access", "BR_User Role 1" }, new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authorization", "BR_Anonymous Access", "BR_User Role 1" }, new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 2); //Select "BR_Engineer"           
+        }
+        void ConfigureMappViewServer() {
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_mappView"}, new string[] { "_Configuration", "_Configuration" });
+
         }
     }
 }
