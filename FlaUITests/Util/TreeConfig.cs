@@ -57,7 +57,7 @@ namespace FlaUITests.Util {
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                         AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
                         Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
-                        expandButton.Click();
+                        expandButton.Invoke();
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                         return;
                     }
