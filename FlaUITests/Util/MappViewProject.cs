@@ -76,9 +76,9 @@ namespace FlaUITests.Util {
             AutomationElement mvaConfigWorkspaceWindow = _ideMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(mvconfig.Substring(3, mvconfig.Length-3)) >= 0);
             AutomationElement configTree = mvaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement mvConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_MappViewConfiguration")));
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Server configuration", "BR_Protocol"}, new string[] { "_Name", "_Value" });
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Server configuration", "BR_Protocol"}, new string[] { "_Name", "_Value" }, mvConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 0); //Select "HTTP"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Server configuration", "BR_Startup User"}, new string[] { "_Name", "_Value" });
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Server configuration", "BR_Startup User"}, new string[] { "_Name", "_Value" }, mvConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 0); //Select "anonymous token"
         }
     }
