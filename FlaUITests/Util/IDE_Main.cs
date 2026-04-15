@@ -117,7 +117,7 @@ namespace FlaUITests.Util {
                     _projectMenu = m.AsMenu();
                 else if (name.IndexOf("Debug", StringComparison.OrdinalIgnoreCase) >= 0)
                     _debugMenu = m.AsMenu();
-                else if (name.IndexOf("Online", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (name.IndexOf("nline", StringComparison.OrdinalIgnoreCase) >= 0)
                     _onlineMenu = m.AsMenu();
                 else if (name.IndexOf("Tools", StringComparison.OrdinalIgnoreCase) >= 0)
                     _toolsMenu = m.AsMenu();
