@@ -18,9 +18,9 @@ namespace FlaUITests.Util {
             InitMappView();
         }
         public void InitMappView() {
-            if (!_ideMain.GetLogicalViewRoot(this).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0)) {
+//            if (!_ideMain.GetLogicalViewRoot(this).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0)) {
                 InsertMappView();
-            }
+//            }
             //ActivateOPCUACS();
             _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
         }
@@ -84,6 +84,7 @@ namespace FlaUITests.Util {
         }
         void ConfigureMappViewServer() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_mappView"}, new string[] { "_Configuration", "_Configuration" });
+            TreeConfig.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, _ideMain, "mapp View", "mapp View Configuration");
 
         }
     }

@@ -67,5 +67,25 @@ namespace FlaUITests.Util {
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    
             }
         }
+        public static void InsertObjectFromToolBox(ViewType viewType, IDE_Main ideMain, string category,string objectName)
+        {
+            ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
+            ideMain.SwitchView(viewType);
+            ideMain.MakeToolBoxElementsVisible(categories: true);
+            ideMain.SearchToolBox(category);
+            AutomationElement toolbox = ideMain.Toolbox;
+            AutomationElement toolBoxCategories = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId("_categoriesListView")));
+            AutomationElement desiredToolBoxItem = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(category))) ?? throw new Exception(category + " toolbox item not found - not installed?");
+            AutomationElement [] allDesc = desiredToolBoxItem.FindAllDescendants();
+            if (allDesc[0].AsCheckBox().IsChecked == false) {
+                desiredToolBoxItem.Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
+            }
+            ideMain.MakeToolBoxElementsVisible(categories: false);
+            AutomationElement toolBoxContextContent = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
+            AutomationElement desiredElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName(objectName))) ?? throw new Exception(objectName + " element not found");
+            desiredElementItem.DoubleClick();
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+        }
     }
 }
