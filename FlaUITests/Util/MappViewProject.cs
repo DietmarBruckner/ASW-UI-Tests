@@ -59,17 +59,10 @@ namespace FlaUITests.Util {
             _ideMain.WaitParsing();
         }
         void ActivateOPCUACS () {
-            TreeConfig.ActivateTreeLeave(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_UaCsConfig.uacfg"}, new string[] { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
+            TreeConfig.ActivateTreeLeave(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_UaCsConfig.uacfg"}, 
+            new string[] { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
             AutomationElement ae = null;
-/*             ae = _ideMain.GetActiveConfigurtion().FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
-            TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
-            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Connectivity")));
-            TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
-            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_OpcUaCs")));
-            TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true);
-            ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_UaCsConfig.uacfg")));
-            TreeConfig.ClickConfigTreeItem(ae, "_Configuration", true); 
- */ 
+
             AutomationElement uaConfigWorkspaceWindow = _ideMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("UaCsConfig.uacfg") >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement uaToolbar = uaConfigWorkspaceWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Client/Server Configuration")));
@@ -84,7 +77,10 @@ namespace FlaUITests.Util {
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 1); //Select "Enabled"
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
 
-            ae = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Security")));
+            TreeConfig.ActivateTreeLeave(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authentication", "BR_Authentication Methods", "BR_Anonymous" }, 
+            new string[] { "_Name", "_Name", "_Name", "_Value" }, configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration"))));
+
+/*             ae = configTree.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Security")));
             TreeConfig.ClickConfigTreeItem(ae, "_Name", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Authentication")));
             TreeConfig.ClickConfigTreeItem(ae, "_Name", true);
@@ -92,7 +88,7 @@ namespace FlaUITests.Util {
             TreeConfig.ClickConfigTreeItem(ae, "_Name", true);
             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_Anonymous")));
             TreeConfig.ClickConfigTreeItem(ae, "_Value");
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+ */            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, 1); //Select "Enabled"
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));

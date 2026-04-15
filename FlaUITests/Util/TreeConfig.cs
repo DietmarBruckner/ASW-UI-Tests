@@ -25,7 +25,7 @@ namespace FlaUITests.Util {
             Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
             Mouse.Click(clickPoint);
         }
-        public static void ActivateTreeLeave(ViewType viewType, string [] leaves, string [] toClickSubstrings) {
+        public static void ActivateTreeLeave(ViewType viewType, string [] leaves, string [] toClickSubstrings, AutomationElement root = null) {
             AutomationElement ae = null;
             switch (viewType) {
                 case ViewType.LogicalView:
@@ -35,15 +35,18 @@ namespace FlaUITests.Util {
                     break;
                 case ViewType.PhysicalView:
                     break;
+                case ViewType.Workspace:
+                    if (root == null)
+                        throw new Exception("Root element must be provided for Workspace view type");
+                    ae = root;
+                    break;
             }
             foreach (var sub in leaves) {
                 AutomationElement oldAe = ae;
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
-                //AutomationElement [] allChildren = ae.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
-                ClickConfigTreeItem(ae, toClickSubstrings[Array.IndexOf(leaves, sub)], true);
+                ClickConfigTreeItem(ae, toClickSubstrings[Array.IndexOf(leaves, sub)], !((Array.IndexOf(leaves, sub) == leaves.Length - 1) && (viewType == ViewType.Workspace))); //Double click all tree items except the last one in Workspace view, as the last click should activate the tree leave, not just expand it
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                ///ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
-                //allChildren = ae.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
+                ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    //After clicking the tree item, the tree is refreshed and we need to find the tree item again to be able to continue expanding the tree
             }
 /*             ae = ae.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + CPU)));
             ClickConfigTreeItem(ae, "_Configuration", true);
