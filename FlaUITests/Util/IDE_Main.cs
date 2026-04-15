@@ -21,6 +21,7 @@ namespace FlaUITests.Util {
         private Menu _fileMenu; 
         private Menu _editMenu;
         private Menu _viewMenu;
+        private Menu _insertMenu;
         private Menu _openMenu;
         private Menu _projectMenu;
         private Menu _debugMenu;
@@ -28,7 +29,23 @@ namespace FlaUITests.Util {
         private Menu _toolsMenu;
         private Menu _windowMenu;
         private Menu _helpMenu;
-        private Dictionary<string, Menu> _menus;
+        private Dictionary<string, Menu> MenuNames { get {
+            Dictionary<string, Menu> dm = new Dictionary<string, Menu>
+            {
+                {"File", _fileMenu},
+                {"Edit", _editMenu},
+                {"View", _viewMenu},
+                {"Insert", _insertMenu},
+                {"Open", _openMenu},
+                {"Project", _projectMenu},
+                {"Debug", _debugMenu},
+                {"Online", _onlineMenu},
+                {"Tools", _toolsMenu},
+                {"Window", _windowMenu},
+                {"Help", _helpMenu}
+            };
+            return dm;
+        } }
         public AutomationElement ProjectExplorer { get; private set; }
         public AutomationElement Toolbox { get; private set; }
         public AutomationElement PropertyWindow { get; private set; }
@@ -81,35 +98,34 @@ namespace FlaUITests.Util {
             Init();
         }
         void Init() {
-            Menu menu;
-            if ((menu = MainWindow.FindFirstDescendant(_cf.Menu()).AsMenu()) == null) {
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            }
+            Menu menu = MainWindow.FindFirstDescendant(_cf.Menu()).AsMenu();
             AutomationElement[] menus = menu.FindAllDescendants();
-            // Initialize all menu items
-            _fileMenu = menus[0].AsMenu();
-            _editMenu = menus[1].AsMenu();
-            _viewMenu = menus[2].AsMenu();
-            _openMenu = menus[3].AsMenu();
-            _projectMenu = menus[4].AsMenu();
-            _debugMenu = menus[5].AsMenu();
-            _onlineMenu = menus[6].AsMenu();
-            _toolsMenu = menus[7].AsMenu();
-            _windowMenu = menus[8].AsMenu();
-            _helpMenu = menus[9].AsMenu();
-            _menus = new Dictionary<string, Menu>
-            {
-                {"File", _fileMenu},
-                {"Edit", _editMenu},
-                {"View", _viewMenu},
-                {"Open", _openMenu},
-                {"Project", _projectMenu},
-                {"Debug", _debugMenu},
-                {"Online", _onlineMenu},
-                {"Tools", _toolsMenu},
-                {"Window", _windowMenu},
-                {"Help", _helpMenu}
-            };
+            foreach (AutomationElement m in menus) {
+                string name = m.Name;
+                if (name == null) continue;
+                if (name.IndexOf("File", StringComparison.OrdinalIgnoreCase) >= 0)
+                    _fileMenu = m.AsMenu();
+                else if (name.IndexOf("Edit", StringComparison.OrdinalIgnoreCase) >= 0)
+                    _editMenu = m.AsMenu();
+                else if (name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0)
+                    _viewMenu = m.AsMenu();
+                else if (name.IndexOf("Insert", StringComparison.OrdinalIgnoreCase) >= 0)
+                    _insertMenu = m.AsMenu();
+                else if (name.IndexOf("Open", StringComparison.OrdinalIgnoreCase) >= 0)
+                    _openMenu = m.AsMenu();
+                else if (name.IndexOf("Project", StringComparison.OrdinalIgnoreCase) >= 0)
+                    _projectMenu = m.AsMenu();
+                else if (name.IndexOf("Debug", StringComparison.OrdinalIgnoreCase) >= 0)
+                    _debugMenu = m.AsMenu();
+                else if (name.IndexOf("Online", StringComparison.OrdinalIgnoreCase) >= 0)
+                    _onlineMenu = m.AsMenu();
+                else if (name.IndexOf("Tools", StringComparison.OrdinalIgnoreCase) >= 0)
+                    _toolsMenu = m.AsMenu();
+                else if (name.IndexOf("Window", StringComparison.OrdinalIgnoreCase) >= 0)
+                    _windowMenu = m.AsMenu();
+                else if (name.IndexOf("Help", StringComparison.OrdinalIgnoreCase) >= 0)
+                    _helpMenu = m.AsMenu();
+            }
             AutomationElement[] allPanes = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar));
             if (allPanes.Length > 0)
                 StatusBar = allPanes[0];
@@ -238,8 +254,8 @@ namespace FlaUITests.Util {
             return _titleBar != null && !string.IsNullOrEmpty(_titleBar.Name) && _titleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
         }
         public Menu GetMenu(string menuName) {
-            if (_menus.ContainsKey(menuName)) {
-                return _menus[menuName];
+            if (MenuNames.ContainsKey(menuName)) {
+                return MenuNames[menuName];
             }
             return null;
         }
