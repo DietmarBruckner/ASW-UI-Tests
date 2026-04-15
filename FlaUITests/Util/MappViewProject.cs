@@ -20,29 +20,8 @@ namespace FlaUITests.Util {
             ActivateOPCUACS();
             ConfigureMappViewServer();
             _ideMain.ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
-            _ideMain.ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nBuild", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
-            while (_ideMain.StatusBar.Name.IndexOf("Builds", StringComparison.OrdinalIgnoreCase) >= 0);
-            _ideMain.WaitForMessage("Build:");
-            _ideMain.ActivateSimulation();
-            _ideMain.ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nTransfer", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
-            Window transferDialog;
-            while ((transferDialog = _ideMain.GetModalWindow("Transfer to target")) == null)
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            Button transferButton = transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Transfer"))).AsButton();
-            AutomationElement infoPane = transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("pStepsOutline")));
-            if (infoPane.Name.IndexOf("initial", StringComparison.OrdinalIgnoreCase) >= 0) {
-                transferButton.Click();
-                Window deletionWarningDialog;
-                while ((deletionWarningDialog = _ideMain.GetModalWindow("Target application storage will be deleted")) == null)
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                Button yesButton = deletionWarningDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Yes"))).AsButton();
-                yesButton.Click();
-                while (transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text).And(cf.ByAutomationId("tBInfo"))).AsTextBox().Text.IndexOf("Install finished", StringComparison.OrdinalIgnoreCase) < 0)
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                Button closeButton = transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("bClose"))).AsButton();
-                closeButton.Click();
-            }
-                
+            _ideMain.Build();
+            _ideMain.Transfer();
         }
         void InsertMappView() {
             TreeConfig.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, _ideMain, "mapp View", "mapp View");
