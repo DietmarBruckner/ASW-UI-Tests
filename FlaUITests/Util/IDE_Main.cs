@@ -454,7 +454,7 @@ namespace FlaUITests.Util {
                             AutomationElement versText = allTexts[2];
                             if (!(versText.Name.IndexOf(version) >= 0)) {
                                 TreeConfig.ClickAutomationElement(allTexts[1].FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox)));
-                                AutomationElement selectionWindow = manageComponentsWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window));
+                                AutomationElement selectionWindow = GetModalWindow(TreeConfig.CurrentProject.CPU + " - Properties").FindFirstChild(cf => cf.ByControlType(ControlType.Window));
                                 TreeConfig.ClickAutomationElement(selectionWindow.FindFirstChild(cf => cf.ByName(version)));
                                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                             }
