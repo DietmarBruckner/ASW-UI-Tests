@@ -10,6 +10,8 @@ using FlaUI.UIA2;
 using Menu = FlaUI.Core.AutomationElements.Menu;
 using System.Drawing;
 using System.Diagnostics.Contracts;
+using Tesseract;
+using System.Text.RegularExpressions;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -422,6 +424,7 @@ namespace FlaUITests.Util {
             ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
         }
         public void SelectComponentVersion (string componentName, string version) {
+            var engine = new TesseractEngine("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default);
             InvokeMenuItem(GetMenu("Project"), "Change Runtime Versions...");
             Window manageComponentsWindow;
             while ((manageComponentsWindow = GetModalWindow(TreeConfig.CurrentProject.CPU + " - Properties")) == null)
@@ -443,17 +446,24 @@ namespace FlaUITests.Util {
                     if (item.Name.IndexOf(".DomainCfg", StringComparison.OrdinalIgnoreCase) >= 0) {
                         AutomationElement [] allTexts = item.FindAllChildren(cf => cf.ByControlType(ControlType.Custom));
                         AutomationElement compText = allTexts[0];
-                        AutomationElement [] allChildren = item.FindAllDescendants();
+                        var compImg = FlaUI.Core.Capturing.Capture.Element(compText);
+                        compImg.ToFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\1.png");
+                        var page = engine.Process(Pix.LoadFromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\1.png"));
+                        var text = page.GetText();
+                        if (text.IndexOf(componentName) >= 0) {
+                            AutomationElement versText = allTexts[2];
+                            if (!(versText.Name.IndexOf(version) >= 0)) {
+                                TreeConfig.ClickAutomationElement(allTexts[1].FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox)));
+                                AutomationElement selectionWindow = manageComponentsWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window));
+                                TreeConfig.ClickAutomationElement(selectionWindow.FindFirstChild(cf => cf.ByName(version)));
+                                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                            }
+                        }
                     }
                     else
                         continue;
                 }
             }
-            if (componentItem == null)
-                throw new Exception("Component " + componentName + " not found in Manage Components window.");
-            TreeConfig.ClickAutomationElement(componentItem);
-            ComboBox versionComboBox = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByAutomationId("versionComboBox"))).AsComboBox();
-            versionComboBox.Select(version);
             Button closeButton = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("closeButton"))).AsButton();
             closeButton.Click();
         }
