@@ -465,8 +465,8 @@ namespace FlaUITests.Util {
                         continue;
                 }
             }
-            Button closeButton = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("closeButton"))).AsButton();
-            closeButton.Click();
+            Button okButton = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("btnOk"))).AsButton();
+            okButton.Click();
         }
     }
 }
