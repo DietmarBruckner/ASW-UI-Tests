@@ -45,7 +45,8 @@ namespace FlaUITests.Util {
             Random rand = new Random();
             int index = rand.Next(allTemplates.Length);
             allTemplates[index].DoubleClick(); //Select a random template to create some variation in the created projects
-            _ideMain.WaitForMessage("Parsing finished");
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
+            _ideMain.WaitForMessage("Build widget library finished.");
         }
         void ActivateOPCUACS() {
             string uaconfig = "BR_UaCsConfig.uacfg";
