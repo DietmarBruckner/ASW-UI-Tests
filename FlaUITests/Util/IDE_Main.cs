@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Diagnostics.Contracts;
 using Tesseract;
 using System.Text.RegularExpressions;
+using FlaUI.Core.Capturing;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -446,10 +447,10 @@ namespace FlaUITests.Util {
                     if (item.Name.IndexOf(".DomainCfg", StringComparison.OrdinalIgnoreCase) >= 0) {
                         AutomationElement [] allTexts = item.FindAllChildren(cf => cf.ByControlType(ControlType.Custom));
                         AutomationElement compText = allTexts[0];
-                        var compImg = FlaUI.Core.Capturing.Capture.Element(compText);
+                        CaptureImage compImg = FlaUI.Core.Capturing.Capture.Element(compText);
                         compImg.ToFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\1.png");
-                        var page = engine.Process(Pix.LoadFromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\1.png"));
-                        var text = page.GetText();
+                        Page page = engine.Process(Pix.LoadFromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\1.png"));
+                        string text = page.GetText();
                         if (text.IndexOf(componentName) >= 0) {
                             AutomationElement versText = allTexts[2];
                             if (!(versText.Name.IndexOf(version) >= 0)) {
