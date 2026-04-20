@@ -459,6 +459,7 @@ namespace FlaUITests.Util {
                                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                             }
                         }
+                        break;
                     }
                     else
                         continue;
