@@ -1,26 +1,29 @@
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
-using FlaUI.Core.Input;
 using System;
 using System.Linq;
 
 namespace FlaUITests.Util {
     public class MappViewProject : AppProject {
+        string MappViewVersion { get; set; }
         public MappViewProject(IDE_Main ideMain) : base(ideMain) {
             InitMappView();
         }
-        public MappViewProject(IDE_Main ideMain, string name, string path, string config, string cpu) : base(ideMain, name, path, config, cpu) {
+        public MappViewProject(IDE_Main ideMain, string name, string path, string config, string cpu, string workingVersion = null, string mappViewVersion = null) : base(ideMain, name, path, config, cpu, workingVersion) {
+            MappViewVersion = mappViewVersion;
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
             InitMappView();
         }
         public void InitMappView() {
             _ideMain.InitializeViews(projectExplorer: true);
+            _ideMain.SelectComponentVersion("mapp View", MappViewVersion);
             if (!_ideMain.GetLogicalViewRoot(this).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  InsertMappView();
             ActivateOPCUACS();
             ConfigureMappViewServer();
             _ideMain.Save();
             _ideMain.Build();
+            _ideMain.ActivateSimulation();
             _ideMain.Transfer();
         }
         void InsertMappView() {
@@ -53,7 +56,7 @@ namespace FlaUITests.Util {
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement uacsConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
             AutomationElement uaToolbar = uaConfigWorkspaceWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Client/Server Configuration")));
-             Button advancedVisibilityButton = uaToolbar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Change Advanced Parameter Visibility"))).AsButton();
+            Button advancedVisibilityButton = uaToolbar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Change Advanced Parameter Visibility"))).AsButton();
             int itemsCount = uacsConfigRoot.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).Length;
             advancedVisibilityButton.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));

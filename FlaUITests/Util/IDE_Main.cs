@@ -9,41 +9,18 @@ using FlaUI.Core.Input;
 using FlaUI.UIA2;
 using Menu = FlaUI.Core.AutomationElements.Menu;
 using System.Drawing;
-using Xunit.Sdk;
-using System.Linq.Expressions;
+using System.Diagnostics.Contracts;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
         public Application App { get; private set; }
-        private UIA2Automation _automation;
+        private readonly UIA2Automation _automation;
         public Window MainWindow { get; private set; }
-        private ConditionFactory _cf;
-        private Menu _fileMenu; 
-        private Menu _editMenu;
-        private Menu _viewMenu;
-        private Menu _insertMenu;
-        private Menu _openMenu;
-        private Menu _projectMenu;
-        private Menu _debugMenu;
-        private Menu _onlineMenu;
-        private Menu _toolsMenu;
-        private Menu _windowMenu;
-        private Menu _helpMenu;
+        private readonly ConditionFactory _cf;
+        private Menu _fileMenu, _editMenu, _viewMenu, _insertMenu, _openMenu, _projectMenu, _debugMenu, _onlineMenu, _toolsMenu, _windowMenu, _helpMenu;
         private Dictionary<string, Menu> MenuNames { get {
-            Dictionary<string, Menu> dm = new Dictionary<string, Menu>
-            {
-                {"File", _fileMenu},
-                {"Edit", _editMenu},
-                {"View", _viewMenu},
-                {"Insert", _insertMenu},
-                {"Open", _openMenu},
-                {"Project", _projectMenu},
-                {"Debug", _debugMenu},
-                {"Online", _onlineMenu},
-                {"Tools", _toolsMenu},
-                {"Window", _windowMenu},
-                {"Help", _helpMenu}
-            };
+            Dictionary<string, Menu> dm = new Dictionary<string, Menu> {
+                {"File", _fileMenu}, {"Edit", _editMenu}, {"View", _viewMenu}, {"Insert", _insertMenu}, {"Open", _openMenu}, {"Project", _projectMenu}, {"Debug", _debugMenu}, {"Online", _onlineMenu}, {"Tools", _toolsMenu}, {"Window", _windowMenu}, {"Help", _helpMenu}};
             return dm;
         } }
         public AutomationElement ProjectExplorer { get; private set; }
@@ -65,8 +42,7 @@ namespace FlaUITests.Util {
         public Dictionary<string, Rectangle> UIElementsBounds { get {
                 AutomationElement a;
                 Dictionary<string, Rectangle> bounds = new Dictionary<string, Rectangle> {
-                    { "MainWindow", MainWindow.BoundingRectangle }
-                };
+                    { "MainWindow", MainWindow.BoundingRectangle } };
                 if ((a = MainWindow.TitleBar) != null)
                     bounds.Add("TitleBar", a.BoundingRectangle);
                 if ((a = MainWindow.FindFirstDescendant(_cf.Menu()).AsMenu()) != null)
@@ -79,10 +55,10 @@ namespace FlaUITests.Util {
                     bounds.Add("Workspace", Workspace.BoundingRectangle);
                 if (Toolbox != null)
                     bounds.Add("Toolbox", Toolbox.BoundingRectangle);
-                if (PropertyWindow != null)
-                    bounds.Add("PropertyWindow", PropertyWindow.BoundingRectangle);
                 if (OutputWindow != null)
                     bounds.Add("OutputWindow", OutputWindow.BoundingRectangle);
+                if (PropertyWindow != null)
+                    bounds.Add("PropertyWindow", PropertyWindow.BoundingRectangle);
                 if ((a = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar))[0]) != null)
                     bounds.Add("StatusBar", a.BoundingRectangle);
                 return bounds;
@@ -95,6 +71,12 @@ namespace FlaUITests.Util {
             _automation = new UIA2Automation();
             MainWindow = App.GetMainWindow(_automation);
             _cf = new ConditionFactory(new UIA2PropertyLibrary());
+            MainWindow.Focus();
+            var rect = MainWindow.BoundingRectangle;
+            var screen = System.Windows.Forms.Screen.FromHandle(MainWindow.Properties.NativeWindowHandle);
+            bool isFullScreen = rect.Left <= screen.WorkingArea.Left && rect.Top <= screen.WorkingArea.Top && rect.Width >= screen.WorkingArea.Width && rect.Height >= screen.WorkingArea.Height;
+            if (!isFullScreen)
+                MainWindow.TitleBar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Restore"))).AsButton().Invoke();
             Init();
         }
         void Init() {
@@ -231,7 +213,6 @@ namespace FlaUITests.Util {
                 }
             }
         }
-
         public string[] GetProjectpath()
         {
             String titleString = _titleBar.Name;
@@ -434,10 +415,47 @@ namespace FlaUITests.Util {
             ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nBuild", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
             while (StatusBar.Name.IndexOf("Builds", StringComparison.OrdinalIgnoreCase) >= 0);
             WaitForMessage("Build:");
-            ActivateSimulation();
+            Window buildProjectWindow = GetModalWindow("Build Project");
+            buildProjectWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("CancelButton"))).AsButton().Click();
         }
         public void Save() {
             ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
+        }
+        public void SelectComponentVersion (string componentName, string version) {
+            InvokeMenuItem(GetMenu("Project"), "Change Runtime Versions...");
+            Window manageComponentsWindow;
+            while ((manageComponentsWindow = GetModalWindow(TreeConfig.CurrentProject.CPU + " - Properties")) == null)
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            AutomationElement tabcontrol = manageComponentsWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Tab).And(cf.ByAutomationId("tabControl")));
+            TabItem componentsTab = tabcontrol.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Runtime Versions"))).AsTabItem();
+            TreeConfig.ClickAutomationElement(componentsTab);
+            AutomationElement componentsListView = componentsTab.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid));
+            AutomationElement [] componentItems = componentsListView.FindAllDescendants(cf => cf.ByControlType(ControlType.DataItem));
+            AutomationElement componentItem = null;
+            if (componentName == "Automation Runtime") {
+                componentItem = componentItems.FirstOrDefault(c => c.Name.IndexOf(".ArCfg", StringComparison.OrdinalIgnoreCase) >= 0);
+            }
+            else if (componentName == "Visual Components"){
+                componentItem = componentItems.FirstOrDefault(c => c.Name.IndexOf(".VcCfg", StringComparison.OrdinalIgnoreCase) >= 0);
+            }
+            else {
+                foreach (AutomationElement item in componentItems) {
+                    if (item.Name.IndexOf(".DomainCfg", StringComparison.OrdinalIgnoreCase) >= 0) {
+                        AutomationElement [] allTexts = item.FindAllChildren(cf => cf.ByControlType(ControlType.Custom));
+                        AutomationElement compText = allTexts[0];
+                        AutomationElement [] allChildren = item.FindAllDescendants();
+                    }
+                    else
+                        continue;
+                }
+            }
+            if (componentItem == null)
+                throw new Exception("Component " + componentName + " not found in Manage Components window.");
+            TreeConfig.ClickAutomationElement(componentItem);
+            ComboBox versionComboBox = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByAutomationId("versionComboBox"))).AsComboBox();
+            versionComboBox.Select(version);
+            Button closeButton = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("closeButton"))).AsButton();
+            closeButton.Click();
         }
     }
 }

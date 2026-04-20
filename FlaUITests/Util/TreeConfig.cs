@@ -3,38 +3,73 @@ using System.Drawing;
 using FlaUI.Core.Input;
 using FlaUI.Core.Definitions;
 using System;
+using FlaUI.Core.AutomationElements.Scrolling;
+using System.Linq;
 
 namespace FlaUITests.Util {
     public static class TreeConfig {
         public enum ViewType { LogicalView, ConfigurationView, PhysicalView, Workspace }
         public static IDE_Main IdeMain { get; set; }
         public static AppProject CurrentProject { get; set; }
-        public static void ClickConfigTreeItem(AutomationElement element, string sub, bool doubleClick = false) {
-            AutomationElement clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
-            Rectangle elementRect = clickElement.BoundingRectangle;
-            Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
-            if (doubleClick) {
-                Mouse.DoubleClick(clickPoint);
-            } else {
-                Mouse.Click(clickPoint);
-            }
+
+        public static void ClickConfigTreeItem(ViewType viewType, AutomationElement element, string sub, bool doubleClick = false) {
+            MakeTreeItemVisible(viewType, element, sub);
+            ClickAutomationElement(element.FindFirstChild(cf => cf.ByName(element.Name + sub)), doubleClick);
         }
         public static void ClickComboBoxTreeItem(Window window, int index) {
-            //AutomationElement [] allItems = window.Parent.FindAllChildren();
             AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
-            //AutomationElement [] allItems1 = comboBox.FindAllChildren();
-            AutomationElement item = comboBox.FindAllChildren()[index];
-            Rectangle elementRect = item.BoundingRectangle;
-            Point clickPoint = new Point { X = elementRect.Left + elementRect.Width / 2, Y = elementRect.Top + elementRect.Height / 2 };
-            Mouse.Click(clickPoint);
+            ClickAutomationElement(comboBox.FindAllChildren()[index]);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+        }
+        public static void ClickComboBoxTreeItem(Window window, string element) {
+            AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
+            ClickAutomationElement(comboBox.FindFirstChild(cf => cf.ByName(element)));
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+        }
+        public static void ClickAutomationElement(AutomationElement element, bool doubleClick = false) {
+            Point point = new Point { X = element.BoundingRectangle.Left + element.BoundingRectangle.Width / 2, Y = element.BoundingRectangle.Top + element.BoundingRectangle.Height / 2 };
+            if (doubleClick)
+                Mouse.DoubleClick(point);
+            else
+                Mouse.Click(point);
+        }
+        public static void MakeTreeItemVisible(ViewType viewType, AutomationElement element, string sub) {
+            AutomationElement clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
+            Rectangle elementRect = clickElement.BoundingRectangle;
+            if (elementRect.Width == 0 || elementRect.Height == 0) {
+                AutomationElement view = null;
+                switch (viewType) {
+                    case ViewType.LogicalView:
+                    case ViewType.ConfigurationView:
+                    case ViewType.PhysicalView:
+                        view = IdeMain.ProjectExplorer;
+                        break;
+                    case ViewType.Workspace:
+                        view = IdeMain.Workspace;
+                        break;
+                }
+                VerticalScrollBar verticalScrollBar = view.FindFirstDescendant(cf => cf.ByControlType(ControlType.ScrollBar).And(cf.ByAutomationId("Vertical ScrollBar"))).AsVerticalScrollBar();
+                HorizontalScrollBar horizontalScrollBar = view.FindFirstDescendant(cf => cf.ByControlType(ControlType.ScrollBar).And(cf.ByAutomationId("Horizontal ScrollBar"))).AsHorizontalScrollBar();
+                verticalScrollBar.ScrollUpLarge();
+                horizontalScrollBar.ScrollLeftLarge();
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
+                elementRect = clickElement.BoundingRectangle;
+                while (elementRect.Width == 0 || elementRect.Height == 0) {
+                    verticalScrollBar.ScrollDown();
+                    verticalScrollBar.ScrollDown();
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                    clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
+                    elementRect = clickElement.BoundingRectangle;
+                }
+            }
         }
         public static void ActivateTreeLeaf(ViewType viewType, string [] leaves, string [] toClickSubstrings, AutomationElement root = null) {
             AutomationElement ae = null;
             switch (viewType) {
                 case ViewType.LogicalView:
                     ae = IdeMain.GetLogicalViewRoot(CurrentProject);
-                    ClickConfigTreeItem(ae, "_Object Name", true);
+                    ClickConfigTreeItem(viewType, ae, "_Object Name", true);
                     if (leaves == null)
                         return;
                     break;
@@ -47,7 +82,7 @@ namespace FlaUITests.Util {
                     if (root == null)
                         throw new Exception("Root element must be provided for Workspace view type");
                     ae = root;
-                    ClickConfigTreeItem(ae, "_Name");
+                    ClickConfigTreeItem(viewType, ae, "_Name");
                     Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                     break;
@@ -56,7 +91,7 @@ namespace FlaUITests.Util {
                 AutomationElement oldAe = ae;
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
                 if (viewType == ViewType.Workspace) { //no double clicking, but expanding via right arrow
-                    ClickConfigTreeItem(ae, toClickSubstrings[Array.IndexOf(leaves, sub)]); //combobox in final leaf node needs some steps to activate
+                    ClickConfigTreeItem(viewType, ae, toClickSubstrings[Array.IndexOf(leaves, sub)]); //combobox in final leaf node needs some steps to activate
                     if (Array.IndexOf(leaves, sub) == leaves.Length - 1) {
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
@@ -65,7 +100,6 @@ namespace FlaUITests.Util {
                         Mouse.MoveTo(expandButton.GetClickablePoint());
                         if (IdeMain.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
                              Mouse.Click();
-                        //Mouse.Click();
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                         return;
                     }
@@ -73,7 +107,7 @@ namespace FlaUITests.Util {
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
                 }
                 else //Double click all tree items to expand them, as tree items in Configuration view expand on double click
-                    ClickConfigTreeItem(ae, toClickSubstrings[Array.IndexOf(leaves, sub)], true); 
+                    ClickConfigTreeItem(viewType, ae, toClickSubstrings[Array.IndexOf(leaves, sub)], true); 
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                 //After clicking the tree item, the tree is refreshed and we need to find the tree item again to be able to continue expanding the tree
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    
@@ -91,7 +125,7 @@ namespace FlaUITests.Util {
             AutomationElement [] allDesc = desiredToolBoxItem.FindAllChildren();
             if (allDesc[0].AsCheckBox().IsChecked == false) {
                 desiredToolBoxItem.Click();
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             }
             ideMain.MakeToolBoxElementsVisible(categories: false);
             ideMain.SearchToolBox(objectName);

@@ -1,12 +1,9 @@
 using System;
 using System.Linq;
-using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
-using FlaUI.Core.Conditions;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using System.Drawing;
-
 
 namespace FlaUITests.Util {
     public class AppProject {
@@ -15,6 +12,7 @@ namespace FlaUITests.Util {
         public string Path { get; set; }
         public string Config { get; set; }
         public string CPU { get; set; }
+        public string WorkingVersion { get; set; }
 
         public AppProject(IDE_Main ideMain) {
             _ideMain = ideMain;
@@ -27,16 +25,16 @@ namespace FlaUITests.Util {
                 AutomationElement [] allTreeItems = activeConfig.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
                 CPU = allTreeItems[2].Name.Substring(3); //Assuming the CPU tree item is always the third tree item and starts with "BR_"
             }
-            else {
+            else
                 Console.WriteLine("No project loaded.");
-            }
         }
-        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu) {
+        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu, string workingVersion = null) {
             _ideMain = ideMain;
             Name = name;
             Path = path;
             Config = config;
             CPU = cpu;
+            WorkingVersion = workingVersion;
 
             _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the New Project dialog to appear
@@ -45,11 +43,11 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Error: New Project dialog did not appear.");
                 return;
             }
-            TextBox nameTextBox = newProjectDialog.FindAllDescendants(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("projectNameTextBox")))[0].AsTextBox();
+            TextBox nameTextBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("projectNameTextBox"))).AsTextBox();
             Point point = new Point { X = nameTextBox.BoundingRectangle.Left+ nameTextBox.BoundingRectangle.Width / 2, Y = nameTextBox.BoundingRectangle.Top + nameTextBox.BoundingRectangle.Height / 2 };
             Mouse.LeftClick(point);
             Keyboard.Type(name);
-            TextBox pathTextBox = newProjectDialog.FindAllDescendants(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("pathTextBox")))[0].AsTextBox();
+            TextBox pathTextBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("pathTextBox"))).AsTextBox();
             if (pathTextBox.Text != path) {
                 point = new Point { X = pathTextBox.BoundingRectangle.Left+ pathTextBox.BoundingRectangle.Width / 2, Y = pathTextBox.BoundingRectangle.Top + pathTextBox.BoundingRectangle.Height / 2 };
                 Mouse.LeftClick(point);
@@ -57,10 +55,18 @@ namespace FlaUITests.Util {
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
                 Keyboard.Type(path);
             }
+            if (workingVersion != null) {
+                ComboBox versionComboBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByAutomationId("cbWorkingVersion"))).AsComboBox();
+                if (versionComboBox.Value != workingVersion) {
+                    TreeConfig.ClickAutomationElement(versionComboBox);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    TreeConfig.ClickComboBoxTreeItem(_ideMain.MainWindow, workingVersion);
+                }
+            }
             Button nextButton = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Next >"))).AsButton();
             nextButton.Invoke();
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            TextBox configTextBox = newProjectDialog.FindAllDescendants(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("configurationNameTextBox")))[0].AsTextBox();
+            TextBox configTextBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("configurationNameTextBox"))).AsTextBox();
             if (configTextBox.Text != config) {
                 point = new Point { X = configTextBox.BoundingRectangle.Left+ configTextBox.BoundingRectangle.Width / 2, Y = configTextBox.BoundingRectangle.Top + configTextBox.BoundingRectangle.Height / 2 };
                 Mouse.LeftClick(point);
@@ -68,7 +74,7 @@ namespace FlaUITests.Util {
             }
             nextButton.Invoke();
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
-            TextBox searchTextBox = newProjectDialog.FindAllDescendants(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox")))[0].AsTextBox();
+            TextBox searchTextBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox"))).AsTextBox();
             point = new Point { X = searchTextBox.BoundingRectangle.Left+ searchTextBox.BoundingRectangle.Width / 2, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 };
             Mouse.LeftClick(point);
             foreach (char ch in CPU) {
@@ -112,8 +118,7 @@ namespace FlaUITests.Util {
             AutomationElement [] children = fileList.FindAllChildren();
             AutomationElement targetItem = children.FirstOrDefault(c => c.Name.Contains(".apj"));
             string s = targetItem?.Name ?? "null";
-            if (targetItem == null)
-            {
+            if (targetItem == null) {
                 Console.WriteLine("Error: Could not find project file in Open Project dialog.");
                 return;
             }
@@ -122,9 +127,8 @@ namespace FlaUITests.Util {
             Console.WriteLine("Project " + projectPath + "\\" + s + " opened.");
         }
         public void ReadProject() {
-            if (_ideMain.IsProjectLoaded()) {
-                HardwareTopology hardwareTopology = new HardwareConfigReader(Path, Config).ReadHardwareTopology();
-             }
+            if (_ideMain.IsProjectLoaded())
+                new HardwareConfigReader(Path, Config).ReadHardwareTopology();
         }
     }
 }
