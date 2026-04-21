@@ -11,6 +11,8 @@ namespace FlaUITests.Util {
         mappCNC,
         mapp6D,
         mappSafety,
-        mappControl
+        mappControl,
+        OPCUACS,
+        OPCUAFX
     }
 }
