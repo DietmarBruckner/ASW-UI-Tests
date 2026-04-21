@@ -2,6 +2,7 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using System;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace FlaUITests.Util {
     public partial class MappView {
@@ -9,9 +10,9 @@ namespace FlaUITests.Util {
         public override void InitComponent() {
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
-            if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
+             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  InsertComponent();
-            ActivateOPCUACS();
+             ActivateOPCUACS();
             ConfigureMappViewServer();
         }
         public override void InsertComponent() {
@@ -34,7 +35,7 @@ namespace FlaUITests.Util {
             int index = rand.Next(allTemplates.Length);
             allTemplates[index].DoubleClick(); //Select a random template to create some variation in the created projects
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
-            TreeConfig.IdeMain.WaitForMessage("Parsing finished.");
+            TreeConfig.IdeMain.WaitForMessage("finished.");
         }
         void ActivateOPCUACS() {
             string uaconfig = "BR_UaCsConfig.uacfg";
@@ -66,8 +67,48 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authorization", "BR_Anonymous Access", "BR_User Role 1" }, new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 2); //Select "BR_Engineer"           
         }
+        XElement [] FindXMLPath(string file, string element) {
+            XElement [] res = new XElement [] {};
+            if (!System.IO.File.Exists(file))
+                Console.WriteLine($"Warning: mapp view editor file not found at path: {file}");
+            try {
+                XDocument doc = XDocument.Load(file);
+                XElement root = doc.Root;
+                XElement xConfiguration = root;
+                if (xConfiguration == null)
+                    Console.WriteLine("Warning: Configuration element not found in mapp view editor file");
+                FindRecursive(ref res, xConfiguration, ref element);
+            } catch (Exception ex) { Console.WriteLine($"Error reading {file}: {ex.Message}"); }
+            return res;
+        }
+        void FindRecursive(ref XElement [] path, XElement root, ref string element) {
+            //ref XElement [] res = ref path;
+            int count = path.Length;
+            foreach (XElement groupElement in root.Elements("Group")) {
+                XAttribute nameAttr = groupElement.Attribute("Name-en");
+                if (nameAttr != null && nameAttr.Value == element) {
+                    path.Append(root);
+                    return;
+                }
+                FindRecursive(ref path, groupElement, ref element);
+            }
+            foreach (XElement selElement in root.Elements("Selector")) {
+                XAttribute nameAttr = selElement.Attribute("Name-en");
+                if (nameAttr != null && nameAttr.Value == element) {
+                    path.Append(root);
+                    return;
+                }
+                FindRecursive(ref path, selElement, ref element);
+            }
+            if (path.Length != count)
+                path.Append(root);
+        }
         void ConfigureMappViewServer() {
             string mvconfig = "BR_Config.mappviewcfg";
+            string editorPath = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
+            XElement [] path = FindXMLPath(editorPath + "mappviewcfg.xml", "Protocol");
+
+
             //insert mapp View configuration under configuration view and open its workspace
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + Project.CPU, "BR_mappView"}, new string[] { "_Configuration", "_Configuration" });
             TreeConfig.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, TreeConfig.IdeMain, "mapp View", "mapp View Configuration");

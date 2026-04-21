@@ -48,3 +48,4 @@ C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net48
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net481\x64\leptonica-1.82.0.dll
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net481\x64\tesseract50.dll
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net481\Tesseract.dll
+C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\obj\Debug\net481\TestProject1.exe.config
