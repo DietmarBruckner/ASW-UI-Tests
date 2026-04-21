@@ -68,8 +68,9 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_Security", "BR_Authorization", "BR_Anonymous Access", "BR_User Role 1" }, new List<string> { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 2); //Select "BR_Engineer"           
         }
-        List<XElement> FindXMLPath(string file, string element) {
-            List<XElement> res = new List<XElement> {};
+        List<string> FindXMLPath(string file, string element) {
+            List<XElement> res = new List<XElement>();
+            List<string> s = new List<string>();
             if (!System.IO.File.Exists(file))
                 Console.WriteLine($"Warning: mapp view editor file not found at path: {file}");
             try {
@@ -79,8 +80,12 @@ namespace FlaUITests.Util {
                 if (xConfiguration == null)
                     Console.WriteLine("Warning: Configuration element not found in mapp view editor file");
                 FindRecursive(ref res, xConfiguration, ref element);
+                res.Reverse();
+                foreach (XElement xe in res)
+                    s.Add("BR_" + xe.Attribute("name-en").Value);
+
             } catch (Exception ex) { Console.WriteLine($"Error reading {file}: {ex.Message}"); }
-            return res;
+            return s;
         }
         void FindRecursive(ref List<XElement> path, XElement root, ref string element) {
             //ref XElement [] res = ref path;
@@ -109,11 +114,7 @@ namespace FlaUITests.Util {
         void ConfigureMappViewServer() {
             string mvconfig = "BR_Config.mappviewcfg";
             string editorPath = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
-            List<XElement> path = FindXMLPath(editorPath + "mappviewcfg.xml", "Protocol");
-            path.Reverse();
-            List<string> s = new List<string>();
-            foreach (XElement xe in path)
-                s.Add(xe.Attribute("name-en").Value);
+            List<string> path = FindXMLPath(editorPath + "mappviewcfg.xml", "Protocol");
             //insert mapp View configuration under configuration view and open its workspace
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
             TreeConfig.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, TreeConfig.IdeMain, "mapp View", "mapp View Configuration");
@@ -122,7 +123,7 @@ namespace FlaUITests.Util {
             AutomationElement configTree = mvaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement mvConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_MappViewConfiguration")));
             //select HTTP as communication protocol
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_Server configuration", "BR_Protocol"}, new List<string> { "_Name", "_Value" }, mvConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, FindXMLPath(editorPath + "mappviewcfg.xml", "Protocol"), new List<string> { "_Name", "_Value" }, mvConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0); //Select "HTTP"
             //select anonymous token as Startup User
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_Server configuration", "BR_Startup User"}, new List<string> { "_Name", "_Value" }, mvConfigRoot);
