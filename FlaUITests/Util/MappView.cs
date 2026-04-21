@@ -79,10 +79,9 @@ namespace FlaUITests.Util {
             try {
                 XDocument doc = XDocument.Load(file);
                 XElement root = doc.Root;
-                XElement xConfiguration = root;
-                if (xConfiguration == null)
-                    Console.WriteLine("Warning: Root element not found in file: {file}");
-                FindRecursive(ref res, xConfiguration, ref element);
+                if (root == null)
+                    Console.WriteLine($"Warning: Root element not found in file: {file}");
+                FindRecursive(ref res, root, ref element);
                 res.Reverse();
                 foreach (XElement xe in res)
                     if (xe != root)

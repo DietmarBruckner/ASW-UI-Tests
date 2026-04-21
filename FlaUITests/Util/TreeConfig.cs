@@ -6,6 +6,7 @@ using System;
 using FlaUI.Core.AutomationElements.Scrolling;
 using System.Linq;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace FlaUITests.Util {
     public static class TreeConfig {
@@ -134,6 +135,59 @@ namespace FlaUITests.Util {
             AutomationElement desiredElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName(objectName))) ?? throw new Exception(objectName + " element not found");
             desiredElementItem.DoubleClick();
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+        }
+        public static List<string> FindXMLPath(string file, string element, string addon = null) {
+            List<XElement> res = new List<XElement>();
+            List<string> s = new List<string>();
+            if (!System.IO.File.Exists(file))
+                Console.WriteLine($"Warning: file not found at path: {file}");
+            try {
+                XDocument doc = XDocument.Load(file);
+                XElement root = doc.Root;
+                if (root == null)
+                    Console.WriteLine($"Warning: Root element not found in file: {file}");
+                FindRecursive(ref res, root, ref element);
+                res.Reverse();
+                foreach (XElement xe in res)
+                    if (xe != root)
+                        s.Add("BR_" + xe.Attribute("Name-en").Value);
+                if (addon != null)
+                    s.Add(addon);
+            } catch (Exception ex) { Console.WriteLine($"Error reading {file}: {ex.Message}"); }
+            return s;
+        }
+        static void FindRecursive(ref List<XElement> path, XElement root, ref string element) {
+            //ref XElement [] res = ref path;
+            int count = path.Count;
+            foreach (XElement groupElement in root.Elements("Group")) {
+                XAttribute nameAttr = groupElement.Attribute("Name-en");
+                if (nameAttr != null && nameAttr.Value == element) {
+                    path.Add(groupElement);
+                    path.Add(root);
+                    return;
+                }
+                FindRecursive(ref path, groupElement, ref element);
+            }
+            foreach (XElement selElement in root.Elements("Selector")) {
+                XAttribute nameAttr = selElement.Attribute("Name-en");
+                if (nameAttr != null && nameAttr.Value == element) {
+                    path.Add(selElement);
+                    path.Add(root);
+                    return;
+                }
+                FindRecursive(ref path, selElement, ref element);
+            }
+            foreach (XElement propElement in root.Elements("Property")) {
+                XAttribute nameAttr = propElement.Attribute("Name-en");
+                if (nameAttr != null && nameAttr.Value == element) {
+                    path.Add(propElement);
+                    path.Add(root);
+                    return;
+                }
+                FindRecursive(ref path, propElement, ref element);
+            }
+            if (path.Count != count)
+                path.Add(root);
         }
     }
 }
