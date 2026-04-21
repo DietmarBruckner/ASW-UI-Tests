@@ -9,9 +9,6 @@ namespace FlaUITests.Util {
     public partial class MappView {
 
         public override void InitComponent() {
-            string editorPath = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
-            List<XElement> path = FindXMLPath(editorPath + "mappviewcfg.xml", "Protocol");
-
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
              if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
@@ -44,7 +41,7 @@ namespace FlaUITests.Util {
         void ActivateOPCUACS() {
             string uaconfig = "BR_UaCsConfig.uacfg";
              //open UACS configuration page
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", uaconfig}, new string[] { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", uaconfig}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
             //activate advanced visibility
             AutomationElement uaConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(uaconfig.Substring(3, uaconfig.Length-3)) >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
@@ -62,13 +59,13 @@ namespace FlaUITests.Util {
                 uacsConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
             }
              //set OPC UA Client/Server to Enabled
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_OPC UA Client/Server" }, new string[] { "_Value" }, uacsConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, new List<string> { "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 1); //Select "Enabled"
             //set anonymous authentication to Enabled
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authentication", "BR_Authentication Methods", "BR_Anonymous" }, new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_Security", "BR_Authentication", "BR_Authentication Methods", "BR_Anonymous" }, new List<string> { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 1); //Select "Enabled"
             //add BR_Engineer as user role
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authorization", "BR_Anonymous Access", "BR_User Role 1" }, new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_Security", "BR_Authorization", "BR_Anonymous Access", "BR_User Role 1" }, new List<string> { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 2); //Select "BR_Engineer"           
         }
         List<XElement> FindXMLPath(string file, string element) {
@@ -113,20 +110,22 @@ namespace FlaUITests.Util {
             string mvconfig = "BR_Config.mappviewcfg";
             string editorPath = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             List<XElement> path = FindXMLPath(editorPath + "mappviewcfg.xml", "Protocol");
-
-
+            path.Reverse();
+            List<string> s = new List<string>();
+            foreach (XElement xe in path)
+                s.Add(xe.Attribute("name-en").Value);
             //insert mapp View configuration under configuration view and open its workspace
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + Project.CPU, "BR_mappView"}, new string[] { "_Configuration", "_Configuration" });
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
             TreeConfig.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, TreeConfig.IdeMain, "mapp View", "mapp View Configuration");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new string[] { "BR_" + Project.CPU, "BR_mappView", mvconfig }, new string[] { "_Configuration", "_Configuration", "_Configuration" });
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", mvconfig }, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
             AutomationElement mvaConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(mvconfig.Substring(3, mvconfig.Length-3)) >= 0);
             AutomationElement configTree = mvaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             AutomationElement mvConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_MappViewConfiguration")));
             //select HTTP as communication protocol
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Server configuration", "BR_Protocol"}, new string[] { "_Name", "_Value" }, mvConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_Server configuration", "BR_Protocol"}, new List<string> { "_Name", "_Value" }, mvConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0); //Select "HTTP"
             //select anonymous token as Startup User
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Server configuration", "BR_Startup User"}, new string[] { "_Name", "_Value" }, mvConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_Server configuration", "BR_Startup User"}, new List<string> { "_Name", "_Value" }, mvConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0); //Select "anonymous token"
         }
     }
