@@ -86,7 +86,7 @@ namespace FlaUITests.Util {
                 res.Reverse();
                 foreach (XElement xe in res)
                     if (xe != root)
-                        s.Add("BR_" + xe.Attribute("name-en").Value);
+                        s.Add("BR_" + xe.Attribute("Name-en").Value);
 
             } catch (Exception ex) { Console.WriteLine($"Error reading {file}: {ex.Message}"); }
             return s;
