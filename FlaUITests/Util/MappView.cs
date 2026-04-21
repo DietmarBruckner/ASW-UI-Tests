@@ -75,13 +75,13 @@ namespace FlaUITests.Util {
             List<XElement> res = new List<XElement>();
             List<string> s = new List<string>();
             if (!System.IO.File.Exists(file))
-                Console.WriteLine($"Warning: mapp view editor file not found at path: {file}");
+                Console.WriteLine($"Warning: file not found at path: {file}");
             try {
                 XDocument doc = XDocument.Load(file);
                 XElement root = doc.Root;
                 XElement xConfiguration = root;
                 if (xConfiguration == null)
-                    Console.WriteLine("Warning: Configuration element not found in mapp view editor file");
+                    Console.WriteLine("Warning: Root element not found in file: {file}");
                 FindRecursive(ref res, xConfiguration, ref element);
                 res.Reverse();
                 foreach (XElement xe in res)
