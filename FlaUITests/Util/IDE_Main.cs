@@ -445,29 +445,39 @@ namespace FlaUITests.Util {
             else {
                 foreach (AutomationElement item in componentItems) {
                     if (item.Name.IndexOf(".DomainCfg", StringComparison.OrdinalIgnoreCase) >= 0) {
-                        AutomationElement [] allTexts = item.FindAllChildren(cf => cf.ByControlType(ControlType.Custom));
-                        AutomationElement compText = allTexts[0];
+                        AutomationElement compText = item.FindAllChildren(cf => cf.ByControlType(ControlType.Custom))[0];
                         CaptureImage compImg = FlaUI.Core.Capturing.Capture.Element(compText);
                         compImg.ToFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\1.png");
                         Page page = engine.Process(Pix.LoadFromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\1.png"));
                         string text = page.GetText();
                         if (text.IndexOf(componentName) >= 0) {
-                            AutomationElement versText = allTexts[2];
-                            if (!(versText.Name.IndexOf(version) >= 0)) {
-                                TreeConfig.ClickAutomationElement(allTexts[1].FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox)));
-                                AutomationElement selectionWindow = GetModalWindow(TreeConfig.CurrentProject.CPU + " - Properties").FindFirstChild(cf => cf.ByControlType(ControlType.Window));
-                                TreeConfig.ClickAutomationElement(selectionWindow.FindFirstChild(cf => cf.ByName(version)));
-                                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                            }
+                            componentItem = item;
+                            break;
                         }
-                        break;
                     }
                     else
                         continue;
                 }
             }
+            AutomationElement [] allTexts = componentItem.FindAllChildren(cf => cf.ByControlType(ControlType.Custom));
+            AutomationElement versText = allTexts[2];
+            if (!(versText.Name.IndexOf(version) >= 0)) {
+                TreeConfig.ClickAutomationElement(allTexts[1].FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox)));
+                AutomationElement selectionWindow = GetModalWindow(TreeConfig.CurrentProject.CPU + " - Properties").FindFirstChild(cf => cf.ByControlType(ControlType.Window));
+                AutomationElement a = selectionWindow.FindFirstChild(cf => cf.ByName(version));
+                if (a != null)
+                    TreeConfig.ClickAutomationElement(a);
+                else {
+                    InstallComponentVersion(componentName, version);
+                    SelectComponentVersion(componentName, version);
+                    return;
+                }
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            }
             Button okButton = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("btnOk"))).AsButton();
             okButton.Click();
+        }
+        public void InstallComponentVersion (string componentName, string version) {
         }
     }
 }

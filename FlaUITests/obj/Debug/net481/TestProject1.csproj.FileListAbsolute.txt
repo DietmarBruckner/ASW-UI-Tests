@@ -36,7 +36,6 @@ C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net48
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net481\xunit.core.dll
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net481\xunit.execution.desktop.dll
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\obj\Debug\net481\TestProject1.csproj.AssemblyReference.cache
-C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\obj\Debug\net481\TestProject1.exe.config
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\obj\Debug\net481\TestProject1.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\obj\Debug\net481\TestProject1.AssemblyInfoInputs.cache
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\obj\Debug\net481\TestProject1.AssemblyInfo.cs

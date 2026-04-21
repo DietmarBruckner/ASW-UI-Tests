@@ -4,6 +4,7 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace FlaUITests.Util {
     public class AppProject {
@@ -13,6 +14,8 @@ namespace FlaUITests.Util {
         public string Config { get; set; }
         public string CPU { get; set; }
         public string WorkingVersion { get; set; }
+        readonly Dictionary<Components, string> DictComponents;
+        List<ComponentInProject> components;
 
         public AppProject(IDE_Main ideMain) {
             _ideMain = ideMain;
@@ -28,13 +31,14 @@ namespace FlaUITests.Util {
             else
                 Console.WriteLine("No project loaded.");
         }
-        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu, string workingVersion = null) {
+        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu, Dictionary<Components, string> dictComponents, string workingVersion = null) {
             _ideMain = ideMain;
             Name = name;
             Path = path;
             Config = config;
             CPU = cpu;
             WorkingVersion = workingVersion;
+            DictComponents = dictComponents;
 
             _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the New Project dialog to appear
@@ -85,6 +89,28 @@ namespace FlaUITests.Util {
             while (_ideMain.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0);
             Name += ".apj";
             TreeConfig.CurrentProject = this;
+            if (dictComponents != null)
+                components = new List<ComponentInProject>();
+            _ideMain.ActivateSimulation();
+            foreach (KeyValuePair<Components, string> kvp in DictComponents) {
+                ComponentInProject cip = null;
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
+                switch (kvp.Key) {
+                    case Components.AutomationRuntime:  cip = new AutomationRuntime(this, kvp.Value);  break;
+                    case Components.mappView:           cip = new MappView(this, kvp.Value);           break;
+                }
+                components.Add(cip);
+                Init(cip);
+            }
+            _ideMain.Transfer();
+        }
+        public void Init(ComponentInProject cip) {
+            cip.InitComponent();
+            Update();
+        }
+        public void Update () {
+            _ideMain.Save();
+            _ideMain.Build();
         }
         public void DeleteProject() {
             if (!_ideMain.App.HasExited) {
