@@ -9,6 +9,9 @@ namespace FlaUITests.Util {
     public partial class MappView {
 
         public override void InitComponent() {
+            string editorPath = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
+            List<XElement> path = FindXMLPath(editorPath + "mappviewcfg.xml", "Protocol");
+
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
              if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
@@ -88,8 +91,7 @@ namespace FlaUITests.Util {
             foreach (XElement groupElement in root.Elements("Group")) {
                 XAttribute nameAttr = groupElement.Attribute("Name-en");
                 if (nameAttr != null && nameAttr.Value == element) {
-                    path.
-                    .Append(groupElement);
+                    path.Add(groupElement);
                     return;
                 }
                 FindRecursive(ref path, groupElement, ref element);
