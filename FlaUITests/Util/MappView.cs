@@ -1,6 +1,7 @@
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -67,8 +68,8 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new string[] { "BR_Security", "BR_Authorization", "BR_Anonymous Access", "BR_User Role 1" }, new string[] { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 2); //Select "BR_Engineer"           
         }
-        XElement [] FindXMLPath(string file, string element) {
-            XElement [] res = new XElement [] {};
+        List<XElement> FindXMLPath(string file, string element) {
+            List<XElement> res = new List<XElement> {};
             if (!System.IO.File.Exists(file))
                 Console.WriteLine($"Warning: mapp view editor file not found at path: {file}");
             try {
@@ -81,13 +82,14 @@ namespace FlaUITests.Util {
             } catch (Exception ex) { Console.WriteLine($"Error reading {file}: {ex.Message}"); }
             return res;
         }
-        void FindRecursive(ref XElement [] path, XElement root, ref string element) {
+        void FindRecursive(ref List<XElement> path, XElement root, ref string element) {
             //ref XElement [] res = ref path;
-            int count = path.Length;
+            int count = path.Count;
             foreach (XElement groupElement in root.Elements("Group")) {
                 XAttribute nameAttr = groupElement.Attribute("Name-en");
                 if (nameAttr != null && nameAttr.Value == element) {
-                    path.Append(root);
+                    path.
+                    .Append(groupElement);
                     return;
                 }
                 FindRecursive(ref path, groupElement, ref element);
@@ -95,18 +97,18 @@ namespace FlaUITests.Util {
             foreach (XElement selElement in root.Elements("Selector")) {
                 XAttribute nameAttr = selElement.Attribute("Name-en");
                 if (nameAttr != null && nameAttr.Value == element) {
-                    path.Append(root);
+                    path.Add(selElement);
                     return;
                 }
                 FindRecursive(ref path, selElement, ref element);
             }
-            if (path.Length != count)
-                path.Append(root);
+            if (path.Count != count)
+                path.Add(root);
         }
         void ConfigureMappViewServer() {
             string mvconfig = "BR_Config.mappviewcfg";
             string editorPath = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
-            XElement [] path = FindXMLPath(editorPath + "mappviewcfg.xml", "Protocol");
+            List<XElement> path = FindXMLPath(editorPath + "mappviewcfg.xml", "Protocol");
 
 
             //insert mapp View configuration under configuration view and open its workspace
