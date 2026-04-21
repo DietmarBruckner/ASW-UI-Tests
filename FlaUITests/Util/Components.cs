@@ -8,6 +8,9 @@ namespace FlaUITests.Util {
         mappAxis,
         mappTrak,
         mappRobotics,
-        mappCNC
+        mappCNC,
+        mapp6D,
+        mappSafety,
+        mappControl
     }
 }
