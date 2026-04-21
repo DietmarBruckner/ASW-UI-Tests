@@ -85,7 +85,8 @@ namespace FlaUITests.Util {
                 FindRecursive(ref res, xConfiguration, ref element);
                 res.Reverse();
                 foreach (XElement xe in res)
-                    s.Add("BR_" + xe.Attribute("name-en").Value);
+                    if (xe != root)
+                        s.Add("BR_" + xe.Attribute("name-en").Value);
 
             } catch (Exception ex) { Console.WriteLine($"Error reading {file}: {ex.Message}"); }
             return s;
