@@ -5,6 +5,7 @@ using FlaUI.Core.Definitions;
 using System;
 using FlaUI.Core.AutomationElements.Scrolling;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace FlaUITests.Util {
     public static class TreeConfig {
@@ -64,7 +65,7 @@ namespace FlaUITests.Util {
                 }
             }
         }
-        public static void ActivateTreeLeaf(ViewType viewType, string [] leaves, string [] toClickSubstrings, AutomationElement root = null) {
+        public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, AutomationElement root = null) {
             AutomationElement ae = null;
             switch (viewType) {
                 case ViewType.LogicalView:
@@ -91,8 +92,8 @@ namespace FlaUITests.Util {
                 AutomationElement oldAe = ae;
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
                 if (viewType == ViewType.Workspace) { //no double clicking, but expanding via right arrow
-                    ClickConfigTreeItem(viewType, ae, toClickSubstrings[Array.IndexOf(leaves, sub)]); //combobox in final leaf node needs some steps to activate
-                    if (Array.IndexOf(leaves, sub) == leaves.Length - 1) {
+                    ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)]); //combobox in final leaf node needs some steps to activate
+                    if (leaves.IndexOf(sub) == leaves.Count - 1) {
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                         AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
@@ -107,7 +108,7 @@ namespace FlaUITests.Util {
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
                 }
                 else //Double click all tree items to expand them, as tree items in Configuration view expand on double click
-                    ClickConfigTreeItem(viewType, ae, toClickSubstrings[Array.IndexOf(leaves, sub)], true); 
+                    ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true); 
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                 //After clicking the tree item, the tree is refreshed and we need to find the tree item again to be able to continue expanding the tree
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    
