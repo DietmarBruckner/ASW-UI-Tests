@@ -92,6 +92,7 @@ namespace FlaUITests.Util {
                 XAttribute nameAttr = groupElement.Attribute("Name-en");
                 if (nameAttr != null && nameAttr.Value == element) {
                     path.Add(groupElement);
+                    path.Add(root);
                     return;
                 }
                 FindRecursive(ref path, groupElement, ref element);
@@ -100,6 +101,7 @@ namespace FlaUITests.Util {
                 XAttribute nameAttr = selElement.Attribute("Name-en");
                 if (nameAttr != null && nameAttr.Value == element) {
                     path.Add(selElement);
+                    path.Add(root);
                     return;
                 }
                 FindRecursive(ref path, selElement, ref element);
