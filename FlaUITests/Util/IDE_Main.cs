@@ -397,11 +397,11 @@ namespace FlaUITests.Util {
             Image inactive = Image.FromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\Buttons\\activateSimulation_inactive.png");
             bool isactive = ImageComparer.Compare(actual, active, new ColorDifference(50));
             bool isinactive = ImageComparer.Compare(actual, inactive, new ColorDifference(50));
-
-            TextBox sb4 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar4"))).AsTextBox();
+            if (isinactive && !isactive)
+/*             TextBox sb4 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar4"))).AsTextBox();
             TextBox sb5 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar5"))).AsTextBox();
             if (!((sb4.Text.IndexOf("ARsim", StringComparison.OrdinalIgnoreCase) >= 0) && (sb5.Text.IndexOf("RUN", StringComparison.OrdinalIgnoreCase) >= 0)))
-                InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
+ */                InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
         public void Transfer () {
             ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nTransfer", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
