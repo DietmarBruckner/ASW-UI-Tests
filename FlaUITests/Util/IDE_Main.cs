@@ -395,8 +395,8 @@ namespace FlaUITests.Util {
             Image actual = Image.FromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\ActivateSimButton.png");
             Image active = Image.FromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\Buttons\\activateSimulation_active.png");
             Image inactive = Image.FromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\Buttons\\activateSimulation_inactive.png");
-            bool isactive = ImageComparer.Compare(actual, active);
-            bool isinactive = ImageComparer.Compare(actual, inactive);
+            bool isactive = ImageComparer.Compare(actual, active, new ColorDifference(50));
+            bool isinactive = ImageComparer.Compare(actual, inactive, new ColorDifference(50));
 
             TextBox sb4 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar4"))).AsTextBox();
             TextBox sb5 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar5"))).AsTextBox();

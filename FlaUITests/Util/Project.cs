@@ -39,6 +39,7 @@ namespace FlaUITests.Util {
             CPU = cpu;
             WorkingVersion = workingVersion;
             DictComponents = dictComponents;
+            _ideMain.ActivateSimulation();
 
             _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the New Project dialog to appear
