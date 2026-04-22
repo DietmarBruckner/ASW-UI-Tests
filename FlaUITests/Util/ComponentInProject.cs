@@ -12,6 +12,7 @@ namespace FlaUITests.Util {
     }
     public partial class MappView :             ComponentInProject { public MappView(           AppProject project, string version) : base (project, version) {} }
     public partial class AutomationRuntime :    ComponentInProject { public AutomationRuntime(  AppProject project, string version) : base (project, version) {} }
+    public partial class OPCUACS :              ComponentInProject { public OPCUACS(            AppProject project, string version) : base (project, version) {} }
 /*     public partial class MappServices : ComponentInProject { }
     public partial class MappAxis : ComponentInProject { }
     public partial class Visualcomponents : ComponentInProject { }

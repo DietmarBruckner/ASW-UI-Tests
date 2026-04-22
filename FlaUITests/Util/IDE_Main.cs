@@ -5,14 +5,14 @@ using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
 using FlaUI.Core.Definitions;
-using FlaUI.Core.Input;
 using FlaUI.UIA2;
 using Menu = FlaUI.Core.AutomationElements.Menu;
 using System.Drawing;
-using System.Diagnostics.Contracts;
 using Tesseract;
-using System.Text.RegularExpressions;
 using FlaUI.Core.Capturing;
+using Microsoft.VisualStudio.TestTools.UITesting;
+using Mouse = FlaUI.Core.Input.Mouse;
+using Keyboard = FlaUI.Core.Input.Keyboard;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -331,7 +331,7 @@ namespace FlaUITests.Util {
                 Mouse.LeftClick(new Point { X = searchTextBox.BoundingRectangle.Left+ searchTextBox.BoundingRectangle.Width / 2, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 });
                 foreach (char ch in searchTerm) {
                     Keyboard.Type(ch);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(50));
                 }
             }
         }
@@ -389,6 +389,15 @@ namespace FlaUITests.Util {
             return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
         }
         public void ActivateSimulation() {
+            Button activateSimButton = _onlineToolBar.FindFirstChild(cf => cf.ByName("BR_\nActivate Simulation")).AsButton();
+            CaptureImage butImg = FlaUI.Core.Capturing.Capture.Element(activateSimButton);
+            butImg.ToFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\ActivateSimButton.png");
+            Image actual = Image.FromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\ActivateSimButton.png");
+            Image active = Image.FromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\Buttons\\activateSimulation_active.png");
+            Image inactive = Image.FromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\Buttons\\activateSimulation_inactive.png");
+            bool isactive = ImageComparer.Compare(actual, active);
+            bool isinactive = ImageComparer.Compare(actual, inactive);
+
             TextBox sb4 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar4"))).AsTextBox();
             TextBox sb5 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar5"))).AsTextBox();
             if (!((sb4.Text.IndexOf("ARsim", StringComparison.OrdinalIgnoreCase) >= 0) && (sb5.Text.IndexOf("RUN", StringComparison.OrdinalIgnoreCase) >= 0)))
@@ -460,7 +469,7 @@ namespace FlaUITests.Util {
                 }
             }
             AutomationElement [] allTexts = componentItem.FindAllChildren(cf => cf.ByControlType(ControlType.Custom));
-            AutomationElement versText = allTexts[2];
+            TextBox versText = allTexts[2].FindFirstChild().AsTextBox();
             if (!(versText.Name.IndexOf(version) >= 0)) {
                 TreeConfig.ClickAutomationElement(allTexts[1].FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox)));
                 AutomationElement selectionWindow = GetModalWindow(TreeConfig.CurrentProject.CPU + " - Properties").FindFirstChild(cf => cf.ByControlType(ControlType.Window));

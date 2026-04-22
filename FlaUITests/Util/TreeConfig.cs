@@ -157,7 +157,6 @@ namespace FlaUITests.Util {
             return s;
         }
         static void FindRecursive(ref List<XElement> path, XElement root, ref string element) {
-            //ref XElement [] res = ref path;
             int count = path.Count;
             foreach (XElement groupElement in root.Elements("Group")) {
                 XAttribute nameAttr = groupElement.Attribute("Name-en");

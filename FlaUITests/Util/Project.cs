@@ -96,8 +96,9 @@ namespace FlaUITests.Util {
                 ComponentInProject cip = null;
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
                 switch (kvp.Key) {
-                    case Components.AutomationRuntime:  cip = new AutomationRuntime(this, kvp.Value);  break;
-                    case Components.mappView:           cip = new MappView(this, kvp.Value);           break;
+                    case Components.AutomationRuntime:  cip = new AutomationRuntime(this, kvp.Value);   break;
+                    case Components.mappView:           cip = new MappView(this, kvp.Value);            break;
+                    case Components.OPCUACS:            cip = new OPCUACS(this, kvp.Value);             break;
                 }
                 components.Add(cip);
                 Init(cip);
