@@ -397,10 +397,10 @@ namespace FlaUITests.Util {
  */             InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
         bool IsButtonActive(Button button, string image) {
-            Capture.Element(button).ToFile( "$(ProjectDir)\\Util\\screenshots\\" + image + ".png");
-            Image actual = Image.FromFile(  "$(ProjectDir)\\Util\\screenshots\\" + image + ".png");
-            Image active = Image.FromFile(  "$(ProjectDir)\\Util\\Buttons\\" + image + "_active.png");
-            Image inactive = Image.FromFile("$(ProjectDir)\\Util\\Buttons\\" + image + "_inactive.png");
+            Capture.Element(button).ToFile( @"$(ProjectDir)\\Util\\screenshots\\" + image + ".png");
+            Image actual = Image.FromFile(  @"$(ProjectDir)\\Util\\screenshots\\" + image + ".png");
+            Image active = Image.FromFile(  @"$(ProjectDir)\\Util\\Buttons\\" + image + "_active.png");
+            Image inactive = Image.FromFile(@"$(ProjectDir)\\Util\\Buttons\\" + image + "_inactive.png");
             bool isactive =     ImageComparer.Compare(actual, active, new ColorDifference(30));
             bool isinactive =   ImageComparer.Compare(actual, inactive, new ColorDifference(30));
             if ((isactive && isinactive) || (!isactive && !isinactive))
