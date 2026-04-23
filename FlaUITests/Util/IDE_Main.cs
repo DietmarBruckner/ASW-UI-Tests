@@ -349,12 +349,12 @@ namespace FlaUITests.Util {
             AutomationElement des = header.FindFirstChild(cf => cf.ByControlType(ControlType.HeaderItem).And(cf.ByName("Description")));
             int idt = 0, ides = 0;
             foreach (var i in items) {
-                if (i == dt)
+                if (i.Name == dt.Name)
                     break;
                 idt++;
             }
             foreach (var i in items) {
-                if (i == des)
+                if (i.Name == des.Name)
                     break;
                 ides++;
             }
