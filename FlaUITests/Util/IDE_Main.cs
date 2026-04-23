@@ -423,7 +423,7 @@ namespace FlaUITests.Util {
             if (!IsButtonActive(_onlineToolBar.FindFirstChild(cf => cf.ByName("BR_\nActivate Simulation")).AsButton(), "activateSimulation"))
                 InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
-        bool IsButtonActive(Button button, string image) {
+        public bool IsButtonActive(Button button, string image = "") {
             //string workingDirectory = System.Environment.CurrentDirectory;
             //Capture.Element(button).ToFile(             workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png");
             Color borderColor = Capture.Element(button).Bitmap.GetPixel(0,0);
