@@ -342,13 +342,38 @@ namespace FlaUITests.Util {
         public void WaitForMessage(string message) {
             InitializeViews(outputResults:true);
             bool done = false;
+            AutomationElement outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
+            AutomationElement header = outputListView.FindFirstChild(cf => cf.ByControlType(ControlType.Header));
+            AutomationElement [] items = header.FindAllChildren();
+            AutomationElement dt = header.FindFirstChild(cf => cf.ByControlType(ControlType.HeaderItem).And(cf.ByName("Date/Time")));
+            AutomationElement des = header.FindFirstChild(cf => cf.ByControlType(ControlType.HeaderItem).And(cf.ByName("Description")));
+            int idt = 0, ides = 0;
+            foreach (var i in items) {
+                if (i == dt)
+                    break;
+                idt++;
+            }
+            foreach (var i in items) {
+                if (i == des)
+                    break;
+                ides++;
+            }
             while (!done) {
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-                AutomationElement outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
-                AutomationElement [] allMessages = outputListView.FindAllDescendants(cf => cf.ByControlType(ControlType.DataItem));
-                AutomationElement [] allMessagesTexts = allMessages[allMessages.Length - 1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
-                if (allMessagesTexts.Any(m => m.Name.IndexOf(message, StringComparison.OrdinalIgnoreCase) >= 0))
-                    done = true;
+                outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
+                AutomationElement [] allMessages = outputListView.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem));
+                SortedDictionary<DateTime, AutomationElement> dictMessages = new SortedDictionary<DateTime, AutomationElement> ();
+                foreach (AutomationElement a in allMessages)
+                    dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].AsTextBox().Text), a);
+                DateTime latest = dictMessages.Keys.Max();
+                List<string> latestDescriptions = new List<string> ();
+                foreach (KeyValuePair<DateTime, AutomationElement> item in dictMessages) { 
+                    if (item.Key.AddSeconds(3) >= latest)
+                        latestDescriptions.Add(item.Value.FindAllChildren()[ides].AsTextBox().Text);
+                }
+                foreach (string s in latestDescriptions)
+                    if (s.IndexOf(message, StringComparison.OrdinalIgnoreCase) >= 0)
+                        done = true;
             }
         }
         public void SwitchView(TreeConfig.ViewType view) {
