@@ -16,6 +16,7 @@ using Mouse = FlaUI.Core.Input.Mouse;
 using Keyboard = FlaUI.Core.Input.Keyboard;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Globalization;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -363,8 +364,9 @@ namespace FlaUITests.Util {
                 outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
                 AutomationElement [] allMessages = outputListView.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem));
                 SortedDictionary<DateTime, AutomationElement> dictMessages = new SortedDictionary<DateTime, AutomationElement> ();
+                DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("de-AT").DateTimeFormat;
                 foreach (AutomationElement a in allMessages)
-                    dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].Name), a);
+                    dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].Name, dtfi), a);
                 DateTime latest = dictMessages.Keys.Max();
                 List<string> latestDescriptions = new List<string> ();
                 foreach (KeyValuePair<DateTime, AutomationElement> item in dictMessages) { 
