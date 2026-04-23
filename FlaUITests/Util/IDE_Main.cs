@@ -427,6 +427,7 @@ namespace FlaUITests.Util {
             string workingDirectory = System.Environment.CurrentDirectory;
             Capture.Element(button).ToFile(             workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png");
             Color borderColor = Capture.Element(button).Bitmap.GetPixel(0,0);
+            bool act = borderColor.Equals(Color.FromArgb(0, 120, 215));
             Color blue = Color.Blue;
             Image actual = ResizeImage(Image.FromFile(  workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png"), 33, 33);
             //actual.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_resized.png");
