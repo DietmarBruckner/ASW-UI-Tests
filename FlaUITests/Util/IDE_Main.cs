@@ -406,8 +406,11 @@ namespace FlaUITests.Util {
             actual.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_resized.png");
             Image active = Image.FromFile(              workingDirectory + "\\FlaUITests\\Util\\Buttons\\" + image + "_active.png");
             Image inactive = Image.FromFile(            workingDirectory + "\\FlaUITests\\Util\\Buttons\\" + image + "_inactive.png");
-            bool isactive =     ImageComparer.Compare(actual, active, new ColorDifference(50));
-            bool isinactive =   ImageComparer.Compare(actual, inactive, new ColorDifference(50));
+            Image diff;
+            bool isactive =     ImageComparer.Compare(actual, active, new ColorDifference(50), out diff);
+            diff.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_diffactive.png");
+            bool isinactive =   ImageComparer.Compare(actual, inactive, new ColorDifference(50), out diff);
+            diff.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_diffinactive.png");
             if ((isactive && isinactive) || (!isactive && !isinactive))
                 throw new Exception ("Could not discern if button " + button.Name + " is active");
             if (isactive)
