@@ -83,7 +83,7 @@ namespace FlaUITests.Util {
             Mouse.LeftClick(point);
             foreach (char ch in CPU) {
                 Keyboard.Type(ch);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(400));
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             }
             nextButton.Invoke();
             while (_ideMain.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0);
