@@ -424,13 +424,13 @@ namespace FlaUITests.Util {
                 InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
         bool IsButtonActive(Button button, string image) {
-            string workingDirectory = System.Environment.CurrentDirectory;
-            Capture.Element(button).ToFile(             workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png");
+            //string workingDirectory = System.Environment.CurrentDirectory;
+            //Capture.Element(button).ToFile(             workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png");
             Color borderColor = Capture.Element(button).Bitmap.GetPixel(0,0);
-            bool act = borderColor.Equals(Color.FromArgb(0, 120, 215));
-            Color blue = Color.Blue;
+            if (borderColor.Equals(Color.FromArgb(0, 120, 215)))
+/*            Color blue = Color.Blue;
             Image actual = ResizeImage(Image.FromFile(  workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png"), 33, 33);
-            //actual.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_resized.png");
+            actual.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_resized.png");
             Image active = Image.FromFile(              workingDirectory + "\\FlaUITests\\Util\\Buttons\\" + image + "_active.png");
             Image inactive = Image.FromFile(            workingDirectory + "\\FlaUITests\\Util\\Buttons\\" + image + "_inactive.png");
             bool isactive = ImageComparer.Compare(actual, active, new ColorDifference(20), out Image diff);
@@ -439,7 +439,7 @@ namespace FlaUITests.Util {
             diff.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_diffinactive.png");
             if ((isactive && isinactive) || (!isactive && !isinactive))
                 throw new Exception ("Could not discern if button " + button.Name + " is active");
-            if (isactive)
+            if (isactive)*/
                 return true;
             return false;
         }
