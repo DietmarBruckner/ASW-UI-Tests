@@ -9,7 +9,7 @@ namespace FlaUITests.Util {
     public partial class MappView {
         string editorPathMV;
         public override void InitComponent() {
-            editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
+            editorPathMV = Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
              if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
