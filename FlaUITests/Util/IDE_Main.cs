@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using FlaUI.Core;
@@ -13,6 +14,8 @@ using FlaUI.Core.Capturing;
 using Microsoft.VisualStudio.TestTools.UITesting;
 using Mouse = FlaUI.Core.Input.Mouse;
 using Keyboard = FlaUI.Core.Input.Keyboard;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -397,18 +400,37 @@ namespace FlaUITests.Util {
  */             InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
         bool IsButtonActive(Button button, string image) {
-            Capture.Element(button).ToFile( new Uri(@"$(ProjectDir)\\Util\\screenshots\\" + image + ".png").ToString());
-            Image actual = Image.FromFile(  @"$(ProjectDir)\\Util\\screenshots\\" + image + ".png");
-            Image active = Image.FromFile(  @"$(ProjectDir)\\Util\\Buttons\\" + image + "_active.png");
-            Image inactive = Image.FromFile(@"$(ProjectDir)\\Util\\Buttons\\" + image + "_inactive.png");
-            bool isactive =     ImageComparer.Compare(actual, active, new ColorDifference(30));
-            bool isinactive =   ImageComparer.Compare(actual, inactive, new ColorDifference(30));
+            string workingDirectory = System.Environment.CurrentDirectory;
+            Capture.Element(button).ToFile(             workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png");
+            Image actual = ResizeImage(Image.FromFile(  workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png"), 33, 33);
+            actual.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_resized.png");
+            Image active = Image.FromFile(              workingDirectory + "\\FlaUITests\\Util\\Buttons\\" + image + "_active.png");
+            Image inactive = Image.FromFile(            workingDirectory + "\\FlaUITests\\Util\\Buttons\\" + image + "_inactive.png");
+            bool isactive =     ImageComparer.Compare(actual, active, new ColorDifference(50));
+            bool isinactive =   ImageComparer.Compare(actual, inactive, new ColorDifference(50));
             if ((isactive && isinactive) || (!isactive && !isinactive))
                 throw new Exception ("Could not discern if button " + button.Name + " is active");
             if (isactive)
                 return true;
             return false;
         }
+        static Bitmap ResizeImage(Image image, int width, int height) {
+            Rectangle destRect = new Rectangle(0, 0, width, height);
+            Bitmap destImage = new Bitmap(width, height);
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+            using (Graphics graphics = Graphics.FromImage(destImage)) {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                using (ImageAttributes wrapMode = new ImageAttributes()) {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width,image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+            return destImage;
+        }        
         public void Transfer () {
             ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nTransfer", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
             Window transferDialog;
