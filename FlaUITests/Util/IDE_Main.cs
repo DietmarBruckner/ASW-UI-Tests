@@ -397,7 +397,7 @@ namespace FlaUITests.Util {
  */             InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
         bool IsButtonActive(Button button, string image) {
-            Capture.Element(button).ToFile( new Uri(@".\Util\screenshots\" + image + ".png").ToString());
+            Capture.Element(button).ToFile( new Uri(@"$(ProjectDir)\\Util\\screenshots\\" + image + ".png").ToString());
             Image actual = Image.FromFile(  @"$(ProjectDir)\\Util\\screenshots\\" + image + ".png");
             Image active = Image.FromFile(  @"$(ProjectDir)\\Util\\Buttons\\" + image + "_active.png");
             Image inactive = Image.FromFile(@"$(ProjectDir)\\Util\\Buttons\\" + image + "_inactive.png");
