@@ -426,6 +426,7 @@ namespace FlaUITests.Util {
         bool IsButtonActive(Button button, string image) {
             string workingDirectory = System.Environment.CurrentDirectory;
             Capture.Element(button).ToFile(             workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png");
+            Color borderColor = Capture.Element(button).Bitmap.GetPixel(1,1);
             Image actual = ResizeImage(Image.FromFile(  workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png"), 33, 33);
             //actual.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_resized.png");
             Image active = Image.FromFile(              workingDirectory + "\\FlaUITests\\Util\\Buttons\\" + image + "_active.png");
