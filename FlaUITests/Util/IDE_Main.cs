@@ -80,7 +80,7 @@ namespace FlaUITests.Util {
             var screen = System.Windows.Forms.Screen.FromHandle(MainWindow.Properties.NativeWindowHandle);
             bool isFullScreen = rect.Left <= screen.WorkingArea.Left && rect.Top <= screen.WorkingArea.Top && rect.Width >= screen.WorkingArea.Width && rect.Height >= screen.WorkingArea.Height;
             if (!isFullScreen)
-                MainWindow.TitleBar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Restore"))).AsButton().Invoke();
+                MainWindow.TitleBar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Maximize"))).AsButton().Invoke();
 
         }
         void Init() {
