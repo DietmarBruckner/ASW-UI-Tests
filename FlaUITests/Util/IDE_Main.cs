@@ -403,21 +403,20 @@ namespace FlaUITests.Util {
             string workingDirectory = System.Environment.CurrentDirectory;
             Capture.Element(button).ToFile(             workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png");
             Image actual = ResizeImage(Image.FromFile(  workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png"), 33, 33);
-            actual.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_resized.png");
+            //actual.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_resized.png");
             Image active = Image.FromFile(              workingDirectory + "\\FlaUITests\\Util\\Buttons\\" + image + "_active.png");
             Image inactive = Image.FromFile(            workingDirectory + "\\FlaUITests\\Util\\Buttons\\" + image + "_inactive.png");
-            Image diff;
-            bool isactive =     ImageComparer.Compare(actual, active, new ColorDifference(20), out diff);
-            diff.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_diffactive.png");
+            bool isactive = ImageComparer.Compare(actual, active, new ColorDifference(20), out Image diff);
+            //diff.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_diffactive.png");
             bool isinactive =   ImageComparer.Compare(actual, inactive, new ColorDifference(20), out diff);
-            diff.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_diffinactive.png");
+            //diff.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_diffinactive.png");
             if ((isactive && isinactive) || (!isactive && !isinactive))
                 throw new Exception ("Could not discern if button " + button.Name + " is active");
             if (isactive)
                 return true;
             return false;
         }
-        static Bitmap ResizeImage(Image image, int width, int height) {
+        Bitmap ResizeImage(Image image, int width, int height) {
             Rectangle destRect = new Rectangle(0, 0, width, height);
             Bitmap destImage = new Bitmap(width, height);
             destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
