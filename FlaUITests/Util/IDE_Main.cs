@@ -366,7 +366,7 @@ namespace FlaUITests.Util {
                 SortedDictionary<DateTime, AutomationElement> dictMessages = new SortedDictionary<DateTime, AutomationElement> ();
                 DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("de-AT").DateTimeFormat;
                 foreach (AutomationElement a in allMessages)
-                    dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].Name, dtfi), a);
+                    dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].Name.Substring(0, 19), dtfi), a);
                 DateTime latest = dictMessages.Keys.Max();
                 List<string> latestDescriptions = new List<string> ();
                 foreach (KeyValuePair<DateTime, AutomationElement> item in dictMessages) { 
