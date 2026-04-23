@@ -364,12 +364,12 @@ namespace FlaUITests.Util {
                 AutomationElement [] allMessages = outputListView.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem));
                 SortedDictionary<DateTime, AutomationElement> dictMessages = new SortedDictionary<DateTime, AutomationElement> ();
                 foreach (AutomationElement a in allMessages)
-                    dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].AsTextBox().Text), a);
+                    dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].Name), a);
                 DateTime latest = dictMessages.Keys.Max();
                 List<string> latestDescriptions = new List<string> ();
                 foreach (KeyValuePair<DateTime, AutomationElement> item in dictMessages) { 
                     if (item.Key.AddSeconds(3) >= latest)
-                        latestDescriptions.Add(item.Value.FindAllChildren()[ides].AsTextBox().Text);
+                        latestDescriptions.Add(item.Value.FindAllChildren()[ides].Name);
                 }
                 foreach (string s in latestDescriptions)
                     if (s.IndexOf(message, StringComparison.OrdinalIgnoreCase) >= 0)

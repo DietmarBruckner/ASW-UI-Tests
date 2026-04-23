@@ -40,7 +40,7 @@ namespace FlaUITests.Util {
             WorkingVersion = workingVersion;
             DictComponents = dictComponents;
 
-            _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
+/*            _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the New Project dialog to appear
             Window newProjectDialog = _ideMain.GetModalWindow("New Project");
             if (newProjectDialog == null) {
@@ -87,7 +87,7 @@ namespace FlaUITests.Util {
             }
             nextButton.Invoke();
             while (_ideMain.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0)
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));*/
             TreeConfig.IdeMain.WaitForMessage("finished.");
             Name += ".apj";
             TreeConfig.CurrentProject = this;
