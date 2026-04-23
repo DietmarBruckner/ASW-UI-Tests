@@ -75,12 +75,13 @@ namespace FlaUITests.Util {
             MainWindow = App.GetMainWindow(_automation);
             _cf = new ConditionFactory(new UIA2PropertyLibrary());
             MainWindow.Focus();
+            Init();
             var rect = MainWindow.BoundingRectangle;
             var screen = System.Windows.Forms.Screen.FromHandle(MainWindow.Properties.NativeWindowHandle);
             bool isFullScreen = rect.Left <= screen.WorkingArea.Left && rect.Top <= screen.WorkingArea.Top && rect.Width >= screen.WorkingArea.Width && rect.Height >= screen.WorkingArea.Height;
             if (!isFullScreen)
                 MainWindow.TitleBar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Restore"))).AsButton().Invoke();
-            Init();
+
         }
         void Init() {
             Menu menu = MainWindow.FindFirstDescendant(_cf.Menu()).AsMenu();
