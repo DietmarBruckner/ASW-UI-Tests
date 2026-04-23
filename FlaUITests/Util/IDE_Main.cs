@@ -389,25 +389,24 @@ namespace FlaUITests.Util {
             return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
         }
         public void ActivateSimulation() {
-            if (PressButtonIfNotActive(_onlineToolBar.FindFirstChild(cf => cf.ByName("BR_\nActivate Simulation")).AsButton(), "activateSimulation"))
+            if (!IsButtonActive(_onlineToolBar.FindFirstChild(cf => cf.ByName("BR_\nActivate Simulation")).AsButton(), "activateSimulation"))
 /*             TextBox sb4 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar4"))).AsTextBox();
             TextBox sb5 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar5"))).AsTextBox();
             if (!((sb4.Text.IndexOf("ARsim", StringComparison.OrdinalIgnoreCase) >= 0) && (sb5.Text.IndexOf("RUN", StringComparison.OrdinalIgnoreCase) >= 0)))
  */             InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
-        bool PressButtonIfNotActive(Button button, string image) {
-            CaptureImage butImg = FlaUI.Core.Capturing.Capture.Element(button);
-            butImg.ToFile("$(ProjectDir)\\Util\\screenshots\\activateSimulation.png");
-            Image actual = Image.FromFile("$(ProjectDir)\\Util\\screenshots\\activateSimulation.png");
-            Image active = Image.FromFile("$(ProjectDir)\\Util\\Buttons\\activateSimulation_active.png");
-            Image inactive = Image.FromFile("$(ProjectDir)\\Util\\Buttons\\activateSimulation_inactive.png");
-            bool isactive = ImageComparer.Compare(actual, active, new ColorDifference(50));
-            bool isinactive = ImageComparer.Compare(actual, inactive, new ColorDifference(50));
-            if ((isactive && isinactive) || (!isactive && !isinactive)) {
-                Console.WriteLine("Could not discern if button " + button.Name + " is active");
-                return false;
-            }
-            return true;
+        bool IsButtonActive(Button button, string image) {
+            Capture.Element(button).ToFile( "$(ProjectDir)\\Util\\screenshots\\" + image + ".png");
+            Image actual = Image.FromFile(  "$(ProjectDir)\\Util\\screenshots\\" + image + ".png");
+            Image active = Image.FromFile(  "$(ProjectDir)\\Util\\Buttons\\" + image + "_active.png");
+            Image inactive = Image.FromFile("$(ProjectDir)\\Util\\Buttons\\" + image + "_inactive.png");
+            bool isactive =     ImageComparer.Compare(actual, active, new ColorDifference(30));
+            bool isinactive =   ImageComparer.Compare(actual, inactive, new ColorDifference(30));
+            if ((isactive && isinactive) || (!isactive && !isinactive))
+                throw new Exception ("Could not discern if button " + button.Name + " is active");
+            if (isactive)
+                return true;
+            return false;
         }
         public void Transfer () {
             ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nTransfer", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
