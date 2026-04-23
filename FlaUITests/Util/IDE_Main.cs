@@ -340,7 +340,7 @@ namespace FlaUITests.Util {
             }
         }
         public void WaitForMessage(string message) {
-            InvokeMenuItem(GetMenu("View"), "Go To", "Output Results");
+            InitializeViews(outputResults:true);
             bool done = false;
             while (!done) {
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));

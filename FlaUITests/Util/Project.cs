@@ -86,7 +86,9 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             }
             nextButton.Invoke();
-            while (_ideMain.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0);
+            while (_ideMain.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0)
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            TreeConfig.IdeMain.WaitForMessage("finished.");
             Name += ".apj";
             TreeConfig.CurrentProject = this;
             if (dictComponents != null)
