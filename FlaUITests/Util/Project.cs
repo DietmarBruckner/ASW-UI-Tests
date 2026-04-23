@@ -39,7 +39,6 @@ namespace FlaUITests.Util {
             CPU = cpu;
             WorkingVersion = workingVersion;
             DictComponents = dictComponents;
-            _ideMain.ActivateSimulation();
 
             _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the New Project dialog to appear
@@ -84,7 +83,7 @@ namespace FlaUITests.Util {
             Mouse.LeftClick(point);
             foreach (char ch in CPU) {
                 Keyboard.Type(ch);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(400));
             }
             nextButton.Invoke();
             while (_ideMain.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0);
