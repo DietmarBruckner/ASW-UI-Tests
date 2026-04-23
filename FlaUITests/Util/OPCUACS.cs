@@ -27,16 +27,8 @@ namespace FlaUITests.Util {
             AutomationElement uaToolbar = uaConfigWorkspaceWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Client/Server Configuration")));
             Button advancedVisibilityButton = uaToolbar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Change Advanced Parameter Visibility"))).AsButton();
             if (!TreeConfig.IdeMain.IsButtonActive(advancedVisibilityButton))
-            //int itemsCount = uacsConfigRoot.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).Length;
                 advancedVisibilityButton.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            /*uacsConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
-            int itemsCount1 = uacsConfigRoot.FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).Length;
-            if (itemsCount1 < itemsCount) {
-                advancedVisibilityButton.Click();
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                uacsConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
-            }*/
              //set OPC UA Client/Server to Enabled
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, new List<string> { "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 1); //Select "Enabled"
