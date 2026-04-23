@@ -394,10 +394,7 @@ namespace FlaUITests.Util {
         }
         public void ActivateSimulation() {
             if (!IsButtonActive(_onlineToolBar.FindFirstChild(cf => cf.ByName("BR_\nActivate Simulation")).AsButton(), "activateSimulation"))
-/*             TextBox sb4 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar4"))).AsTextBox();
-            TextBox sb5 = StatusBar.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar).And(cf.ByName("BR_Statusbar5"))).AsTextBox();
-            if (!((sb4.Text.IndexOf("ARsim", StringComparison.OrdinalIgnoreCase) >= 0) && (sb5.Text.IndexOf("RUN", StringComparison.OrdinalIgnoreCase) >= 0)))
- */             InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
+                InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
         bool IsButtonActive(Button button, string image) {
             string workingDirectory = System.Environment.CurrentDirectory;
@@ -406,9 +403,9 @@ namespace FlaUITests.Util {
             //actual.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_resized.png");
             Image active = Image.FromFile(              workingDirectory + "\\FlaUITests\\Util\\Buttons\\" + image + "_active.png");
             Image inactive = Image.FromFile(            workingDirectory + "\\FlaUITests\\Util\\Buttons\\" + image + "_inactive.png");
-            bool isactive = ImageComparer.Compare(actual, active, new ColorDifference(20), out Image diff);
+            bool isactive = ImageComparer.Compare(actual, active, new ColorDifference(20));//, out Image diff);
             //diff.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_diffactive.png");
-            bool isinactive =   ImageComparer.Compare(actual, inactive, new ColorDifference(20), out diff);
+            bool isinactive =   ImageComparer.Compare(actual, inactive, new ColorDifference(20));//, out diff);
             //diff.Save(workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + "_diffinactive.png");
             if ((isactive && isinactive) || (!isactive && !isinactive))
                 throw new Exception ("Could not discern if button " + button.Name + " is active");
@@ -464,7 +461,7 @@ namespace FlaUITests.Util {
             ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
         }
         public void SelectComponentVersion (string componentName, string version) {
-            var engine = new TesseractEngine("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default);
+            var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default);
             InvokeMenuItem(GetMenu("Project"), "Change Runtime Versions...");
             Window manageComponentsWindow;
             while ((manageComponentsWindow = GetModalWindow(TreeConfig.CurrentProject.CPU + " - Properties")) == null)
@@ -485,9 +482,10 @@ namespace FlaUITests.Util {
                 foreach (AutomationElement item in componentItems) {
                     if (item.Name.IndexOf(".DomainCfg", StringComparison.OrdinalIgnoreCase) >= 0) {
                         AutomationElement compText = item.FindAllChildren(cf => cf.ByControlType(ControlType.Custom))[0];
-                        CaptureImage compImg = FlaUI.Core.Capturing.Capture.Element(compText);
-                        compImg.ToFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\1.png");
-                        Page page = engine.Process(Pix.LoadFromFile("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\Util\\screenshots\\1.png"));
+                        CaptureImage compImg = Capture.Element(compText);
+                        string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR.png";
+                        compImg.ToFile(file);
+                        Page page = engine.Process(Pix.LoadFromFile(file));
                         string text = page.GetText();
                         if (text.IndexOf(componentName) >= 0) {
                             componentItem = item;
