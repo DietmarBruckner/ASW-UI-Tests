@@ -366,9 +366,8 @@ namespace FlaUITests.Util {
         public void SearchToolBox(string searchTerm) {
             AutomationElement searchTextBox = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox")));
             if (searchTextBox.Name != searchTerm) {
-                Button clearButton = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar).And(cf.ByAutomationId("_toolStrip"))).FindAllChildren(cf => cf.ByControlType(ControlType.Button))[1].AsButton();
-                clearButton.Click();
-                Mouse.LeftClick(new Point { X = searchTextBox.BoundingRectangle.Left+ searchTextBox.BoundingRectangle.Width / 2, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 });
+                Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar).And(cf.ByAutomationId("_toolStrip"))).FindAllChildren(cf => cf.ByControlType(ControlType.Button))[1].AsButton().Click();
+                TreeConfig.ClickAutomationElement(searchTextBox);
                 foreach (char ch in searchTerm) {
                     Keyboard.Type(ch);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(50));
@@ -442,8 +441,7 @@ namespace FlaUITests.Util {
                     ViewTab = ViewTab.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Physical View")));
                     break;
             }
-            point = new Point { X = ViewTab.BoundingRectangle.Left + ViewTab.BoundingRectangle.Width / 2, Y = ViewTab.BoundingRectangle.Top + ViewTab.BoundingRectangle.Height / 2 };
-            Mouse.LeftClick(point);
+            TreeConfig.ClickAutomationElement(ViewTab);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
         public AutomationElement GetActiveConfigurtion() {

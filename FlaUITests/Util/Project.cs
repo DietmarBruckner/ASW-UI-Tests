@@ -47,14 +47,11 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Error: New Project dialog did not appear.");
                 return;
             }
-            TextBox nameTextBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("projectNameTextBox"))).AsTextBox();
-            Point point = new Point { X = nameTextBox.BoundingRectangle.Left+ nameTextBox.BoundingRectangle.Width / 2, Y = nameTextBox.BoundingRectangle.Top + nameTextBox.BoundingRectangle.Height / 2 };
-            Mouse.LeftClick(point);
+            TreeConfig.ClickAutomationElement(newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("projectNameTextBox"))).AsTextBox());
             Keyboard.Type(name);
             TextBox pathTextBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("pathTextBox"))).AsTextBox();
             if (pathTextBox.Text != path) {
-                point = new Point { X = pathTextBox.BoundingRectangle.Left+ pathTextBox.BoundingRectangle.Width / 2, Y = pathTextBox.BoundingRectangle.Top + pathTextBox.BoundingRectangle.Height / 2 };
-                Mouse.LeftClick(point);
+                TreeConfig.ClickAutomationElement(pathTextBox);
                 Keyboard.TypeSimultaneously(new FlaUI.Core.WindowsAPI.VirtualKeyShort[] { FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A });
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
                 Keyboard.Type(path);
@@ -72,15 +69,12 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             TextBox configTextBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("configurationNameTextBox"))).AsTextBox();
             if (configTextBox.Text != config) {
-                point = new Point { X = configTextBox.BoundingRectangle.Left+ configTextBox.BoundingRectangle.Width / 2, Y = configTextBox.BoundingRectangle.Top + configTextBox.BoundingRectangle.Height / 2 };
-                Mouse.LeftClick(point);
+                TreeConfig.ClickAutomationElement(configTextBox);
                 Keyboard.Type(config);
             }
             nextButton.Invoke();
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
-            TextBox searchTextBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox"))).AsTextBox();
-            point = new Point { X = searchTextBox.BoundingRectangle.Left+ searchTextBox.BoundingRectangle.Width / 2, Y = searchTextBox.BoundingRectangle.Top + searchTextBox.BoundingRectangle.Height / 2 };
-            Mouse.LeftClick(point);
+            TreeConfig.ClickAutomationElement(newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox"))).AsTextBox());
             foreach (char ch in CPU) {
                 Keyboard.Type(ch);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
@@ -138,9 +132,7 @@ namespace FlaUITests.Util {
             AutomationElement pane3 = openProjectDialog.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("40965")));
             AutomationElement comboBox = pane3.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("41477")));
             ProgressBar progressBar = comboBox.FindFirstChild(cf => cf.ByControlType(ControlType.ProgressBar)).AsProgressBar();
-            AutomationElement pane = progressBar.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
-            Point point = new Point { X = pane.BoundingRectangle.Left+ pane.BoundingRectangle.Width / 2, Y = pane.BoundingRectangle.Top + pane.BoundingRectangle.Height / 2 };
-            Mouse.LeftClick(point);
+            TreeConfig.ClickAutomationElement(progressBar.FindFirstChild(cf => cf.ByControlType(ControlType.Pane)));
             Keyboard.Type(projectPath + "\n");
             AutomationElement pane1 = openProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Shell Folder View")));
             AutomationElement fileList = pane1.FindFirstChild(cf => cf.ByControlType(ControlType.List));
