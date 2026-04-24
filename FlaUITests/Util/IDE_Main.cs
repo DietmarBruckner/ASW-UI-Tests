@@ -372,8 +372,9 @@ namespace FlaUITests.Util {
                 }
             }
         }
-        public void WaitForMessage(string message) {
+        public void WaitForMessage(string message, int timeout = 30) {
             InitializeViews(outputResults:true);
+            DateTime now = DateTime.Now;
             bool done = false;
             AutomationElement outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
             AutomationElement header = outputListView.FindFirstChild(cf => cf.ByControlType(ControlType.Header));
@@ -393,7 +394,7 @@ namespace FlaUITests.Util {
                 ides++;
             }
             //sort descriptions by datetime and parse through last 3 seconds for desired message
-            while (!done) {
+            while (!done && DateTime.Now < now.AddSeconds(timeout)) {
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
                 outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
                 AutomationElement [] allMessages = outputListView.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem));
