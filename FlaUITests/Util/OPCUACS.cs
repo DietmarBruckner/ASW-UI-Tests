@@ -10,7 +10,7 @@ namespace FlaUITests.Util {
         public override void InitComponent() {
             editorPathOP = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\OpcUaCs\\" + Version + "\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
-            TreeConfig.IdeMain.SelectComponentVersion("OPC UA", Version);
+            TreeConfig.IdeMain.SelectComponentVersion("OPC", Version);
             ActivateOPCUACS();
         }
         public override void InsertComponent() {

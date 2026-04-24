@@ -545,6 +545,7 @@ namespace FlaUITests.Util {
                         compImg.ToFile(file);
                         Page page = engine.Process(Pix.LoadFromFile(file));
                         string text = page.GetText();
+                        page.Dispose();
                         if (text.IndexOf(componentName) >= 0) {
                             componentItem = item;
                             break;
