@@ -17,6 +17,12 @@ using Keyboard = FlaUI.Core.Input.Keyboard;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Globalization;
+using System.Windows.Forms;
+using FlaUI.Core.Tools;
+using Application = FlaUI.Core.Application;
+using Button = FlaUI.Core.AutomationElements.Button;
+using MenuItem = FlaUI.Core.AutomationElements.MenuItem;
+using TextBox = FlaUI.Core.AutomationElements.TextBox;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -81,7 +87,7 @@ namespace FlaUITests.Util {
             MainWindow.Focus();
             Init();
             var rect = MainWindow.BoundingRectangle;
-            var screen = System.Windows.Forms.Screen.FromHandle(MainWindow.Properties.NativeWindowHandle);
+            Screen screen = Screen.FromHandle(MainWindow.Properties.NativeWindowHandle);
             bool isFullScreen = rect.Left <= screen.WorkingArea.Left && rect.Top <= screen.WorkingArea.Top && rect.Width >= screen.WorkingArea.Width && rect.Height >= screen.WorkingArea.Height;
             if (!isFullScreen)
                 MainWindow.TitleBar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Maximize"))).AsButton().Invoke();
@@ -250,8 +256,28 @@ namespace FlaUITests.Util {
             return null;
         }
         public Window GetModalWindow(String name) {
-            return MainWindow.ModalWindows.FirstOrDefault(w => w.Title.Contains(name));
+            Window w = MainWindow.ModalWindows.FirstOrDefault(x => x.Title.Contains(name));
+            while ((w = MainWindow.ModalWindows.FirstOrDefault(x => x.Title.Contains(name))) == null)
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            CheckResizeWindowWithinScreen(w);
+            return w;
         }
+        public void CheckResizeWindowWithinScreen (Window w) {
+            Rectangle wbr = w.BoundingRectangle;
+            Screen screen = Screen.FromHandle(w.Properties.NativeWindowHandle);
+            bool isFullyVisible = wbr.Left >= screen.WorkingArea.Left && wbr.Top >= screen.WorkingArea.Top && wbr.Right <= screen.WorkingArea.Right && wbr.Bottom <= screen.WorkingArea.Bottom;
+            if (!isFullyVisible) {
+                Console.WriteLine("Window not fully visible - trying to make it fit screen.");
+                Rectangle tbr = w.TitleBar.BoundingRectangle;
+                Point point = new Point { X = tbr.Left + tbr.Width / 2, Y = tbr.Top + tbr.Height / 2 };
+                //just move or needs resize?
+                bool fitsScreen = wbr.Width <= screen.WorkingArea.Width && wbr.Height <= screen.WorkingArea.Height;
+                if (fitsScreen) {
+                    Mouse.MoveTo(point);
+                    Mouse.Drag(point, tbr.Left + tbr.Width / 2 - wbr.Left - wbr.Width / 2, wbr.Top + wbr.Height / 2 - 20);
+                }
+            }
+        } 
         public void InitializeViews(bool projectExplorer = false, bool toolbox = false, bool propertyWindow = false, bool outputResults = false, bool statusBar = false) {
             if (projectExplorer) {
                 ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
