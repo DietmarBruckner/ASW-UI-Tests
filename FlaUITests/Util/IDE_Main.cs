@@ -513,7 +513,7 @@ namespace FlaUITests.Util {
             while (StatusBar.Name.IndexOf("Builds", StringComparison.OrdinalIgnoreCase) >= 0);
             WaitForMessage("Build:");
             Window buildProjectWindow = GetModalWindow("Build Project");
-            buildProjectWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("CancelButton"))).AsButton().Click();
+            buildProjectWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Close"))).AsButton().Click();
         }
         public void Save() {
             ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
