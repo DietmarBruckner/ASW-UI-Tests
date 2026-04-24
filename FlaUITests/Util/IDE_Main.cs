@@ -275,7 +275,7 @@ namespace FlaUITests.Util {
                 bool fitsScreen = wbr.Width <= sr.Width && wbr.Height <= sr.Height;
                 if (fitsScreen) {
                     Mouse.MoveTo(point);
-                    Mouse.Drag(point, wbr.Left + wbr.Width / 2 - sr.Left - sr.Width / 2, 20 - wbr.Top - wbr.Height / 2);
+                    Mouse.Drag(point, sr.Left + sr.Width / 2 - wbr.Left - wbr.Width / 2, 20 - wbr.Top - wbr.Height / 2);
                 }
             }
         } 
