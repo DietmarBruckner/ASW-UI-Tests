@@ -261,7 +261,7 @@ namespace FlaUITests.Util {
             return null;
         }
         public Window GetModalWindow(String name) {
-            Window w = MainWindow.ModalWindows.FirstOrDefault(x => x.Title.Contains(name));
+            Window w;
             while ((w = MainWindow.ModalWindows.FirstOrDefault(x => x.Title.Contains(name))) == null)
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             CheckResizeWindowWithinScreen(w);
