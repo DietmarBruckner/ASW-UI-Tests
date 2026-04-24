@@ -150,6 +150,7 @@ namespace FlaUITests.Util {
             }
             ideMain.MakeToolBoxElementsVisible(categories: false);
             ideMain.SearchToolBox(objectName);
+            toolbox = ideMain.Toolbox;
             AutomationElement toolBoxContextContent = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
             AutomationElement desiredElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName(objectName))) ?? throw new Exception(objectName + " element not found");
             desiredElementItem.DoubleClick();
