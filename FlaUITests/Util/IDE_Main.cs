@@ -265,16 +265,17 @@ namespace FlaUITests.Util {
         public void CheckResizeWindowWithinScreen (Window w) {
             Rectangle wbr = w.BoundingRectangle;
             Screen screen = Screen.FromHandle(w.Properties.NativeWindowHandle);
-            bool isFullyVisible = wbr.Left >= screen.WorkingArea.Left && wbr.Top >= screen.WorkingArea.Top && wbr.Right <= screen.WorkingArea.Right && wbr.Bottom <= screen.WorkingArea.Bottom;
+            Rectangle sr = screen.Bounds;
+            bool isFullyVisible = wbr.Left >= sr.Left && wbr.Top >= sr.Top && wbr.Right <= sr.Right && wbr.Bottom <= sr.Bottom;
             if (!isFullyVisible) {
                 Console.WriteLine("Window not fully visible - trying to make it fit screen.");
                 Rectangle tbr = w.TitleBar.BoundingRectangle;
                 Point point = new Point { X = tbr.Left + tbr.Width / 2, Y = tbr.Top + tbr.Height / 2 };
                 //just move or needs resize?
-                bool fitsScreen = wbr.Width <= screen.WorkingArea.Width && wbr.Height <= screen.WorkingArea.Height;
+                bool fitsScreen = wbr.Width <= sr.Width && wbr.Height <= sr.Height;
                 if (fitsScreen) {
                     Mouse.MoveTo(point);
-                    Mouse.Drag(point, tbr.Left + tbr.Width / 2 - wbr.Left - wbr.Width / 2, wbr.Top + wbr.Height / 2 - 20);
+                    Mouse.Drag(point, wbr.Left + wbr.Width / 2 - sr.Left - sr.Width / 2, 20 - wbr.Top - wbr.Height / 2);
                 }
             }
         } 
