@@ -93,7 +93,7 @@ namespace FlaUITests.Util {
                 MainWindow.TitleBar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Maximize"))).AsButton().Invoke();
 
         }
-        void Init() {
+        void InitMenues() {
             Menu menu = MainWindow.FindFirstDescendant(_cf.Menu()).AsMenu();
             AutomationElement[] menus = menu.FindAllDescendants();
             foreach (AutomationElement m in menus) {
@@ -122,6 +122,9 @@ namespace FlaUITests.Util {
                 else if (name.IndexOf("Help", StringComparison.OrdinalIgnoreCase) >= 0)
                     _helpMenu = m.AsMenu();
             }
+        }
+        void Init() {
+            InitMenues();
             AutomationElement[] allPanes = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar));
             if (allPanes.Length > 0)
                 StatusBar = allPanes[0];
@@ -250,6 +253,7 @@ namespace FlaUITests.Util {
             return _titleBar != null && !string.IsNullOrEmpty(_titleBar.Name) && _titleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
         }
         public Menu GetMenu(string menuName) {
+            InitMenues();
             if (MenuNames.ContainsKey(menuName)) {
                 return MenuNames[menuName];
             }
