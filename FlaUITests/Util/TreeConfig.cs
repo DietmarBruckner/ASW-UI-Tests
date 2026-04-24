@@ -52,18 +52,37 @@ namespace FlaUITests.Util {
                 }
                 VerticalScrollBar verticalScrollBar = view.FindFirstDescendant(cf => cf.ByControlType(ControlType.ScrollBar).And(cf.ByAutomationId("Vertical ScrollBar"))).AsVerticalScrollBar();
                 HorizontalScrollBar horizontalScrollBar = view.FindFirstDescendant(cf => cf.ByControlType(ControlType.ScrollBar).And(cf.ByAutomationId("Horizontal ScrollBar"))).AsHorizontalScrollBar();
-                verticalScrollBar.ScrollUpLarge();
-                horizontalScrollBar.ScrollLeftLarge();
+                while (verticalScrollBar.Value > verticalScrollBar.MinimumValue)
+                    verticalScrollBar.ScrollUpLarge();
+                while (horizontalScrollBar.Value > horizontalScrollBar.MinimumValue)
+                    horizontalScrollBar.ScrollLeftLarge();
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
                 elementRect = clickElement.BoundingRectangle;
-                while (elementRect.Width == 0 || elementRect.Height == 0) {
-                    verticalScrollBar.ScrollDown();
-                    verticalScrollBar.ScrollDown();
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
-                    clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
-                    elementRect = clickElement.BoundingRectangle;
+                while((elementRect.Width == 0 || elementRect.Height == 0) && horizontalScrollBar.Value < horizontalScrollBar.MaximumValue) {
+                    //try scrolling down and right until found
+                    while ((elementRect.Width == 0 || elementRect.Height == 0) && verticalScrollBar.Value < verticalScrollBar.MaximumValue) {
+                        verticalScrollBar.ScrollDown();
+                        verticalScrollBar.ScrollDown();
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                        clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
+                        elementRect = clickElement.BoundingRectangle;
+                    }
+                    if (elementRect.Width == 0 || elementRect.Height == 0) {
+                        while (verticalScrollBar.Value > verticalScrollBar.MinimumValue)
+                            verticalScrollBar.ScrollUpLarge();
+                        horizontalScrollBar.ScrollRightLarge();
+                    }
                 }
+                if (elementRect.Width != 0 && elementRect.Height != 0) {
+                    Rectangle vr = view.BoundingRectangle;
+                    while ((elementRect.Top > vr.Top + vr.Height/2) && (verticalScrollBar.Value < verticalScrollBar.MaximumValue))
+                        verticalScrollBar.ScrollDown();
+                    while ((elementRect.Left > vr.Left + vr.Width/2) && (horizontalScrollBar.Value < horizontalScrollBar.MaximumValue))
+                        horizontalScrollBar.ScrollRight();
+                }
+                else
+                    Console.WriteLine("Could not locate " + element.Name);
             }
         }
         public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, AutomationElement root = null) {
