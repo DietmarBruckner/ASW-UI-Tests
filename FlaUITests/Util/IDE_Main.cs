@@ -572,6 +572,8 @@ namespace FlaUITests.Util {
             }
             Button okButton = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("btnOk"))).AsButton();
             okButton.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            TreeConfig.IdeMain.MainWindow.TitleBar.Click();
         }
         public void InstallComponentVersion (string componentName, string version) {
         }
