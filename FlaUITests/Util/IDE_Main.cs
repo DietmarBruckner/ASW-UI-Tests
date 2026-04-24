@@ -346,6 +346,7 @@ namespace FlaUITests.Util {
             AutomationElement outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
             AutomationElement header = outputListView.FindFirstChild(cf => cf.ByControlType(ControlType.Header));
             AutomationElement [] items = header.FindAllChildren();
+            //find the columns containing date and description
             AutomationElement dt = header.FindFirstChild(cf => cf.ByControlType(ControlType.HeaderItem).And(cf.ByName("Date/Time")));
             AutomationElement des = header.FindFirstChild(cf => cf.ByControlType(ControlType.HeaderItem).And(cf.ByName("Description")));
             int idt = 0, ides = 0;
@@ -359,14 +360,14 @@ namespace FlaUITests.Util {
                     break;
                 ides++;
             }
+            //sort descriptions by datetime and parse through last 3 seconds for desired message
             while (!done) {
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
                 outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
                 AutomationElement [] allMessages = outputListView.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem));
                 SortedDictionary<DateTime, AutomationElement> dictMessages = new SortedDictionary<DateTime, AutomationElement> ();
-                DateTimeFormatInfo dtfi = CultureInfo.GetCultureInfo("de-AT").DateTimeFormat;
                 foreach (AutomationElement a in allMessages)
-                    dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].Name.Replace(',', '.'), dtfi), a);
+                    dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].Name.Replace(',', '.'), CultureInfo.GetCultureInfo("de-AT").DateTimeFormat), a);
                 DateTime latest = dictMessages.Keys.Max();
                 List<string> latestDescriptions = new List<string> ();
                 foreach (KeyValuePair<DateTime, AutomationElement> item in dictMessages) { 
@@ -443,7 +444,7 @@ namespace FlaUITests.Util {
                 return true;
             return false;
         }
-        Bitmap ResizeImage(Image image, int width, int height) {
+        /*Bitmap ResizeImage(Image image, int width, int height) {
             Rectangle destRect = new Rectangle(0, 0, width, height);
             Bitmap destImage = new Bitmap(width, height);
             destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
@@ -459,7 +460,7 @@ namespace FlaUITests.Util {
                 }
             }
             return destImage;
-        }        
+        } */       
         public void Transfer () {
             ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nTransfer", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
             Window transferDialog;
