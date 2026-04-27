@@ -32,7 +32,7 @@ namespace FlaUITests.Util {
             else
                 Console.WriteLine("No project loaded.");
         }
-        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu, Dictionary<Components, string> dictComponents, string workingVersion = null, Environment.Verbose verbose = Environment.Verbose.LIGHT) {
+        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu, Dictionary<Components, string> dictComponents, string workingVersion = null, Environment.Verbose verbose = Environment.Verbose.NONE) {
             _ideMain = ideMain;
             Name = name;
             Path = path;
