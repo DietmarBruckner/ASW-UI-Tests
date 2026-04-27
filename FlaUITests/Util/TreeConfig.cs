@@ -15,20 +15,28 @@ namespace FlaUITests.Util {
         public static AppProject CurrentProject { get; set; }
 
         public static void ClickConfigTreeItem(ViewType viewType, AutomationElement element, string sub, bool doubleClick = false) {
+            if (CurrentProject.verbose >= Environment.Verbose.FULL)
+                Console.WriteLine("Trying to " + (doubleClick?"double click ":"click ") + "element: " + element.Name + "." + sub);
             MakeTreeItemVisible(viewType, element, sub);
             ClickAutomationElement(element.FindFirstChild(cf => cf.ByName(element.Name + sub)), doubleClick);
         }
         public static void ClickComboBoxTreeItem(Window window, int index) {
+            if (CurrentProject.verbose >= Environment.Verbose.FULL)
+                Console.WriteLine("Trying to click " + index + "-th element of list");
             AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
             ClickAutomationElement(comboBox.FindAllChildren()[index]);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
         }
         public static void ClickComboBoxTreeItem(Window window, string element) {
+            if (CurrentProject.verbose >= Environment.Verbose.FULL)
+                Console.WriteLine("Trying to click element: " + element + " in list");
             AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
             ClickAutomationElement(comboBox.FindFirstChild(cf => cf.ByName(element)));
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
         }
         public static void ClickAutomationElement(AutomationElement element, bool doubleClick = false) {
+            if (CurrentProject.verbose >= Environment.Verbose.FULL)
+                Console.WriteLine((doubleClick?"Double clicking ":"clicking ") + "in the middle of element: " + element);            
             Point point = new Point { X = element.BoundingRectangle.Left + element.BoundingRectangle.Width / 2, Y = element.BoundingRectangle.Top + element.BoundingRectangle.Height / 2 };
             if (doubleClick)
                 Mouse.DoubleClick(point);
