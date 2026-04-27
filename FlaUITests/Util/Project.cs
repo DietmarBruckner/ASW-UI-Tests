@@ -14,6 +14,7 @@ namespace FlaUITests.Util {
         public string Config { get; set; }
         public string CPU { get; set; }
         public string WorkingVersion { get; set; }
+        public Environment.Verbose verbose;
         readonly Dictionary<Components, string> DictComponents;
         List<ComponentInProject> components;
 
@@ -31,7 +32,7 @@ namespace FlaUITests.Util {
             else
                 Console.WriteLine("No project loaded.");
         }
-        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu, Dictionary<Components, string> dictComponents, string workingVersion = null) {
+        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu, Dictionary<Components, string> dictComponents, string workingVersion = null, Environment.Verbose verbose = Environment.Verbose.LIGHT) {
             _ideMain = ideMain;
             Name = name;
             Path = path;
@@ -39,6 +40,7 @@ namespace FlaUITests.Util {
             CPU = cpu;
             WorkingVersion = workingVersion;
             DictComponents = dictComponents;
+            this.verbose = verbose;
 
     /*        _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the New Project dialog to appear
@@ -87,6 +89,8 @@ namespace FlaUITests.Util {
             TreeConfig.CurrentProject = this;
             if (dictComponents != null)
                 components = new List<ComponentInProject>();
+            if (this.verbose >= Environment.Verbose.LIGHT)
+                Console.WriteLine("Activating Simulation");
             _ideMain.ActivateSimulation();
             foreach (KeyValuePair<Components, string> kvp in DictComponents) {
                 ComponentInProject cip = null;
@@ -97,6 +101,8 @@ namespace FlaUITests.Util {
                     case Components.OPCUACS:            cip = new OPCUACS(this, kvp.Value);             break;
                 }
                 components.Add(cip);
+                if (this.verbose >= Environment.Verbose.LIGHT)
+                    Console.WriteLine("Initializing component: " + cip.ToString());
                 Init(cip);
             }
             _ideMain.Transfer();
