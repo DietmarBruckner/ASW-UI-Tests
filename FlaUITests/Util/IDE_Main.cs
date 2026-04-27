@@ -581,7 +581,7 @@ namespace FlaUITests.Util {
             okButton.Click();
             while ((manageComponentsWindow = MainWindow.ModalWindows.FirstOrDefault(x => x.Title.Contains(TreeConfig.CurrentProject.CPU + " - Properties"))) != null)
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            TreeConfig.IdeMain.MainWindow.TitleBar.Click();
+            TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.MainWindow.TitleBar);
         }
         public void InstallComponentVersion (string componentName, string version) {
         }
