@@ -52,27 +52,48 @@ namespace FlaUITests.Util {
                 }
                 VerticalScrollBar verticalScrollBar = view.FindFirstDescendant(cf => cf.ByControlType(ControlType.ScrollBar).And(cf.ByAutomationId("Vertical ScrollBar"))).AsVerticalScrollBar();
                 HorizontalScrollBar horizontalScrollBar = view.FindFirstDescendant(cf => cf.ByControlType(ControlType.ScrollBar).And(cf.ByAutomationId("Horizontal ScrollBar"))).AsHorizontalScrollBar();
-                while (verticalScrollBar.Value > verticalScrollBar.MinimumValue)
-                    verticalScrollBar.ScrollUpLarge();
-                while (horizontalScrollBar.Value > horizontalScrollBar.MinimumValue)
-                    horizontalScrollBar.ScrollLeftLarge();
+                if (verticalScrollBar != null)
+                    while (verticalScrollBar.Value > verticalScrollBar.MinimumValue)
+                        verticalScrollBar.ScrollUpLarge();
+                if (horizontalScrollBar != null)
+                    while (horizontalScrollBar.Value > horizontalScrollBar.MinimumValue)
+                        horizontalScrollBar.ScrollLeftLarge();
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
                 elementRect = clickElement.BoundingRectangle;
-                while((elementRect.Width == 0 || elementRect.Height == 0) && horizontalScrollBar.Value < horizontalScrollBar.MaximumValue) {
-                    //try scrolling down and right until found
-                    while ((elementRect.Width == 0 || elementRect.Height == 0) && verticalScrollBar.Value < verticalScrollBar.MaximumValue) {
-                        verticalScrollBar.ScrollDown();
-                        verticalScrollBar.ScrollDown();
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
-                        clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
-                        elementRect = clickElement.BoundingRectangle;
+                if (horizontalScrollBar != null && verticalScrollBar != null)
+                    while((elementRect.Width == 0 || elementRect.Height == 0) && horizontalScrollBar.Value < horizontalScrollBar.MaximumValue) {
+                        //try scrolling down and right until found
+                        while ((elementRect.Width == 0 || elementRect.Height == 0) && verticalScrollBar.Value < verticalScrollBar.MaximumValue) {
+                            verticalScrollBar.ScrollDown();
+                            verticalScrollBar.ScrollDown();
+                            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                            clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
+                            elementRect = clickElement.BoundingRectangle;
+                        }
+                        if (elementRect.Width == 0 || elementRect.Height == 0) {
+                            while (verticalScrollBar.Value > verticalScrollBar.MinimumValue)
+                                verticalScrollBar.ScrollUpLarge();
+                            horizontalScrollBar.ScrollRightLarge();
+                        }
                     }
-                    if (elementRect.Width == 0 || elementRect.Height == 0) {
-                        while (verticalScrollBar.Value > verticalScrollBar.MinimumValue)
-                            verticalScrollBar.ScrollUpLarge();
-                        horizontalScrollBar.ScrollRightLarge();
-                    }
+                else {
+                    if (verticalScrollBar != null)
+                        while ((elementRect.Width == 0 || elementRect.Height == 0) && verticalScrollBar.Value < verticalScrollBar.MaximumValue) {
+                                verticalScrollBar.ScrollDown();
+                                verticalScrollBar.ScrollDown();
+                                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                                clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
+                                elementRect = clickElement.BoundingRectangle;
+                            }
+                    if (horizontalScrollBar != null)
+                        while ((elementRect.Width == 0 || elementRect.Height == 0) && horizontalScrollBar.Value < horizontalScrollBar.MaximumValue) {
+                                horizontalScrollBar.ScrollRight();
+                                horizontalScrollBar.ScrollRight();
+                                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                                clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
+                                elementRect = clickElement.BoundingRectangle;
+                            }
                 }
                 if (elementRect.Width != 0 && elementRect.Height != 0) {
                     Rectangle vr = view.BoundingRectangle;
