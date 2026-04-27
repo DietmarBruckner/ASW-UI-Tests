@@ -401,8 +401,11 @@ namespace FlaUITests.Util {
                 outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
                 AutomationElement [] allMessages = outputListView.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem));
                 SortedDictionary<DateTime, AutomationElement> dictMessages = new SortedDictionary<DateTime, AutomationElement> ();
-                foreach (AutomationElement a in allMessages)
+                foreach (AutomationElement a in allMessages) {
+                    try {
                     dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].Name.Replace(',', '.'), CultureInfo.GetCultureInfo("de-AT").DateTimeFormat), a);
+                    } catch {} //if same timestamp already exists, ignore
+                }
                 DateTime latest = dictMessages.Keys.Max();
                 List<string> latestDescriptions = new List<string> ();
                 foreach (KeyValuePair<DateTime, AutomationElement> item in dictMessages) { 
