@@ -23,6 +23,7 @@ using Application = FlaUI.Core.Application;
 using Button = FlaUI.Core.AutomationElements.Button;
 using MenuItem = FlaUI.Core.AutomationElements.MenuItem;
 using TextBox = FlaUI.Core.AutomationElements.TextBox;
+using System.Runtime.CompilerServices;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -417,20 +418,20 @@ namespace FlaUITests.Util {
                         done = true;
             }
         }
-        public void SwitchView(TreeConfig.ViewType view) {
+        public void SwitchView(TreeConfig.ViewType view, int x = 400, int y = 400) {
             Point point;
-            Rectangle projectExplorerRect = UIElementsBounds["ProjectExplorer"];
-            if (projectExplorerRect.Width < 400) {
-                Console.WriteLine("Project Explorer size too small - trying to make it bigger.");
-                point = new Point { X = projectExplorerRect.Right + 1, Y = projectExplorerRect.Top + 30};
+            Rectangle Rect = view == TreeConfig.ViewType.Workspace ? Rect = UIElementsBounds["Workspace"] : Rect = UIElementsBounds["ProjectExplorer"];
+            if (Rect.Width < x) {
+                Console.WriteLine((view == TreeConfig.ViewType.Workspace ? "Workspace" : "Project Explorer") + " size too thin - trying to make it broader.");
+                point = new Point { X = Rect.Right + 1, Y = Rect.Top + 30};
                 Mouse.MoveTo(point);
-                Mouse.DragHorizontally(point, 401 - projectExplorerRect.Width);
+                Mouse.DragHorizontally(point, 401 - Rect.Width);
             }
-            if (projectExplorerRect.Height < 400) {
-                Console.WriteLine("Project Explorer size too small - trying to make it bigger.");
-                point = new Point { X = projectExplorerRect.Left + 30, Y = projectExplorerRect.Bottom + 1};
+            if (Rect.Height < y) {
+                Console.WriteLine((view == TreeConfig.ViewType.Workspace ? "Workspace" : "Project Explorer") + " size too small - trying to make it taller.");
+                point = new Point { X = Rect.Left + 30, Y = Rect.Bottom + 1};
                 Mouse.MoveTo(point);
-                Mouse.DragVertically(point, 401 - projectExplorerRect.Height);
+                Mouse.DragVertically(point, 401 - Rect.Height);
             }
             AutomationElement ViewTab = ProjectExplorer.FindFirstChild();
             switch (view) {
@@ -444,7 +445,8 @@ namespace FlaUITests.Util {
                     ViewTab = ViewTab.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Physical View")));
                     break;
             }
-            TreeConfig.ClickAutomationElement(ViewTab);
+            if (view != TreeConfig.ViewType.Workspace)
+                TreeConfig.ClickAutomationElement(ViewTab);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
         public AutomationElement GetActiveConfigurtion() {
