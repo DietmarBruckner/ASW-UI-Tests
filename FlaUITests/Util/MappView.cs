@@ -20,6 +20,7 @@ namespace FlaUITests.Util {
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  InsertComponent();
             ConfigureMappViewServer();
+            AddComponents();
         }
         public override void InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
