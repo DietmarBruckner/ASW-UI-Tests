@@ -20,6 +20,8 @@ namespace FlaUITests.Util {
 
         public AppProject(IDE_Main ideMain) {
             _ideMain = ideMain;
+        }
+        public void LoadActiveProject() {
             if (_ideMain.IsProjectLoaded()) {
                 string[] paths = _ideMain.GetProjectpath();
                 Name = paths[2];

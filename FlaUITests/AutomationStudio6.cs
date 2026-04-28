@@ -25,6 +25,7 @@ namespace FlaUITests {
             if (Ide_Main.IsProjectLoaded()) {
                 Project = new AppProject(Ide_Main);
                 TreeConfig.CurrentProject = Project;
+                Project.LoadActiveProject();
             }
         }
         public void CloseApplication() {
