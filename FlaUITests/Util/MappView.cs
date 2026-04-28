@@ -13,7 +13,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             if (Verbose >= Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
-                Console.WriteLine("Checking/setting mapp View version to" + Version);
+                Console.WriteLine("Checking/setting mapp View version to " + Version);
             }
             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
              if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))

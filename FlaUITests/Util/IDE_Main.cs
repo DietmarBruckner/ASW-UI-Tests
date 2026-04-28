@@ -399,6 +399,8 @@ namespace FlaUITests.Util {
         }
         public void WaitForMessage(string message, int timeout = 30) {
             InitializeViews(outputResults:true);
+            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                Console.WriteLine("Waiting for message: " + message + "; Timeout: " + timeout);
             DateTime now = DateTime.Now;
             bool done = false;
             AutomationElement outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
@@ -439,8 +441,12 @@ namespace FlaUITests.Util {
                     if (s.IndexOf(message, StringComparison.OrdinalIgnoreCase) >= 0)
                         done = true;
             }
+            if (!done && TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                Console.WriteLine("Waiting for message ran into timeout");
         }
         public void SwitchView(TreeConfig.ViewType view, int x = 400, int y = 400) {
+            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.LIGHT)
+                Console.WriteLine("Switching to view: " + view.ToString());
             Point point;
             Rectangle Rect = view == TreeConfig.ViewType.Workspace ? Rect = UIElementsBounds["Workspace"] : Rect = UIElementsBounds["ProjectExplorer"];
             if (Rect.Width < x) {

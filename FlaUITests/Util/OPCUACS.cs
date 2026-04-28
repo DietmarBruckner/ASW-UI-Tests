@@ -12,7 +12,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             if (Verbose >= Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
-                Console.WriteLine("Checking/setting OPC UA/CS version to" + Version);
+                Console.WriteLine("Checking/setting OPC UA/CS version to " + Version);
             }
             TreeConfig.IdeMain.SelectComponentVersion("OPC", Version);
             ActivateOPCUACS();

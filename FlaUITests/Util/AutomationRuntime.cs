@@ -10,7 +10,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             if (Verbose >= Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
-                Console.WriteLine("Checking/setting Automation Runtime version to" + Version);
+                Console.WriteLine("Checking/setting Automation Runtime version to " + Version);
             }
             TreeConfig.IdeMain.SelectComponentVersion("Automation Runtime", Version);
         }
