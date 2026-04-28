@@ -50,10 +50,14 @@ namespace FlaUITests.Util {
             string mvconfig = "BR_Config.mappviewcfg";
             if (Verbose >= Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
-                Console.WriteLine("Inserting mapp View configuration under configuration view and open its workspace");
+                Console.WriteLine("Inserting new mapp View configuration");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "mapp View", "mapp View Configuration");
+            if (Verbose >= Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Opening new mapp View configuration in workspace");
+            }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", mvconfig }, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
             AutomationElement mvaConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(mvconfig.Substring(3, mvconfig.Length-3)) >= 0);
             AutomationElement configTree = mvaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
