@@ -103,6 +103,7 @@ namespace FlaUITests.Util {
                     case Components.OPCUACS:            cip = new OPCUACS(this, kvp.Value);             break;
                 }
                 components.Add(cip);
+                cip.Verbose = this.verbose;
                 if (this.verbose >= Environment.Verbose.LIGHT)
                     Console.WriteLine("Initializing component: " + cip.ToString());
                 Init(cip);

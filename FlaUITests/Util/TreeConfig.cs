@@ -22,7 +22,7 @@ namespace FlaUITests.Util {
         }
         public static void ClickComboBoxTreeItem(Window window, int index) {
             if (CurrentProject.verbose >= Environment.Verbose.FULL)
-                Console.WriteLine("Trying to click " + index + "-th element of list");
+                Console.WriteLine("Trying to click " + (index+1) + "-th element of list");
             AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
             ClickAutomationElement(comboBox.FindAllChildren()[index]);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
@@ -144,6 +144,7 @@ namespace FlaUITests.Util {
                     if (root == null)
                         throw new Exception("Root element must be provided for Workspace view type");
                     ae = root;
+                    IdeMain.SwitchView(viewType);
                     ClickConfigTreeItem(viewType, ae, "_Name");
                     Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
@@ -174,28 +175,6 @@ namespace FlaUITests.Util {
                 //After clicking the tree item, the tree is refreshed and we need to find the tree item again to be able to continue expanding the tree
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    
             }
-        }
-        public static void InsertObjectFromToolBox(ViewType viewType, IDE_Main ideMain, string category,string objectName)
-        {
-            ideMain.InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
-            ideMain.SwitchView(viewType);
-            ideMain.MakeToolBoxElementsVisible(categories: true);
-            ideMain.SearchToolBox(category);
-            AutomationElement toolbox = ideMain.Toolbox;
-            AutomationElement toolBoxCategories = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId("_categoriesListView")));
-            AutomationElement desiredToolBoxItem = toolBoxCategories.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(category))) ?? throw new Exception(category + " toolbox item not found - not installed?");
-            AutomationElement [] allDesc = desiredToolBoxItem.FindAllChildren();
-            if (allDesc[0].AsCheckBox().IsChecked == false) {
-                desiredToolBoxItem.Click();
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            }
-            ideMain.MakeToolBoxElementsVisible(categories: false);
-            ideMain.SearchToolBox(objectName);
-            toolbox = ideMain.Toolbox;
-            AutomationElement toolBoxContextContent = toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
-            AutomationElement desiredElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName(objectName))) ?? throw new Exception(objectName + " element not found");
-            desiredElementItem.DoubleClick();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
         public static List<string> FindXMLPath(string file, string element, string addon = null) {
             List<XElement> res = new List<XElement>();
