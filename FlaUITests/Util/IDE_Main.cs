@@ -403,7 +403,7 @@ namespace FlaUITests.Util {
                 SortedDictionary<DateTime, AutomationElement> dictMessages = new SortedDictionary<DateTime, AutomationElement> ();
                 foreach (AutomationElement a in allMessages) {
                     try {
-                    dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].Name.Replace(',', '.'), CultureInfo.GetCultureInfo("de-AT").DateTimeFormat), a);
+                        dictMessages.Add(DateTime.Parse(a.FindAllChildren()[idt].Name.Replace(',', '.'), CultureInfo.GetCultureInfo("de-AT").DateTimeFormat), a);
                     } catch {} //if same timestamp already exists, ignore
                 }
                 DateTime latest = dictMessages.Keys.Max();

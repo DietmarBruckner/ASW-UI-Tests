@@ -5,9 +5,12 @@ namespace FlaUITests.Util {
         public abstract void InitComponent();
         public abstract void InsertComponent();
 
-    public ComponentInProject (AppProject project, string version) {
+        public ComponentInProject (AppProject project, string version) {
             Project = project;
             Version = version;
+        }
+        public override string ToString() {
+            return "" + GetType().FullName + ", Version: " + Version;
         }
     }
     public partial class MappView :             ComponentInProject { public MappView(           AppProject project, string version) : base (project, version) {} }
