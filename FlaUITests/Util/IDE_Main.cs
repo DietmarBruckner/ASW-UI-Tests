@@ -90,8 +90,11 @@ namespace FlaUITests.Util {
             var rect = MainWindow.BoundingRectangle;
             Screen screen = Screen.FromHandle(MainWindow.Properties.NativeWindowHandle);
             bool isFullScreen = rect.Left <= screen.WorkingArea.Left && rect.Top <= screen.WorkingArea.Top && rect.Width >= screen.WorkingArea.Width && rect.Height >= screen.WorkingArea.Height;
-            if (!isFullScreen)
+            if (!isFullScreen) {
+                if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                    Console.WriteLine("Maximizing main window");
                 MainWindow.TitleBar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Maximize"))).AsButton().Invoke();
+            }
 
         }
         void InitMenues() {
@@ -178,7 +181,11 @@ namespace FlaUITests.Util {
                 }
             }
             _titleBar = MainWindow.TitleBar;
-            Console.WriteLine("Application opened successfully. Main elements initialized.");
+            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.LIGHT) {
+                Console.WriteLine("------------------------------------------");
+                Console.WriteLine("Application opened successfully. Main elements initialized.");
+                Console.WriteLine("------------------------------------------");
+            }
             
         }
         public void InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
@@ -228,7 +235,10 @@ namespace FlaUITests.Util {
                     break;
                 }
                 catch (Exception) {
-                    Console.WriteLine("Error while trying to click " + menuItemName + " in menu " + nameMenu + ((subMenuItemName != null)? " in submenu " + subMenuItemName : "") + ".");
+                    if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.LIGHT) {
+                        Console.WriteLine("Error while trying to click " + menuItemName + " in menu " + nameMenu + ((subMenuItemName != null)? " in submenu " + subMenuItemName : "") + ".");
+                        Console.WriteLine("trys left: " + i);
+                    }
                 }
             }
         }
@@ -263,8 +273,11 @@ namespace FlaUITests.Util {
         }
         public Window GetModalWindow(String name) {
             Window w;
-            while ((w = MainWindow.ModalWindows.FirstOrDefault(x => x.Title.Contains(name))) == null)
+            while ((w = MainWindow.ModalWindows.FirstOrDefault(x => x.Title.Contains(name))) == null) {
+                if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                    Console.WriteLine("Waiting for window: " + name);
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
             CheckResizeWindowWithinScreen(w);
             return w;
         }
@@ -274,7 +287,8 @@ namespace FlaUITests.Util {
             Rectangle sr = screen.Bounds;
             bool isFullyVisible = wbr.Left >= sr.Left && wbr.Top >= sr.Top && wbr.Right <= sr.Right && wbr.Bottom <= sr.Bottom;
             if (!isFullyVisible) {
-                Console.WriteLine("Window not fully visible - trying to make it fit screen.");
+                if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                    Console.WriteLine("Window not fully visible - trying to make it fit screen.");
                 Rectangle tbr = w.TitleBar.BoundingRectangle;
                 Point point = new Point { X = tbr.Left + tbr.Width / 2, Y = tbr.Top + tbr.Height / 2 };
                 //just move or needs resize?
@@ -286,6 +300,8 @@ namespace FlaUITests.Util {
             }
         } 
         public void InitializeViews(bool projectExplorer = false, bool toolbox = false, bool propertyWindow = false, bool outputResults = false, bool statusBar = false) {
+            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.LIGHT)
+                Console.WriteLine("trys left: ");
             if (projectExplorer) {
                 ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
                 if (ProjectExplorer == null) {
@@ -463,8 +479,7 @@ namespace FlaUITests.Util {
             if (!IsButtonActive(_onlineToolBar.FindFirstChild(cf => cf.ByName("BR_\nActivate Simulation")).AsButton(), "activateSimulation"))
                 InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
-        public void InsertObjectFromToolBox(TreeConfig.ViewType viewType, string category,string objectName)
-        {
+        public void InsertObjectFromToolBox(TreeConfig.ViewType viewType, string category,string objectName) {
             InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
             SwitchView(viewType);
             MakeToolBoxElementsVisible(categories: true);
