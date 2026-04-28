@@ -181,12 +181,11 @@ namespace FlaUITests.Util {
                 }
             }
             _titleBar = MainWindow.TitleBar;
-            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.LIGHT) {
+            //if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.LIGHT) {
                 Console.WriteLine("------------------------------------------");
                 Console.WriteLine("Application opened successfully. Main elements initialized.");
                 Console.WriteLine("------------------------------------------");
-            }
-            
+            //}
         }
         public void InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'BR&' from the menu name
