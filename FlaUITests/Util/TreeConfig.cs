@@ -109,10 +109,18 @@ namespace FlaUITests.Util {
                 }
                 if (elementRect.Width != 0 && elementRect.Height != 0) {
                     Rectangle vr = view.BoundingRectangle;
-                    while ((elementRect.Top > vr.Top + vr.Height/2) && (verticalScrollBar.Value < verticalScrollBar.MaximumValue))
+                    while ((elementRect.Top > vr.Top + vr.Height/2) && (verticalScrollBar.Value < verticalScrollBar.MaximumValue)) {
                         verticalScrollBar.ScrollDown();
-                    while ((elementRect.Left > vr.Left + vr.Width/2) && (horizontalScrollBar.Value < horizontalScrollBar.MaximumValue))
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                        clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
+                        elementRect = clickElement.BoundingRectangle;
+                    }
+                    while ((elementRect.Left > vr.Left + vr.Width/2) && (horizontalScrollBar.Value < horizontalScrollBar.MaximumValue)) {
                         horizontalScrollBar.ScrollRight();
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                        clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
+                        elementRect = clickElement.BoundingRectangle;
+                    }
                 }
                 else
                     Console.WriteLine("Could not locate " + element.Name);
