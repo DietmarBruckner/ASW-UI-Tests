@@ -463,9 +463,31 @@ namespace FlaUITests.Util {
             if (!IsButtonActive(_onlineToolBar.FindFirstChild(cf => cf.ByName("BR_\nActivate Simulation")).AsButton(), "activateSimulation"))
                 InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
+        public void InsertObjectFromToolBox(TreeConfig.ViewType viewType, string category,string objectName)
+        {
+            InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
+            SwitchView(viewType);
+            MakeToolBoxElementsVisible(categories: true);
+            SearchToolBox(category);
+            AutomationElement toolBoxCategories = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId("_categoriesListView")));
+            AutomationElement desiredToolBoxItem = toolBoxCategories.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(category))) ?? throw new Exception(category + " toolbox item not found - not installed?");
+            AutomationElement [] allDesc = desiredToolBoxItem.FindAllChildren();
+            if (allDesc[0].AsCheckBox().IsChecked == false) {
+                desiredToolBoxItem.Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+            MakeToolBoxElementsVisible(categories: false);
+            SearchToolBox(objectName);
+            AutomationElement toolBoxContextContent = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
+            AutomationElement desiredElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName(objectName))) ?? throw new Exception(objectName + " element not found");
+            desiredElementItem.DoubleClick();
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+        }
         public bool IsButtonActive(Button button, string image = "") {
             //string workingDirectory = System.Environment.CurrentDirectory;
             //Capture.Element(button).ToFile(             workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png");
+            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                Console.WriteLine("Checking if button: " + button.Name + " is activated");
             Color borderColor = Capture.Element(button).Bitmap.GetPixel(0,0);
             if (borderColor.Equals(Color.FromArgb(0, 120, 215)))
 /*            Color blue = Color.Blue;
