@@ -300,8 +300,8 @@ namespace FlaUITests.Util {
             }
         } 
         public void InitializeViews(bool projectExplorer = false, bool toolbox = false, bool propertyWindow = false, bool outputResults = false, bool statusBar = false) {
-            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.LIGHT)
-                Console.WriteLine("trys left: ");
+            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                Console.WriteLine("Checking if necessary view(s) are there: " + (projectExplorer?"Project Explorer ":"") + (toolbox?"Object catalog ":"") + (propertyWindow?"Property window ":"") + (outputResults?"Output results ":"") + (statusBar?"Statusbar":""));
             if (projectExplorer) {
                 ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
                 if (ProjectExplorer == null) {
@@ -351,13 +351,15 @@ namespace FlaUITests.Util {
             Rectangle elementsListViewRect = allChildren[1].FindAllDescendants().First(c => c.AutomationId == "_elementsListView").BoundingRectangle;
             //min size of 250 px (or height of categories list + 50) height and 400 px width for the Toolbox to ensure all elements are visible and can be clicked
             if (splitviewRect.Height < 250 || splitviewRect.Height < categoriesListViewRect.Height + 50) {
-                Console.WriteLine("Toolbox size too small to make toolbox elements visible - trying to make it bigger.");
+                if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                    Console.WriteLine("Toolbox size too small to make toolbox elements visible - trying to make it bigger.");
                 Point point = new Point { X = splitviewRect.Left + 30, Y = splitviewRect.Bottom + 1};
                 Mouse.MoveTo(point);
                 Mouse.DragVertically(point, Math.Max(251, categoriesListViewRect.Height + 50) - splitviewRect.Height);
             }
             if (splitviewRect.Width < 400) {
-                Console.WriteLine("Toolbox size too small to make toolbox elements visible - trying to make it bigger.");
+                if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                    Console.WriteLine("Toolbox size too small to make toolbox elements visible - trying to make it bigger.");
                 Point point = new Point { X = splitviewRect.Left - 1, Y = categoriesListViewRect.Top + 30 };
                 Mouse.MoveTo(point);
                 Mouse.DragHorizontally(point, splitviewRect.Width - 401);
@@ -365,7 +367,8 @@ namespace FlaUITests.Util {
             //min size of 200 px height and 400 px width for the Categories list to ensure all elements are visible and can be clicked
             if (categories) {
                 if (categoriesListViewRect.Height < 100) {
-                    Console.WriteLine("Categories list size too small to make elements visible - trying to make it bigger.");
+                    if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                        Console.WriteLine("Categories list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
                     Mouse.MoveTo(point);
                     Mouse.DragVertically(point, 101 - categoriesListViewRect.Height);
@@ -373,7 +376,8 @@ namespace FlaUITests.Util {
             }
             else {
                 if (elementsListViewRect.Height < 100) {
-                    Console.WriteLine("Elements list size too small to make elements visible - trying to make it bigger.");
+                    if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                        Console.WriteLine("Elements list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
                     Mouse.MoveTo(point);
                     Mouse.DragVertically(point, elementsListViewRect.Height - 101);
@@ -381,6 +385,8 @@ namespace FlaUITests.Util {
             }
         }
         public void SearchToolBox(string searchTerm) {
+            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                Console.WriteLine("Typing into Object catalog search field: " + searchTerm);
             AutomationElement searchTextBox = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox")));
             if (searchTextBox.Name != searchTerm) {
                 Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar).And(cf.ByAutomationId("_toolStrip"))).FindAllChildren(cf => cf.ByControlType(ControlType.Button))[1].AsButton().Click();
