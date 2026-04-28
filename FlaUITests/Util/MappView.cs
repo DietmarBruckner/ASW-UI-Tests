@@ -3,6 +3,7 @@ using FlaUI.Core.Definitions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 
 namespace FlaUITests.Util {
@@ -16,7 +17,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
             }
             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
-             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
+            if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  InsertComponent();
             ConfigureMappViewServer();
         }
@@ -48,12 +49,14 @@ namespace FlaUITests.Util {
         }
         void ConfigureMappViewServer() {
             string mvconfig = "BR_Config.mappviewcfg";
-            if (Verbose >= Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Inserting new mapp View configuration");
+            if (TreeConfig.IdeMain.GetActiveConfigurtion().FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).First(cf => cf.Name.IndexOf("mappView") >= 0).FindAllChildren(cf => cf.ByName(mvconfig)) != null) {
+                if (Verbose >= Environment.Verbose.STEPS) {
+                    Console.WriteLine("==========================================");
+                    Console.WriteLine("Inserting new mapp View configuration");
+                }
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
+                TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "mapp View", "mapp View Configuration");
             }
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
-            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "mapp View", "mapp View Configuration");
             if (Verbose >= Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Opening new mapp View configuration in workspace");
