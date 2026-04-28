@@ -91,8 +91,11 @@ namespace FlaUITests.Util {
             TreeConfig.CurrentProject = this;
             if (dictComponents != null)
                 components = new List<ComponentInProject>();
-            if (this.verbose >= Environment.Verbose.LIGHT)
+            if (this.verbose >= Environment.Verbose.LIGHT) {
+                Console.WriteLine("------------------------------------------");
                 Console.WriteLine("Activating Simulation");
+                Console.WriteLine("------------------------------------------");
+            }
             _ideMain.ActivateSimulation();
             foreach (KeyValuePair<Components, string> kvp in DictComponents) {
                 ComponentInProject cip = null;
@@ -104,14 +107,27 @@ namespace FlaUITests.Util {
                 }
                 components.Add(cip);
                 cip.Verbose = this.verbose;
-                if (this.verbose >= Environment.Verbose.LIGHT)
+                if (this.verbose >= Environment.Verbose.LIGHT) {
+                    Console.WriteLine("------------------------------------------");
                     Console.WriteLine("Initializing component: " + cip.ToString());
+                    Console.WriteLine("------------------------------------------");
+                }
                 Init(cip);
+            }
+            if (this.verbose >= Environment.Verbose.LIGHT) {
+                Console.WriteLine("------------------------------------------");
+                Console.WriteLine("Transferring ...");
+                Console.WriteLine("------------------------------------------");
             }
             _ideMain.Transfer();
         }
         public void Init(ComponentInProject cip) {
             cip.InitComponent();
+            if (verbose >= Environment.Verbose.LIGHT) {
+                Console.WriteLine("------------------------------------------");
+                Console.WriteLine("Building ...");
+                Console.WriteLine("------------------------------------------");
+            }
             Update();
         }
         public void Update () {
@@ -157,8 +173,14 @@ namespace FlaUITests.Util {
             Console.WriteLine("Project " + projectPath + "\\" + s + " opened.");
         }
         public void ReadProject() {
-            if (_ideMain.IsProjectLoaded())
+            if (_ideMain.IsProjectLoaded()) {
+                if (verbose >= Environment.Verbose.LIGHT) {
+                    Console.WriteLine("------------------------------------------");
+                    Console.WriteLine("Reading project content ...");
+                    Console.WriteLine("------------------------------------------");
+                }
                 new HardwareConfigReader(Path, Config).ReadHardwareTopology();
+            }
         }
     }
 }
