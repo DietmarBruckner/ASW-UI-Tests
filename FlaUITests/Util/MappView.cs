@@ -78,5 +78,20 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathMV + "mappviewcfg.xml", "Startup User"), new List<string> { "_Name", "_Value" }, mvConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0); //Select "anonymous token"
         }
+        void AddComponents() {
+            if (Verbose >= Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Inserting new Localizable Texts container");
+            }
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView"}, new List<string> { "_Object Name" });
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Localizable Texts");
+            if (Verbose >= Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Inserting new Project Language container");
+            }
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView"}, new List<string> { "_Object Name" });
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Project Language");
+            
+        }
     }
 }
