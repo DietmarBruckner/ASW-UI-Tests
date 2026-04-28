@@ -123,7 +123,8 @@ namespace FlaUITests.Util {
                     }
                 }
                 else
-                    Console.WriteLine("Could not locate " + element.Name);
+                    if (CurrentProject.verbose >= Environment.Verbose.STEPS)
+                        Console.WriteLine("Could not locate " + element.Name);
             }
         }
         public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, AutomationElement root = null) {
