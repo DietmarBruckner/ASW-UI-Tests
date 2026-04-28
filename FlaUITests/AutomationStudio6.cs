@@ -10,10 +10,10 @@ namespace FlaUITests {
 
         public AutomationStudio6() {
             try {
-                _app = Application.Attach(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
+                _app = Application.Attach(Util.Environment.InstallationPath + "\\bin-en\\pg.exe");
             }
             catch (Exception) {
-                _app = Application.Launch(@"C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe");
+                _app = Application.Launch(Util.Environment.InstallationPath + "\\bin-en\\pg.exe");
             }
             if (_app == null) {
                 Console.WriteLine("Error: Could not find or start Automation Studio 6 process.");

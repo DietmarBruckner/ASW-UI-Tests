@@ -64,3 +64,4 @@ C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net48
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net481\Microsoft.VisualStudio.TestTools.UITest.Logging.dll
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net481\Interop.UIAutomationClient.dll
 C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net481\Microsoft.VisualStudio.TestTools.UITest.Extension.Msaa.dll
+C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\obj\Debug\net481\TestProject1.sourcelink.json
