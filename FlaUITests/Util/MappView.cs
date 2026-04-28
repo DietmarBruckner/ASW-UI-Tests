@@ -49,7 +49,7 @@ namespace FlaUITests.Util {
         }
         void ConfigureMappViewServer() {
             string mvconfig = "BR_Config.mappviewcfg";
-            if (TreeConfig.IdeMain.GetActiveConfigurtion().FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).First(cf => cf.Name.IndexOf("mappView") >= 0).FindAllChildren(cf => cf.ByName(mvconfig)) != null) {
+            if (TreeConfig.IdeMain.GetActiveConfigurtion().FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).First(cf => cf.Name.IndexOf("mappView") >= 0).FindAllChildren(cf => cf.ByName(mvconfig)) == null) {
                 if (Verbose >= Environment.Verbose.STEPS) {
                     Console.WriteLine("==========================================");
                     Console.WriteLine("Inserting new mapp View configuration");
