@@ -447,7 +447,7 @@ namespace FlaUITests.Util {
             if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.LIGHT)
                 Console.WriteLine("Switching to view: " + view.ToString());
             Point point;
-            Rectangle Rect = view == TreeConfig.ViewType.Workspace ? Rect = UIElementsBounds["Workspace"] : Rect = UIElementsBounds["ProjectExplorer"];
+            Rectangle Rect = view == TreeConfig.ViewType.Workspace ? Rect = UIElementsBounds["Workspace"] : view == TreeConfig.ViewType.PropertyWindow ? Rect = UIElementsBounds["PropertyWindow"] : Rect = UIElementsBounds["ProjectExplorer"];
             if (Rect.Width < x) {
                 Console.WriteLine((view == TreeConfig.ViewType.Workspace ? "Workspace" : "Project Explorer") + " size too thin - trying to make it broader.");
                 point = new Point { X = Rect.Right + 1, Y = Rect.Top + 30};

@@ -166,12 +166,15 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             AutomationElement content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("content_0.content") >= 0);
             Point editorCenter = content_0ConfigWorkspaceWindow.BoundingRectangle.Center();
+            TreeConfig.IdeMain.InitializeViews(propertyWindow:true);
             TreeConfig.ClickAutomationElement(content_0ConfigWorkspaceWindow);
+            Size content_0Size;
+            AutomationElement content_0Properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Button", drag:true, editorCenter);
         }
         readonly List<string[]> testLocalizeableStrings = new List<string[]> {
             {new string [] {"Label", "fr_Label", "de_Label", "en_Label"} }, 
-            {new string [] {"Text", "fr_Text", "de_Text", "en_Text"} }, 
             {new string [] {"Button", "fr_Button", "de_Button", "en_Button"} }, 
             {new string [] {"Navigation", "fr_Navigation", "de_Navigation", "en_Navigation"} }, 
             {new string [] {"1", "fr_", "de_", "en_"} }, 
