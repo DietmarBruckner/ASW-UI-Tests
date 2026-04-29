@@ -91,7 +91,7 @@ namespace FlaUITests.Util {
             Screen screen = Screen.FromHandle(MainWindow.Properties.NativeWindowHandle);
             bool isFullScreen = rect.Left <= screen.WorkingArea.Left && rect.Top <= screen.WorkingArea.Top && rect.Width >= screen.WorkingArea.Width && rect.Height >= screen.WorkingArea.Height;
             if (!isFullScreen) {
-                if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                     Console.WriteLine("Maximizing main window");
                 MainWindow.TitleBar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Maximize"))).AsButton().Invoke();
             }
@@ -234,7 +234,7 @@ namespace FlaUITests.Util {
                     break;
                 }
                 catch (Exception) {
-                    if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.LIGHT) {
+                    if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.LIGHT) {
                         Console.WriteLine("Error while trying to click " + menuItemName + " in menu " + nameMenu + ((subMenuItemName != null)? " in submenu " + subMenuItemName : "") + ".");
                         Console.WriteLine("trys left: " + i);
                     }
@@ -273,7 +273,7 @@ namespace FlaUITests.Util {
         public Window GetModalWindow(String name) {
             Window w;
             while ((w = MainWindow.ModalWindows.FirstOrDefault(x => x.Title.Contains(name))) == null) {
-                if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                     Console.WriteLine("Waiting for window: " + name);
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             }
@@ -286,7 +286,7 @@ namespace FlaUITests.Util {
             Rectangle sr = screen.Bounds;
             bool isFullyVisible = wbr.Left >= sr.Left && wbr.Top >= sr.Top && wbr.Right <= sr.Right && wbr.Bottom <= sr.Bottom;
             if (!isFullyVisible) {
-                if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                     Console.WriteLine("Window not fully visible - trying to make it fit screen.");
                 Rectangle tbr = w.TitleBar.BoundingRectangle;
                 Point point = new Point { X = tbr.Left + tbr.Width / 2, Y = tbr.Top + tbr.Height / 2 };
@@ -299,7 +299,7 @@ namespace FlaUITests.Util {
             }
         } 
         public void InitializeViews(bool projectExplorer = false, bool toolbox = false, bool propertyWindow = false, bool outputResults = false, bool statusBar = false) {
-            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+            if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Checking if necessary view(s) are there: " + (projectExplorer?"Project Explorer ":"") + (toolbox?"Object catalog ":"") + (propertyWindow?"Property window ":"") + (outputResults?"Output results ":"") + (statusBar?"Statusbar":""));
             if (projectExplorer) {
                 ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
@@ -350,14 +350,14 @@ namespace FlaUITests.Util {
             Rectangle elementsListViewRect = allChildren[1].FindAllDescendants().First(c => c.AutomationId == "_elementsListView").BoundingRectangle;
             //min size of 250 px (or height of categories list + 50) height and 400 px width for the Toolbox to ensure all elements are visible and can be clicked
             if (splitviewRect.Height < 250 || splitviewRect.Height < categoriesListViewRect.Height + 50) {
-                if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                     Console.WriteLine("Toolbox size too small to make toolbox elements visible - trying to make it bigger.");
                 Point point = new Point { X = splitviewRect.Left + 30, Y = splitviewRect.Bottom + 1};
                 Mouse.MoveTo(point);
                 Mouse.DragVertically(point, Math.Max(251, categoriesListViewRect.Height + 50) - splitviewRect.Height);
             }
             if (splitviewRect.Width < 400) {
-                if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                     Console.WriteLine("Toolbox size too small to make toolbox elements visible - trying to make it bigger.");
                 Point point = new Point { X = splitviewRect.Left - 1, Y = categoriesListViewRect.Top + 30 };
                 Mouse.MoveTo(point);
@@ -366,7 +366,7 @@ namespace FlaUITests.Util {
             //min size of 200 px height and 400 px width for the Categories list to ensure all elements are visible and can be clicked
             if (categories) {
                 if (categoriesListViewRect.Height < 100) {
-                    if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                    if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                         Console.WriteLine("Categories list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
                     Mouse.MoveTo(point);
@@ -375,7 +375,7 @@ namespace FlaUITests.Util {
             }
             else {
                 if (elementsListViewRect.Height < 100) {
-                    if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+                    if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                         Console.WriteLine("Elements list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
                     Mouse.MoveTo(point);
@@ -384,7 +384,7 @@ namespace FlaUITests.Util {
             }
         }
         public void SearchToolBox(string searchTerm) {
-            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+            if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Typing into Object catalog search field: " + searchTerm);
             AutomationElement searchTextBox = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox")));
             if (searchTextBox.Name != searchTerm) {
@@ -398,7 +398,7 @@ namespace FlaUITests.Util {
         }
         public void WaitForMessage(string message, int timeout = 30) {
             InitializeViews(outputResults:true);
-            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+            if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Waiting for message: " + message + "; Timeout: " + timeout);
             DateTime now = DateTime.Now;
             bool done = false;
@@ -440,11 +440,11 @@ namespace FlaUITests.Util {
                     if (s.IndexOf(message, StringComparison.OrdinalIgnoreCase) >= 0)
                         done = true;
             }
-            if (!done && TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+            if (!done && TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Waiting for message ran into timeout");
         }
         public void SwitchView(TreeConfig.ViewType view, int x = 400, int y = 400) {
-            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.LIGHT)
+            if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.LIGHT)
                 Console.WriteLine("Switching to view: " + view.ToString());
             Point point;
             Rectangle Rect = view == TreeConfig.ViewType.Workspace ? Rect = UIElementsBounds["Workspace"] : Rect = UIElementsBounds["ProjectExplorer"];
@@ -490,29 +490,34 @@ namespace FlaUITests.Util {
             if (!IsButtonActive(_onlineToolBar.FindFirstChild(cf => cf.ByName("BR_\nActivate Simulation")).AsButton(), "activateSimulation"))
                 InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
         }
-        public void InsertObjectFromToolBox(TreeConfig.ViewType viewType, string category,string objectName) {
+        public void InsertObjectFromToolBox(TreeConfig.ViewType viewType, string category, string objectName, bool drag = false, Point toDrag = new Point()) {
             InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
             SwitchView(viewType);
-            MakeToolBoxElementsVisible(categories: true);
-            SearchToolBox(category);
-            AutomationElement toolBoxCategories = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId("_categoriesListView")));
-            AutomationElement desiredToolBoxItem = toolBoxCategories.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(category))) ?? throw new Exception(category + " toolbox item not found - not installed?");
-            AutomationElement [] allDesc = desiredToolBoxItem.FindAllChildren();
-            if (allDesc[0].AsCheckBox().IsChecked == false) {
-                desiredToolBoxItem.Click();
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            if (category != string.Empty) {
+                MakeToolBoxElementsVisible(categories: true);
+                SearchToolBox(category);
+                AutomationElement toolBoxCategories = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId("_categoriesListView")));
+                AutomationElement desiredToolBoxItem = toolBoxCategories.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(category))) ?? throw new Exception(category + " toolbox item not found - not installed?");
+                AutomationElement [] allDesc = desiredToolBoxItem.FindAllChildren();
+                if (allDesc[0].AsCheckBox().IsChecked == false) {
+                    desiredToolBoxItem.Click();
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                }
             }
             MakeToolBoxElementsVisible(categories: false);
             SearchToolBox(objectName);
             AutomationElement toolBoxContextContent = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
             AutomationElement desiredElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName(objectName))) ?? throw new Exception(objectName + " element not found");
-            desiredElementItem.DoubleClick();
+            if (drag)
+                Mouse.Drag(desiredElementItem.BoundingRectangle.Center(), toDrag);
+            else
+                desiredElementItem.DoubleClick();
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
         public bool IsButtonActive(Button button, string image = "") {
             //string workingDirectory = System.Environment.CurrentDirectory;
             //Capture.Element(button).ToFile(             workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png");
-            if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.FULL)
+            if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Checking if button: " + button.Name + " is activated");
             Color borderColor = Capture.Element(button).Bitmap.GetPixel(0,0);
             if (borderColor.Equals(Color.FromArgb(0, 120, 215)))
@@ -577,6 +582,9 @@ namespace FlaUITests.Util {
         }
         public void Save() {
             ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
+        }
+        public void SaveAll() {
+            ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave All", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
         }
         public void SelectComponentVersion (string componentName, string version) {
             InvokeMenuItem(GetMenu("Project"), "Change Runtime Versions...");

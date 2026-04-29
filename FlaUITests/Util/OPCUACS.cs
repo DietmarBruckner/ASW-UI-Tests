@@ -10,7 +10,7 @@ namespace FlaUITests.Util {
         public override void InitComponent() {
             editorPathOP = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\OpcUaCs\\" + Version + "\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
-            if (Verbose >= Environment.Verbose.STEPS) {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting OPC UA/CS version to " + Version);
             }
@@ -23,7 +23,7 @@ namespace FlaUITests.Util {
         void TM611_3_1_ActivateOPCUACS() {
             string uaconfig = "BR_UaCsConfig.uacfg";
              //open UACS configuration page
-            if (Verbose >= Environment.Verbose.STEPS) {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Opening OPC UA/CS configuration in workspace");
             }
@@ -37,19 +37,19 @@ namespace FlaUITests.Util {
             if (!TreeConfig.IdeMain.IsButtonActive(advancedVisibilityButton))
                 advancedVisibilityButton.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            if (Verbose >= Environment.Verbose.STEPS) {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Setting OPC UA Client/Server to Enabled");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, new List<string> { "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 1); //Select "Enabled"
-            if (Verbose >= Environment.Verbose.STEPS) {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Setting anonymous authentication to Enabled");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "Anonymous"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 1); //Select "Enabled"
-            if (Verbose >= Environment.Verbose.STEPS) {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Adding BR_Engineer as a user role");
             }

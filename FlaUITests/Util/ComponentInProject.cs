@@ -2,7 +2,7 @@ namespace FlaUITests.Util {
     public abstract class ComponentInProject {
         protected AppProject Project;
         protected string Version;
-        public Environment.Verbose Verbose { get; set; }
+        public Util.Environment.Verbose Verbose { get; set; }
         public abstract void InitComponent();
         public abstract void TM611_4_InsertComponent();
 

@@ -2,6 +2,11 @@ using System;
 
 namespace FlaUITests.Util {
     public static class Util {
+        public static class Environment {
+            public enum Verbose {NONE, LIGHT, STEPS, FULL}
+            public static string InstallationPath;
+            public static Verbose verbose;
+        }
         public static int GetDamerauLevenshteinDistance(string s, string t) {
             if (string.IsNullOrEmpty(s))
                 throw new ArgumentNullException(s, "String Cannot Be Null Or Empty");

@@ -14,7 +14,7 @@ namespace FlaUITests.Util {
         public string Config { get; set; }
         public string CPU { get; set; }
         public string WorkingVersion { get; set; }
-        public Environment.Verbose verbose;
+        public Util.Environment.Verbose verbose;
         readonly Dictionary<Components, string> DictComponents;
         List<ComponentInProject> components;
 
@@ -34,7 +34,7 @@ namespace FlaUITests.Util {
             else
                 Console.WriteLine("No project loaded.");
         }
-        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu, Dictionary<Components, string> dictComponents, string workingVersion = null, Environment.Verbose verbose = Environment.Verbose.NONE) {
+        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu, Dictionary<Components, string> dictComponents, string workingVersion = null, Util.Environment.Verbose verbose = Util.Environment.Verbose.NONE) {
             _ideMain = ideMain;
             Name = name;
             Path = path;
@@ -91,7 +91,7 @@ namespace FlaUITests.Util {
             TreeConfig.CurrentProject = this;
             if (dictComponents != null)
                 components = new List<ComponentInProject>();
-            if (this.verbose >= Environment.Verbose.LIGHT) {
+            if (this.verbose >= Util.Environment.Verbose.LIGHT) {
                 Console.WriteLine("------------------------------------------");
                 Console.WriteLine("Activating Simulation");
                 Console.WriteLine("------------------------------------------");
@@ -107,14 +107,14 @@ namespace FlaUITests.Util {
                 }
                 components.Add(cip);
                 cip.Verbose = this.verbose;
-                if (this.verbose >= Environment.Verbose.LIGHT) {
+                if (this.verbose >= Util.Environment.Verbose.LIGHT) {
                     Console.WriteLine("------------------------------------------");
                     Console.WriteLine("Initializing component: " + cip.ToString());
                     Console.WriteLine("------------------------------------------");
                 }
                 Init(cip);
             }
-            if (this.verbose >= Environment.Verbose.LIGHT) {
+            if (this.verbose >= Util.Environment.Verbose.LIGHT) {
                 Console.WriteLine("------------------------------------------");
                 Console.WriteLine("Transferring ...");
                 Console.WriteLine("------------------------------------------");
@@ -123,7 +123,7 @@ namespace FlaUITests.Util {
         }
         public void Init(ComponentInProject cip) {
             cip.InitComponent();
-            if (verbose >= Environment.Verbose.LIGHT) {
+            if (verbose >= Util.Environment.Verbose.LIGHT) {
                 Console.WriteLine("------------------------------------------");
                 Console.WriteLine("Building ...");
                 Console.WriteLine("------------------------------------------");
@@ -174,7 +174,7 @@ namespace FlaUITests.Util {
         }
         public void ReadProject() {
             if (_ideMain.IsProjectLoaded()) {
-                if (verbose >= Environment.Verbose.LIGHT) {
+                if (verbose >= Util.Environment.Verbose.LIGHT) {
                     Console.WriteLine("------------------------------------------");
                     Console.WriteLine("Reading project content ...");
                     Console.WriteLine("------------------------------------------");
