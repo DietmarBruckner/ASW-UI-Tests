@@ -86,7 +86,8 @@ namespace FlaUITests.Util {
             AutomationElement visConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(visname) >= 0);
             AutomationElement adocText = visConfigWorkspaceWindow.FindAllDescendants().First(cf => cf.Name.IndexOf("<?xml") >= 0).AsTextBox();
             string sdocText = adocText.Name;
-            var range = adocText.Patterns.Text.Pattern.DocumentRange;
+
+            var range = adocText.Patterns.Text2;
         }
         void AddComponents() {
             if (Verbose >= Environment.Verbose.STEPS) {
