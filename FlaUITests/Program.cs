@@ -11,7 +11,7 @@ namespace FlaUITests {
             //as6.Project.CloseProject();
             //as6.Project.OpenProject("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\test_Mot");
             Dictionary<Components, string> dictcom = new Dictionary<Components, string> () {
-                {Components.OPCUACS, "6.6.1"},
+                //{Components.OPCUACS, "6.6.1"},
                 {Components.mappView, "6.6.0"},
                 {Components.AutomationRuntime, "6.5.1"}
             };

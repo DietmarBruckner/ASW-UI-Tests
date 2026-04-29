@@ -44,7 +44,7 @@ namespace FlaUITests.Util {
             DictComponents = dictComponents;
             this.verbose = verbose;
 
-            _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
+    /*        _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the New Project dialog to appear
             Window newProjectDialog = _ideMain.GetModalWindow("New Project");
             if (newProjectDialog == null) {
@@ -87,7 +87,7 @@ namespace FlaUITests.Util {
             while (_ideMain.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0)
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             TreeConfig.IdeMain.WaitForMessage("finished.");
-            Name += ".apj";
+    */        Name += ".apj";
             TreeConfig.CurrentProject = this;
             if (dictComponents != null)
                 components = new List<ComponentInProject>();
@@ -138,7 +138,7 @@ namespace FlaUITests.Util {
             if (!_ideMain.App.HasExited) {
                     CloseProject();
                 }
-            System.IO.Directory.Delete(Path + "\\" + Name + "\\", true);
+            //System.IO.Directory.Delete(Path + "\\" + Name + "\\", true);
         }
         public void CloseProject() {
             if (_ideMain.IsProjectLoaded()) {
