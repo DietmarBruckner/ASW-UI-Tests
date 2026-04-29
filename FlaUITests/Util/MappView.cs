@@ -19,7 +19,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  TM611_4_InsertComponent();
-            TM611_3_2_ConfigureMappViewServer();
+            //TM611_3_2_ConfigureMappViewServer();
             TM611_4_1_RenameVIS();
             AddComponents();
         }
@@ -87,7 +87,7 @@ namespace FlaUITests.Util {
             AutomationElement adocText = visConfigWorkspaceWindow.FindAllDescendants().First(cf => cf.Name.IndexOf("<?xml") >= 0);
             string sdocText = adocText.Name;
 
-            var range = adocText.Patterns.Text2;
+            var range = adocText.Patterns.Value;
         }
         void AddComponents() {
             if (Verbose >= Environment.Verbose.STEPS) {
