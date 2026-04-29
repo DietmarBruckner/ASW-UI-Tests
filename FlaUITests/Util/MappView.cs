@@ -18,11 +18,11 @@ namespace FlaUITests.Util {
             }
             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
-                 InsertComponent();
-            ConfigureMappViewServer();
+                 TM611_4_1_InsertComponent();
+            TM611_3_2_ConfigureMappViewServer();
             AddComponents();
         }
-        public override void InsertComponent() {
+        public override void TM611_4_1_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
             if (Verbose >= Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
@@ -48,7 +48,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
             TreeConfig.IdeMain.WaitForMessage("finished.");
         }
-        void ConfigureMappViewServer() {
+        void TM611_3_2_ConfigureMappViewServer() {
             string mvconfig = "BR_Config.mappviewcfg";
             if (TreeConfig.IdeMain.GetActiveConfigurtion().FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).First(cf => cf.Name.IndexOf("mappView") >= 0).FindAllChildren(cf => cf.ByName(mvconfig)) == null) {
                 if (Verbose >= Environment.Verbose.STEPS) {
@@ -84,7 +84,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting new Localizable Texts container");
             }
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView"}, new List<string> { "_Object Name" });
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Resources", "BR_Texts"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Localizable Texts");
             if (Verbose >= Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
