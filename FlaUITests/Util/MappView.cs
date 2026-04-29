@@ -87,7 +87,7 @@ namespace FlaUITests.Util {
             AutomationElement adocText = visConfigWorkspaceWindow.FindAllDescendants().First(cf => cf.Name.IndexOf("<?xml") >= 0);
             string sdocText = adocText.Name;
 
-            var range = adocText.Patterns.Value;
+            var range = adocText.Patterns.TextEdit;
         }
         void AddComponents() {
             if (Verbose >= Environment.Verbose.STEPS) {
