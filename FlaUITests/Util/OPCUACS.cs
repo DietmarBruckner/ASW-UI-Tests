@@ -15,12 +15,12 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Checking/setting OPC UA/CS version to " + Version);
             }
             TreeConfig.IdeMain.SelectComponentVersion("OPC", Version);
-            ActivateOPCUACS();
+            TM611_3_1_ActivateOPCUACS();
         }
         public override void InsertComponent() {
             
         }
-        void ActivateOPCUACS() {
+        void TM611_3_1_ActivateOPCUACS() {
             string uaconfig = "BR_UaCsConfig.uacfg";
              //open UACS configuration page
             if (Verbose >= Environment.Verbose.STEPS) {
