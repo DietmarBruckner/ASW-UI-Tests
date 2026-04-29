@@ -579,7 +579,6 @@ namespace FlaUITests.Util {
             ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
         }
         public void SelectComponentVersion (string componentName, string version) {
-            var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default);
             InvokeMenuItem(GetMenu("Project"), "Change Runtime Versions...");
             Window manageComponentsWindow;
             while ((manageComponentsWindow = GetModalWindow(TreeConfig.CurrentProject.CPU + " - Properties")) == null)
@@ -590,29 +589,31 @@ namespace FlaUITests.Util {
             AutomationElement componentsListView = componentsTab.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid));
             AutomationElement [] componentItems = componentsListView.FindAllDescendants(cf => cf.ByControlType(ControlType.DataItem));
             AutomationElement componentItem = null;
-            if (componentName == "Automation Runtime") {
-                componentItem = componentItems.FirstOrDefault(c => c.Name.IndexOf(".ArCfg", StringComparison.OrdinalIgnoreCase) >= 0);
-            }
-            else if (componentName == "Visual Components"){
-                componentItem = componentItems.FirstOrDefault(c => c.Name.IndexOf(".VcCfg", StringComparison.OrdinalIgnoreCase) >= 0);
-            }
-            else {
-                foreach (AutomationElement item in componentItems) {
-                    if (item.Name.IndexOf(".DomainCfg", StringComparison.OrdinalIgnoreCase) >= 0) {
-                        AutomationElement compText = item.FindAllChildren(cf => cf.ByControlType(ControlType.Custom))[0];
-                        CaptureImage compImg = Capture.Element(compText);
-                        string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR.png";
-                        compImg.ToFile(file);
-                        Page page = engine.Process(Pix.LoadFromFile(file));
-                        string text = page.GetText();
-                        page.Dispose();
-                        if (text.IndexOf(componentName) >= 0) {
-                            componentItem = item;
-                            break;
+            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
+                if (componentName == "Automation Runtime") {
+                    componentItem = componentItems.FirstOrDefault(c => c.Name.IndexOf(".ArCfg", StringComparison.OrdinalIgnoreCase) >= 0);
+                }
+                else if (componentName == "Visual Components"){
+                    componentItem = componentItems.FirstOrDefault(c => c.Name.IndexOf(".VcCfg", StringComparison.OrdinalIgnoreCase) >= 0);
+                }
+                else {
+                    foreach (AutomationElement item in componentItems) {
+                        if (item.Name.IndexOf(".DomainCfg", StringComparison.OrdinalIgnoreCase) >= 0) {
+                            AutomationElement compText = item.FindAllChildren(cf => cf.ByControlType(ControlType.Custom))[0];
+                            CaptureImage compImg = Capture.Element(compText);
+                            string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR.png";
+                            compImg.ToFile(file);
+                            Page page = engine.Process(Pix.LoadFromFile(file));
+                            string text = page.GetText();
+                            page.Dispose();
+                            if (text.IndexOf(componentName) >= 0) {
+                                componentItem = item;
+                                break;
+                            }
                         }
+                        else
+                            continue;
                     }
-                    else
-                        continue;
                 }
             }
             AutomationElement [] allTexts = componentItem.FindAllChildren(cf => cf.ByControlType(ControlType.Custom));

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Tesseract;
+using FlaUI.Core.Capturing;
+using FlaUI.Core.Input;
+using System.Drawing;
 
 namespace FlaUITests.Util {
     public partial class MappView {
@@ -82,10 +85,31 @@ namespace FlaUITests.Util {
         }
         void TM611_4_1_RenameVIS() {
             string visname = "vis_0.vis";
+            PageIteratorLevel containingLine = PageIteratorLevel.TextLine;
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_" + visname}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
             AutomationElement visConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(visname) >= 0);
             AutomationElement adocText = visConfigWorkspaceWindow.FindAllDescendants().First(cf => cf.Name.IndexOf("<?xml") >= 0);
-            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
+            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default))
+            {
+                CaptureImage compImg = Capture.Element(adocText);
+                string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR_vis.png";
+                compImg.ToFile(file);
+                string vis = "vis_0";
+                using (Page page = engine.Process(Pix.LoadFromFile(file))) {
+                    using (var iter = page.GetIterator()) {
+                        iter.Begin();
+                        do {
+                            if (iter.TryGetBoundingBox(containingLine, out var rect)) {
+                                var curText = iter.GetText(containingLine);
+                                // Your code here, 'rect' should containt the location of the text, 'curText' contains the actual text itself
+                                int i;
+                                if ((i = curText.IndexOf(vis)) >= 0) {
+                                    Mouse.MoveTo(new Point {X = rect.X1, Y = rect.Y1});
+                                }
+                            }
+                        } while (iter.Next(containingLine));
+                    }
+                }           
             }
             string sdocText = adocText.Name;
 
