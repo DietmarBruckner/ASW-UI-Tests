@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace FlaUITests.Util {
     public static class TreeConfig {
-        public enum ViewType { LogicalView, ConfigurationView, PhysicalView, Workspace }
+        public enum ViewType { LogicalView, ConfigurationView, PhysicalView, Workspace, PropertyWindow }
         public static IDE_Main IdeMain { get; set; }
         public static AppProject CurrentProject { get; set; }
 
