@@ -84,8 +84,9 @@ namespace FlaUITests.Util {
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0); //Select "anonymous token"
         }
         void TM611_4_1_RenameVIS() {
+            List<string> l = new List<string>();
             string visname = "vis_0.vis";
-            PageIteratorLevel containingLine = PageIteratorLevel.Word;
+            PageIteratorLevel containingLine = PageIteratorLevel.Block;
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_" + visname}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
             AutomationElement visConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(visname) >= 0);
             AutomationElement adocText = visConfigWorkspaceWindow.FindAllDescendants().First(cf => cf.Name.IndexOf("<?xml") >= 0);
@@ -102,6 +103,7 @@ namespace FlaUITests.Util {
                             if (iter.TryGetBoundingBox(containingLine, out var rect)) {
                                 var curText = iter.GetText(containingLine);
                                 // Your code here, 'rect' should containt the location of the text, 'curText' contains the actual text itself
+                                l.Add(curText);
                                 int i;
                                 if ((i = curText.IndexOf(vis)) >= 0) {
                                     Mouse.MoveTo(new Point {X = rect.X1, Y = rect.Y1});
