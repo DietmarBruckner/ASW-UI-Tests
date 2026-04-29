@@ -17,7 +17,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SelectComponentVersion("OPC", Version);
             TM611_3_1_ActivateOPCUACS();
         }
-        public override void TM611_4_1_InsertComponent() {
+        public override void TM611_4_InsertComponent() {
             
         }
         void TM611_3_1_ActivateOPCUACS() {

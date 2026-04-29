@@ -4,7 +4,7 @@ namespace FlaUITests.Util {
         protected string Version;
         public Environment.Verbose Verbose { get; set; }
         public abstract void InitComponent();
-        public abstract void TM611_4_1_InsertComponent();
+        public abstract void TM611_4_InsertComponent();
 
         public ComponentInProject (AppProject project, string version) {
             Project = project;

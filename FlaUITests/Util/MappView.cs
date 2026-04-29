@@ -18,11 +18,11 @@ namespace FlaUITests.Util {
             }
             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
-                 TM611_4_1_InsertComponent();
+                 TM611_4_InsertComponent();
             TM611_3_2_ConfigureMappViewServer();
             AddComponents();
         }
-        public override void TM611_4_1_InsertComponent() {
+        public override void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
             if (Verbose >= Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
