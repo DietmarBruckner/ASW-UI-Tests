@@ -96,7 +96,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Activating Simulation");
                 Console.WriteLine("------------------------------------------");
             }
-            _ideMain.ActivateSimulation();
+            //_ideMain.ActivateSimulation();
             foreach (KeyValuePair<Components, string> kvp in DictComponents) {
                 ComponentInProject cip = null;
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));

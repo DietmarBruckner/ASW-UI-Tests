@@ -19,7 +19,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
             }
-            TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
+            //TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  TM611_4_InsertComponent();
             //TM611_3_2_ConfigureMappViewServer();
@@ -86,7 +86,7 @@ namespace FlaUITests.Util {
         void TM611_4_1_RenameVIS() {
             List<string> l = new List<string>();
             string visname = "vis_0.vis";
-            PageIteratorLevel containingLine = PageIteratorLevel.Block;
+            PageIteratorLevel containingLine = PageIteratorLevel.TextLine;
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_" + visname}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
             AutomationElement visConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(visname) >= 0);
             AutomationElement adocText = visConfigWorkspaceWindow.FindAllDescendants().First(cf => cf.Name.IndexOf("<?xml") >= 0);
