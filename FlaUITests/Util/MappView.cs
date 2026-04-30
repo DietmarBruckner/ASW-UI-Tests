@@ -180,6 +180,7 @@ namespace FlaUITests.Util {
             AutomationElement docIATeditor = content_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
             AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
             TreeConfig.ClickAutomationElement(defaultLabel);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int tabSize = 1;
@@ -223,6 +224,12 @@ namespace FlaUITests.Util {
                 AutomationElement p_left = position.FindFirstChild(cf => cf.ByName("left"));
                 if (int.Parse(p_left.Patterns.Value.Pattern.Value) != stepY/4)
                     p_left.AsTextBox().Patterns.Value.Pattern.SetValue("" + stepY/4);
+                AutomationElement s_width = position.FindFirstChild(cf => cf.ByName("top"));
+                if (int.Parse(s_width.Patterns.Value.Pattern.Value) != stepX/2)
+                    s_width.AsTextBox().Patterns.Value.Pattern.SetValue("" + stepX/2);
+                AutomationElement s_height = position.FindFirstChild(cf => cf.ByName("left"));
+                if (int.Parse(s_height.Patterns.Value.Pattern.Value) != stepY/2)
+                    s_height.AsTextBox().Patterns.Value.Pattern.SetValue("" + stepY/2);
                 i++;
                 if (i == tabSize) {
                     j++;
