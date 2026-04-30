@@ -677,10 +677,10 @@ namespace FlaUITests.Util {
                         float ratio = UIElementsBounds["ProjectExplorer"].Width/UIElementsBounds["Toolbox"].Width;
                         Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 30};
                         Mouse.MoveTo(point);
-                        Mouse.DragHorizontally(point, (int) ((rect.Width - Xscreen - 1)*ratio/(1+ratio)));
+                        Mouse.DragHorizontally(point, (int) ((rect.Width - Xscreen - 1)*ratio/(1f+ratio)));
                         point = new Point { X = rect.Right + 1, Y = rect.Bottom - 30};
                         Mouse.MoveTo(point);
-                        Mouse.DragHorizontally(point, (int)((Xscreen + 1 - rect.Width)/(1+ratio)));
+                        Mouse.DragHorizontally(point, (int)((Xscreen + 1 - rect.Width)/(1f+ratio)));
                     }
                 }
             }
@@ -697,7 +697,7 @@ namespace FlaUITests.Util {
                 using (Keyboard.Pressing(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL)) {
                     do {
                         Mouse.Scroll(0.5d);
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                     } while (docIATeditor.Patterns.Scroll.Pattern.HorizontalScrollPercent != 0);
                 }
             }
