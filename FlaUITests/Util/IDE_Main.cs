@@ -196,8 +196,9 @@ namespace FlaUITests.Util {
             int i = 3;
             while (i-- >= 0) {
                 try {
+                    Console.WriteLine("nix clicked: " + i);
                     menu.Click(); // Click the menu to open it
-                    Console.WriteLine("clicked: " + menu.Name);
+                    Console.WriteLine("clicked: " + menu.Name + i);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
                     Menu m = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(nameMenu))).AsMenu();
                     AutomationElement toolBar = m.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
@@ -216,7 +217,7 @@ namespace FlaUITests.Util {
                     if (notFound) 
                         continue; 
                     mi.Click();
-                    Console.WriteLine("clicked: " + mi.Name);
+                    Console.WriteLine("clicked: " + mi.Name + i);
                     if (subMenuItemName != null) {
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
                         Menu subMenu = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(menuItemName))).AsMenu();
