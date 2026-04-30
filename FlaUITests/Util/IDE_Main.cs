@@ -194,7 +194,7 @@ namespace FlaUITests.Util {
             if (nameMenu == "&nline")
                 nameMenu = "Online";
             int i = 3;
-            while (i-- > 0) {
+            while (i-- >= 0) {
                 try {
                     menu.Click(); // Click the menu to open it
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
