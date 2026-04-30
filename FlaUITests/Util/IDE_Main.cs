@@ -194,7 +194,7 @@ namespace FlaUITests.Util {
             if (nameMenu == "&nline")
                 nameMenu = "Online";
             int i = 3;
-            while (i-- >= 0) {
+            do {
                 try {
                     Console.WriteLine("nix clicked: " + i);
                     menu.Click(); // Click the menu to open it
@@ -247,7 +247,8 @@ namespace FlaUITests.Util {
                         Console.WriteLine("trys left: " + i);
                     }
                 }
-            }
+                i--;
+            } while (i >= 0);
         }
         public string[] GetProjectpath()
         {
