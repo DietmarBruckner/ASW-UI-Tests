@@ -196,7 +196,7 @@ namespace FlaUITests.Util {
             int i = 3;
             while (i-- > 0) {
                 try {
-                    menu.AsMenuItem().Invoke(); // Click the menu to open it
+                    menu.Click(); // Click the menu to open it
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
                     Menu m = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(nameMenu))).AsMenu();
                     AutomationElement toolBar = m.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));

@@ -163,6 +163,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting widgets");
             }
+            TreeConfig.IdeMain.InvokeMenuItem(TreeConfig.IdeMain.GetMenu("View"), "Output", "Output Results");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             AutomationElement content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("content_0.content") >= 0);
             Point editorCenter = content_0ConfigWorkspaceWindow.BoundingRectangle.Center();
