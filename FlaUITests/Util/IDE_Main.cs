@@ -447,7 +447,20 @@ namespace FlaUITests.Util {
             if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.LIGHT)
                 Console.WriteLine("Switching to view: " + view.ToString());
             Point point;
-            Rectangle Rect = view == TreeConfig.ViewType.Workspace ? Rect = UIElementsBounds["Workspace"] : view == TreeConfig.ViewType.PropertyWindow ? Rect = UIElementsBounds["PropertyWindow"] : Rect = UIElementsBounds["ProjectExplorer"];
+            Rectangle Rect;
+            switch (view) {
+                case TreeConfig.ViewType.LogicalView:
+                case TreeConfig.ViewType.ConfigurationView:
+                case TreeConfig.ViewType.PhysicalView:
+                    Rect = UIElementsBounds["ProjectExplorer"];
+                    break;
+                case TreeConfig.ViewType.PropertyWindow:
+                    Rect = UIElementsBounds["PropertyWindow"];
+                    break;
+                case TreeConfig.ViewType.Workspace:
+                    Rect = UIElementsBounds["Workspace"];
+                    break;
+            }
             if (Rect.Width < x) {
                 Console.WriteLine((view == TreeConfig.ViewType.Workspace ? "Workspace" : "Project Explorer") + " size too thin - trying to make it broader.");
                 point = new Point { X = Rect.Right + 1, Y = Rect.Top + 30};
@@ -472,7 +485,7 @@ namespace FlaUITests.Util {
                     ViewTab = ViewTab.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Physical View")));
                     break;
             }
-            if (view != TreeConfig.ViewType.Workspace)
+            if (view != TreeConfig.ViewType.Workspace && view != TreeConfig.ViewType.PropertyWindow)
                 TreeConfig.ClickAutomationElement(ViewTab);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
