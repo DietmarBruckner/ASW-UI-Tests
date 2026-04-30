@@ -205,7 +205,7 @@ namespace FlaUITests.Util {
                     AutomationElement[] children = toolBar.FindAllChildren();
                     foreach (AutomationElement child in children) {
                         string name = child.Name;
-                        if (name == null) continue;
+                        //if (name == null) continue;
                         if (name.IndexOf(menuItemName) >= 0) {
                             mi = child.AsMenuItem();
                             notFound = false;
@@ -214,7 +214,7 @@ namespace FlaUITests.Util {
                     }
                     if (notFound) 
                         continue; 
-                    mi.Invoke();
+                    mi.Click();
                     if (subMenuItemName != null) {
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
                         Menu subMenu = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(menuItemName))).AsMenu();
@@ -224,7 +224,7 @@ namespace FlaUITests.Util {
                         AutomationElement[] subChildren = toolBar.FindAllChildren();
                         foreach (AutomationElement child in subChildren) {
                             string name = child.Name;
-                            if (name == null) continue;
+                            //if (name == null) continue;
                             if (name.IndexOf(subMenuItemName) >= 0) {
                                 mi = child.AsMenuItem();
                                 notFound = false;
