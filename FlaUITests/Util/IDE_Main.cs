@@ -193,8 +193,8 @@ namespace FlaUITests.Util {
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'BR&' from the menu name
             if (nameMenu == "&nline")
                 nameMenu = "Online";
-            int i = 3;
-            do {
+            int i = 4;
+            while (i-- >= 0) {
                 try {
                     menu.Click();
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
@@ -233,20 +233,16 @@ namespace FlaUITests.Util {
                             continue;
                         Mouse.MoveTo(mi.BoundingRectangle.Center());
                         mi.Click();
-                        Console.WriteLine("clicked: " + mi.Name);
                     }
                     break;
                 }
                 catch (Exception) {
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3));
                     if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.LIGHT) {
                         Console.WriteLine("Error while trying to click " + menuItemName + " in menu " + nameMenu + ((subMenuItemName != null)? " in submenu " + subMenuItemName : "") + ".");
                         Console.WriteLine("trys left: " + i);
                     }
                 }
-                i--;
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3));
-            } while (i >= 0);
+            }
         }
         public string[] GetProjectpath()
         {
