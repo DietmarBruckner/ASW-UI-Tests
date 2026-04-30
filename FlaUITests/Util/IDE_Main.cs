@@ -303,19 +303,19 @@ namespace FlaUITests.Util {
             if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Checking if necessary view(s) are there: " + (projectExplorer?"Project Explorer ":"") + (toolbox?"Object catalog ":"") + (propertyWindow?"Property window ":"") + (outputResults?"Output results ":"") + (statusBar?"Statusbar":""));
             if (projectExplorer) {
-                ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
+                ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View") >= 0);
                 if (ProjectExplorer == null) {
                     InvokeMenuItem(GetMenu("View"), "Project Explorer", "Logical View");
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-                    ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0);
+                    ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View") >= 0);
                 }
             }
             if (toolbox) {
-                Toolbox = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Toolbox")));
+                Toolbox = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(cf => cf.Name.IndexOf("Toolbox") >= 0);
                 if (Toolbox == null) {
                     InvokeMenuItem(GetMenu("View"), "Toolbox");
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-                    Toolbox = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Toolbox")));
+                    Toolbox = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(cf => cf.Name.IndexOf("Toolbox") >= 0);
                 }
             }
             if (propertyWindow) {

@@ -182,7 +182,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int tabSize = 1;
             while (tabSize*tabSize < testLocalizeableStrings.Count) tabSize++;
-            tabSize++;
+            //tabSize++;
             int stepX = content_0Size.Width/tabSize;
             int stepY = content_0Size.Height/tabSize;
             int stepXvis = content_0ConfigWorkspaceWindow.BoundingRectangle.Width/tabSize;
