@@ -234,7 +234,8 @@ namespace FlaUITests.Util {
                                 break;
                             }
                             if (notFound) 
-                                continue; 
+                                continue;
+                            Mouse.MoveTo(mi.BoundingRectangle.Center());
                             mi.Click();
                             Console.WriteLine("clicked: " + mi.Name);
                         }
