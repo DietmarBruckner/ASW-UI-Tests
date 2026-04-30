@@ -242,6 +242,7 @@ namespace FlaUITests.Util {
                     break;
                 }
                 catch (Exception) {
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3));
                     if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.LIGHT) {
                         Console.WriteLine("Error while trying to click " + menuItemName + " in menu " + nameMenu + ((subMenuItemName != null)? " in submenu " + subMenuItemName : "") + ".");
                         Console.WriteLine("trys left: " + i);
