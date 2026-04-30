@@ -181,7 +181,7 @@ namespace FlaUITests.Util {
             AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
             TreeConfig.ClickAutomationElement(defaultLabel);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
+            //Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
             //TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int tabSize = 1;
             while (tabSize*tabSize < testLocalizeableStrings.Count) tabSize++;
@@ -224,10 +224,13 @@ namespace FlaUITests.Util {
                 AutomationElement p_left = position.FindFirstChild(cf => cf.ByName("left"));
                 if (int.Parse(p_left.Patterns.Value.Pattern.Value) != stepY/4)
                     p_left.AsTextBox().Patterns.Value.Pattern.SetValue("" + stepY/4);
-                AutomationElement s_width = position.FindFirstChild(cf => cf.ByName("top"));
+                Mouse.Scroll(-2d);
+                Mouse.Click(new Point {X = size.BoundingRectangle.Left + 5, Y = size.BoundingRectangle.Top + 5});
+                Mouse.Scroll(-2d);
+                AutomationElement s_width = size.FindFirstChild(cf => cf.ByName("width"));
                 if (int.Parse(s_width.Patterns.Value.Pattern.Value) != stepX/2)
                     s_width.AsTextBox().Patterns.Value.Pattern.SetValue("" + stepX/2);
-                AutomationElement s_height = position.FindFirstChild(cf => cf.ByName("left"));
+                AutomationElement s_height = size.FindFirstChild(cf => cf.ByName("height"));
                 if (int.Parse(s_height.Patterns.Value.Pattern.Value) != stepY/2)
                     s_height.AsTextBox().Patterns.Value.Pattern.SetValue("" + stepY/2);
                 i++;
