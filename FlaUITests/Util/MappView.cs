@@ -169,22 +169,25 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.InitializeViews(propertyWindow:true);
             TreeConfig.IdeMain.SwitchView(TreeConfig.ViewType.PropertyWindow);
             TreeConfig.ClickAutomationElement(content_0ConfigWorkspaceWindow);
-            Size content_0Size = new Size();
             AutomationElement content_0Properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            Size content_0Size = new Size();
             content_0Size.Height = int.Parse(content_0Properties.FindFirstDescendant(cf => cf.ByName("height")).Patterns.Value.ToString());
             content_0Size.Width = int.Parse(content_0Properties.FindFirstDescendant(cf => cf.ByName("width")).Patterns.Value.ToString());
             AutomationElement docIATeditor = content_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
             AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
             TreeConfig.ClickAutomationElement(defaultLabel);
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
+            //Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
+            TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int tabSize = 1;
             while (tabSize*tabSize < testLocalizeableStrings.Count) tabSize++;
             tabSize++;
             int stepX = content_0Size.Width/tabSize;
             int stepY = content_0Size.Height/tabSize;
+            int stepXvis = content_0ConfigWorkspaceWindow.BoundingRectangle.Width/tabSize;
+            int stepYvis = content_0ConfigWorkspaceWindow.BoundingRectangle.Height/tabSize;
             int i = 0, j = 0;
             foreach(string[] text in testLocalizeableStrings) {
-                Point p = new Point { X = (int) (stepX * (i + 0.25f)), Y = (int) (stepY * (j + 0.25f)) };
+                Point p = new Point { X = content_0ConfigWorkspaceWindow.BoundingRectangle.Left + (int) (stepXvis * (i + 0.25f)), Y = content_0ConfigWorkspaceWindow.BoundingRectangle.Top + (int) (stepYvis * (j + 0.25f)) };
                 TreeConfig.ClickAutomationElement(content_0ConfigWorkspaceWindow);
                 TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", text[0], drag: true, p);
                 Mouse.Click(p);
