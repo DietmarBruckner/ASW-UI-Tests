@@ -60,9 +60,9 @@ namespace FlaUITests.Util {
                     { "MainWindow", MainWindow.BoundingRectangle } };
                 if ((a = MainWindow.TitleBar) != null)
                     bounds.Add("TitleBar", a.BoundingRectangle);
-                if ((a = MainWindow.FindFirstDescendant(_cf.Menu()).AsMenu()) != null)
+                if ((a = MainWindow.FindFirstChild(_cf.Menu()).AsMenu()) != null)
                     bounds.Add("Menus", a.BoundingRectangle);
-                if ((a = MainWindow.FindFirstDescendant(_cf.ByControlType(ControlType.Pane).And(_cf.ByAutomationId("59419")))) != null)
+                if ((a = MainWindow.FindFirstChild(_cf.ByControlType(ControlType.Pane).And(_cf.ByAutomationId("59419")))) != null)
                     bounds.Add("ToolBar", a.BoundingRectangle);
                 if (ProjectExplorer != null)
                     bounds.Add("ProjectExplorer", ProjectExplorer.BoundingRectangle);
@@ -74,7 +74,7 @@ namespace FlaUITests.Util {
                     bounds.Add("OutputWindow", OutputWindow.BoundingRectangle);
                 if (PropertyWindow != null)
                     bounds.Add("PropertyWindow", PropertyWindow.BoundingRectangle);
-                if ((a = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar))[0]) != null)
+                if ((a = MainWindow.FindFirstChild(_cf.ByControlType(ControlType.StatusBar))) != null)
                     bounds.Add("StatusBar", a.BoundingRectangle);
                 return bounds;
             } }

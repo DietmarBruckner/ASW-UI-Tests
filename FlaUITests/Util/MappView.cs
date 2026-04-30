@@ -172,6 +172,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             AutomationElement content_0Properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Size content_0Size = new Size();
+            AutomationElement ae = content_0Properties.FindFirstDescendant(cf => cf.ByName("height"));
             content_0Size.Height = int.Parse(content_0Properties.FindFirstDescendant(cf => cf.ByName("height")).Patterns.Value.ToString());
             content_0Size.Width = int.Parse(content_0Properties.FindFirstDescendant(cf => cf.ByName("width")).Patterns.Value.ToString());
             AutomationElement docIATeditor = content_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
