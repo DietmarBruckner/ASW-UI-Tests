@@ -169,6 +169,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.InitializeViews(propertyWindow:true);
             TreeConfig.IdeMain.SwitchView(TreeConfig.ViewType.PropertyWindow);
             TreeConfig.ClickAutomationElement(content_0ConfigWorkspaceWindow);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             AutomationElement content_0Properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Size content_0Size = new Size();
             content_0Size.Height = int.Parse(content_0Properties.FindFirstDescendant(cf => cf.ByName("height")).Patterns.Value.ToString());
