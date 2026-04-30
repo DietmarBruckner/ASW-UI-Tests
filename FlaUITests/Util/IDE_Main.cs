@@ -100,32 +100,32 @@ namespace FlaUITests.Util {
 
         }
         void InitMenues() {
-            Menu menu = MainWindow.FindFirstDescendant(_cf.Menu()).AsMenu();
-            AutomationElement[] menus = menu.FindAllDescendants();
+            Menu menu = MainWindow.FindFirstChild(_cf.Menu()).AsMenu();
+            AutomationElement[] menus = menu.FindAllChildren();
             foreach (AutomationElement m in menus) {
                 string name = m.Name;
                 if (name == null) continue;
-                if (name.IndexOf("File", StringComparison.OrdinalIgnoreCase) >= 0)
+                if (name.IndexOf("File") >= 0)
                     _fileMenu = m.AsMenu();
-                else if (name.IndexOf("Edit", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (name.IndexOf("Edit") >= 0)
                     _editMenu = m.AsMenu();
-                else if (name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (name.IndexOf("View") >= 0)
                     _viewMenu = m.AsMenu();
-                else if (name.IndexOf("Insert", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (name.IndexOf("Insert") >= 0)
                     _insertMenu = m.AsMenu();
-                else if (name.IndexOf("Open", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (name.IndexOf("Open") >= 0)
                     _openMenu = m.AsMenu();
-                else if (name.IndexOf("Project", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (name.IndexOf("Project") >= 0)
                     _projectMenu = m.AsMenu();
-                else if (name.IndexOf("Debug", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (name.IndexOf("Debug") >= 0)
                     _debugMenu = m.AsMenu();
-                else if (name.IndexOf("nline", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (name.IndexOf("nline") >= 0)
                     _onlineMenu = m.AsMenu();
-                else if (name.IndexOf("Tools", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (name.IndexOf("Tools") >= 0)
                     _toolsMenu = m.AsMenu();
-                else if (name.IndexOf("Window", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (name.IndexOf("Window") >= 0)
                     _windowMenu = m.AsMenu();
-                else if (name.IndexOf("Help", StringComparison.OrdinalIgnoreCase) >= 0)
+                else if (name.IndexOf("Help") >= 0)
                     _helpMenu = m.AsMenu();
             }
         }
