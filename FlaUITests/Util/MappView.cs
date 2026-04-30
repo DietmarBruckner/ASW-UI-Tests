@@ -189,7 +189,7 @@ namespace FlaUITests.Util {
             int stepYvis = content_0ConfigWorkspaceWindow.BoundingRectangle.Height/tabSize;
             int i = 0, j = 0;
             foreach(string[] text in testLocalizeableStrings) {
-                Point p = new Point { X = content_0ConfigWorkspaceWindow.BoundingRectangle.Left + (int) (stepXvis * (i + 0.25f)), Y = content_0ConfigWorkspaceWindow.BoundingRectangle.Top + (int) (stepYvis * (j + 0.25f)) };
+                Point p = new Point { X = docIATeditor.BoundingRectangle.Left + (int) (stepXvis * (i + 0.25f)), Y = docIATeditor.BoundingRectangle.Top + (int) (stepYvis * (j + 0.25f)) };
                 TreeConfig.ClickAutomationElement(content_0ConfigWorkspaceWindow);
                 TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", text[0], drag: true, p);
                 Mouse.Click(p);
