@@ -196,9 +196,9 @@ namespace FlaUITests.Util {
             int i = 3;
             do {
                 try {
-                    Console.WriteLine("nix clicked: " + i);
+                    //Console.WriteLine("nix clicked: " + i);
                     menu.Click(); // Click the menu to open it
-                    Console.WriteLine("clicked: " + menu.Name + i);
+                    //Console.WriteLine("clicked: " + menu.Name + i);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
                     Menu m = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(nameMenu))).AsMenu();
                     AutomationElement toolBar = m.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
@@ -217,11 +217,14 @@ namespace FlaUITests.Util {
                     if (notFound) 
                         continue; 
                     mi.Click();
-                    Console.WriteLine("clicked: " + mi.Name + i);
+                    //Console.WriteLine("clicked: " + mi.Name + i);
                     if (subMenuItemName != null) {
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
+                        Console.WriteLine("sleeped: ");
                         Menu subMenu = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(menuItemName))).AsMenu();
+                        Console.WriteLine("menu found: ");
                         toolBar = subMenu.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
+                        Console.WriteLine("toolbar found: ");
                         mi = null;
                         notFound = true;
                         AutomationElement[] subChildren = toolBar.FindAllChildren();
@@ -230,6 +233,7 @@ namespace FlaUITests.Util {
                             //if (name == null) continue;
                             if (name.IndexOf(subMenuItemName) >= 0) {
                                 mi = child.AsMenuItem();
+                                Console.WriteLine("mi found: ");
                                 notFound = false;
                                 break;
                             }
