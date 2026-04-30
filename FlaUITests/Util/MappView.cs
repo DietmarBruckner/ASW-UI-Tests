@@ -170,13 +170,14 @@ namespace FlaUITests.Util {
             TreeConfig.ClickAutomationElement(content_0ConfigWorkspaceWindow);
             Size content_0Size;
             AutomationElement content_0Properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            content_0Size.Height = int.Parse(content_0Properties.FindFirstDescendant(cf => cf.ByName("height")).Patterns.Value);
             
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Button", drag:true, editorCenter);
         }
         readonly List<string[]> testLocalizeableStrings = new List<string[]> {
             {new string [] {"BarChart", "fr_BarChart", "de_BarChart", "en_BarChart"} }, 
-            {new string [] {"Label", "fr_Label", "de_Label", "en_Label"} }, 
             {new string [] {"Button", "fr_Button", "de_Button", "en_Button"} }, 
+            {new string [] {"Label", "fr_Label", "de_Label", "en_Label"} }, 
             {new string [] {"Navigation", "fr_Navigation", "de_Navigation", "en_Navigation"} }, 
             {new string [] {"1", "fr_", "de_", "en_"} }, 
             {new string [] {"2", "fr_", "de_", "en_"} }
