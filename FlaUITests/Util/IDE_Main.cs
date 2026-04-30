@@ -24,6 +24,7 @@ using Button = FlaUI.Core.AutomationElements.Button;
 using MenuItem = FlaUI.Core.AutomationElements.MenuItem;
 using TextBox = FlaUI.Core.AutomationElements.TextBox;
 using System.Runtime.CompilerServices;
+using System.Data.SqlTypes;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -319,27 +320,40 @@ namespace FlaUITests.Util {
                 }
             }
             if (propertyWindow) {
-                PropertyWindow = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Property Window")));
+                PropertyWindow = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Property Window")));
                 if (PropertyWindow == null) {
                     InvokeMenuItem(GetMenu("View"), "Property Window");
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-                    PropertyWindow = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Property Window")));
+                    PropertyWindow = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Property Window")));
                 }
             }
             if (outputResults) {
-                OutputWindow = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Output Results")));
+                string [] tabs = {"Output Results", "Debugger Console", "Callstack", "Breakpoints", "Debugger Watch", "Contextual Watch", "Reference List", "Cross Reference", "Output", "Find In Files"};
+                AutomationElement [] ae = MainWindow.FindAllChildren();
+                foreach (var v in ae)
+                    foreach (string s in tabs)
+                        if (v.Name.IndexOf(s) >= 0)
+                            OutputWindow = v;
                 if (OutputWindow == null) {
                     InvokeMenuItem(GetMenu("View"), "Output", "Output Results");
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-                    OutputWindow = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Output Results")));
+                    OutputWindow = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Output Results")));
                 }
+                AutomationElement a = OutputWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
+                a = a.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Output Results")));
+                if (a == null) {
+                    InvokeMenuItem(GetMenu("View"), "Output", "Output Results");
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));                    
+                }
+                else
+                    TreeConfig.ClickAutomationElement(a);
             }
             if (statusBar) {
-                StatusBar = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.StatusBar));
+                StatusBar = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar));
                 if (StatusBar == null) {
                     InvokeMenuItem(GetMenu("View"), "Status Bar");
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-                    StatusBar = MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.StatusBar));
+                    StatusBar = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar));
                 }
             }
         }
