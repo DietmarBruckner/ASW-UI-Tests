@@ -193,9 +193,36 @@ namespace FlaUITests.Util {
                 Point p = new Point { X = docIATeditor.BoundingRectangle.Left + (int) (stepXvis * (i + 0.25f)), Y = docIATeditor.BoundingRectangle.Top + (int) (stepYvis * (j + 0.25f)) };
                 TreeConfig.ClickAutomationElement(content_0ConfigWorkspaceWindow);
                 TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", text[0], drag: true, p);
+                p = new Point { X = docIATeditor.BoundingRectangle.Left + (int) (stepXvis * (i + 0.5f)), Y = docIATeditor.BoundingRectangle.Top + (int) (stepYvis * (j + 0.2f)) };
                 Mouse.Click(p);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                 AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+                AutomationElement top = properties.FindFirstChild();
+                AutomationElement layout = properties.FindFirstChild(cf => cf.ByName("Layout"));
+                AutomationElement position = layout.FindFirstChild(cf => cf.ByName("Position"));
+                AutomationElement size = layout.FindFirstChild(cf => cf.ByName("Size"));
+                Mouse.MoveTo(properties.BoundingRectangle.Center());
+                while (!properties.BoundingRectangle.IntersectsWith(top.BoundingRectangle)) {
+                    Mouse.Scroll(1d);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                }
+                while (!properties.BoundingRectangle.IntersectsWith(layout.BoundingRectangle)) {
+                    Mouse.Scroll(-1d);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                }
+                while (!properties.BoundingRectangle.IntersectsWith(position.BoundingRectangle)) {
+                    Mouse.Scroll(-1d);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                }
+                Mouse.Scroll(-2d);
+                Mouse.Click(new Point {X = position.BoundingRectangle.Left + 5, Y = position.BoundingRectangle.Top + 5});
+                Mouse.Scroll(-2d);
+                AutomationElement p_top = position.FindFirstChild(cf => cf.ByName("top"));
+                if (int.Parse(p_top.Patterns.Value.Pattern.Value) != stepX/4)
+                    p_top.AsTextBox().Patterns.Value.Pattern.SetValue("" + stepX/4);
+                AutomationElement p_left = position.FindFirstChild(cf => cf.ByName("left"));
+                if (int.Parse(p_left.Patterns.Value.Pattern.Value) != stepY/4)
+                    p_left.AsTextBox().Patterns.Value.Pattern.SetValue("" + stepY/4);
             }
         }
         readonly List<string[]> testLocalizeableStrings = new List<string[]> {
