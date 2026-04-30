@@ -696,7 +696,7 @@ namespace FlaUITests.Util {
                 TreeConfig.ClickAutomationElement(docIATeditor);
                 using (Keyboard.Pressing(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL)) {
                     do {
-                        Mouse.Scroll(-1d);
+                        Mouse.Scroll(0.5d);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
                     } while (docIATeditor.Patterns.Scroll.Pattern.HorizontalScrollPercent != 0);
                 }
