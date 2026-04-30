@@ -167,12 +167,30 @@ namespace FlaUITests.Util {
             AutomationElement content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("content_0.content") >= 0);
             Point editorCenter = content_0ConfigWorkspaceWindow.BoundingRectangle.Center();
             TreeConfig.IdeMain.InitializeViews(propertyWindow:true);
+            TreeConfig.IdeMain.SwitchView(TreeConfig.ViewType.PropertyWindow);
             TreeConfig.ClickAutomationElement(content_0ConfigWorkspaceWindow);
-            Size content_0Size;
+            Size content_0Size = new Size();
             AutomationElement content_0Properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
-            content_0Size.Height = int.Parse(content_0Properties.FindFirstDescendant(cf => cf.ByName("height")).Patterns.Value);
-            
-            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Button", drag:true, editorCenter);
+            content_0Size.Height = int.Parse(content_0Properties.FindFirstDescendant(cf => cf.ByName("height")).Patterns.Value.ToString());
+            content_0Size.Width = int.Parse(content_0Properties.FindFirstDescendant(cf => cf.ByName("width")).Patterns.Value.ToString());
+            AutomationElement docIATeditor = content_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
+            AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
+            TreeConfig.ClickAutomationElement(defaultLabel);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
+            int tabSize = 1;
+            while (tabSize*tabSize < testLocalizeableStrings.Count) tabSize++;
+            tabSize++;
+            int stepX = content_0Size.Width/tabSize;
+            int stepY = content_0Size.Height/tabSize;
+            int i = 0, j = 0;
+            foreach(string[] text in testLocalizeableStrings) {
+                Point p = new Point { X = (int) (stepX * (i + 0.25f)), Y = (int) (stepY * (j + 0.25f)) };
+                TreeConfig.ClickAutomationElement(content_0ConfigWorkspaceWindow);
+                TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", text[0], drag: true, p);
+                Mouse.Click(p);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+                AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            }
         }
         readonly List<string[]> testLocalizeableStrings = new List<string[]> {
             {new string [] {"BarChart", "fr_BarChart", "de_BarChart", "en_BarChart"} }, 
