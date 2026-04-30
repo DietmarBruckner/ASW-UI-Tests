@@ -202,7 +202,7 @@ namespace FlaUITests.Util {
                 AutomationElement layout = properties.FindFirstChild(cf => cf.ByName("Layout"));
                 AutomationElement position = layout.FindFirstChild(cf => cf.ByName("Position"));
                 AutomationElement size = layout.FindFirstChild(cf => cf.ByName("Size"));
-                Mouse.MoveTo(properties.BoundingRectangle.Center());
+                Mouse.Click(properties.BoundingRectangle.Center());
                 while (!properties.BoundingRectangle.IntersectsWith(top.BoundingRectangle)) {
                     Mouse.Scroll(1d);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
