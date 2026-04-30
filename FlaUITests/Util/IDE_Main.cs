@@ -663,7 +663,7 @@ namespace FlaUITests.Util {
                 if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                     Console.WriteLine("Workspace size too narrow - trying to make it broader.");
                 if (ProjectExplorer == null) {
-                    Point point = new Point { X = rect.Right + 1, Y = rect.Bottom + 30};
+                    Point point = new Point { X = rect.Right + 1, Y = rect.Bottom - 30};
                     Mouse.MoveTo(point);
                     Mouse.DragHorizontally(point, Xscreen+1 - rect.Width);
                 }
@@ -675,10 +675,10 @@ namespace FlaUITests.Util {
                     }
                     else {
                         float ratio = UIElementsBounds["ProjectExplorer"].Width/UIElementsBounds["Toolbox"].Width;
-                        Point point = new Point { X = rect.Left - 1, Y = rect.Bottom + 30};
+                        Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 30};
                         Mouse.MoveTo(point);
                         Mouse.DragHorizontally(point, (int) ((rect.Width - Xscreen - 1)*ratio/(1+ratio)));
-                        point = new Point { X = rect.Right + 1, Y = rect.Bottom + 30};
+                        point = new Point { X = rect.Right + 1, Y = rect.Bottom - 30};
                         Mouse.MoveTo(point);
                         Mouse.DragHorizontally(point, (int)((Xscreen + 1 - rect.Width)/(1+ratio)));
                     }
