@@ -182,7 +182,7 @@ namespace FlaUITests.Util {
             TreeConfig.ClickAutomationElement(defaultLabel);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
-            TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
+            //TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int tabSize = 1;
             while (tabSize*tabSize < testLocalizeableStrings.Count) tabSize++;
             int stepX = content_0Size.Width/tabSize;
