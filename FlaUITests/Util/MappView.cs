@@ -223,6 +223,11 @@ namespace FlaUITests.Util {
                 AutomationElement p_left = position.FindFirstChild(cf => cf.ByName("left"));
                 if (int.Parse(p_left.Patterns.Value.Pattern.Value) != stepY/4)
                     p_left.AsTextBox().Patterns.Value.Pattern.SetValue("" + stepY/4);
+                i++;
+                if (i == tabSize) {
+                    j++;
+                    i = 0;
+                }
             }
         }
         readonly List<string[]> testLocalizeableStrings = new List<string[]> {
