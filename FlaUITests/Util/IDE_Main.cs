@@ -230,9 +230,10 @@ namespace FlaUITests.Util {
                                 notFound = false;
                                 break;
                             }
-                        if (notFound) 
-                            continue; 
-                        mi.Invoke();}
+                            if (notFound) 
+                                continue; 
+                            mi.Click();
+                        }
                     }
                     break;
                 }
