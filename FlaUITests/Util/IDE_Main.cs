@@ -674,7 +674,7 @@ namespace FlaUITests.Util {
                         Mouse.DragHorizontally(point, rect.Width - Xscreen - 1);
                     }
                     else {
-                        float ratio = UIElementsBounds["ProjectExplorer"].Width/UIElementsBounds["Toolbox"].Width;
+                        float ratio = 1f*UIElementsBounds["ProjectExplorer"].Width/(1f*UIElementsBounds["Toolbox"].Width);
                         Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 30};
                         Mouse.MoveTo(point);
                         Mouse.DragHorizontally(point, (int) ((rect.Width - Xscreen - 1)*ratio/(1f+ratio)));
