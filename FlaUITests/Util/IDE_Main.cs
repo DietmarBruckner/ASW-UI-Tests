@@ -683,19 +683,26 @@ namespace FlaUITests.Util {
             if (rect.Height < Yscreen) {
                 if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                     Console.WriteLine("Workspace size too small - trying to make it taller.");
-                    Point point = new Point { X = rect.Left + 30, Y = rect.Bottom - 1};
-                    Mouse.MoveTo(point);
+                    Point point = new Point { X = rect.Left + 30, Y = rect.Bottom + 1};
                     Mouse.DragVertically(point, Yscreen + 1 - rect.Height);
             }
             if (docIATeditor is null) return;
-            if (docIATeditor.Patterns.Scroll.Pattern.HorizontalScrollPercent != 0) {
+            if (docIATeditor.Patterns.Scroll.Pattern.VerticalScrollPercent != 0d) {
                 TreeConfig.ClickAutomationElement(docIATeditor);
                 using (Keyboard.Pressing(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL)) {
                     do {
                         Mouse.Scroll(0.5d);
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-                    } while (docIATeditor.Patterns.Scroll.Pattern.HorizontalScrollPercent != 0);
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    } while (docIATeditor.Patterns.Scroll.Pattern.VerticalScrollPercent != 0d);
                 }
+            }
+            while (docIATeditor.Patterns.Scroll.Pattern.HorizontalScrollPercent != 0d) {
+                rect = UIElementsBounds["Workspace"];
+                Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 100};
+                Mouse.DragHorizontally(point, 100);
+                point = new Point { X = rect.Right + 1, Y = rect.Bottom - 100};
+                Mouse.DragHorizontally(point, -100);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             }
         }
     }
