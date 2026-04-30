@@ -53,6 +53,7 @@ namespace FlaUITests.Util {
         private AutomationElement _formatToolBar;
         private AutomationElement _zoomToolBar;
         private AutomationElement _debugToolBar;
+        private Screen _screen;
         public Dictionary<string, Rectangle> UIElementsBounds { get {
                 AutomationElement a;
                 Dictionary<string, Rectangle> bounds = new Dictionary<string, Rectangle> {
@@ -88,8 +89,8 @@ namespace FlaUITests.Util {
             MainWindow.Focus();
             Init();
             var rect = MainWindow.BoundingRectangle;
-            Screen screen = Screen.FromHandle(MainWindow.Properties.NativeWindowHandle);
-            bool isFullScreen = rect.Left <= screen.WorkingArea.Left && rect.Top <= screen.WorkingArea.Top && rect.Width >= screen.WorkingArea.Width && rect.Height >= screen.WorkingArea.Height;
+            _screen = Screen.FromHandle(MainWindow.Properties.NativeWindowHandle);
+            bool isFullScreen = rect.Left <= _screen.WorkingArea.Left && rect.Top <= _screen.WorkingArea.Top && rect.Width >= _screen.WorkingArea.Width && rect.Height >= _screen.WorkingArea.Height;
             if (!isFullScreen) {
                 if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                     Console.WriteLine("Maximizing main window");
@@ -342,7 +343,7 @@ namespace FlaUITests.Util {
                 }
             }
         }
-        public void MakeToolBoxElementsVisible(bool categories) {
+        public void SetToolBoxMinSize(bool categories) {
             Rectangle splitviewRect = UIElementsBounds["Toolbox"];
             AutomationElement a = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("_splitContainer")));
             AutomationElement [] allChildren = a.FindAllChildren();
@@ -353,14 +354,14 @@ namespace FlaUITests.Util {
                 if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                     Console.WriteLine("Toolbox size too small to make toolbox elements visible - trying to make it bigger.");
                 Point point = new Point { X = splitviewRect.Left + 30, Y = splitviewRect.Bottom + 1};
-                Mouse.MoveTo(point);
+                //Mouse.MoveTo(point);
                 Mouse.DragVertically(point, Math.Max(251, categoriesListViewRect.Height + 50) - splitviewRect.Height);
             }
             if (splitviewRect.Width < 400) {
                 if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                     Console.WriteLine("Toolbox size too small to make toolbox elements visible - trying to make it bigger.");
                 Point point = new Point { X = splitviewRect.Left - 1, Y = categoriesListViewRect.Top + 30 };
-                Mouse.MoveTo(point);
+                //Mouse.MoveTo(point);
                 Mouse.DragHorizontally(point, splitviewRect.Width - 401);
             }
             //min size of 200 px height and 400 px width for the Categories list to ensure all elements are visible and can be clicked
@@ -369,7 +370,7 @@ namespace FlaUITests.Util {
                     if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                         Console.WriteLine("Categories list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
-                    Mouse.MoveTo(point);
+                    //Mouse.MoveTo(point);
                     Mouse.DragVertically(point, 101 - categoriesListViewRect.Height);
                 }
             }
@@ -378,7 +379,7 @@ namespace FlaUITests.Util {
                     if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                         Console.WriteLine("Elements list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
-                    Mouse.MoveTo(point);
+                    //Mouse.MoveTo(point);
                     Mouse.DragVertically(point, elementsListViewRect.Height - 101);
                 }
             }
@@ -447,31 +448,26 @@ namespace FlaUITests.Util {
             if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.LIGHT)
                 Console.WriteLine("Switching to view: " + view.ToString());
             Point point;
-            Rectangle Rect;
+            Rectangle Rect = UIElementsBounds["ProjectExplorer"];
+            bool dragX = true, dragY = true;
             switch (view) {
-                case TreeConfig.ViewType.LogicalView:
-                case TreeConfig.ViewType.ConfigurationView:
-                case TreeConfig.ViewType.PhysicalView:
-                    Rect = UIElementsBounds["ProjectExplorer"];
-                    break;
                 case TreeConfig.ViewType.PropertyWindow:
                     Rect = UIElementsBounds["PropertyWindow"];
+                    dragX = dragY = false;
                     break;
                 case TreeConfig.ViewType.Workspace:
                     Rect = UIElementsBounds["Workspace"];
                     break;
             }
             if (Rect.Width < x) {
-                Console.WriteLine((view == TreeConfig.ViewType.Workspace ? "Workspace" : "Project Explorer") + " size too thin - trying to make it broader.");
-                point = new Point { X = Rect.Right + 1, Y = Rect.Top + 30};
-                Mouse.MoveTo(point);
-                Mouse.DragHorizontally(point, 401 - Rect.Width);
+                Console.WriteLine(view.ToString() + " size too thin - trying to make it broader.");
+                point = new Point { X = dragX?Rect.Right + 1:Rect.Left-1, Y = Rect.Top + 30};
+                Mouse.DragHorizontally(point, (x+1 - Rect.Width)*(dragX?1:-1));
             }
             if (Rect.Height < y) {
-                Console.WriteLine((view == TreeConfig.ViewType.Workspace ? "Workspace" : "Project Explorer") + " size too small - trying to make it taller.");
-                point = new Point { X = Rect.Left + 30, Y = Rect.Bottom + 1};
-                Mouse.MoveTo(point);
-                Mouse.DragVertically(point, 401 - Rect.Height);
+                Console.WriteLine(view.ToString() + " size too small - trying to make it taller.");
+                point = new Point { X = Rect.Left + 30, Y = dragY?Rect.Bottom + 1:Rect.Top - 1};
+                Mouse.DragVertically(point, (y+1 - Rect.Height)*(dragY?1:-1));
             }
             AutomationElement ViewTab = ProjectExplorer.FindFirstChild();
             switch (view) {
@@ -507,7 +503,7 @@ namespace FlaUITests.Util {
             InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
             SwitchView(viewType);
             if (category != string.Empty) {
-                MakeToolBoxElementsVisible(categories: true);
+                SetToolBoxMinSize(categories: true);
                 SearchToolBox(category);
                 AutomationElement toolBoxCategories = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByAutomationId("_categoriesListView")));
                 AutomationElement desiredToolBoxItem = toolBoxCategories.FindFirstDescendant(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(category))) ?? throw new Exception(category + " toolbox item not found - not installed?");
@@ -517,7 +513,7 @@ namespace FlaUITests.Util {
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
                 }
             }
-            MakeToolBoxElementsVisible(categories: false);
+            SetToolBoxMinSize(categories: false);
             SearchToolBox(objectName);
             AutomationElement toolBoxContextContent = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
             AutomationElement desiredElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName(objectName))) ?? throw new Exception(objectName + " element not found");
@@ -658,6 +654,48 @@ namespace FlaUITests.Util {
             TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.MainWindow.TitleBar);
         }
         public void InstallComponentVersion (string componentName, string version) {
+        }
+        public void SetIWorkspaceMinSize(AutomationElement docIATeditor = null) {
+            Rectangle rect = UIElementsBounds["Workspace"];
+            int Xscreen = (int) (_screen.WorkingArea.Width * 0.6);
+            int Yscreen = (int) (_screen.WorkingArea.Height * 0.6);
+            if (rect.Width < Xscreen) {
+                if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+                    Console.WriteLine("Workspace size too narrow - trying to make it broader.");
+                if (ProjectExplorer == null) {
+                    Point point = new Point { X = rect.Right + 1, Y = rect.Bottom + 30};
+                    Mouse.DragHorizontally(point, Xscreen+1 - rect.Width);
+                }
+                else {
+                    if (Toolbox == null) {
+                        Point point = new Point { X = rect.Left - 1, Y = rect.Bottom + 30};
+                        Mouse.DragHorizontally(point, rect.Width - Xscreen - 1);
+                    }
+                    else {
+                        float ratio = UIElementsBounds["ProjectExplorer"].Width/UIElementsBounds["Toolbox"].Width;
+                        Point point = new Point { X = rect.Left - 1, Y = rect.Bottom + 30};
+                        Mouse.DragHorizontally(point, (int) ((rect.Width - Xscreen - 1)*ratio/(1+ratio)));
+                        point = new Point { X = rect.Right + 1, Y = rect.Bottom + 30};
+                        Mouse.DragHorizontally(point, (int)((Xscreen + 1 - rect.Width)/(1+ratio)));
+                    }
+                }
+            }
+            if (rect.Height < Yscreen) {
+                if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+                    Console.WriteLine("Workspace size too small - trying to make it taller.");
+                    Point point = new Point { X = rect.Left + 30, Y = rect.Bottom + 1};
+                    Mouse.DragVertically(point, Yscreen + 1 - rect.Height);
+            }
+            if (docIATeditor is null) return;
+            if (docIATeditor.Patterns.Scroll.Pattern.HorizontalScrollPercent != 0) {
+                TreeConfig.ClickAutomationElement(docIATeditor);
+                using (Keyboard.Pressing(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL)) {
+                    do {
+                        Mouse.Scroll(-1d);
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                    } while (docIATeditor.Patterns.Scroll.Pattern.HorizontalScrollPercent != 0);
+                }
+            }
         }
     }
 }
