@@ -174,6 +174,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Button", drag:true, editorCenter);
         }
         readonly List<string[]> testLocalizeableStrings = new List<string[]> {
+            {new string [] {"BarChart", "fr_BarChart", "de_BarChart", "en_BarChart"} }, 
             {new string [] {"Label", "fr_Label", "de_Label", "en_Label"} }, 
             {new string [] {"Button", "fr_Button", "de_Button", "en_Button"} }, 
             {new string [] {"Navigation", "fr_Navigation", "de_Navigation", "en_Navigation"} }, 
