@@ -700,6 +700,7 @@ namespace FlaUITests.Util {
                 rect = UIElementsBounds["Workspace"];
                 Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 100};
                 Mouse.DragHorizontally(point, 100);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                 point = new Point { X = rect.Right + 1, Y = rect.Bottom - 100};
                 Mouse.DragHorizontally(point, -100);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
