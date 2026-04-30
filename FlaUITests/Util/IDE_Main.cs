@@ -248,6 +248,7 @@ namespace FlaUITests.Util {
                     }
                 }
                 i--;
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3));
             } while (i >= 0);
         }
         public string[] GetProjectpath()
