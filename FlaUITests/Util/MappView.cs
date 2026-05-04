@@ -62,6 +62,7 @@ namespace FlaUITests.Util {
         }
         void TM611_3_2_ConfigureMappViewServer() {
             string mvconfig = "Config.mappviewcfg";
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
             if (TreeConfig.IdeMain.GetActiveConfigurtion().FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).First(cf => cf.Name.IndexOf("mappView") >= 0).FindAllChildren(cf => cf.ByName(mvconfig)) == null) {
                 if (Verbose >= Util.Environment.Verbose.STEPS) {
                     Console.WriteLine("==========================================");
