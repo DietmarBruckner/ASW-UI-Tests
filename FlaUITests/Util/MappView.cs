@@ -172,9 +172,8 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Inserting navigation content");
             }
             AutomationElement content_0ConfigWorkspaceWindow = null;
-            AutomationElement [] asd = TreeConfig.IdeMain.Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab)).FindAllChildren(cf => cf.ByControlType(ControlType.TabItem));
-            if (asd.FirstOrDefault(cf => cf.Name.Contains("content_0.content")) == null ) {
-            //if ((content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0)) == null) {
+            AutomationElement [] workspaceWindows = TreeConfig.IdeMain.Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab)).FindAllChildren(cf => cf.ByControlType(ControlType.TabItem));
+            if (workspaceWindows.FirstOrDefault(cf => cf.Name.Contains("content_0.content")) == null ) {
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
                 content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0);
             }
