@@ -129,13 +129,15 @@ namespace FlaUITests.Util {
         }
         public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, AutomationElement root = null) {
             AutomationElement ae = null;
-            if (CurrentProject.verbose >= Util.Environment.Verbose.STEPS)
-                Console.WriteLine("Opening treeview element: " + leaves.Last() + "." + toClickSubstrings.Last());
-            if (CurrentProject.verbose >= Util.Environment.Verbose.FULL) {
-                Console.Write("Along the path: ");
-                foreach (string s in leaves)
-                    Console.Write(s + ", ");
-                Console.WriteLine();
+            if (leaves != null) {
+                if (CurrentProject.verbose >= Util.Environment.Verbose.STEPS)
+                    Console.WriteLine("Opening treeview element: " + leaves.Last() + "." + toClickSubstrings.Last());
+                if (CurrentProject.verbose >= Util.Environment.Verbose.FULL) {
+                    Console.Write("Along the path: ");
+                    foreach (string s in leaves)
+                        Console.Write(s + ", ");
+                    Console.WriteLine();
+                }
             }
             switch (viewType) {
                 case ViewType.LogicalView:
