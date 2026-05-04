@@ -341,6 +341,7 @@ namespace FlaUITests.Util {
                     Mouse.Scroll(-2d);
                     Mouse.Click(new Point {X = size.BoundingRectangle.Left + 5, Y = size.BoundingRectangle.Top + 5});
                     Mouse.Scroll(-2d);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
                     AutomationElement s_width = size.FindFirstChild(cf => cf.ByName("width"));
                     if (width != -1 && int.Parse(s_width.Patterns.Value.Pattern.Value) != width) {
                         Mouse.DoubleClick(new Point {X = s_width.BoundingRectangle.Right - 20, Y = s_width.BoundingRectangle.Top + s_width.BoundingRectangle.Height/2});
@@ -384,6 +385,7 @@ namespace FlaUITests.Util {
                 Mouse.Scroll(-2d);
                 Mouse.Click(new Point {X = position.BoundingRectangle.Left + 5, Y = position.BoundingRectangle.Top + 5});
                 Mouse.Scroll(-2d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             }
             AutomationElement p_top = (area?layout:position).FindFirstChild(cf => cf.ByName("top"));
             AutomationElement p_left = (area?layout:position).FindFirstChild(cf => cf.ByName("left"));
