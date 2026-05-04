@@ -139,7 +139,7 @@ namespace FlaUITests.Util {
                         ProjectExplorer = a;
                     else if (name.IndexOf("Toolbox", StringComparison.OrdinalIgnoreCase) >= 0)
                         Toolbox = a;
-                    else if (name.IndexOf("Property", StringComparison.OrdinalIgnoreCase) >= 0)
+                    else if (name.IndexOf("Propert", StringComparison.OrdinalIgnoreCase) >= 0)
                         PropertyWindow = a;
                     else if (name.IndexOf("Output", StringComparison.OrdinalIgnoreCase) >= 0)
                         OutputWindow = a;
