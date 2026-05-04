@@ -674,36 +674,38 @@ namespace FlaUITests.Util {
         }
         public void InstallComponentVersion (string componentName, string version) {
         }
-        public void SetIWorkspaceMinSize(AutomationElement scrollableEditor = null) {
+        public void SetIWorkspaceMinSize(AutomationElement scrollableEditor = null, bool percent = false) {
             Rectangle rect = UIElementsBounds["Workspace"];
-            int Xscreen = (int) (_screen.WorkingArea.Width * 0.6);
-            int Yscreen = (int) (_screen.WorkingArea.Height * 0.6);
-            if (rect.Width < Xscreen) {
-                if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
-                    Console.WriteLine("Workspace size too narrow - trying to make it broader.");
-                if (ProjectExplorer == null) {
-                    Point point = new Point { X = rect.Right + 1, Y = rect.Bottom - 30};
-                    Mouse.DragHorizontally(point, Xscreen+1 - rect.Width);
-                }
-                else {
-                    if (Toolbox == null) {
-                        Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 30};
-                        Mouse.DragHorizontally(point, rect.Width - Xscreen - 1);
+            if (percent) {
+                int Xscreen = (int) (_screen.WorkingArea.Width * 0.6);
+                int Yscreen = (int) (_screen.WorkingArea.Height * 0.6);
+                if (rect.Width < Xscreen) {
+                    if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+                        Console.WriteLine("Workspace size too narrow - trying to make it broader.");
+                    if (ProjectExplorer == null) {
+                        Point point = new Point { X = rect.Right + 1, Y = rect.Bottom - 30};
+                        Mouse.DragHorizontally(point, Xscreen+1 - rect.Width);
                     }
                     else {
-                        float ratio = 1f*UIElementsBounds["ProjectExplorer"].Width/(1f*UIElementsBounds["Toolbox"].Width);
-                        Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 30};
-                        Mouse.DragHorizontally(point, (int) ((rect.Width - Xscreen - 1)*ratio/(1f+ratio)));
-                        point = new Point { X = rect.Right + 1, Y = rect.Bottom - 30};
-                        Mouse.DragHorizontally(point, (int)((Xscreen + 1 - rect.Width)/(1f+ratio)));
+                        if (Toolbox == null) {
+                            Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 30};
+                            Mouse.DragHorizontally(point, rect.Width - Xscreen - 1);
+                        }
+                        else {
+                            float ratio = 1f*UIElementsBounds["ProjectExplorer"].Width/(1f*UIElementsBounds["Toolbox"].Width);
+                            Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 30};
+                            Mouse.DragHorizontally(point, (int) ((rect.Width - Xscreen - 1)*ratio/(1f+ratio)));
+                            point = new Point { X = rect.Right + 1, Y = rect.Bottom - 30};
+                            Mouse.DragHorizontally(point, (int)((Xscreen + 1 - rect.Width)/(1f+ratio)));
+                        }
                     }
                 }
-            }
-            if (rect.Height < Yscreen) {
-                if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
-                    Console.WriteLine("Workspace size too small - trying to make it taller.");
-                    Point point = new Point { X = rect.Left + 30, Y = rect.Bottom + 1};
-                    Mouse.DragVertically(point, Yscreen + 1 - rect.Height);
+                if (rect.Height < Yscreen) {
+                    if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+                        Console.WriteLine("Workspace size too small - trying to make it taller.");
+                        Point point = new Point { X = rect.Left + 30, Y = rect.Bottom + 1};
+                        Mouse.DragVertically(point, Yscreen + 1 - rect.Height);
+                }
             }
             if (scrollableEditor is null) return;
             if (scrollableEditor.Patterns.Scroll.Pattern.VerticalScrollPercent != 0d) {
