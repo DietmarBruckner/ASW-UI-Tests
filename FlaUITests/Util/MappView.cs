@@ -183,6 +183,80 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             //Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
             //TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Inserting navigation content");
+            }
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Page content");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
+            AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement common = properties.FindFirstChild();
+            AutomationElement name = properties.FindFirstChild(cf => cf.ByName("Name"));
+            AutomationElement property = properties.FindFirstChild(cf => cf.ByName("Property"));
+            AutomationElement height = property.FindFirstChild(cf => cf.ByName("height"));
+            AutomationElement width = property.FindFirstChild(cf => cf.ByName("width"));
+            TreeConfig.ClickAutomationElement(name.FindFirstChild(cf => cf.ByName("Name").And(cf.ByControlType(ControlType.Edit))), true);
+            Keyboard.Type("Navigation");
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            EditSize(width:100, content:true);
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "NavigationBar", true, content_0ConfigWorkspaceWindow.BoundingRectangle.Center());
+            properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement accessibility = properties.FindFirstChild();
+            AutomationElement behavior = properties.FindFirstChild(cf => cf.ByName("Behavior"));
+            AutomationElement childPos = behavior.FindFirstChild(cf => cf.ByName("childPositioning"));
+            while (!properties.BoundingRectangle.IntersectsWith(accessibility.BoundingRectangle)) {
+                Mouse.Scroll(1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            }
+            while (!properties.BoundingRectangle.IntersectsWith(behavior.BoundingRectangle)) {
+                Mouse.Scroll(-1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            }
+            Mouse.Scroll(-2d);
+            TreeConfig.ClickAutomationElement(childPos.FindFirstChild(cf => cf.ByName("childPositioning").And(cf.ByControlType(ControlType.Edit))), true);
+            EditPosition(0, 0);
+            AutomationElement layout = properties.FindFirstChild(cf => cf.ByName("Layout"));
+            AutomationElement position = layout.FindFirstChild(cf => cf.ByName("Position"));
+            while (!properties.BoundingRectangle.IntersectsWith(accessibility.BoundingRectangle)) {
+                Mouse.Scroll(1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            }
+            while (!properties.BoundingRectangle.IntersectsWith(position.BoundingRectangle)) {
+                Mouse.Scroll(-1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            }
+            Mouse.Scroll(-2d);
+            Mouse.Click(new Point {X = position.BoundingRectangle.Left + 5, Y = position.BoundingRectangle.Top + 5});
+            Mouse.Scroll(-2d);
+            AutomationElement p_top = position.FindFirstChild(cf => cf.ByName("top"));
+            if (int.Parse(p_top.Patterns.Value.Pattern.Value) != 0) {
+                TreeConfig.ClickAutomationElement(p_top.FindFirstChild(cf => cf.ByName("top").And(cf.ByControlType(ControlType.Edit))), true);
+                Keyboard.Type("" + 0);
+                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            }
+            AutomationElement p_left = position.FindFirstChild(cf => cf.ByName("left"));
+            if (int.Parse(p_left.Patterns.Value.Pattern.Value) != 0) {
+                TreeConfig.ClickAutomationElement(p_left.FindFirstChild(cf => cf.ByName("left").And(cf.ByControlType(ControlType.Edit))), true);
+                Keyboard.Type("" + 0);
+                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            }
+            EditSize(width:100, height:600);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
+
+
+            int pageID = 1;
+            string pageName = "page_" + pageID;
+            foreach(string[] text in testLocalizeableStrings) {
+
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages"}, new List<string> { "_Object Name", "_Object Name", "_Object Name" });
+                TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Page");
+
+            }
+
+
+
+
             int tabSize = 1;
             while (tabSize*tabSize < testLocalizeableStrings.Count) tabSize++;
             int stepX = content_0Size.Width/tabSize;
@@ -248,5 +322,81 @@ namespace FlaUITests.Util {
             {new string [] {"1", "fr_", "de_", "en_"} }, 
             {new string [] {"2", "fr_", "de_", "en_"} }
         };
+        void EditSize(int width = -1, int height = -1, bool content = false) {
+            AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement afirst = aproperties.FindFirstChild();
+            if (content) {
+                AutomationElement aproperty = aproperties.FindFirstChild(cf => cf.ByName("Property"));
+                AutomationElement aheight = aproperty.FindFirstChild(cf => cf.ByName("height"));
+                AutomationElement awidth = aproperty.FindFirstChild(cf => cf.ByName("width"));
+                if (width != -1) {
+                    TreeConfig.ClickAutomationElement(awidth.FindFirstChild(cf => cf.ByName("width").And(cf.ByControlType(ControlType.Edit))), true);
+                    Keyboard.Type("" + width);
+                    Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                }
+                if (height != -1) {
+                    TreeConfig.ClickAutomationElement(aheight.FindFirstChild(cf => cf.ByName("height").And(cf.ByControlType(ControlType.Edit))), true);
+                    Keyboard.Type("" + height);
+                    Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                }
+                TreeConfig.IdeMain.SaveAll();
+            }
+            else {
+                AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
+                AutomationElement size = layout.FindFirstChild(cf => cf.ByName("Size"));
+                while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
+                    Mouse.Scroll(1d);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                }
+                while (!aproperties.BoundingRectangle.IntersectsWith(size.BoundingRectangle)) {
+                    Mouse.Scroll(-1d);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                }
+                Mouse.Scroll(-2d);
+                Mouse.Click(new Point {X = size.BoundingRectangle.Left + 5, Y = size.BoundingRectangle.Top + 5});
+                Mouse.Scroll(-2d);
+                AutomationElement s_width = size.FindFirstChild(cf => cf.ByName("width"));
+                if (width != -1 && int.Parse(s_width.Patterns.Value.Pattern.Value) != width) {
+                    TreeConfig.ClickAutomationElement(s_width.FindFirstChild(cf => cf.ByName("width").And(cf.ByControlType(ControlType.Edit))), true);
+                    Keyboard.Type("" + width);
+                    Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                }
+                AutomationElement s_height = size.FindFirstChild(cf => cf.ByName("height"));
+                if (height != -1 && int.Parse(s_height.Patterns.Value.Pattern.Value) != height) {
+                    TreeConfig.ClickAutomationElement(s_height.FindFirstChild(cf => cf.ByName("height").And(cf.ByControlType(ControlType.Edit))), true);
+                    Keyboard.Type("" + height);
+                    Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                }
+            }
+        }
+        void EditPosition(int top = -1, int left = -1) {
+            AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement afirst = aproperties.FindFirstChild();
+            AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
+            AutomationElement position = layout.FindFirstChild(cf => cf.ByName("Position"));
+            while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
+                Mouse.Scroll(1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            }
+            while (!aproperties.BoundingRectangle.IntersectsWith(position.BoundingRectangle)) {
+                Mouse.Scroll(-1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            }
+            Mouse.Scroll(-2d);
+            Mouse.Click(new Point {X = position.BoundingRectangle.Left + 5, Y = position.BoundingRectangle.Top + 5});
+            Mouse.Scroll(-2d);
+            AutomationElement p_top = position.FindFirstChild(cf => cf.ByName("top"));
+            if (top != -1 && int.Parse(p_top.Patterns.Value.Pattern.Value) != top) {
+                TreeConfig.ClickAutomationElement(p_top.FindFirstChild(cf => cf.ByName("top").And(cf.ByControlType(ControlType.Edit))), true);
+                Keyboard.Type("" + top);
+                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            }
+            AutomationElement p_left = position.FindFirstChild(cf => cf.ByName("left"));
+            if (left != -1 && int.Parse(p_left.Patterns.Value.Pattern.Value) != left) {
+                TreeConfig.ClickAutomationElement(p_left.FindFirstChild(cf => cf.ByName("left").And(cf.ByControlType(ControlType.Edit))), true);
+                Keyboard.Type("" + left);
+                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            }
+        }
     }
 }
