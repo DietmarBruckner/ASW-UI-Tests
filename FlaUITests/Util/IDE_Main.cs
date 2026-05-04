@@ -86,7 +86,7 @@ namespace FlaUITests.Util {
             _screen = Screen.FromHandle(MainWindow.Properties.NativeWindowHandle);
             bool isFullScreen = rect.Left <= _screen.WorkingArea.Left && rect.Top <= _screen.WorkingArea.Top && rect.Width >= _screen.WorkingArea.Width && rect.Height >= _screen.WorkingArea.Height;
             if (!isFullScreen) {
-                if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+                if (TreeConfig.CurrentProject != null && TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                     Console.WriteLine("Maximizing main window");
                 MainWindow.TitleBar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Maximize"))).AsButton().Invoke();
             }
