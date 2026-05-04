@@ -1,8 +1,6 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
 using FlaUI.Core.Definitions;
@@ -11,11 +9,8 @@ using Menu = FlaUI.Core.AutomationElements.Menu;
 using System.Drawing;
 using Tesseract;
 using FlaUI.Core.Capturing;
-using Microsoft.VisualStudio.TestTools.UITesting;
 using Mouse = FlaUI.Core.Input.Mouse;
 using Keyboard = FlaUI.Core.Input.Keyboard;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.Windows.Forms;
 using FlaUI.Core.Tools;
@@ -23,8 +18,6 @@ using Application = FlaUI.Core.Application;
 using Button = FlaUI.Core.AutomationElements.Button;
 using MenuItem = FlaUI.Core.AutomationElements.MenuItem;
 using TextBox = FlaUI.Core.AutomationElements.TextBox;
-using System.Runtime.CompilerServices;
-using System.Data.SqlTypes;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
