@@ -276,15 +276,15 @@ namespace FlaUITests.Util {
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + pageName, "BR_" + contentName + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
                 TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", text[0], drag:true, toDrag:editorCenter);
                 EditSize(width:500, height:500);
-                EditPosition(left:100, top:150);
+                EditPosition(left:100, top:50);
             }
         }
         readonly List<string[]> testLocalizeableStrings = new List<string[]> {
             {new string [] {"BarChart", "fr_BarChart", "de_BarChart", "en_BarChart"} }, 
             {new string [] {"Button", "fr_Button", "de_Button", "en_Button"} }, 
+            {new string [] {"CheckBox", "fr_CheckBox", "de_CheckBox", "en_CheckBox"} }, 
             {new string [] {"Label", "fr_Label", "de_Label", "en_Label"} }, 
-            {new string [] {"Navigation", "fr_Navigation", "de_Navigation", "en_Navigation"} }, 
-            {new string [] {"1", "fr_", "de_", "en_"} }, 
+            {new string [] {"DateTimeInput", "fr_DateTimeInput", "de_DateTimeInput", "en_DateTimeInput"} }, 
             {new string [] {"2", "fr_", "de_", "en_"} }
         };
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
