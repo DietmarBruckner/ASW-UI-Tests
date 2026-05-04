@@ -87,7 +87,7 @@ namespace FlaUITests.Util {
             while (_ideMain.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0)
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             TreeConfig.IdeMain.WaitForMessage("finished.");
-            Name += ".apj";
+    */        Name += ".apj";
             TreeConfig.CurrentProject = this;
             if (dictComponents != null)
                 components = new List<ComponentInProject>();
@@ -96,8 +96,8 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Activating Simulation");
                 Console.WriteLine("------------------------------------------");
             }
-            _ideMain.ActivateSimulation();
-    */        foreach (KeyValuePair<Components, string> kvp in DictComponents) {
+            //_ideMain.ActivateSimulation();
+            foreach (KeyValuePair<Components, string> kvp in DictComponents) {
                 ComponentInProject cip = null;
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
                 switch (kvp.Key) {
