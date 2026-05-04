@@ -298,6 +298,7 @@ namespace FlaUITests.Util {
                 AutomationElement awidth = aproperty.FindFirstChild(cf => cf.ByName("width"));
                 if (width != -1) {
                     Mouse.Click(new Point {X = awidth.BoundingRectangle.Right - 20, Y = awidth.BoundingRectangle.Top + awidth.BoundingRectangle.Height/2});
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
                     TreeConfig.ClickAutomationElement(awidth.FindFirstChild(cf => cf.ByName("width").And(cf.ByControlType(ControlType.Edit))), true);
                     Keyboard.Type("" + width);
                     Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
