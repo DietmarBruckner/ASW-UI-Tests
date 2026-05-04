@@ -203,7 +203,10 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             }
             Mouse.Scroll(-2d);
-            TreeConfig.ClickAutomationElement(childPos.FindFirstChild(cf => cf.ByName("childPositioning").And(cf.ByControlType(ControlType.Edit))), true);
+            Mouse.Click(new Point {X = childPos.BoundingRectangle.Right - 20, Y = childPos.BoundingRectangle.Top + childPos.BoundingRectangle.Height/2});
+            Mouse.DoubleClick(new Point {X = childPos.BoundingRectangle.Right - 20, Y = childPos.BoundingRectangle.Top + childPos.BoundingRectangle.Height/2});
+
+            //TreeConfig.ClickAutomationElement(childPos.FindFirstChild(cf => cf.ByName("childPositioning").And(cf.ByControlType(ControlType.Edit))), true);
             EditPosition(top:0, left:0);
             EditSize(width:100, height:600);
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
