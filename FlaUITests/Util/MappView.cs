@@ -225,6 +225,8 @@ namespace FlaUITests.Util {
             properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement common = properties.FindFirstChild(cf => cf.ByName("Common"));
             AutomationElement refID = common.FindFirstChild(cf => cf.ByName("refId"));
+            Mouse.Click(new Point {X = refID.BoundingRectangle.Right - 20, Y = refID.BoundingRectangle.Top + refID.BoundingRectangle.Height/2});
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             TreeConfig.ClickAutomationElement(refID.FindFirstChild(cf => cf.ByName("Open").And(cf.ByControlType(ControlType.Button))));
             PageIteratorLevel containingWord = PageIteratorLevel.Word;
             Rectangle toClick = new Rectangle();
