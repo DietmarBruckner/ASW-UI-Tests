@@ -31,6 +31,8 @@ namespace FlaUITests.Util {
             //TM611_4_1_RenameVIS();
             //TM611_11_Localization();
             TM611_5_Layout();
+            //TM611_6_Navigation();
+            InsertWidgets();
         }
         public override void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
@@ -165,7 +167,7 @@ namespace FlaUITests.Util {
         void TM611_5_Layout() {
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
-                Console.WriteLine("Inserting widgets");
+                Console.WriteLine("Inserting navigation content");
             }
             AutomationElement content_0ConfigWorkspaceWindow;
             if ((content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0)) == null) {
@@ -173,24 +175,6 @@ namespace FlaUITests.Util {
                 content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0);
             }
             Point editorCenter = content_0ConfigWorkspaceWindow.BoundingRectangle.Center();
-            TreeConfig.IdeMain.InitializeViews(propertyWindow:true);
-            TreeConfig.IdeMain.SwitchView(TreeConfig.ViewType.PropertyWindow);
-            Mouse.Click(editorCenter);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-            AutomationElement content_0Properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
-            Size content_0Size = new Size();
-            content_0Size.Height = int.Parse(content_0Properties.FindFirstDescendant(cf => cf.ByName("height")).Patterns.Value.Pattern.Value);
-            content_0Size.Width = int.Parse(content_0Properties.FindFirstDescendant(cf => cf.ByName("width")).Patterns.Value.Pattern.Value);
-            AutomationElement docIATeditor = content_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
-            AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
-            TreeConfig.ClickAutomationElement(defaultLabel);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            //Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
-            //TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor, percent:true);
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Inserting navigation content");
-            }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Page content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
@@ -232,7 +216,7 @@ namespace FlaUITests.Util {
             TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab)).FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("page_0.page"))));
             Mouse.Click(editorCenter);
             AutomationElement editor = page_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor")));
-            TreeConfig.IdeMain.SetIWorkspaceMinSize(editor);
+            TreeConfig.IdeMain.SetIWorkspaceMinSize(editor, percent:true);
             Mouse.Click(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 50/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 300/600)});
             properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement common = properties.FindFirstChild(cf => cf.ByName("Common"));
@@ -256,15 +240,41 @@ namespace FlaUITests.Util {
                 }           
             }
             Mouse.Click(toClick.Center());
-
-
+        }
+        void InsertWidgets() {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Inserting widgets");
+            }
+            AutomationElement content_0ConfigWorkspaceWindow;
+            if ((content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0)) == null) {
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
+                content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0);
+            }
+            Point editorCenter = content_0ConfigWorkspaceWindow.BoundingRectangle.Center();
+            Mouse.Click(editorCenter);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            AutomationElement content_0Properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement docIATeditor = content_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
+            AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
+            TreeConfig.ClickAutomationElement(defaultLabel);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
+            TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
+            
             int pageID = 1;
-            string pageName = "page_" + pageID;
+            string pageName, contentName;
             foreach(string[] text in testLocalizeableStrings) {
-
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
+                TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy")).AsButton().Click();
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages"}, new List<string> { "_Object Name", "_Object Name", "_Object Name" });
-                TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Page");
-
+                pageID++;
+                pageName = "page_" + pageID;
+                contentName = "content_" + pageID;
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + pageName, "BR_" + contentName}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
+                TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", text[0], drag:true, toDrag:editorCenter);
+                EditSize(width:500, height:500);
+                EditPosition(left:100, top:150);
             }
         }
         readonly List<string[]> testLocalizeableStrings = new List<string[]> {
