@@ -91,6 +91,7 @@ namespace FlaUITests.Util {
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathMV + "mappviewcfg.xml", "Startup User"), new List<string> { "_Name", "_Value" }, mvConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0); //Select "anonymous token"
+            TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.MainWindow.TitleBar);
         }
         void TM611_4_1_RenameVIS() {
             Dictionary<Rectangle, string> dict = new Dictionary<Rectangle, string>();
