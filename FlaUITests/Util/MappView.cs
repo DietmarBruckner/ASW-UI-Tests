@@ -13,6 +13,14 @@ using Point = System.Drawing.Point;
 namespace FlaUITests.Util {
     public partial class MappView {
         string editorPathMV;
+        readonly List<string[]> testLocalizeableStrings = new List<string[]> {
+            {new string [] {"BarChart", "fr_BarChart", "de_BarChart", "en_BarChart"} }, 
+            {new string [] {"Button", "fr_Button", "de_Button", "en_Button"} }, 
+            {new string [] {"CheckBox", "fr_CheckBox", "de_CheckBox", "en_CheckBox"} }, 
+            {new string [] {"Label", "fr_Label", "de_Label", "en_Label"} }, 
+            {new string [] {"DateTimeInput", "fr_DateTimeInput", "de_DateTimeInput", "en_DateTimeInput"} }, 
+        //    {new string [] {"2", "fr_", "de_", "en_"} }
+        };
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
@@ -27,8 +35,8 @@ namespace FlaUITests.Util {
             //TM611_4_1_RenameVIS();
             //TM611_11_Localization();
             //TM611_5_Layout();
-            InsertWidgets();
-            //TM611_6_Navigation();
+            //InsertWidgets();
+            TM611_6_Navigation();
         }
         public override void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
@@ -275,14 +283,10 @@ namespace FlaUITests.Util {
                 EditPosition(left:100, top:50);
             }
         }
-        readonly List<string[]> testLocalizeableStrings = new List<string[]> {
-            {new string [] {"BarChart", "fr_BarChart", "de_BarChart", "en_BarChart"} }, 
-            {new string [] {"Button", "fr_Button", "de_Button", "en_Button"} }, 
-            {new string [] {"CheckBox", "fr_CheckBox", "de_CheckBox", "en_CheckBox"} }, 
-            {new string [] {"Label", "fr_Label", "de_Label", "en_Label"} }, 
-            {new string [] {"DateTimeInput", "fr_DateTimeInput", "de_DateTimeInput", "en_DateTimeInput"} }, 
-        //    {new string [] {"2", "fr_", "de_", "en_"} }
-        };
+        void TM611_6_Navigation()
+        {
+            
+        }
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = aproperties.BoundingRectangle.Center();
