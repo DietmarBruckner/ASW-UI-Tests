@@ -407,7 +407,7 @@ namespace FlaUITests.Util {
         }
         public void WaitForMessage(string message, int timeout = 30) {
             InitializeViews(outputResults:true);
-            if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+            if (TreeConfig.CurrentProject != null && TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Waiting for message: " + message + "; Timeout: " + timeout);
             DateTime now = DateTime.Now;
             bool done = false;
