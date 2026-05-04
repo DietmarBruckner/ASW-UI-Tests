@@ -283,8 +283,17 @@ namespace FlaUITests.Util {
                 EditPosition(left:100, top:50);
             }
         }
-        void TM611_6_Navigation()
-        {
+        void TM611_6_Navigation() {
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Creating navigation file");
+            }            
+
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Navigation");
+
+
+            //TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             
         }
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
