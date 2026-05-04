@@ -183,7 +183,8 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement name = properties.FindFirstDescendant(cf => cf.ByName("Name"));
-            TreeConfig.ClickAutomationElement(name.FindFirstChild(cf => cf.ByName("Name").And(cf.ByControlType(ControlType.Edit))), true);
+            //TreeConfig.ClickAutomationElement(name.FindFirstChild(cf => cf.ByName("Name").And(cf.ByControlType(ControlType.Edit))), true);
+            Mouse.DoubleClick(new Point {X = name.BoundingRectangle.Right - 20, Y = name.BoundingRectangle.Top + name.BoundingRectangle.Height/2});
             Keyboard.Type("Navigation");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             EditSize(width:100, content:true);
