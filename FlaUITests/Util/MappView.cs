@@ -343,13 +343,15 @@ namespace FlaUITests.Util {
                     Mouse.Scroll(-2d);
                     AutomationElement s_width = size.FindFirstChild(cf => cf.ByName("width"));
                     if (width != -1 && int.Parse(s_width.Patterns.Value.Pattern.Value) != width) {
-                        TreeConfig.ClickAutomationElement(s_width.FindFirstChild(cf => cf.ByName("width").And(cf.ByControlType(ControlType.Edit))), true);
+                        Mouse.DoubleClick(new Point {X = s_width.BoundingRectangle.Right - 20, Y = s_width.BoundingRectangle.Top + s_width.BoundingRectangle.Height/2});
+                        //TreeConfig.ClickAutomationElement(s_width.FindFirstChild(cf => cf.ByName("width").And(cf.ByControlType(ControlType.Edit))), true);
                         Keyboard.Type("" + width);
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                     }
                     AutomationElement s_height = size.FindFirstChild(cf => cf.ByName("height"));
                     if (height != -1 && int.Parse(s_height.Patterns.Value.Pattern.Value) != height) {
-                        TreeConfig.ClickAutomationElement(s_height.FindFirstChild(cf => cf.ByName("height").And(cf.ByControlType(ControlType.Edit))), true);
+                        Mouse.DoubleClick(new Point {X = s_height.BoundingRectangle.Right - 20, Y = s_height.BoundingRectangle.Top + s_height.BoundingRectangle.Height/2});
+                        //TreeConfig.ClickAutomationElement(s_height.FindFirstChild(cf => cf.ByName("height").And(cf.ByControlType(ControlType.Edit))), true);
                         Keyboard.Type("" + height);
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                     }
