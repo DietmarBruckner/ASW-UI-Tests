@@ -180,8 +180,10 @@ namespace FlaUITests.Util {
                     else
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
                 }
-                else //Double click all tree items to expand them, as tree items in Configuration view expand on double click
-                    ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true); 
+                else {//Double click all tree items to expand them, as tree items in Configuration view expand on double click
+                    ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+                }
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                 //After clicking the tree item, the tree is refreshed and we need to find the tree item again to be able to continue expanding the tree
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    
