@@ -44,7 +44,7 @@ namespace FlaUITests.Util {
             DictComponents = dictComponents;
             this.verbose = verbose;
 
-            _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
+        /*    _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the New Project dialog to appear
             Window newProjectDialog = _ideMain.GetModalWindow("New Project");
             if (newProjectDialog == null) {
@@ -97,7 +97,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("------------------------------------------");
             }
             _ideMain.ActivateSimulation();
-            foreach (KeyValuePair<Components, string> kvp in DictComponents) {
+    */        foreach (KeyValuePair<Components, string> kvp in DictComponents) {
                 ComponentInProject cip = null;
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
                 switch (kvp.Key) {
