@@ -24,12 +24,12 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
             }
-            //TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
-            //if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
-            //     TM611_4_InsertComponent();
-            //TM611_3_2_ConfigureMappViewServer();
-            //TM611_4_1_RenameVIS();
-            //TM611_11_Localization();
+            TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
+            if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
+                 TM611_4_InsertComponent();
+            TM611_3_2_ConfigureMappViewServer();
+            TM611_4_1_RenameVIS();
+            TM611_11_Localization();
             TM611_5_Layout();
             //TM611_6_Navigation();
             InsertWidgets();
