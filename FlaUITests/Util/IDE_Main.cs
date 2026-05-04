@@ -649,7 +649,7 @@ namespace FlaUITests.Util {
             TextBox versText = allTexts[2].FindFirstChild().AsTextBox();
             if (!(versText.Name.IndexOf(version) >= 0)) {
                 TreeConfig.ClickAutomationElement(allTexts[1].FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox)));
-                AutomationElement a = manageComponentsWindow.FindFirstChild(cf => cf.ByName(version));
+                AutomationElement a = manageComponentsWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window)).FindFirstChild(cf => cf.ByName(version).And(cf.ByControlType(ControlType.ListItem)));
                 if (a != null)
                     TreeConfig.ClickAutomationElement(a);
                 else {
