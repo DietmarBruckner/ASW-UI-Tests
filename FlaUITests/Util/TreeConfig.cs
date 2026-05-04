@@ -38,8 +38,10 @@ namespace FlaUITests.Util {
             if (CurrentProject != null && CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine((doubleClick?"Double clicking ":"Clicking ") + "in the middle of element: " + element);            
             Point point = new Point { X = element.BoundingRectangle.Left + element.BoundingRectangle.Width / 2, Y = element.BoundingRectangle.Top + element.BoundingRectangle.Height / 2 };
-            if (doubleClick)
+            if (doubleClick) {
                 Mouse.DoubleClick(point);
+                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            }
             else
                 Mouse.Click(point);
         }
