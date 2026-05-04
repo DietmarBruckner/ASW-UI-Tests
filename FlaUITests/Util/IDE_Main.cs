@@ -295,7 +295,7 @@ namespace FlaUITests.Util {
             }
         } 
         public void InitializeViews(bool projectExplorer = false, bool toolbox = false, bool propertyWindow = false, bool outputResults = false, bool statusBar = false) {
-            if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+            if (TreeConfig.CurrentProject != null && TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Checking if necessary view(s) are there: " + (projectExplorer?"Project Explorer ":"") + (toolbox?"Object catalog ":"") + (propertyWindow?"Property window ":"") + (outputResults?"Output results ":"") + (statusBar?"Statusbar":""));
             if (projectExplorer) {
                 ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View") >= 0);
