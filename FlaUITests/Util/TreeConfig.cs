@@ -21,14 +21,14 @@ namespace FlaUITests.Util {
             ClickAutomationElement(element.FindFirstChild(cf => cf.ByName(element.Name + sub)), doubleClick);
         }
         public static void ClickComboBoxTreeItem(Window window, int index) {
-            if (CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+            if (CurrentProject != null && CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Trying to click " + (index+1) + "-th element of list");
             AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
             ClickAutomationElement(comboBox.FindAllChildren()[index]);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
         }
         public static void ClickComboBoxTreeItem(Window window, string element) {
-            if (CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+            if (CurrentProject != null && CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Trying to click element: " + element + " in list");
             AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
             ClickAutomationElement(comboBox.FindFirstChild(cf => cf.ByName(element)));
