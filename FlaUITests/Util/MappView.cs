@@ -188,9 +188,9 @@ namespace FlaUITests.Util {
             Keyboard.Type("Navigation");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             EditSize(width:100, content:true);
-            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "NavigationBar", true, content_0ConfigWorkspaceWindow.BoundingRectangle.Center());
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Navigation", true, content_0ConfigWorkspaceWindow.BoundingRectangle.Center());
             properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
-            AutomationElement accessibility = properties.FindFirstChild();
+            /*AutomationElement accessibility = properties.FindFirstChild();
             AutomationElement behavior = properties.FindFirstChild(cf => cf.ByName("Behavior"));
             AutomationElement childPos = behavior.FindFirstChild(cf => cf.ByName("childPositioning"));
             while (!properties.BoundingRectangle.IntersectsWith(accessibility.BoundingRectangle)) {
@@ -204,7 +204,7 @@ namespace FlaUITests.Util {
             Mouse.Scroll(-2d);
             Mouse.Click(new Point {X = childPos.BoundingRectangle.Right - 20, Y = childPos.BoundingRectangle.Top + childPos.BoundingRectangle.Height/2});
             Mouse.DoubleClick(new Point {X = childPos.BoundingRectangle.Right - 20, Y = childPos.BoundingRectangle.Top + childPos.BoundingRectangle.Height/2});
-
+*/
             EditPosition(top:0, left:0);
             EditSize(width:100, height:600);
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
@@ -289,8 +289,8 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Creating navigation file");
             }            
-
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Navigation");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "navigation_0.nav"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
 
 
             //TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
