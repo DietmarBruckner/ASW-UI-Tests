@@ -240,7 +240,7 @@ namespace FlaUITests.Util {
                         do {
                             if (iter.TryGetBoundingBox(containingWord, out var rect))
                                 if (iter.GetText(containingWord).IndexOf("Navigation") >= 0)
-                                toClick = new Rectangle(rect.X1, rect.Y1, rect.X2-rect.X1, rect.Y2-rect.Y1);
+                                toClick = new Rectangle(properties.BoundingRectangle.Left + rect.X1, properties.BoundingRectangle.Top + rect.Y1, rect.X2-rect.X1, rect.Y2-rect.Y1);
                         } while (iter.Next(containingWord));
                     }
                 }           
