@@ -317,12 +317,12 @@ namespace FlaUITests.Util {
                     AutomationElement aheight = layout.FindFirstChild(cf => cf.ByName("height"));
                     AutomationElement awidth = layout.FindFirstChild(cf => cf.ByName("width"));
                     if (width != -1) {
-                        TreeConfig.ClickAutomationElement(awidth.FindFirstChild(cf => cf.ByName("width").And(cf.ByControlType(ControlType.Edit))), true);
+                        Mouse.DoubleClick(new Point {X = awidth.BoundingRectangle.Right - 20, Y = awidth.BoundingRectangle.Top + awidth.BoundingRectangle.Height/2});
                         Keyboard.Type("" + width);
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                     }
                     if (height != -1) {
-                        TreeConfig.ClickAutomationElement(aheight.FindFirstChild(cf => cf.ByName("height").And(cf.ByControlType(ControlType.Edit))), true);
+                        Mouse.DoubleClick(new Point {X = aheight.BoundingRectangle.Right - 20, Y = aheight.BoundingRectangle.Top + aheight.BoundingRectangle.Height/2});
                         Keyboard.Type("" + height);
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                     }
@@ -345,14 +345,12 @@ namespace FlaUITests.Util {
                     AutomationElement s_width = size.FindFirstChild(cf => cf.ByName("width"));
                     if (width != -1 && int.Parse(s_width.Patterns.Value.Pattern.Value) != width) {
                         Mouse.DoubleClick(new Point {X = s_width.BoundingRectangle.Right - 20, Y = s_width.BoundingRectangle.Top + s_width.BoundingRectangle.Height/2});
-                        //TreeConfig.ClickAutomationElement(s_width.FindFirstChild(cf => cf.ByName("width").And(cf.ByControlType(ControlType.Edit))), true);
                         Keyboard.Type("" + width);
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                     }
                     AutomationElement s_height = size.FindFirstChild(cf => cf.ByName("height"));
                     if (height != -1 && int.Parse(s_height.Patterns.Value.Pattern.Value) != height) {
                         Mouse.DoubleClick(new Point {X = s_height.BoundingRectangle.Right - 20, Y = s_height.BoundingRectangle.Top + s_height.BoundingRectangle.Height/2});
-                        //TreeConfig.ClickAutomationElement(s_height.FindFirstChild(cf => cf.ByName("height").And(cf.ByControlType(ControlType.Edit))), true);
                         Keyboard.Type("" + height);
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                     }
@@ -390,13 +388,11 @@ namespace FlaUITests.Util {
             AutomationElement p_top = (area?layout:position).FindFirstChild(cf => cf.ByName("top"));
             AutomationElement p_left = (area?layout:position).FindFirstChild(cf => cf.ByName("left"));
             if (top != -1 && int.Parse(p_top.Patterns.Value.Pattern.Value) != top) {
-                //TreeConfig.ClickAutomationElement(p_top.FindFirstChild(cf => cf.ByName("top").And(cf.ByControlType(ControlType.Edit))), true);
                 Mouse.DoubleClick(new Point {X = p_top.BoundingRectangle.Right - 20, Y = p_top.BoundingRectangle.Top + p_top.BoundingRectangle.Height/2});
                 Keyboard.Type("" + top);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             }
             if (left != -1 && int.Parse(p_left.Patterns.Value.Pattern.Value) != left) {
-                //TreeConfig.ClickAutomationElement(p_left.FindFirstChild(cf => cf.ByName("left").And(cf.ByControlType(ControlType.Edit))), true);
                 Mouse.DoubleClick(new Point {X = p_left.BoundingRectangle.Right - 20, Y = p_left.BoundingRectangle.Top + p_left.BoundingRectangle.Height/2});
                 Keyboard.Type("" + left);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
