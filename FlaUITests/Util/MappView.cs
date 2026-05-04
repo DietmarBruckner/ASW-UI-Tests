@@ -249,10 +249,10 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting widgets");
             }
-            //TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             AutomationElement content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0);
             Point editorCenter = content_0ConfigWorkspaceWindow.BoundingRectangle.Center();
-            /*Mouse.Click(editorCenter);
+            Mouse.Click(editorCenter);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             AutomationElement content_0Properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement docIATeditor = content_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
@@ -262,7 +262,7 @@ namespace FlaUITests.Util {
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             
-        */    int pageID = 0;
+            int pageID = 0;
             string pageName, contentName;
             foreach(string[] text in testLocalizeableStrings) {
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
@@ -285,10 +285,11 @@ namespace FlaUITests.Util {
             {new string [] {"CheckBox", "fr_CheckBox", "de_CheckBox", "en_CheckBox"} }, 
             {new string [] {"Label", "fr_Label", "de_Label", "en_Label"} }, 
             {new string [] {"DateTimeInput", "fr_DateTimeInput", "de_DateTimeInput", "en_DateTimeInput"} }, 
-            {new string [] {"2", "fr_", "de_", "en_"} }
+        //    {new string [] {"2", "fr_", "de_", "en_"} }
         };
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            Mouse.Position = aproperties.BoundingRectangle.Center();
             AutomationElement afirst = aproperties.FindFirstChild();
             if (content) {
                 AutomationElement aproperty = aproperties.FindFirstChild(cf => cf.ByName("Property"));
@@ -353,6 +354,7 @@ namespace FlaUITests.Util {
         }
         void EditPosition(int top = -1, int left = -1, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            Mouse.Position = aproperties.BoundingRectangle.Center();
             AutomationElement afirst = aproperties.FindFirstChild();
             AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
             AutomationElement position = null;
