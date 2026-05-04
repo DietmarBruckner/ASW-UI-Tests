@@ -3,16 +3,12 @@ using FlaUI.Core.Definitions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Tesseract;
 using FlaUI.Core.Capturing;
 using FlaUI.Core.Input;
 using System.Drawing;
-using System.Windows.Forms.VisualStyles;
-//using System.Windows;
 using FlaUI.Core.Tools;
 using Point = System.Drawing.Point;
-using FlaUI.Core;
 
 namespace FlaUITests.Util {
     public partial class MappView {
@@ -31,8 +27,8 @@ namespace FlaUITests.Util {
             //TM611_4_1_RenameVIS();
             //TM611_11_Localization();
             //TM611_5_Layout();
-            //TM611_6_Navigation();
             InsertWidgets();
+            //TM611_6_Navigation();
         }
         public override void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
