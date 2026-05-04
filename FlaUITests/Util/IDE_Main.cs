@@ -523,6 +523,7 @@ namespace FlaUITests.Util {
             }
             SetToolBoxMinSize(categories: false);
             SearchToolBox(objectName);
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             AutomationElement toolBoxContextContent = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
             AutomationElement desiredElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName(objectName))) ?? throw new Exception(objectName + " element not found");
             if (drag) {
