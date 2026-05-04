@@ -16,7 +16,7 @@ namespace FlaUITests.Util {
 
         public static void ClickConfigTreeItem(ViewType viewType, AutomationElement element, string sub, bool doubleClick = false) {
             if (CurrentProject.verbose >= Util.Environment.Verbose.FULL)
-                Console.WriteLine("Trying to " + (doubleClick?"double click ":"click ") + "element: " + element.Name + "." + sub);
+                Console.WriteLine("Trying to " + (doubleClick?"double click ":"click ") + "element: " + element.Name + sub);
             MakeTreeItemVisible(viewType, element, sub);
             ClickAutomationElement(element.FindFirstChild(cf => cf.ByName(element.Name + sub)), doubleClick);
         }
