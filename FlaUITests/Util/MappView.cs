@@ -12,6 +12,7 @@ using System.Windows.Forms.VisualStyles;
 //using System.Windows;
 using FlaUI.Core.Tools;
 using Point = System.Drawing.Point;
+using FlaUI.Core;
 
 namespace FlaUITests.Util {
     public partial class MappView {
@@ -28,7 +29,8 @@ namespace FlaUITests.Util {
             //     TM611_4_InsertComponent();
             //TM611_3_2_ConfigureMappViewServer();
             //TM611_4_1_RenameVIS();
-            TM611_11_Localization();
+            //TM611_11_Localization();
+            TM611_5_Layout();
         }
         public override void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
@@ -124,7 +126,7 @@ namespace FlaUITests.Util {
         }
         void TM611_11_Localization() {
             string tmxconfig = "LocalizableTexts.tmx";
-    /*        if (Verbose >= Util.Environment.Verbose.STEPS) {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting new Project Language container");
             }
@@ -159,7 +161,9 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             }
             TreeConfig.IdeMain.SaveAll();
-    */        if (Verbose >= Util.Environment.Verbose.STEPS) {
+        }
+        void TM611_5_Layout() {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting widgets");
             }
@@ -182,7 +186,7 @@ namespace FlaUITests.Util {
             TreeConfig.ClickAutomationElement(defaultLabel);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             //Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
-            //TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
+            //TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor, percent:true);
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting navigation content");
@@ -191,11 +195,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Page content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
-            AutomationElement common = properties.FindFirstChild();
             AutomationElement name = properties.FindFirstChild(cf => cf.ByName("Name"));
-            AutomationElement property = properties.FindFirstChild(cf => cf.ByName("Property"));
-            AutomationElement height = property.FindFirstChild(cf => cf.ByName("height"));
-            AutomationElement width = property.FindFirstChild(cf => cf.ByName("width"));
             TreeConfig.ClickAutomationElement(name.FindFirstChild(cf => cf.ByName("Name").And(cf.ByControlType(ControlType.Edit))), true);
             Keyboard.Type("Navigation");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
@@ -218,6 +218,44 @@ namespace FlaUITests.Util {
             EditPosition(top:0, left:0);
             EditSize(width:100, height:600);
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
+            EditSize(width:700, content:true);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Layouts", "BR_layout_0.layout"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
+            AutomationElement layout_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("layout_0.layout") >= 0);
+            Mouse.Click(editorCenter);
+            EditSize(width:700, height:600, area:true);
+            EditPosition(left:100, area:true);
+            Button createArea = layout_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Create Area"))).AsButton();
+            createArea.Click();
+            EditSize(width:100, height:600, area:true);
+            EditPosition(left:0, top:100, area:true);
+            AutomationElement page_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("page_0.page") >= 0);
+            TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab)).FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("page_0.page"))));
+            Mouse.Click(editorCenter);
+            AutomationElement editor = page_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor")));
+            TreeConfig.IdeMain.SetIWorkspaceMinSize(editor);
+            Mouse.Click(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 50/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 300/600)});
+            properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement common = properties.FindFirstChild(cf => cf.ByName("Common"));
+            AutomationElement refID = common.FindFirstChild(cf => cf.ByName("refID"));
+            TreeConfig.ClickAutomationElement(refID.FindFirstChild(cf => cf.ByName("Open").And(cf.ByControlType(ControlType.Button))));
+            PageIteratorLevel containingWord = PageIteratorLevel.Word;
+            Rectangle toClick = new Rectangle();
+            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
+                CaptureImage compImg = Capture.Element(properties);
+                string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR_refID.png";
+                compImg.ToFile(file);
+                using (Page page = engine.Process(Pix.LoadFromFile(file))) {
+                    using (var iter = page.GetIterator()) {
+                        iter.Begin();
+                        do {
+                            if (iter.TryGetBoundingBox(containingWord, out var rect))
+                                if (iter.GetText(containingWord).IndexOf("Navigation") >= 0)
+                                toClick = new Rectangle(rect.X1, rect.Y1, rect.X2-rect.X1, rect.Y2-rect.Y1);
+                        } while (iter.Next(containingWord));
+                    }
+                }           
+            }
+            Mouse.Click(toClick.Center());
 
 
             int pageID = 1;
@@ -237,7 +275,7 @@ namespace FlaUITests.Util {
             {new string [] {"1", "fr_", "de_", "en_"} }, 
             {new string [] {"2", "fr_", "de_", "en_"} }
         };
-        void EditSize(int width = -1, int height = -1, bool content = false) {
+        void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement afirst = aproperties.FindFirstChild();
             if (content) {
@@ -255,58 +293,84 @@ namespace FlaUITests.Util {
                     Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 }
             }
-            else {
-                AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-                AutomationElement size = layout.FindFirstChild(cf => cf.ByName("Size"));
-                while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
-                    Mouse.Scroll(1d);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            else { if (area) {
+                    AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
+                    AutomationElement aheight = layout.FindFirstChild(cf => cf.ByName("height"));
+                    AutomationElement awidth = layout.FindFirstChild(cf => cf.ByName("width"));
+                    if (width != -1) {
+                        TreeConfig.ClickAutomationElement(awidth.FindFirstChild(cf => cf.ByName("width").And(cf.ByControlType(ControlType.Edit))), true);
+                        Keyboard.Type("" + width);
+                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                    }
+                    if (height != -1) {
+                        TreeConfig.ClickAutomationElement(aheight.FindFirstChild(cf => cf.ByName("height").And(cf.ByControlType(ControlType.Edit))), true);
+                        Keyboard.Type("" + height);
+                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                    }
                 }
-                while (!aproperties.BoundingRectangle.IntersectsWith(size.BoundingRectangle)) {
-                    Mouse.Scroll(-1d);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                }
-                Mouse.Scroll(-2d);
-                Mouse.Click(new Point {X = size.BoundingRectangle.Left + 5, Y = size.BoundingRectangle.Top + 5});
-                Mouse.Scroll(-2d);
-                AutomationElement s_width = size.FindFirstChild(cf => cf.ByName("width"));
-                if (width != -1 && int.Parse(s_width.Patterns.Value.Pattern.Value) != width) {
-                    TreeConfig.ClickAutomationElement(s_width.FindFirstChild(cf => cf.ByName("width").And(cf.ByControlType(ControlType.Edit))), true);
-                    Keyboard.Type("" + width);
-                    Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-                }
-                AutomationElement s_height = size.FindFirstChild(cf => cf.ByName("height"));
-                if (height != -1 && int.Parse(s_height.Patterns.Value.Pattern.Value) != height) {
-                    TreeConfig.ClickAutomationElement(s_height.FindFirstChild(cf => cf.ByName("height").And(cf.ByControlType(ControlType.Edit))), true);
-                    Keyboard.Type("" + height);
-                    Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                else {
+                    AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
+                    AutomationElement size = layout.FindFirstChild(cf => cf.ByName("Size"));
+                    while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
+                        Mouse.Scroll(1d);
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                    }
+                    while (!aproperties.BoundingRectangle.IntersectsWith(size.BoundingRectangle)) {
+                        Mouse.Scroll(-1d);
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                    }
+                    Mouse.Scroll(-2d);
+                    Mouse.Click(new Point {X = size.BoundingRectangle.Left + 5, Y = size.BoundingRectangle.Top + 5});
+                    Mouse.Scroll(-2d);
+                    AutomationElement s_width = size.FindFirstChild(cf => cf.ByName("width"));
+                    if (width != -1 && int.Parse(s_width.Patterns.Value.Pattern.Value) != width) {
+                        TreeConfig.ClickAutomationElement(s_width.FindFirstChild(cf => cf.ByName("width").And(cf.ByControlType(ControlType.Edit))), true);
+                        Keyboard.Type("" + width);
+                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                    }
+                    AutomationElement s_height = size.FindFirstChild(cf => cf.ByName("height"));
+                    if (height != -1 && int.Parse(s_height.Patterns.Value.Pattern.Value) != height) {
+                        TreeConfig.ClickAutomationElement(s_height.FindFirstChild(cf => cf.ByName("height").And(cf.ByControlType(ControlType.Edit))), true);
+                        Keyboard.Type("" + height);
+                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                    }
                 }
             }
             TreeConfig.IdeMain.SaveAll();
         }
-        void EditPosition(int top = -1, int left = -1) {
+        void EditPosition(int top = -1, int left = -1, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement afirst = aproperties.FindFirstChild();
             AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-            AutomationElement position = layout.FindFirstChild(cf => cf.ByName("Position"));
+            AutomationElement position = null;
             while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
                 Mouse.Scroll(1d);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             }
-            while (!aproperties.BoundingRectangle.IntersectsWith(position.BoundingRectangle)) {
-                Mouse.Scroll(-1d);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            if (area) {
+                while (!aproperties.BoundingRectangle.IntersectsWith(layout.BoundingRectangle)) {
+                    Mouse.Scroll(-1d);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                }
+                Mouse.Scroll(-2d);
             }
-            Mouse.Scroll(-2d);
-            Mouse.Click(new Point {X = position.BoundingRectangle.Left + 5, Y = position.BoundingRectangle.Top + 5});
-            Mouse.Scroll(-2d);
-            AutomationElement p_top = position.FindFirstChild(cf => cf.ByName("top"));
+            else {
+                position = layout.FindFirstChild(cf => cf.ByName("Position"));
+                while (!aproperties.BoundingRectangle.IntersectsWith(position.BoundingRectangle)) {
+                    Mouse.Scroll(-1d);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                }
+                Mouse.Scroll(-2d);
+                Mouse.Click(new Point {X = position.BoundingRectangle.Left + 5, Y = position.BoundingRectangle.Top + 5});
+                Mouse.Scroll(-2d);
+            }
+            AutomationElement p_top = (area?layout:position).FindFirstChild(cf => cf.ByName("top"));
+            AutomationElement p_left = (area?layout:position).FindFirstChild(cf => cf.ByName("left"));
             if (top != -1 && int.Parse(p_top.Patterns.Value.Pattern.Value) != top) {
                 TreeConfig.ClickAutomationElement(p_top.FindFirstChild(cf => cf.ByName("top").And(cf.ByControlType(ControlType.Edit))), true);
                 Keyboard.Type("" + top);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             }
-            AutomationElement p_left = position.FindFirstChild(cf => cf.ByName("left"));
             if (left != -1 && int.Parse(p_left.Patterns.Value.Pattern.Value) != left) {
                 TreeConfig.ClickAutomationElement(p_left.FindFirstChild(cf => cf.ByName("left").And(cf.ByControlType(ControlType.Edit))), true);
                 Keyboard.Type("" + left);
