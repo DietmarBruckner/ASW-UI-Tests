@@ -674,7 +674,7 @@ namespace FlaUITests.Util {
         }
         public void InstallComponentVersion (string componentName, string version) {
         }
-        public void SetIWorkspaceMinSize(AutomationElement docIATeditor = null) {
+        public void SetIWorkspaceMinSize(AutomationElement scrollableEditor = null) {
             Rectangle rect = UIElementsBounds["Workspace"];
             int Xscreen = (int) (_screen.WorkingArea.Width * 0.6);
             int Yscreen = (int) (_screen.WorkingArea.Height * 0.6);
@@ -705,17 +705,17 @@ namespace FlaUITests.Util {
                     Point point = new Point { X = rect.Left + 30, Y = rect.Bottom + 1};
                     Mouse.DragVertically(point, Yscreen + 1 - rect.Height);
             }
-            if (docIATeditor is null) return;
-            if (docIATeditor.Patterns.Scroll.Pattern.VerticalScrollPercent != 0d) {
-                TreeConfig.ClickAutomationElement(docIATeditor);
+            if (scrollableEditor is null) return;
+            if (scrollableEditor.Patterns.Scroll.Pattern.VerticalScrollPercent != 0d) {
+                TreeConfig.ClickAutomationElement(scrollableEditor);
                 using (Keyboard.Pressing(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL)) {
                     do {
                         Mouse.Scroll(0.5d);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                    } while (docIATeditor.Patterns.Scroll.Pattern.VerticalScrollPercent != 0d);
+                    } while (scrollableEditor.Patterns.Scroll.Pattern.VerticalScrollPercent != 0d);
                 }
             }
-            while (docIATeditor.Patterns.Scroll.Pattern.HorizontalScrollPercent != 0d) {
+            while (scrollableEditor.Patterns.Scroll.Pattern.HorizontalScrollPercent != 0d) {
                 rect = UIElementsBounds["Workspace"];
                 Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 100};
                 Mouse.DragHorizontally(point, 100);
