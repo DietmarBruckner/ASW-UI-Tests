@@ -601,8 +601,8 @@ namespace FlaUITests.Util {
         }
         public void Build() {
             ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nBuild", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
-            while (StatusBar.Name.IndexOf("Builds", StringComparison.OrdinalIgnoreCase) >= 0);
-            WaitForMessage("Build:");
+            //while (StatusBar.Name.IndexOf("Builds", StringComparison.OrdinalIgnoreCase) >= 0);
+            WaitForMessage("Build:", 60);
             Window buildProjectWindow = GetModalWindow("Build Project");
             buildProjectWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Close"))).AsButton().Click();
         }
