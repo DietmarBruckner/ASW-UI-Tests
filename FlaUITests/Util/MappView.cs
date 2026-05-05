@@ -13,7 +13,7 @@ using Point = System.Drawing.Point;
 namespace FlaUITests.Util {
     public partial class MappView {
         string editorPathMV;
-        readonly List<string[]> testLocalizeableStrings = new List<string[]> {
+        readonly List<string[]> chartStrings = new List<string[]> {
             {new string [] {"BarChart", "fr_BarChart", "de_BarChart", "en_BarChart"} }, 
             {new string [] {"Button", "fr_Button", "de_Button", "en_Button"} }, 
             {new string [] {"CheckBox", "fr_CheckBox", "de_CheckBox", "en_CheckBox"} }, 
@@ -21,6 +21,7 @@ namespace FlaUITests.Util {
             {new string [] {"DateTimeInput", "fr_DateTimeInput", "de_DateTimeInput", "en_DateTimeInput"} }, 
         //    {new string [] {"2", "fr_", "de_", "en_"} }
         };
+        string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\n", "      <Destination refId=\"", "\" index=\"0\" />\n", "      <Destination refId=\"", "\" index=\"1\" />\n", "    </NavigationPath>"};
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
@@ -155,7 +156,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
             AutomationElement textTree = tmxConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByAutomationId("B&R TreeView Control")).AsTree();
             AutomationElement newItem;
-            foreach (string[] item in testLocalizeableStrings) {
+            foreach (string[] item in chartStrings) {
                 newItem = textTree.FindAllChildren().Last();
                 AutomationElement [] fields = newItem.FindAllChildren();
                 fields[0].AsTextBox().Patterns.Value.Pattern.SetValue(item[0]);
@@ -268,7 +269,7 @@ namespace FlaUITests.Util {
             
             int pageID = 0;
             string pageName, contentName;
-            foreach(string[] text in testLocalizeableStrings) {
+            foreach(string[] text in chartStrings) {
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
                 AutomationElement [] allChildren = TreeConfig.IdeMain.ToolBarStandard.FindAllChildren();
                 TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
@@ -291,7 +292,13 @@ namespace FlaUITests.Util {
             }            
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Navigation");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "navigation_0.nav"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
-
+            AutomationElement navConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("navigation_0.nav") >= 0);
+            Mouse.Click(navConfigWorkspaceWindow.BoundingRectangle.Center());
+            AutomationElement editor = navConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByName("<?xml version")).AsTextBox();
+            editor.Focus();
+            Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
+            Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
+            string copiedText = System.Windows.Forms.Clipboard.GetText();
 
             //TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             
