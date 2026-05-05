@@ -364,6 +364,7 @@ namespace FlaUITests.Util {
         void SelectFromMappViewDropDown(string [] stree, string select)
         {
             AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            Mouse.Position = properties.BoundingRectangle.Center();
             AutomationElement first = properties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
             List<AutomationElement>  atree = new List<AutomationElement> {
                 properties.FindFirstChild(cf => cf.ByName(stree[0]))
@@ -378,6 +379,7 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             }
             Mouse.Scroll(-4d);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             Mouse.Click(new Point {X = atree.ElementAt(1).BoundingRectangle.Right - 20, Y = atree.ElementAt(1).BoundingRectangle.Top + atree.ElementAt(1).BoundingRectangle.Height/2});
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             PageIteratorLevel containingWord = PageIteratorLevel.Word;
