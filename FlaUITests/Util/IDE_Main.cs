@@ -451,7 +451,7 @@ namespace FlaUITests.Util {
             }
             if (!done && TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Waiting for message ran into timeout");
-            else if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+            else if (TreeConfig.CurrentProject != null && TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Message arrived");
         }
         public void SwitchView(TreeConfig.ViewType view, int x = 400, int y = 400) {
