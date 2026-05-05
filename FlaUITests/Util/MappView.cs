@@ -380,7 +380,7 @@ namespace FlaUITests.Util {
             }
             Mouse.Scroll(-4d);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            Mouse.Click(new Point {X = atree.ElementAt(1).BoundingRectangle.Right - 20, Y = atree.ElementAt(1).BoundingRectangle.Top + atree.ElementAt(1).BoundingRectangle.Height/2});
+            Mouse.DoubleClick(new Point {X = atree.ElementAt(1).BoundingRectangle.Right - 15, Y = atree.ElementAt(1).BoundingRectangle.Top + atree.ElementAt(1).BoundingRectangle.Height/2});
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             PageIteratorLevel containingWord = PageIteratorLevel.Word;
             Rectangle toClick = new Rectangle();
