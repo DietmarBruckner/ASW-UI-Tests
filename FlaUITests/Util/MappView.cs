@@ -9,6 +9,7 @@ using FlaUI.Core.Input;
 using System.Drawing;
 using FlaUI.Core.Tools;
 using Point = System.Drawing.Point;
+using System.Windows.Forms;
 
 namespace FlaUITests.Util {
     public partial class MappView {
@@ -21,7 +22,7 @@ namespace FlaUITests.Util {
             {new string [] {"DateTimeInput", "fr_DateTimeInput", "de_DateTimeInput", "en_DateTimeInput"} }, 
         //    {new string [] {"2", "fr_", "de_", "en_"} }
         };
-        string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\n", "      <Destination refId=\"", "\" index=\"0\" />\n", "      <Destination refId=\"", "\" index=\"1\" />\n", "      <Destination refId=\"", "\" index=\"2\" />\n", "    </NavigationPath>\n"};
+        string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
@@ -215,7 +216,7 @@ namespace FlaUITests.Util {
             Mouse.Click(editorCenter);
             EditSize(width:700, height:600, area:true);
             EditPosition(left:100, area:true);
-            Button createArea = layout_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Create Area"))).AsButton();
+            FlaUI.Core.AutomationElements.Button createArea = layout_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Create Area"))).AsButton();
             createArea.Click();
             EditSize(width:100, height:600, area:true);
             EditPosition(left:0, top:0, area:true);
@@ -283,8 +284,7 @@ namespace FlaUITests.Util {
                 EditSize(width:500, height:500);
                 EditPosition(left:100, top:50);
             }
-        }
-[STAThread]
+        }   
         void TM611_6_Navigation() {
             //TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
             if (Verbose >= Util.Environment.Verbose.STEPS) {
@@ -302,10 +302,10 @@ namespace FlaUITests.Util {
             //Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
             TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            string copiedText = System.Windows.Forms.Clipboard.GetText();
+            string copiedText = Clipboard.GetText();
             int firstIndex = copiedText.IndexOf("    <NavigationPath ");
             int secondIndex = copiedText.IndexOf("  </NavigationPaths>");
-            string outText = copiedText.Substring(0, firstIndex);
+            String outText = copiedText.Substring(0, firstIndex);
             int pageID = 0;
             string pageName, page0Name = "page_0";
             for(int i=0; i<chartStrings.Count+1; i++) {
@@ -322,7 +322,7 @@ namespace FlaUITests.Util {
                 pageID++;
             }
             outText += copiedText.Substring(secondIndex);
-            System.Windows.Forms.Clipboard.SetText(outText);
+            Clipboard.SetText(outText);
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
             TreeConfig.IdeMain.SaveAll();

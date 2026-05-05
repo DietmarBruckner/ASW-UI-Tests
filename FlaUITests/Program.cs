@@ -5,6 +5,7 @@ using FlaUITests.Util;
 namespace FlaUITests {
     class Program {
         static AutomationStudio6 as6;
+[STAThread]
         static void Main(string[] args) {
             Util.Util.Environment.InstallationPath = "C:\\Program Files (x86)\\BRAutomation\\AS6";
             as6 = new AutomationStudio6();
