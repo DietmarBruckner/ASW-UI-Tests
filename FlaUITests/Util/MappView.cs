@@ -219,7 +219,7 @@ namespace FlaUITests.Util {
             Point editorCenter = content_0ConfigWorkspaceWindow.BoundingRectangle.Center();
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Page content");
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Page content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement name = properties.FindFirstDescendant(cf => cf.ByName("Name"));
@@ -228,7 +228,7 @@ namespace FlaUITests.Util {
             Keyboard.Type("Navigation");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             EditSize(width:100, content:true);
-            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Navigation", true, content_0ConfigWorkspaceWindow.BoundingRectangle.Center());
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Navigation", true, content_0ConfigWorkspaceWindow.BoundingRectangle.Center());
             properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             EditPosition(top:0, left:0);
             EditSize(width:100, height:600);
