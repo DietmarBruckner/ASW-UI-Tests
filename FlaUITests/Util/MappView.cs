@@ -316,8 +316,10 @@ namespace FlaUITests.Util {
                 outText += page0Name;
                 outText += _navStrings[3] + _navStrings[4];
                 pageName = "page_" + (pageID==0?0:(pageID-1));
+                outText += pageName;
                 outText += _navStrings[5] + _navStrings[6];
                 pageName = "page_" + (pageID+1);
+                outText += pageName;
                 outText += _navStrings[7] + _navStrings[8];
                 pageID++;
             }
