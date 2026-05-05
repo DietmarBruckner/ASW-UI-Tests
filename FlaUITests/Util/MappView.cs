@@ -60,8 +60,8 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_3_2_ConfigureMappViewServer();
             TreeConfig.IdeMain.Build();
-            TM611_4_1_RenameVIS();
-            TreeConfig.IdeMain.Build();
+            //TM611_4_1_RenameVIS();
+            //TreeConfig.IdeMain.Build();
             TM611_11_Localization();
             TreeConfig.IdeMain.Build();
             TM611_5_Layout();
