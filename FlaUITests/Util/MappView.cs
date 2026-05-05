@@ -284,6 +284,7 @@ namespace FlaUITests.Util {
                 EditPosition(left:100, top:50);
             }
         }
+[STAThread]
         void TM611_6_Navigation() {
             //TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
             if (Verbose >= Util.Environment.Verbose.STEPS) {
