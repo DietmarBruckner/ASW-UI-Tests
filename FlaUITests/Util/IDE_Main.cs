@@ -493,7 +493,7 @@ namespace FlaUITests.Util {
                 TreeConfig.ClickAutomationElement(ViewTab);
             else
                 Mouse.Click(Rect.Center());
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
         }
         public AutomationElement GetActiveConfigurtion() {
             SwitchView(TreeConfig.ViewType.ConfigurationView);
