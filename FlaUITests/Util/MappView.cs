@@ -297,7 +297,10 @@ namespace FlaUITests.Util {
             AutomationElement editor = navConfigWorkspaceWindow.FindAllDescendants().FirstOrDefault(cf => cf.Name.Contains("<?xml version")).AsTextBox();
             editor.Focus();
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
-            Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            //Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
+            TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             string copiedText = System.Windows.Forms.Clipboard.GetText();
             int firstIndex = copiedText.IndexOf("    <NavigationPath ");
             int secondIndex = copiedText.IndexOf("  </NavigationPaths>");
