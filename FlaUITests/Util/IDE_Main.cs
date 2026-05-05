@@ -346,8 +346,8 @@ namespace FlaUITests.Util {
                     InvokeMenuItem(GetMenu("View"), "Output", "Output Results");
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));                    
                 }
-                else
-                    TreeConfig.ClickAutomationElement(a);
+/*                 else
+                    TreeConfig.ClickAutomationElement(a); */
             }
             if (statusBar) {
                 StatusBar = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar));
