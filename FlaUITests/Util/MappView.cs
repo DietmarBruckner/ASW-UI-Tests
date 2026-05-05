@@ -54,14 +54,14 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
             }
-            //TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
+            TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  TM611_4_InsertComponent();
-            //TM611_3_2_ConfigureMappViewServer();
-            //TM611_4_1_RenameVIS();
-            //TM611_11_Localization();
-            //TM611_5_Layout();
-            //InsertWidgets();
+            TM611_3_2_ConfigureMappViewServer();
+            TM611_4_1_RenameVIS();
+            TM611_11_Localization();
+            TM611_5_Layout();
+            InsertWidgets();
             TM611_6_Navigation();
         }
         public override void TM611_4_InsertComponent() {
@@ -216,21 +216,6 @@ namespace FlaUITests.Util {
             EditSize(width:100, content:true);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Navigation", true, content_0ConfigWorkspaceWindow.BoundingRectangle.Center());
             properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
-            /*AutomationElement accessibility = properties.FindFirstChild();
-            AutomationElement behavior = properties.FindFirstChild(cf => cf.ByName("Behavior"));
-            AutomationElement childPos = behavior.FindFirstChild(cf => cf.ByName("childPositioning"));
-            while (!properties.BoundingRectangle.IntersectsWith(accessibility.BoundingRectangle)) {
-                Mouse.Scroll(1d);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            }
-            while (!properties.BoundingRectangle.IntersectsWith(behavior.BoundingRectangle)) {
-                Mouse.Scroll(-1d);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            }
-            Mouse.Scroll(-2d);
-            Mouse.Click(new Point {X = childPos.BoundingRectangle.Right - 20, Y = childPos.BoundingRectangle.Top + childPos.BoundingRectangle.Height/2});
-            Mouse.DoubleClick(new Point {X = childPos.BoundingRectangle.Right - 20, Y = childPos.BoundingRectangle.Top + childPos.BoundingRectangle.Height/2});
-*/
             EditPosition(top:0, left:0);
             EditSize(width:100, height:600);
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
