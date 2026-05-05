@@ -349,6 +349,48 @@ namespace FlaUITests.Util {
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
             TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nPaste ")).AsButton().Click();
             TreeConfig.IdeMain.SaveAll();
+
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_Navigation.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
+            SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0");
+
+        }
+        void SelectFromMappViewDropDown(string [] stree, string select)
+        {
+            AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement first = properties.FindFirstChild();
+            List<AutomationElement>  atree = new List<AutomationElement> {
+                properties.FindFirstChild(cf => cf.ByName(stree[0]))
+            };
+            atree.Add(atree.ElementAt(0).FindFirstChild(cf => cf.ByName(stree[1])));
+            while (!properties.BoundingRectangle.IntersectsWith(first.BoundingRectangle)) {
+                Mouse.Scroll(1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            }
+            while (!properties.BoundingRectangle.IntersectsWith(atree.ElementAt(1).BoundingRectangle)) {
+                Mouse.Scroll(-1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            }
+            Mouse.Scroll(-2d);
+            Mouse.Click(new Point {X = atree.ElementAt(1).BoundingRectangle.Right - 20, Y = atree.ElementAt(1).BoundingRectangle.Top + atree.ElementAt(1).BoundingRectangle.Height/2});
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            PageIteratorLevel containingWord = PageIteratorLevel.Word;
+            Rectangle toClick = new Rectangle();
+            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
+                CaptureImage compImg = Capture.Element(properties);
+                string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR_" + select + ".png";
+                compImg.ToFile(file);
+                using (Page page = engine.Process(Pix.LoadFromFile(file))) {
+                    using (var iter = page.GetIterator()) {
+                        iter.Begin();
+                        do {
+                            if (iter.TryGetBoundingBox(containingWord, out var rect))
+                                if (iter.GetText(containingWord).IndexOf(select) >= 0)
+                                toClick = new Rectangle(properties.BoundingRectangle.Left + rect.X1, properties.BoundingRectangle.Top + rect.Y1, rect.X2-rect.X1, rect.Y2-rect.Y1);
+                        } while (iter.Next(containingWord));
+                    }
+                }
+            }
+            Mouse.Click(toClick.Center());
         }
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
