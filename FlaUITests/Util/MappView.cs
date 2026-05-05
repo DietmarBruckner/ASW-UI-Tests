@@ -64,11 +64,11 @@ namespace FlaUITests.Util {
             //TreeConfig.IdeMain.Build();
             TM611_11_Localization();
             TreeConfig.IdeMain.Build();
- */            TM611_5_Layout();
+            TM611_5_Layout();
             TreeConfig.IdeMain.Build();
             InsertWidgets();
             TreeConfig.IdeMain.Build();
-            TM611_6_Navigation();
+*/            TM611_6_Navigation();
             TreeConfig.IdeMain.Build();
         }
         public override void TM611_4_InsertComponent() {
@@ -340,10 +340,14 @@ namespace FlaUITests.Util {
                 outText += _navStrings[3] + _navStrings[4];
                 pageName = "page_" + (pageID==0?0:(pageID-1));
                 outText += pageName;
-                outText += _navStrings[5] + _navStrings[6];
-                pageName = "page_" + (pageID+1);
-                outText += pageName;
-                outText += _navStrings[7] + _navStrings[8];
+                outText += _navStrings[5];
+                if (i != chartStrings.Count) {
+                    outText += _navStrings[6];
+                    pageName = "page_" + (pageID+1);
+                    outText += pageName;
+                    outText += _navStrings[7];
+                }
+                outText += _navStrings[8];
                 pageID++;
             }
             outText += copiedText.Substring(secondIndex);
