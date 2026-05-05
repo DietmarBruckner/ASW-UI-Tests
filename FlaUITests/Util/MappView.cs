@@ -326,6 +326,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             string copiedText = Clipboard.GetText();
+            while (copiedText.ElementAt(0) != '<') copiedText = copiedText.Substring(1);
             int firstIndex = copiedText.IndexOf("    <NavigationPath ");
             int secondIndex = copiedText.IndexOf("  </NavigationPaths>");
             string outText = copiedText.Substring(0, firstIndex);
