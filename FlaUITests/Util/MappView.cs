@@ -364,7 +364,7 @@ namespace FlaUITests.Util {
         void SelectFromMappViewDropDown(string [] stree, string select)
         {
             AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
-            AutomationElement first = properties.FindFirstChild();
+            AutomationElement first = properties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
             List<AutomationElement>  atree = new List<AutomationElement> {
                 properties.FindFirstChild(cf => cf.ByName(stree[0]))
             };
