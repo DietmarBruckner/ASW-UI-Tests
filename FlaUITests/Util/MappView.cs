@@ -21,7 +21,7 @@ namespace FlaUITests.Util {
             {new string [] {"DateTimeInput", "fr_DateTimeInput", "de_DateTimeInput", "en_DateTimeInput"} }, 
         //    {new string [] {"2", "fr_", "de_", "en_"} }
         };
-        string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\n", "      <Destination refId=\"", "\" index=\"0\" />\n", "      <Destination refId=\"", "\" index=\"1\" />\n", "    </NavigationPath>"};
+        string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\n", "      <Destination refId=\"", "\" index=\"0\" />\n", "      <Destination refId=\"", "\" index=\"1\" />\n", "      <Destination refId=\"", "\" index=\"2\" />\n", "    </NavigationPath>\n"};
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
@@ -299,9 +299,29 @@ namespace FlaUITests.Util {
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
             string copiedText = System.Windows.Forms.Clipboard.GetText();
-
-            //TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
-            
+            int firstIndex = copiedText.IndexOf("    <NavigationPath ");
+            int secondIndex = copiedText.IndexOf("  </NavigationPaths>");
+            string outText = copiedText.Substring(0, firstIndex);
+            int pageID = 0;
+            string pageName, page0Name = "page_0";
+            for(int i=0; i<chartStrings.Count+1; i++) {
+                outText += _navStrings[0];
+                pageName = "page_" + pageID;
+                outText += pageName;
+                outText += _navStrings[1] + _navStrings[2];
+                outText += page0Name;
+                outText += _navStrings[3] + _navStrings[4];
+                pageName = "page_" + (pageID==0?0:(pageID-1));
+                outText += _navStrings[5] + _navStrings[6];
+                pageName = "page_" + (pageID+1);
+                outText += _navStrings[7] + _navStrings[8];
+                pageID++;
+            }
+            outText += copiedText.Substring(secondIndex);
+            System.Windows.Forms.Clipboard.SetText(outText);
+            Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
+            Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
+            TreeConfig.IdeMain.SaveAll();
         }
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
