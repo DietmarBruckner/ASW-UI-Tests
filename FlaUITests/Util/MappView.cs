@@ -327,7 +327,8 @@ namespace FlaUITests.Util {
             } catch (Exception e) {Console.WriteLine("Exception" + e.Message);}
  */            Copy_to_clipboard(outText);
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
-            Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
+            TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nPaste ")).AsButton().Click();
+            //Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
             TreeConfig.IdeMain.SaveAll();
         }
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
