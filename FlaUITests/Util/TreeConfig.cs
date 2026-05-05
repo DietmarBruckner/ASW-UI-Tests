@@ -75,7 +75,7 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
                 elementRect = clickElement.BoundingRectangle;
-                if (horizontalScrollBar != null && verticalScrollBar != null)
+                if (horizontalScrollBar != null && verticalScrollBar != null) {
                     while((elementRect.Width == 0 || elementRect.Height == 0) && horizontalScrollBar.Value < horizontalScrollBar.MaximumValue) {
                         //try scrolling down and right until found
                         while ((elementRect.Width == 0 || elementRect.Height == 0) && verticalScrollBar.Value < verticalScrollBar.MaximumValue) {
@@ -91,6 +91,7 @@ namespace FlaUITests.Util {
                             horizontalScrollBar.ScrollRightLarge();
                         }
                     }
+                }
                 else {
                     if (verticalScrollBar != null)
                         while ((elementRect.Width == 0 || elementRect.Height == 0) && verticalScrollBar.Value < verticalScrollBar.MaximumValue) {
@@ -125,7 +126,7 @@ namespace FlaUITests.Util {
                     }
                 }
                 else
-                    if (CurrentProject.verbose >= Util.Environment.Verbose.STEPS)
+                    if (CurrentProject.verbose >= Util.Environment.Verbose.LIGHT)
                         Console.WriteLine("Could not locate " + element.Name);
             }
         }
@@ -160,7 +161,7 @@ namespace FlaUITests.Util {
                     IdeMain.SwitchView(viewType);
                     ClickConfigTreeItem(viewType, ae, "_Name");
                     Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                     break;
             }
             foreach (var sub in leaves) {
