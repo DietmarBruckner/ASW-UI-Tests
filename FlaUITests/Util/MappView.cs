@@ -228,7 +228,7 @@ namespace FlaUITests.Util {
             Keyboard.Type("Navigation");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             EditSize(width:100, content:true);
- */            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Navigation", true, content_0ConfigWorkspaceWindow.BoundingRectangle.Center());
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Navigation", true, content_0ConfigWorkspaceWindow.BoundingRectangle.Center());
             properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             EditPosition(top:0, left:0);
             EditSize(width:100, height:600);
@@ -244,16 +244,16 @@ namespace FlaUITests.Util {
             EditSize(width:100, height:600, area:true);
             EditPosition(left:0, top:0, area:true);
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_page_0.page"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
-            AutomationElement page_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("page_0.page") >= 0);
+ */            AutomationElement page_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("page_0.page") >= 0);
             Mouse.Click(editorCenter);
             AutomationElement editor = page_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor")));
-            TreeConfig.IdeMain.SetIWorkspaceMinSize(editor, percent:true);
+//            TreeConfig.IdeMain.SetIWorkspaceMinSize(editor, percent:true);
             Mouse.Click(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 50/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 300/600)});
             properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement common = properties.FindFirstChild(cf => cf.ByName("Common"));
             AutomationElement refID = common.FindFirstChild(cf => cf.ByName("refId"));
             Mouse.Click(new Point {X = refID.BoundingRectangle.Right - 20, Y = refID.BoundingRectangle.Top + refID.BoundingRectangle.Height/2});
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             PageIteratorLevel containingWord = PageIteratorLevel.Word;
             Rectangle toClick = new Rectangle();
             using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
