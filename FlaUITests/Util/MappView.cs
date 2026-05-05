@@ -9,7 +9,8 @@ using FlaUI.Core.Input;
 using System.Drawing;
 using FlaUI.Core.Tools;
 using Point = System.Drawing.Point;
-using System.Windows.Forms;
+using System.Windows;
+using System.Threading;
 
 namespace FlaUITests.Util {
     public partial class MappView {
@@ -47,7 +48,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Adding mapp View object");
             }
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "mapp View", "mapp View");
-            Window newMappViewDialog = TreeConfig.IdeMain.GetModalWindow("Insert mapp View solution");
+            FlaUI.Core.AutomationElements.Window newMappViewDialog = TreeConfig.IdeMain.GetModalWindow("Insert mapp View solution");
             AutomationElement defaultTemplate = null;
             AutomationElement [] allElements = newMappViewDialog.FindAllDescendants();
             foreach (var element in allElements) {
@@ -299,7 +300,6 @@ namespace FlaUITests.Util {
             editor.Focus();
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            //Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
             TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             string copiedText = Clipboard.GetText();
@@ -322,9 +322,10 @@ namespace FlaUITests.Util {
                 pageID++;
             }
             outText += copiedText.Substring(secondIndex);
-            try {
+/*             try {
             Clipboard.SetText(outText);
             } catch (Exception e) {Console.WriteLine("Exception" + e.Message);}
+ */            Copy_to_clipboard(outText);
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
             TreeConfig.IdeMain.SaveAll();
@@ -435,6 +436,17 @@ namespace FlaUITests.Util {
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             }
             TreeConfig.IdeMain.SaveAll();
+        }
+        public static void SomethingToRunInThread(Object o) {
+            System.Windows.Clipboard.SetText((string) o);
+        }
+        protected void Copy_to_clipboard(string text) {
+            //ParameterizedThreadStart  p = new ParameterizedThreadStart (SomethingToRunInThread);
+            Thread th = new Thread(SomethingToRunInThread);
+            th.SetApartmentState(ApartmentState.STA);
+            th.IsBackground = false;
+            th.Start(text);
+            th.Join();
         }
     }
 }
