@@ -294,7 +294,7 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_navigation_0.nav"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
             AutomationElement navConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("navigation_0.nav [XML File]") >= 0);
             Mouse.Click(navConfigWorkspaceWindow.BoundingRectangle.Center());
-            AutomationElement editor = navConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByName("<?xml version")).AsTextBox();
+            AutomationElement editor = navConfigWorkspaceWindow.FindAllDescendants().FirstOrDefault(cf => cf.Name.Contains("<?xml version")).AsTextBox();
             editor.Focus();
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
