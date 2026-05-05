@@ -28,6 +28,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Opening OPC UA/CS configuration in workspace");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", uaconfig}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             //activate advanced visibility
             AutomationElement uaConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(uaconfig.Substring(3, uaconfig.Length-3)) >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
