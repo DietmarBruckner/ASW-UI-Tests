@@ -16,11 +16,34 @@ namespace FlaUITests.Util {
     public partial class MappView {
         string editorPathMV;
         readonly List<string[]> chartStrings = new List<string[]> {
-            {new string [] {"BarChart", "fr_BarChart", "de_BarChart", "en_BarChart"} }, 
-            {new string [] {"Button", "fr_Button", "de_Button", "en_Button"} }, 
-            {new string [] {"CheckBox", "fr_CheckBox", "de_CheckBox", "en_CheckBox"} }, 
-            {new string [] {"Label", "fr_Label", "de_Label", "en_Label"} }, 
-            {new string [] {"DateTimeInput", "fr_DateTimeInput", "de_DateTimeInput", "en_DateTimeInput"} }, 
+            {new string [] {"AlarmHistory", "", "", ""} }, 
+            {new string [] {"AlarmLine", "", "", ""} }, 
+            {new string [] {"AlarmList", "", "", ""} }, 
+            {new string [] {"AuditList", "", "", ""} }, 
+            {new string [] {"BarChart", "", "", ""} }, 
+            {new string [] {"BasicSlider", "", "", ""} }, 
+            {new string [] {"Button", "", "", ""} }, 
+            {new string [] {"ButtonBar", "", "", ""} }, 
+            {new string [] {"CheckBox", "", "", ""} }, 
+            {new string [] {"ContentCarousel", "", "", ""} }, 
+            {new string [] {"Database", "", "", ""} }, 
+            {new string [] {"DateTimeInput", "", "", ""} }, 
+            {new string [] {"DateTimeOutput", "", "", ""} }, 
+            {new string [] {"DonutChart", "", "", ""} }, 
+            {new string [] {"DropDownBox", "", "", ""} }, 
+            {new string [] {"Ellipse", "", "", ""} }, 
+            {new string [] {"FavoriteWatch", "", "", ""} }, 
+            {new string [] {"FlexBox", "", "", ""} }, 
+            {new string [] {"FlexLayoutPanel", "", "", ""} }, 
+            {new string [] {"FlyOut", "", "", ""} }, 
+            {new string [] {"GridLine", "", "", ""} }, 
+            {new string [] {"GroupBox", "", "", ""} }, 
+            {new string [] {"HoverButton", "", "", ""} }, 
+            {new string [] {"Image", "", "", ""} }, 
+            {new string [] {"ImageList", "", "", ""} }, 
+            {new string [] {"InfoBanner", "", "", ""} }, 
+            {new string [] {"Joystick", "", "", ""} }, 
+            {new string [] {"Label", "", "", ""} }, 
         //    {new string [] {"2", "fr_", "de_", "en_"} }
         };
         string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
@@ -268,7 +291,11 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
-            
+            foreach(string[] text in chartStrings) {
+                text[1] = "fr_" + text[0];
+                text[2] = "de_" + text[0];
+                text[3] = "en_" + text[0];
+            }
             int pageID = 0;
             string pageName, contentName;
             foreach(string[] text in chartStrings) {
