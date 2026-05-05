@@ -305,7 +305,7 @@ namespace FlaUITests.Util {
             string copiedText = Clipboard.GetText();
             int firstIndex = copiedText.IndexOf("    <NavigationPath ");
             int secondIndex = copiedText.IndexOf("  </NavigationPaths>");
-            String outText = copiedText.Substring(0, firstIndex);
+            string outText = copiedText.Substring(0, firstIndex);
             int pageID = 0;
             string pageName, page0Name = "page_0";
             for(int i=0; i<chartStrings.Count+1; i++) {
@@ -322,7 +322,9 @@ namespace FlaUITests.Util {
                 pageID++;
             }
             outText += copiedText.Substring(secondIndex);
+            try {
             Clipboard.SetText(outText);
+            } catch (Exception e) {Console.WriteLine("Exception" + e.Message);}
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_C);
             TreeConfig.IdeMain.SaveAll();
