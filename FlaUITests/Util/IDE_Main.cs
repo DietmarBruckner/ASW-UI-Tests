@@ -491,6 +491,8 @@ namespace FlaUITests.Util {
             }
             if (view != TreeConfig.ViewType.Workspace && view != TreeConfig.ViewType.PropertyWindow)
                 TreeConfig.ClickAutomationElement(ViewTab);
+            else
+                Mouse.Click(Rect.Center());
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
         }
         public AutomationElement GetActiveConfigurtion() {
