@@ -276,6 +276,13 @@ namespace FlaUITests.Util {
             CheckResizeWindowWithinScreen(w);
             return w;
         }
+        public void LooseModalWindow(Window w) {
+            while (MainWindow.ModalWindows.Contains(w)) {
+                if (TreeConfig.CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+                    Console.WriteLine("Waiting for closing of window: " + w.Name);
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            }
+        }
         public void CheckResizeWindowWithinScreen (Window w) {
             Rectangle wbr = w.BoundingRectangle;
             Screen screen = Screen.FromHandle(w.Properties.NativeWindowHandle);
@@ -601,7 +608,6 @@ namespace FlaUITests.Util {
         }
         public void Build() {
             ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nBuild", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
-            //while (StatusBar.Name.IndexOf("Builds", StringComparison.OrdinalIgnoreCase) >= 0);
             WaitForMessage("Build: ", 60);
             Window buildProjectWindow = GetModalWindow("Build Project");
             buildProjectWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Close"))).AsButton().Click();
@@ -655,7 +661,6 @@ namespace FlaUITests.Util {
             if (!(versText.Name.IndexOf(version) >= 0)) {
                 TreeConfig.ClickAutomationElement(allTexts[1].FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox)));
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-                //AutomationElement [] allChildren = manageComponentsWindow.FindAllChildren();
                 AutomationElement wa = manageComponentsWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window));
                 AutomationElement a = wa.FindFirstChild(cf => cf.ByName(version).And(cf.ByControlType(ControlType.ListItem)));
                 if (a != null)
@@ -669,10 +674,11 @@ namespace FlaUITests.Util {
             }
             Button okButton = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("btnOk"))).AsButton();
             okButton.Click();
-            AutomationElement [] windowList;
+            LooseModalWindow(manageComponentsWindow);
+/*             AutomationElement [] windowList;
             while ((windowList = MainWindow.ModalWindows).Count() != 0)
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.MainWindow.TitleBar);
+ */            TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.MainWindow.TitleBar);
         }
         public void InstallComponentVersion (string componentName, string version) {
         }
