@@ -440,6 +440,8 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
                 outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
                 AutomationElement [] allMessages = outputListView.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem));
+                if (allMessages.Count() == 0)
+                    continue;
                 SortedDictionary<DateTime, AutomationElement> dictMessages = new SortedDictionary<DateTime, AutomationElement> ();
                 foreach (AutomationElement a in allMessages) {
                     try {
