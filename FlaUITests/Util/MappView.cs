@@ -49,7 +49,7 @@ namespace FlaUITests.Util {
         string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
-            TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
+/*             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
@@ -64,7 +64,7 @@ namespace FlaUITests.Util {
             //TreeConfig.IdeMain.Build();
             TM611_11_Localization();
             TreeConfig.IdeMain.Build();
-            TM611_5_Layout();
+ */            TM611_5_Layout();
             TreeConfig.IdeMain.Build();
             InsertWidgets();
             TreeConfig.IdeMain.Build();
@@ -209,13 +209,13 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
         }
         void TM611_5_Layout() {
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
+/*             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting navigation content");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
-            AutomationElement content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0);
+ */            AutomationElement content_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0);
             Point editorCenter = content_0ConfigWorkspaceWindow.BoundingRectangle.Center();
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
