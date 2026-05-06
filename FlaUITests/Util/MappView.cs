@@ -357,21 +357,17 @@ namespace FlaUITests.Util {
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
             TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nPaste ")).AsButton().Click();
             TreeConfig.IdeMain.SaveAll();
- 
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_Navigation.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             Mouse.Click(navConfigWorkspaceWindow.BoundingRectangle.Center());
             SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0");
         }
-        void SelectFromMappViewDropDown(string [] stree, string select)
-        {
+        void SelectFromMappViewDropDown(string [] stree, string select) {
             if (Verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Selecting " + select + " from Dropdown: " + stree[0] + ", " + stree[1]);
             AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = properties.BoundingRectangle.Center();
             AutomationElement first = properties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
-            List<AutomationElement>  atree = new List<AutomationElement> {
-                properties.FindFirstChild(cf => cf.ByName(stree[0]))
-            };
+            List<AutomationElement>  atree = new List<AutomationElement> { properties.FindFirstChild(cf => cf.ByName(stree[0])) };
             atree.Add(atree.ElementAt(0).FindFirstChild(cf => cf.ByName(stree[1])));
             while (!properties.BoundingRectangle.IntersectsWith(first.BoundingRectangle)) {
                 Mouse.Scroll(1d);
