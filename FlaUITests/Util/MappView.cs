@@ -457,7 +457,8 @@ namespace FlaUITests.Util {
             }
             Mouse.Scroll(-4d);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            Mouse.DoubleClick(new Point {X = atree.ElementAt(1).BoundingRectangle.Right - 15, Y = atree.ElementAt(1).BoundingRectangle.Top + atree.ElementAt(1).BoundingRectangle.Height/2});
+            Mouse.MoveTo(new Point {X = atree.ElementAt(1).BoundingRectangle.Right - 15, Y = atree.ElementAt(1).BoundingRectangle.Top + atree.ElementAt(1).BoundingRectangle.Height/2});
+            Mouse.DoubleClick();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Rectangle rec = TreeConfig.IdeMain.FindWordinCapture(properties, select);
             Point point = new Point {X = properties.BoundingRectangle.Left + rec.Left + rec.Width/2, Y = properties.BoundingRectangle.Top + rec.Top + rec.Height/2};
