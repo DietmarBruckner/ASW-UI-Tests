@@ -686,7 +686,7 @@ namespace FlaUITests.Util {
             PageIteratorLevel containingWord = PageIteratorLevel.Word;
             using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
                 CaptureImage compImg = Capture.Element(ae);
-                string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR_" + text + ".png";
+                string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR_" + TreeConfig.RemoveSpecialChars(text) + ".png";
                 compImg.ToFile(file);
                 using (Page page = engine.Process(Pix.LoadFromFile(file))) {
                     using (var iter = page.GetIterator()) {
