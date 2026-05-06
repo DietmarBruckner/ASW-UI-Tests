@@ -109,11 +109,11 @@ namespace FlaUITests.Util {
     //        TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  TM611_4_InsertComponent();
-            TreeConfig.IdeMain.Build();
+    //        TreeConfig.IdeMain.Build();
     //        TM611_3_2_ConfigureMappViewServer();
-            TreeConfig.IdeMain.Build();
+    //        TreeConfig.IdeMain.Build();
     //        TM611_4_1_RenameVIS();
-            TreeConfig.IdeMain.Build();
+    //        TreeConfig.IdeMain.Build();
             TM611_11_Localization();
             TreeConfig.IdeMain.Build();
             TM611_5_Layout();
