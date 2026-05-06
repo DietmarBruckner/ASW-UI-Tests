@@ -116,8 +116,8 @@ namespace FlaUITests.Util {
     //        TreeConfig.IdeMain.Build();
     //        TM611_11_Localization();
     //        TreeConfig.IdeMain.Build();
-            TM611_5_Layout();
-            TreeConfig.IdeMain.Build();
+    //        TM611_5_Layout();
+    //        TreeConfig.IdeMain.Build();
             //InsertWidgets();
             //TreeConfig.IdeMain.Build();
             TM611_6_Navigation();
@@ -293,8 +293,8 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Page content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
-            AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
-            AutomationElement name = properties.FindFirstDescendant(cf => cf.ByName("Name"));
+            properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            name = properties.FindFirstDescendant(cf => cf.ByName("Name"));
             Mouse.Click(new Point {X = name.BoundingRectangle.Right - 20, Y = name.BoundingRectangle.Top + name.BoundingRectangle.Height/2});
             Mouse.DoubleClick(new Point {X = name.BoundingRectangle.Right - 20, Y = name.BoundingRectangle.Top + name.BoundingRectangle.Height/2});
             Keyboard.Type("Info_Pane");
