@@ -329,10 +329,13 @@ namespace FlaUITests.Util {
             AutomationElement page_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("page_0.page") >= 0);
             Mouse.Click(editorCenter);
             AutomationElement editor = page_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor")));
-            TreeConfig.IdeMain.SetIWorkspaceMinSize(editor, percent:true);
-            Mouse.Click(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 50/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 300/600)});
+    //        TreeConfig.IdeMain.SetIWorkspaceMinSize(editor, percent:true);
+            Mouse.MoveTo(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 50/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 300/600)});
+
+            Mouse.Click();//(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 50/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 300/600)});
             SelectFromMappViewDropDown(new string [] {"Common", "refId"}, "Navigation");
-            Mouse.Click(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 400/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 50/600)});
+            Mouse.MoveTo(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 400/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 50/600)});
+            Mouse.Click();
             SelectFromMappViewDropDown(new string [] {"Common", "refId"}, "Info_Pane");
             TreeConfig.IdeMain.SaveAll();
 
