@@ -112,8 +112,8 @@ namespace FlaUITests.Util {
         //    TreeConfig.IdeMain.Build();
         //    TM611_3_2_ConfigureMappViewServer();
         //    TreeConfig.IdeMain.Build();
-            TM611_4_1_RenameVIS();
-            TreeConfig.IdeMain.Build();
+        //    TM611_4_1_RenameVIS();
+        //    TreeConfig.IdeMain.Build();
             TM611_11_Localization();
             TreeConfig.IdeMain.Build();
             TM611_5_Layout();
@@ -203,13 +203,13 @@ namespace FlaUITests.Util {
         }
         void TM611_11_Localization() {
             string tmxconfig = "LocalizableTexts.tmx";
-             if (Verbose >= Util.Environment.Verbose.STEPS) {
+/*              if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting new Project Language container");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView"}, new List<string> { "_Object Name" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Project Languages");
-            TreeConfig.IdeMain.SaveAll();
+ */            TreeConfig.IdeMain.SaveAll();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting new Localizable Texts container and changing namespace to IAT");
