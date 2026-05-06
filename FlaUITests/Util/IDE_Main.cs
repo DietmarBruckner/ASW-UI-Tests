@@ -684,7 +684,7 @@ namespace FlaUITests.Util {
         }
         public void InstallComponentVersion (string componentName, string version) {
         }
-        public Rectangle FindTextinCapture (AutomationElement ae, string text) {
+        public Rectangle FindWordinCapture (AutomationElement ae, string text) {
             Dictionary<Rectangle, string> dict = new Dictionary<Rectangle, string>();
             PageIteratorLevel containingWord = PageIteratorLevel.Word;
             using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
