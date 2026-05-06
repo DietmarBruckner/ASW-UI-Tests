@@ -13,6 +13,7 @@ using System.Threading;
 namespace FlaUITests.Util {
     public partial class MappView {
         string editorPathMV;
+        string editorPathTS;
         readonly List<string[]> chartStrings = new List<string[]> {
             {new string [] {"AlarmHistory", "", "", ""} }, 
             {new string [] {"AlarmLine", "", "", ""} }, 
@@ -47,6 +48,7 @@ namespace FlaUITests.Util {
         string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
+            editorPathTS = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\TextSystem\\n.d\\Editors\\";
              TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
@@ -219,9 +221,13 @@ namespace FlaUITests.Util {
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             EditSize(height:100, content:true);
             TreeConfig.IdeMain.SaveAll();
+            Mouse.Click(editorCenter);
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Label", drag:true, toDrag:editorCenter);
+            EditSize(width:200, height:30);
+            EditPosition(left:50, top:5);
 
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
-            EditSize(width:700, content:true);
+            EditSize(width:700, height:500, content:true);
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Layouts", "BR_layout_0.layout"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             AutomationElement layout_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("layout_0.layout") >= 0);
             Mouse.Click(editorCenter);
@@ -243,6 +249,22 @@ namespace FlaUITests.Util {
             SelectFromMappViewDropDown(new string [] {"Common", "refId"}, "Navigation");
             Mouse.Click(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 400/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 50/600)});
             SelectFromMappViewDropDown(new string [] {"Common", "refId"}, "Info_Pane");
+            TreeConfig.IdeMain.SaveAll();
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Inserting and editing Textsystem Config File");
+            }
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem"}, new List<string> { "_Configuration", "_Configuration" });
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Textsystem Configuration");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem", "BR_TC.textconfig"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
+            AutomationElement TCConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("TC.textconfig") >= 0);
+            AutomationElement configTree = TCConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            AutomationElement TCConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_TextConfig")));
+            Mouse.Click(TCConfigWorkspaceWindow.BoundingRectangle.Center());
+
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, new List<string> { "_Value" }, TCConfigRoot);
+            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 1); //Select "Enabled"
+
 
 /*             properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement common = properties.FindFirstChild(cf => cf.ByName("Common"));
@@ -303,11 +325,11 @@ namespace FlaUITests.Util {
             }
         }   
         void TM611_6_Navigation() {
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Creating navigation file");
             }
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Navigation");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_navigation_0.nav"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
             AutomationElement navConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("navigation_0.nav [XML File]") >= 0);
