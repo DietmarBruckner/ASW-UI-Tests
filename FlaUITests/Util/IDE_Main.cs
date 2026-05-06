@@ -766,25 +766,23 @@ namespace FlaUITests.Util {
             bool emptyline = true;
             while (emptyline) {
                 TreeConfig.ClickAutomationElement(editor);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-
-                //Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.SHIFT, FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
-                //System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 string copiedText = Clipboard.GetText();
                 if (copiedText.ElementAt(0) != '<') {
-                    //Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
                     TreeConfig.ClickAutomationElement(editor);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                     Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.HOME);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                     Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
                 }
-                else
+                else {
                     emptyline = false;
+                    TreeConfig.ClickAutomationElement(editor);
+                }
             }
         }
     }
