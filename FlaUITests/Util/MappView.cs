@@ -333,7 +333,7 @@ namespace FlaUITests.Util {
                 contentName = "content_" + pageID;
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + pageName, "BR_" + contentName + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
                 TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", text[0], drag:true, toDrag:editorCenter);
-                EditSize(width:500, height:500);
+                EditSize(width:500, height:400);
                 EditPosition(left:100, top:50);
             }
         }   
