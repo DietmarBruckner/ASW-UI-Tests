@@ -365,7 +365,7 @@ namespace FlaUITests.Util {
         void SelectFromMappViewDropDown(string [] stree, string select)
         {
             if (Verbose >= Util.Environment.Verbose.FULL)
-                Console.WriteLine("Selecting " + select + " from Dropdown" + stree[0] + ", " + stree[1]);
+                Console.WriteLine("Selecting " + select + " from Dropdown: " + stree[0] + ", " + stree[1]);
             AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = properties.BoundingRectangle.Center();
             AutomationElement first = properties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
