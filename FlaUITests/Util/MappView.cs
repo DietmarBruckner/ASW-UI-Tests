@@ -197,6 +197,9 @@ namespace FlaUITests.Util {
             Mouse.DoubleClick();
             Keyboard.Type(visname);
             TreeConfig.IdeMain.SaveAll();
+            rec = TreeConfig.IdeMain.Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab)).FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName(visname + ".vis [XML File]"))).BoundingRectangle;
+            Mouse.MoveTo(new Point {X = rec.Right - 10, Y = rec.Top + 10});
+            Mouse.Click();
         }
         void TM611_11_Localization() {
             string tmxconfig = "LocalizableTexts.tmx";
@@ -384,9 +387,8 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Navigation");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_navigation_0.nav"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
             AutomationElement navConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("navigation_0.nav [XML File]") >= 0);
-            Mouse.Click(navConfigWorkspaceWindow.BoundingRectangle.Center());
             AutomationElement editor = navConfigWorkspaceWindow.FindAllDescendants().FirstOrDefault(cf => cf.Name.Contains("<?xml version")).AsTextBox();
-            editor.Focus();
+            TreeConfig.IdeMain.RemoveTrailingWhitespaceFromXML(editor);
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
