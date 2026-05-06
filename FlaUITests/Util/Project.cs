@@ -99,7 +99,7 @@ namespace FlaUITests.Util {
             _ideMain.ActivateSimulation();
             foreach (KeyValuePair<Components, string> kvp in DictComponents) {
                 ComponentInProject cip = null;
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
+                //System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
                 switch (kvp.Key) {
                     case Components.AutomationRuntime:  cip = new AutomationRuntime(this, kvp.Value);   break;
                     case Components.mappView:           cip = new MappView(this, kvp.Value);            break;
