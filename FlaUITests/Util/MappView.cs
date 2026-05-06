@@ -203,13 +203,13 @@ namespace FlaUITests.Util {
         }
         void TM611_11_Localization() {
             string tmxconfig = "LocalizableTexts.tmx";
-/*              if (Verbose >= Util.Environment.Verbose.STEPS) {
+              if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting new Project Language container");
             } 
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView"}, new List<string> { "_Object Name" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Project Languages");
- */            TreeConfig.IdeMain.SaveAll();
+             TreeConfig.IdeMain.SaveAll();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting new Localizable Texts container and changing namespace to IAT");
@@ -464,6 +464,7 @@ namespace FlaUITests.Util {
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = aproperties.BoundingRectangle.Center();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement afirst = aproperties.FindFirstChild();
             if (content) {
                 AutomationElement aproperty = aproperties.FindFirstChild(cf => cf.ByName("Property"));
@@ -529,6 +530,7 @@ namespace FlaUITests.Util {
         void EditPosition(int top = -1, int left = -1, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = aproperties.BoundingRectangle.Center();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement afirst = aproperties.FindFirstChild();
             AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
             AutomationElement position = null;
