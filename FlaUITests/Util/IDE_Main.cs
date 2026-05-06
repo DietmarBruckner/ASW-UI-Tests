@@ -346,8 +346,6 @@ namespace FlaUITests.Util {
                     InvokeMenuItem(GetMenu("View"), "Output", "Output Results");
                     System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));                    
                 }
-/*                 else
-                    TreeConfig.ClickAutomationElement(a); */
             }
             if (statusBar) {
                 StatusBar = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar));
@@ -677,10 +675,7 @@ namespace FlaUITests.Util {
             Button okButton = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("btnOk"))).AsButton();
             okButton.Click();
             LooseModalWindow(manageComponentsWindow);
-/*             AutomationElement [] windowList;
-            while ((windowList = MainWindow.ModalWindows).Count() != 0)
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
- */            TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.MainWindow.TitleBar);
+            TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.MainWindow.TitleBar);
         }
         public void InstallComponentVersion (string componentName, string version) {
         }
