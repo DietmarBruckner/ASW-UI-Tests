@@ -234,7 +234,7 @@ namespace FlaUITests.Util {
                 AutomationElement [] fields = newItem.FindAllChildren();
                 TreeConfig.ClickAutomationElement(fields[0]);
                 Keyboard.Type(item[0]);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
                 TreeConfig.ClickAutomationElement(fields[1]);
                 Keyboard.Type(item[1]);
                 TreeConfig.ClickAutomationElement(fields[2]);
