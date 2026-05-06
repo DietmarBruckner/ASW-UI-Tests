@@ -206,7 +206,7 @@ namespace FlaUITests.Util {
 /*              if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting new Project Language container");
-            }
+            } 
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView"}, new List<string> { "_Object Name" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Project Languages");
  */            TreeConfig.IdeMain.SaveAll();
@@ -234,6 +234,7 @@ namespace FlaUITests.Util {
                 AutomationElement [] fields = newItem.FindAllChildren();
                 TreeConfig.ClickAutomationElement(fields[0]);
                 Keyboard.Type(item[0]);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
                 TreeConfig.ClickAutomationElement(fields[1]);
                 Keyboard.Type(item[1]);
                 TreeConfig.ClickAutomationElement(fields[2]);
