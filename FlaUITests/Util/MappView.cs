@@ -227,11 +227,35 @@ namespace FlaUITests.Util {
                 fields[2].AsTextBox().Patterns.Value.Pattern.SetValue(item[2]);
                 TreeConfig.ClickAutomationElement(fields[3]);
                 Keyboard.Type(item[3]);
-                //fields[3].AsTextBox().Patterns.Value.Pattern.SetValue(item[3]);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 TreeConfig.ClickAutomationElement(tmxConfigWorkspaceWindow);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             }
+            TreeConfig.IdeMain.SaveAll();
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Inserting and editing Textsystem Config File");
+            }
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem"}, new List<string> { "_Configuration", "_Configuration" });
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Textsystem Configuration");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem", "BR_TC.textconfig"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
+            AutomationElement TCConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("TC.textconfig") >= 0);
+            AutomationElement configTree = TCConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            AutomationElement TCConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_TextConfig")));
+            Mouse.Click(TCConfigWorkspaceWindow.BoundingRectangle.Center());
+
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "System language"), new List<string> { "_Name", "_Value" }, TCConfigRoot);
+            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "en");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Fallback language"), new List<string> { "_Name", "_Value" }, TCConfigRoot);
+            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "de");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "Target language 1"), new List<string> { "_Name", "_Name", "_Value" }, TCConfigRoot);
+            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "en");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "Target language 2"), new List<string> { "_Name", "_Name", "_Value" }, TCConfigRoot);
+            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "de");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "Target language 3"), new List<string> { "_Name", "_Name", "_Value" }, TCConfigRoot);
+            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "fr");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Tmx files for target", "Tmx file 1"), new List<string> { "_Name", "_Name", "_Value" }, TCConfigRoot);
+            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0);
             TreeConfig.IdeMain.SaveAll();
         }
         void TM611_5_Layout() {
@@ -301,31 +325,6 @@ namespace FlaUITests.Util {
             SelectFromMappViewDropDown(new string [] {"Common", "refId"}, "Navigation");
             Mouse.Click(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 400/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 50/600)});
             SelectFromMappViewDropDown(new string [] {"Common", "refId"}, "Info_Pane");
-            TreeConfig.IdeMain.SaveAll();
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Inserting and editing Textsystem Config File");
-            }
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem"}, new List<string> { "_Configuration", "_Configuration" });
-            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Textsystem Configuration");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem", "BR_TC.textconfig"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
-            AutomationElement TCConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("TC.textconfig") >= 0);
-            AutomationElement configTree = TCConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
-            AutomationElement TCConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_TextConfig")));
-            Mouse.Click(TCConfigWorkspaceWindow.BoundingRectangle.Center());
-
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "System language"), new List<string> { "_Name", "_Value" }, TCConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "en");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Fallback language"), new List<string> { "_Name", "_Value" }, TCConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "de");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "Target language 1"), new List<string> { "_Name", "_Name", "_Value" }, TCConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "en");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "Target language 2"), new List<string> { "_Name", "_Name", "_Value" }, TCConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "de");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "Target language 3"), new List<string> { "_Name", "_Name", "_Value" }, TCConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "fr");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Tmx files for target", "Tmx file 1"), new List<string> { "_Name", "_Name", "_Value" }, TCConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0);
             TreeConfig.IdeMain.SaveAll();
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "Info_Pane.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "LanguageSelector", drag:true, toDrag:editorCenter);
