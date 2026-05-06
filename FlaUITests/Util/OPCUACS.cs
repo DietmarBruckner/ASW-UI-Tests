@@ -18,7 +18,7 @@ namespace FlaUITests.Util {
             TM611_3_1_ActivateOPCUACS();
         }
         public override void TM611_4_InsertComponent() {
-            
+            //activated by default, nothing to do
         }
         void TM611_3_1_ActivateOPCUACS() {
             string uaconfig = "BR_UaCsConfig.uacfg";
