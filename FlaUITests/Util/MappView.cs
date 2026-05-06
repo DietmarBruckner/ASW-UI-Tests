@@ -263,9 +263,9 @@ namespace FlaUITests.Util {
             Mouse.Click(TCConfigWorkspaceWindow.BoundingRectangle.Center());
 
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "System language"), new List<string> { "_Name", "_Value" }, TCConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "en"); //Select English
+            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "en");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Fallback language"), new List<string> { "_Name", "_Value" }, TCConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "de"); //Select German
+            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "de");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "Target language 1"), new List<string> { "_Name", "_Name", "_Value" }, TCConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "en");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "Target language 2"), new List<string> { "_Name", "_Name", "_Value" }, TCConfigRoot);
@@ -274,7 +274,7 @@ namespace FlaUITests.Util {
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "fr");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Tmx files for target", "Tmx file 1"), new List<string> { "_Name", "_Name", "_Value" }, TCConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0);
-
+            TreeConfig.IdeMain.SaveAll();
 
 /*             properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement common = properties.FindFirstChild(cf => cf.ByName("Common"));
