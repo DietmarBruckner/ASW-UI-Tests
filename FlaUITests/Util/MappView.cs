@@ -442,6 +442,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Selecting " + select + " from Dropdown: " + stree[0] + ", " + stree[1]);
             AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = properties.BoundingRectangle.Center();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement first = properties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
             List<AutomationElement>  atree = new List<AutomationElement> { properties.FindFirstChild(cf => cf.ByName(stree[0])) };
             atree.Add(atree.ElementAt(0).FindFirstChild(cf => cf.ByName(stree[1])));
