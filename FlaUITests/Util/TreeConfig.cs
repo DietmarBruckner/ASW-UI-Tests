@@ -7,6 +7,7 @@ using FlaUI.Core.AutomationElements.Scrolling;
 using System.Linq;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 
 namespace FlaUITests.Util {
     public static class TreeConfig {
@@ -241,6 +242,9 @@ namespace FlaUITests.Util {
             }
             if (path.Count != count)
                 path.Add(root);
+        }
+        public static string RemoveSpecialChars(string input) {
+            return Regex.Replace(input, @"[^0-9a-zA-Z\._]", string.Empty);
         }
     }
 }
