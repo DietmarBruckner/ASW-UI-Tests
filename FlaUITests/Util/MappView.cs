@@ -101,17 +101,17 @@ namespace FlaUITests.Util {
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             editorPathTS = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\TextSystem\\n.d\\Editors\\";
-             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
+            TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
             }
-            TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
+        //    TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  TM611_4_InsertComponent();
-            TreeConfig.IdeMain.Build();
-            TM611_3_2_ConfigureMappViewServer();
-            TreeConfig.IdeMain.Build();
+        //    TreeConfig.IdeMain.Build();
+        //    TM611_3_2_ConfigureMappViewServer();
+        //    TreeConfig.IdeMain.Build();
             TM611_4_1_RenameVIS();
             TreeConfig.IdeMain.Build();
             TM611_11_Localization();
