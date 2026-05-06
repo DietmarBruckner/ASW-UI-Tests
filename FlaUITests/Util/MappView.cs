@@ -337,6 +337,7 @@ namespace FlaUITests.Util {
             EditSize(width:800, height:100, area:true);
             EditPosition(left:0, top:0, area:true);
  */            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_page_0.page"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             AutomationElement page_0ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("page_0.page") >= 0);
             Mouse.Click(editorCenter);
             AutomationElement editor = page_0ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor")));
