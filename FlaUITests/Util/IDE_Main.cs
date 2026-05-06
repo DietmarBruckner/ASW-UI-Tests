@@ -684,6 +684,34 @@ namespace FlaUITests.Util {
         }
         public void InstallComponentVersion (string componentName, string version) {
         }
+        public Rectangle FindTextinCapture (AutomationElement ae, string text) {
+            Dictionary<Rectangle, string> dict = new Dictionary<Rectangle, string>();
+            PageIteratorLevel containingWord = PageIteratorLevel.Word;
+            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
+                CaptureImage compImg = Capture.Element(ae);
+                string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR_" + text + ".png";
+                compImg.ToFile(file);
+                using (Page page = engine.Process(Pix.LoadFromFile(file))) {
+                    using (var iter = page.GetIterator()) {
+                        iter.Begin();
+                        do {
+                            if (iter.TryGetBoundingBox(containingWord, out var rect))
+                                dict.Add(new Rectangle(rect.X1, rect.Y1, rect.X2-rect.X1, rect.Y2-rect.Y1), iter.GetText(containingWord));
+                        } while (iter.Next(containingWord));
+                    }
+                }           
+            }
+            Rectangle rec = new Rectangle();
+            int i, min = int.MaxValue;
+            foreach (var d in dict) {
+                i = Util.GetDamerauLevenshteinDistance(text, d.Value);
+                if (i < min) {
+                    min = i;
+                    rec = d.Key;
+                }
+            }
+            return rec;
+        }
         public void SetIWorkspaceMinSize(AutomationElement scrollableEditor = null, bool percent = false) {
             Rectangle rect = UIElementsBounds["Workspace"];
             if (percent) {
