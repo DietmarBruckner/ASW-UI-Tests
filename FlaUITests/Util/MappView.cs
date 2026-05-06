@@ -385,7 +385,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             Mouse.DoubleClick(new Point {X = atree.ElementAt(1).BoundingRectangle.Right - 15, Y = atree.ElementAt(1).BoundingRectangle.Top + atree.ElementAt(1).BoundingRectangle.Height/2});
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            Mouse.Click(TreeConfig.IdeMain.FindWordinCapture(properties, select).Center());
+            Mouse.DoubleClick(TreeConfig.IdeMain.FindWordinCapture(properties, select).Center());
         }
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
