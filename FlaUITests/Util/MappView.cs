@@ -234,6 +234,7 @@ namespace FlaUITests.Util {
                 AutomationElement [] fields = newItem.FindAllChildren();
                 TreeConfig.ClickAutomationElement(fields[0]);
                 Keyboard.Type(item[0]);
+                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
                 TreeConfig.ClickAutomationElement(fields[1]);
                 Keyboard.Type(item[1]);
