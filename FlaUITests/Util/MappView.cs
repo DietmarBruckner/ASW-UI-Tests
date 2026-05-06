@@ -131,13 +131,13 @@ namespace FlaUITests.Util {
             TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.MainWindow.TitleBar);
         }
         void TM611_4_1_RenameVIS() {
-            Dictionary<Rectangle, string> dict = new Dictionary<Rectangle, string>();
+//            Dictionary<Rectangle, string> dict = new Dictionary<Rectangle, string>();
             string visname = "vis_0.vis";
-            PageIteratorLevel containingWord = PageIteratorLevel.Word;
+//            PageIteratorLevel containingWord = PageIteratorLevel.Word;
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_" + visname}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
             AutomationElement visConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(visname) >= 0);
             AutomationElement adocText = visConfigWorkspaceWindow.FindAllDescendants().First(cf => cf.Name.IndexOf("<?xml") >= 0);
-            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
+/*             using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
                 CaptureImage compImg = Capture.Element(adocText);
                 string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR_vis.png";
                 compImg.ToFile(file);
@@ -160,8 +160,9 @@ namespace FlaUITests.Util {
                     min = i;
                     rec = d.Key;
                 }
-            }
-            Mouse.MoveTo(new Point {X = adocText.BoundingRectangle.X + rec.X, Y = adocText.BoundingRectangle.Y + rec.Y});
+            } */
+            Rectangle rec = TreeConfig.IdeMain.FindWordinCapture(adocText, "\"vis_0\"");
+            Mouse.MoveTo(new Point {X = adocText.BoundingRectangle.X + rec.X + rec.Width/2, Y = adocText.BoundingRectangle.Y + rec.Y});
             Mouse.DoubleClick();
             Keyboard.Type("Test_Visu");
         }
@@ -382,24 +383,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             Mouse.DoubleClick(new Point {X = atree.ElementAt(1).BoundingRectangle.Right - 15, Y = atree.ElementAt(1).BoundingRectangle.Top + atree.ElementAt(1).BoundingRectangle.Height/2});
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            PageIteratorLevel containingWord = PageIteratorLevel.Word;
-            Rectangle toClick = new Rectangle();
-            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
-                CaptureImage compImg = Capture.Element(properties);
-                string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR_" + select + ".png";
-                compImg.ToFile(file);
-                using (Page page = engine.Process(Pix.LoadFromFile(file))) {
-                    using (var iter = page.GetIterator()) {
-                        iter.Begin();
-                        do {
-                            if (iter.TryGetBoundingBox(containingWord, out var rect))
-                                if (iter.GetText(containingWord).IndexOf(select) >= 0)
-                                toClick = new Rectangle(properties.BoundingRectangle.Left + rect.X1, properties.BoundingRectangle.Top + rect.Y1, rect.X2-rect.X1, rect.Y2-rect.Y1);
-                        } while (iter.Next(containingWord));
-                    }
-                }
-            }
-            Mouse.Click(toClick.Center());
+            Mouse.Click(TreeConfig.IdeMain.FindWordinCapture(properties, select).Center());
         }
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
