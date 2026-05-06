@@ -49,7 +49,7 @@ namespace FlaUITests.Util {
         string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
-/*             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
+             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
@@ -60,15 +60,15 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_3_2_ConfigureMappViewServer();
             TreeConfig.IdeMain.Build();
-            //TM611_4_1_RenameVIS();
-            //TreeConfig.IdeMain.Build();
+            TM611_4_1_RenameVIS();
+            TreeConfig.IdeMain.Build();
             TM611_11_Localization();
             TreeConfig.IdeMain.Build();
             TM611_5_Layout();
             TreeConfig.IdeMain.Build();
             InsertWidgets();
             TreeConfig.IdeMain.Build();
-*/            TM611_6_Navigation();
+            TM611_6_Navigation();
             TreeConfig.IdeMain.Build();
         }
         public override void TM611_4_InsertComponent() {
