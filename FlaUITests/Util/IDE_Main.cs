@@ -135,42 +135,40 @@ namespace FlaUITests.Util {
                     else if (name.IndexOf("Output", StringComparison.OrdinalIgnoreCase) >= 0)
                         OutputWindow = a;
                 }
-                else {
-                    if (autoId == "59648") {
-                        Workspace = a;
-                        continue;
-                    }
-                    if (autoId == "6154") {
-                        Toolbox = a;
-                        continue;
-                    }
-                    if (autoId == "6155") {
-                        PropertyWindow = a;
-                        continue;
-                    }
-                    AutomationElement[] children = a.FindAllChildren();
-                    if(children.Any(c => c.ControlType == ControlType.ToolBar)) {
-                        _toolBars = a;
-                        foreach (AutomationElement child in children) {
-                            string childName = child.Name;
-                            if (childName == null) continue;
-                            if (childName.IndexOf("Standard", StringComparison.OrdinalIgnoreCase) >= 0)
-                                ToolBarStandard = child;
-                            else if (childName.IndexOf("Build", StringComparison.OrdinalIgnoreCase) >= 0)
-                                ToolBarBuild = child;
-                            else if (childName.IndexOf("Online", StringComparison.OrdinalIgnoreCase) >= 0)
-                                _onlineToolBar = child;
-                            else if (childName.IndexOf("Unit", StringComparison.OrdinalIgnoreCase) >= 0)
-                                _unittestToolBar = child;
-                            else if (childName.IndexOf("Edit", StringComparison.OrdinalIgnoreCase) >= 0)
-                                _editToolBar = child;
-                            else if (childName.IndexOf("Format", StringComparison.OrdinalIgnoreCase) >= 0)
-                                _formatToolBar = child;
-                            else if (childName.IndexOf("Zoom", StringComparison.OrdinalIgnoreCase) >= 0)
-                                _zoomToolBar = child;
-                            else if (childName.IndexOf("Debug", StringComparison.OrdinalIgnoreCase) >= 0)
-                                _debugToolBar = child;
-                        }
+                if (autoId == "59648") {
+                    Workspace = a;
+                    continue;
+                }
+                if (autoId == "6154") {
+                    Toolbox = a;
+                    continue;
+                }
+                if (autoId == "6155") {
+                    PropertyWindow = a;
+                    continue;
+                }
+                AutomationElement[] children = a.FindAllChildren();
+                if(children.Any(c => c.ControlType == ControlType.ToolBar)) {
+                    _toolBars = a;
+                    foreach (AutomationElement child in children) {
+                        string childName = child.Name;
+                        if (childName == null) continue;
+                        if (childName.IndexOf("Standard", StringComparison.OrdinalIgnoreCase) >= 0)
+                            ToolBarStandard = child;
+                        else if (childName.IndexOf("Build", StringComparison.OrdinalIgnoreCase) >= 0)
+                            ToolBarBuild = child;
+                        else if (childName.IndexOf("Online", StringComparison.OrdinalIgnoreCase) >= 0)
+                            _onlineToolBar = child;
+                        else if (childName.IndexOf("Unit", StringComparison.OrdinalIgnoreCase) >= 0)
+                            _unittestToolBar = child;
+                        else if (childName.IndexOf("Edit", StringComparison.OrdinalIgnoreCase) >= 0)
+                            _editToolBar = child;
+                        else if (childName.IndexOf("Format", StringComparison.OrdinalIgnoreCase) >= 0)
+                            _formatToolBar = child;
+                        else if (childName.IndexOf("Zoom", StringComparison.OrdinalIgnoreCase) >= 0)
+                            _zoomToolBar = child;
+                        else if (childName.IndexOf("Debug", StringComparison.OrdinalIgnoreCase) >= 0)
+                            _debugToolBar = child;
                     }
                 }
             }            
