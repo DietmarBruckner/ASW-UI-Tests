@@ -122,13 +122,8 @@ namespace FlaUITests.Util {
                     _helpMenu = m.AsMenu();
             }
         }
-        void Init() {
-            InitMenues();
-            AutomationElement[] allPanes = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar));
-            if (allPanes.Length > 0)
-                StatusBar = allPanes[0];
-            while (StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0);
-            allPanes = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.Pane));
+        void InitUIElements() {
+            AutomationElement [] allPanes = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.Pane));
             foreach (AutomationElement a in allPanes) {
                 string name = a.Name;
                 string autoId;
@@ -174,13 +169,19 @@ namespace FlaUITests.Util {
                         }
                     }
                 }
-            }
+            }            
+        }
+        void Init() {
+            InitMenues();
+            AutomationElement[] allPanes = MainWindow.FindAllChildren(_cf.ByControlType(ControlType.StatusBar));
+            if (allPanes.Length > 0)
+                StatusBar = allPanes[0];
+            while (StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0);
+            InitUIElements();
             _titleBar = MainWindow.TitleBar;
-            //if (TreeConfig.CurrentProject.verbose >= Environment.Verbose.LIGHT) {
-                Console.WriteLine("------------------------------------------");
-                Console.WriteLine("Application opened successfully. Main elements initialized.");
-                Console.WriteLine("------------------------------------------");
-            //}
+            Console.WriteLine("------------------------------------------");
+            Console.WriteLine("Application opened successfully. Main elements initialized.");
+            Console.WriteLine("------------------------------------------");
         }
         public void InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'BR&' from the menu name
@@ -710,6 +711,7 @@ namespace FlaUITests.Util {
             return rec;
         }
         public void SetIWorkspaceMinSize(AutomationElement scrollableEditor = null, bool percent = false) {
+            InitUIElements();
             Rectangle rect = UIElementsBounds["Workspace"];
             if (percent) {
                 int Xscreen = (int) (_screen.WorkingArea.Width * 0.6);
