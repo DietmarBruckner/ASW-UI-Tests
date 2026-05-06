@@ -132,16 +132,20 @@ namespace FlaUITests.Util {
                 if (name != "") {
                     if (name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0)
                         ProjectExplorer = a;
-                    else if (name.IndexOf("Toolbox", StringComparison.OrdinalIgnoreCase) >= 0)
-                        Toolbox = a;
-                    else if (name.IndexOf("Propert", StringComparison.OrdinalIgnoreCase) >= 0)
-                        PropertyWindow = a;
                     else if (name.IndexOf("Output", StringComparison.OrdinalIgnoreCase) >= 0)
                         OutputWindow = a;
                 }
                 else {
                     if (autoId == "59648") {
                         Workspace = a;
+                        continue;
+                    }
+                    if (autoId == "6154") {
+                        Toolbox = a;
+                        continue;
+                    }
+                    if (autoId == "6155") {
+                        PropertyWindow = a;
                         continue;
                     }
                     AutomationElement[] children = a.FindAllChildren();
