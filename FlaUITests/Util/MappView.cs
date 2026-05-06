@@ -229,19 +229,22 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
             AutomationElement textTree = tmxConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByAutomationId("B&R TreeView Control")).AsTree();
             AutomationElement newItem;
-/*             foreach (string[] item in chartStrings) {
+             foreach (string[] item in chartStrings) {
                 newItem = textTree.FindAllChildren().Last();
                 AutomationElement [] fields = newItem.FindAllChildren();
-                fields[0].AsTextBox().Patterns.Value.Pattern.SetValue(item[0]);
-                fields[1].AsTextBox().Patterns.Value.Pattern.SetValue(item[1]);
-                fields[2].AsTextBox().Patterns.Value.Pattern.SetValue(item[2]);
+                TreeConfig.ClickAutomationElement(fields[0]);
+                Keyboard.Type(item[0]);
+                TreeConfig.ClickAutomationElement(fields[1]);
+                Keyboard.Type(item[1]);
+                TreeConfig.ClickAutomationElement(fields[2]);
+                Keyboard.Type(item[2]);
                 TreeConfig.ClickAutomationElement(fields[3]);
                 Keyboard.Type(item[3]);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 TreeConfig.ClickAutomationElement(tmxConfigWorkspaceWindow);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             }
- */            TreeConfig.IdeMain.SaveAll();
+             TreeConfig.IdeMain.SaveAll();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting and editing Textsystem Config File");
