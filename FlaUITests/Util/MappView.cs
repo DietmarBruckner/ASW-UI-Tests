@@ -118,8 +118,8 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_5_Layout();
             TreeConfig.IdeMain.Build();
-            InsertWidgets();
-            TreeConfig.IdeMain.Build();
+            //InsertWidgets();
+            //TreeConfig.IdeMain.Build();
             TM611_6_Navigation();
         }
         public override void TM611_4_InsertComponent() {
