@@ -761,7 +761,7 @@ namespace FlaUITests.Util {
                 Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 100};
                 Mouse.DragHorizontally(point, 100);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                if (scrollableEditor.Patterns.Scroll.Pattern.HorizontalScrollPercent != 0d) break;
+                if (scrollableEditor.Patterns.Scroll.Pattern.HorizontalScrollPercent == 0d) break;
                 point = new Point { X = rect.Right + 1, Y = rect.Bottom - 100};
                 Mouse.DragHorizontally(point, -100);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
