@@ -762,5 +762,21 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             }
         }
+        public void RemoveTrailingWhitespaceFromXML(AutomationElement editor) {
+            bool emptyline = true;
+            while (emptyline) {
+                TreeConfig.ClickAutomationElement(editor);
+                Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.HOME);
+                Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.SHIFT, FlaUI.Core.WindowsAPI.VirtualKeyShort.DOWN);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                string copiedText = Clipboard.GetText();
+                if (copiedText.ElementAt(0) != '<')
+                    Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
+                else
+                    emptyline = false;
+            }
+        }
     }
 }

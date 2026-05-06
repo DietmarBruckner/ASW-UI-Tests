@@ -229,7 +229,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
             AutomationElement textTree = tmxConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByAutomationId("B&R TreeView Control")).AsTree();
             AutomationElement newItem;
-            foreach (string[] item in chartStrings) {
+/*             foreach (string[] item in chartStrings) {
                 newItem = textTree.FindAllChildren().Last();
                 AutomationElement [] fields = newItem.FindAllChildren();
                 fields[0].AsTextBox().Patterns.Value.Pattern.SetValue(item[0]);
@@ -241,7 +241,7 @@ namespace FlaUITests.Util {
                 TreeConfig.ClickAutomationElement(tmxConfigWorkspaceWindow);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             }
-            TreeConfig.IdeMain.SaveAll();
+ */            TreeConfig.IdeMain.SaveAll();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting and editing Textsystem Config File");
