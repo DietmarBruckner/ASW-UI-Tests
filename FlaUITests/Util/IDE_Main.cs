@@ -767,6 +767,7 @@ namespace FlaUITests.Util {
             while (emptyline) {
                 TreeConfig.ClickAutomationElement(editor);
                 Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.HOME);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
                 Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.SHIFT, FlaUI.Core.WindowsAPI.VirtualKeyShort.DOWN);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
                 TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
