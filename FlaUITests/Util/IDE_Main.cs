@@ -790,5 +790,15 @@ namespace FlaUITests.Util {
                 }
             }
         }
+        public void GeneratePackage(string Name, bool typ = false, bool var = false, bool st = false) {
+            SwitchView(TreeConfig.ViewType.LogicalView);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
+            InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Package");
+        }
+        public void GenerateGlobalVariables(Object o, string package = "") {
+            if (package == string.Empty) {
+                
+            }
+        }
     }
 }
