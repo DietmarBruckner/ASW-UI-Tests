@@ -176,8 +176,9 @@ namespace FlaUITests.Util {
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                     break;
             }
-            AutomationElement oldAe = ae;
+            AutomationElement oldAe = null;
             foreach (var sub in leaves) {
+                oldAe = ae;
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
                 if (viewType == ViewType.Workspace) { //no double clicking, but expanding via right arrow
                     ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)]); //combobox in final leaf node needs some steps to activate
