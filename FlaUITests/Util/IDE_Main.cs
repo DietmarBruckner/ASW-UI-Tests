@@ -929,13 +929,19 @@ namespace FlaUITests.Util {
             }
             public void Close() {
                 Restore();
-                AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
-                AutomationElement [] allChildren = TabList.FindAllChildren();
+                Rectangle rec;
+                Point point;
                 if (Tab == null) { //first TabItem doesn't show up in this list
-                    
+                    AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
+                    Tab = TabList.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem));
+                    rec = Tab.BoundingRectangle;
+                    point = new Point {X = rec.Left - 10, Y = rec.Top + 10};
                 }
-                Rectangle rec = Tab.BoundingRectangle;
-                Mouse.MoveTo(new Point {X = rec.Right - 10, Y = rec.Top + 10});
+                else {
+                    rec = Tab.BoundingRectangle;
+                    point = new Point {X = rec.Right - 10, Y = rec.Top + 10};
+                }
+                Mouse.MoveTo(point);
                 Mouse.Click();
                 Editors.Remove(this);
             }
