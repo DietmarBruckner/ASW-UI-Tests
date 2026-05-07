@@ -931,6 +931,9 @@ namespace FlaUITests.Util {
                 Restore();
                 AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
                 AutomationElement [] allChildren = TabList.FindAllChildren();
+                if (Tab == null) { //first TabItem doesn't show up in this list
+                    
+                }
                 Rectangle rec = Tab.BoundingRectangle;
                 Mouse.MoveTo(new Point {X = rec.Right - 10, Y = rec.Top + 10});
                 Mouse.Click();
