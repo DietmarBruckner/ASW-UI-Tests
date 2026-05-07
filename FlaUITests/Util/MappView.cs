@@ -361,7 +361,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting widgets");
             }
-            content0_editor = IDE_Main.Editors.Find(x => x.Name.Contains("content0.content"));
+            content0_editor = IDE_Main.Editors.Find(x => x.Name.Contains("content_0.content"));
             content0_editor.Restore();
             Point editorCenter = IDE_Main.Workspace.BoundingRectangle.Center();
             Mouse.Click(editorCenter);
