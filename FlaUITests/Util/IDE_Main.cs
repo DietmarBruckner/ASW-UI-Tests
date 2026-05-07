@@ -20,6 +20,7 @@ using MenuItem = FlaUI.Core.AutomationElements.MenuItem;
 using TextBox = FlaUI.Core.AutomationElements.TextBox;
 using System.Windows.Input;
 using System.ComponentModel;
+using System.Collections;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -74,7 +75,7 @@ namespace FlaUITests.Util {
                     bounds.Add("StatusBar", a.BoundingRectangle);
                 return bounds;
             } }
-        public List<Editor> editors = new List<Editor>();
+        public static List<Editor> Editors = new List<Editor>();
         public IDE_Main (Application app) {
             App = app;
             App.WaitWhileMainHandleIsMissing(TimeSpan.FromSeconds(20));
@@ -828,14 +829,28 @@ namespace FlaUITests.Util {
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
         }
         public void GenerateVariables(Object o, string package = "") {
-            if (package == string.Empty)
+            if (package == string.Empty) {
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Global.var"}, new List<string> { "_Object Name" });
-            else
-                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { package, "BR_Variables.var"}, new List<string> { "_Object Name", "_Object Name" });
+                if (!IsEditorOpen("Global.var"))
+                    Editors.Add(new Editor().Open("Global.var"));
+            }
+            else {
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_" + package, "BR_Variables.var"}, new List<string> { "_Object Name", "_Object Name" });
+                if (!IsEditorOpen(package + "::" + "Variables.var"))
+                    Editors.Add(new Editor().Open(package + "::" + "Variables.var"));
+                if (o is Array array) {
+                    foreach (Object ob in array) {
+                        switch (ob)
+                        {
+                            case bool: break;
+                        }
+                    }
+                }
+            }
         }
         public bool IsEditorOpen(string Name) {
             bool ret = false;
-            foreach (var e in editors)
+            foreach (var e in Editors)
                 if (e.Name == Name && e.open)
                     ret = true;
             return ret;
@@ -850,7 +865,7 @@ namespace FlaUITests.Util {
             return configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(ElementName)));
         }
         public Editor GetEditorByName(string Name) {
-            foreach (var e in editors)
+            foreach (var e in Editors)
                 if (e.Name == Name)
                     return e;
             return null;
@@ -859,12 +874,13 @@ namespace FlaUITests.Util {
             public AutomationElement ConfigWorkspace, Tab;
             public string Name;
             public bool open = false;
-            public void Open(string name) {
+            public Editor Open(string name) {
                 Name = name;
                 open = true;
                 ConfigWorkspace = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(name) >= 0);
                 AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
                 Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.Tab)).First(cf => cf.Name.IndexOf(name) >= 0);
+                return this;
             }
             public void Close() {
                 AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
