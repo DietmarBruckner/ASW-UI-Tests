@@ -443,6 +443,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Selecting " + select + " from Dropdown: " + stree[0] + ", " + stree[1]);
             AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = properties.BoundingRectangle.Center();
+            Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement first = properties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
             List<AutomationElement>  atree = new List<AutomationElement> { properties.FindFirstChild(cf => cf.ByName(stree[0])) };
@@ -456,6 +457,7 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             }
             Mouse.Scroll(-4d);
+            //Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             Mouse.MoveTo(new Point {X = atree.ElementAt(1).BoundingRectangle.Right - 15, Y = atree.ElementAt(1).BoundingRectangle.Top + atree.ElementAt(1).BoundingRectangle.Height/2});
             Mouse.DoubleClick();
