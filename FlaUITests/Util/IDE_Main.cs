@@ -18,6 +18,7 @@ using Application = FlaUI.Core.Application;
 using Button = FlaUI.Core.AutomationElements.Button;
 using MenuItem = FlaUI.Core.AutomationElements.MenuItem;
 using TextBox = FlaUI.Core.AutomationElements.TextBox;
+using System.Windows.Input;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
@@ -790,10 +791,40 @@ namespace FlaUITests.Util {
                 }
             }
         }
-        public void GeneratePackage(string Name, bool typ = false, bool var = false, bool st = false) {
+        public void GenerateProgram(string Name, bool AB = false, bool ANSIC = false, bool ANSICPP = false, bool CFC = false, bool CNC = false, bool FBD = false, bool IL = false, bool LD = false, bool reACTION = false, bool Robot = false, bool SFC = false, bool STOOP = false, bool ST = false, bool AllInOne = false) {
             SwitchView(TreeConfig.ViewType.LogicalView);
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
-            InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Package");
+            if (AB)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "AB Program" + (AllInOne?" All In One":""));
+            if (ANSIC)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "ANSI C Program" + (AllInOne?" All In One":""));
+            if (ANSICPP)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "ANSI C++ Program" + (AllInOne?" All In One":""));
+            if (CFC)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "CFC Program");
+            if (CNC)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "CNC Program");
+            if (FBD)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "FBD Program");
+            if (IL)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "IL Program" + (AllInOne?" All In One":""));
+            if (LD)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "LD Program");
+            if (reACTION)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "reACTION Diagram Program");
+            if (Robot)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Robot Program");
+            if (SFC)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "SFC Program");
+            if (STOOP)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "ST OOP Program" + (AllInOne?" All In One":""));
+            if (ST)
+                InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "ST Program" + (AllInOne?" All In One":""));
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Program"}, new List<string> { "_Object Name" });
+            Mouse.RightClick();
+            TreeConfig.ClickContextMenuItem(MainWindow, "Rename");
+            Keyboard.Type(Name);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
         }
         public void GenerateGlobalVariables(Object o, string package = "") {
             if (package == string.Empty) {
