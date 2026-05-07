@@ -929,6 +929,8 @@ namespace FlaUITests.Util {
             }
             public void Close() {
                 Restore();
+                AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
+                AutomationElement [] allChildren = TabList.FindAllChildren();
                 Rectangle rec = Tab.BoundingRectangle;
                 Mouse.MoveTo(new Point {X = rec.Right - 10, Y = rec.Top + 10});
                 Mouse.Click();
