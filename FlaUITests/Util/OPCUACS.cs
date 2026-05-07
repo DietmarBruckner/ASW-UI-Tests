@@ -31,7 +31,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             //activate advanced visibility
             AutomationElement ConfigRoot = TreeConfig.GetWorkspaceConfigRoot(uaconfig, "BR_ClientServerConfiguration");
-            AutomationElement uaToolbar = TreeConfig.GetWorkspaceToolbar(uaconfig);
+            AutomationElement uaToolbar = TreeConfig.IdeMain.GetWorkspaceToolbar(uaconfig);
             Button advancedVisibilityButton = uaToolbar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Change Advanced Parameter Visibility"))).AsButton();
             if (!TreeConfig.IdeMain.IsButtonActive(advancedVisibilityButton)) {
                 advancedVisibilityButton.Click();
