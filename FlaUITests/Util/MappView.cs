@@ -16,7 +16,7 @@ namespace FlaUITests.Util {
     public partial class MappView {
         string editorPathMV;
         string editorPathTS;
-        IDE_Main.Editor content0_editor, navcontent_editor, page0_editor;
+        IDE_Main.Editor content0_editor, navcontent_editor;
         readonly List<string[]> chartStrings = new List<string[]> {
             {new string [] {"AlarmHistory", "", "", ""} }, 
             {new string [] {"AlarmLine", "", "", ""} }, 
