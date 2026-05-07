@@ -187,6 +187,14 @@ namespace FlaUITests.Util {
             Console.WriteLine("------------------------------------------");
             Console.WriteLine("Application opened successfully. Main elements initialized.");
             Console.WriteLine("------------------------------------------");
+            AutomationElement [] editors = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window));
+            foreach (var e in editors) {
+                string s = e.Name;
+                int i = s.IndexOf('[');
+                if (i>0)
+                    s = s.Substring(0, i-1);
+                Editors.Add(new Editor().Open(s));
+            }
         }
         public void InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'BR&' from the menu name
