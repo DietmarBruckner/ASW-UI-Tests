@@ -98,6 +98,7 @@ namespace FlaUITests.Util {
             {new string [] {"XYJoystick", "", "", ""} }
         };
         string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
+        MappViewObjects 
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             editorPathTS = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\TextSystem\\n.d\\Editors\\";
@@ -116,8 +117,8 @@ namespace FlaUITests.Util {
         //    TreeConfig.IdeMain.Build();
         //    TM611_11_Localization();
         //    TreeConfig.IdeMain.Build();
-            TM611_5_Layout();
-            TreeConfig.IdeMain.Build();
+        //    TM611_5_Layout();
+        //    TreeConfig.IdeMain.Build();
             InsertWidgets();
             TreeConfig.IdeMain.Build();
             TM611_6_Navigation();
