@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
+using System.CodeDom;
 
 namespace FlaUITests.Util {
     public static class TreeConfig {
@@ -248,10 +249,14 @@ namespace FlaUITests.Util {
         public static string RemoveSpecialChars(string input) {
             return Regex.Replace(input, @"[^0-9a-zA-Z\._]", string.Empty);
         }
-        public static AutomationElement GetConfigRoot(string WindowSubString, string ElementName) {
-            AutomationElement ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
+        public static AutomationElement GetWorkspaceConfigRoot(string WindowSubString, string ElementName) {
+            AutomationElement ConfigWorkspaceWindow = IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
             AutomationElement configTree = ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             return configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(ElementName)));
+        }
+        public static AutomationElement GetWorkspaceToolbar(string WindowSubString) {
+            AutomationElement ConfigWorkspaceWindow = IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
+            return ConfigWorkspaceWindow.FindAllChildren().First(cf => cf.ClassName.IndexOf("ToolBar") >= 0);
         }
     }
 }

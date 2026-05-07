@@ -21,24 +21,21 @@ namespace FlaUITests.Util {
             //activated by default, nothing to do
         }
         void TM611_3_1_ActivateOPCUACS() {
-            string uaconfig = "BR_UaCsConfig.uacfg";
+            string uaconfig = "UaCsConfig.uacfg";
              //open UACS configuration page
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Opening OPC UA/CS configuration in workspace");
             }
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", uaconfig}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_" + uaconfig}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             //activate advanced visibility
-            AutomationElement uaConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(uaconfig.Substring(3, uaconfig.Length-3)) >= 0);
-            AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
-            AutomationElement ConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
-            AutomationElement uaToolbar = uaConfigWorkspaceWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Client/Server Configuration")));
+            AutomationElement ConfigRoot = TreeConfig.GetWorkspaceConfigRoot(uaconfig, "BR_ClientServerConfiguration");
+            AutomationElement uaToolbar = ConfigWorkspaceWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Client/Server Configuration")));
             Button advancedVisibilityButton = uaToolbar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Change Advanced Parameter Visibility"))).AsButton();
             if (!TreeConfig.IdeMain.IsButtonActive(advancedVisibilityButton)) {
                 advancedVisibilityButton.Click();
-                configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
-                ConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
+                ConfigRoot = TreeConfig.GetWorkspaceConfigRoot(uaconfig, "BR_ClientServerConfiguration");
             }
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             if (Verbose >= Util.Environment.Verbose.STEPS) {

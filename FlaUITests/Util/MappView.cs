@@ -167,7 +167,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Opening new mapp View configuration in workspace");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_" + mvconfig }, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
-            AutomationElement ConfigRoot = TreeConfig.GetConfigRoot(mvconfig, "BR_MappViewConfiguration");
+            AutomationElement ConfigRoot = TreeConfig.GetWorkspaceConfigRoot(mvconfig, "BR_MappViewConfiguration");
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Selecting HTTP as communication protocol");
@@ -255,7 +255,7 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem"}, new List<string> { "_Configuration", "_Configuration" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Textsystem Configuration");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem", "BR_TC.textconfig"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
-            AutomationElement ConfigRoot = TreeConfig.GetConfigRoot("TC.textconfig", "BR_TextConfig");
+            AutomationElement ConfigRoot = TreeConfig.GetWorkspaceConfigRoot("TC.textconfig", "BR_TextConfig");
             Mouse.Click(TreeConfig.IdeMain.Workspace.BoundingRectangle.Center());
 
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "System language"), new List<string> { "_Name", "_Value" }, ConfigRoot);
@@ -446,7 +446,7 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DafaultView");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
-            AutomationElement ConfigRoot = TreeConfig.GetConfigRoot("OpcUaCsMap.uad", "BR_<Default>");
+            AutomationElement ConfigRoot = TreeConfig.GetWorkspaceConfigRoot("OpcUaCsMap.uad", "BR_<Default>");
 
         }
         void SelectFromMappViewDropDown(string [] stree, string select) {
