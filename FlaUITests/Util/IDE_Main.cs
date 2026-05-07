@@ -900,7 +900,7 @@ namespace FlaUITests.Util {
                 Name = name;
                 ConfigWorkspace = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(name) >= 0);
                 AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
-                Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(name) >= 0);
+                try {Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(name) >= 0);} catch (Exception) {}
                 return this;
             }
             public Editor Rename(string name) {
