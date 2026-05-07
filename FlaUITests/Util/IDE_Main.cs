@@ -911,7 +911,7 @@ namespace FlaUITests.Util {
             } 
             public void Restore() {
                 AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
-                Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);
+                try {Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);} catch (Exception) {}
                 if (Tab == null) {
                     Button tabs = TabList.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
                     tabs.Click();
