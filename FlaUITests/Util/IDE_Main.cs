@@ -925,7 +925,7 @@ namespace FlaUITests.Util {
                     Tab.Click();
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
                 TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
-                Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);
+                try {Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);} catch (Exception) {}
             }
             public void Close() {
                 Restore();
