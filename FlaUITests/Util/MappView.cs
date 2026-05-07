@@ -9,6 +9,7 @@ using FlaUI.Core.Tools;
 using Point = System.Drawing.Point;
 using System.Windows;
 using System.Threading;
+using FlaUITests.Util.AS_Objects;
 
 namespace FlaUITests.Util {
     public partial class MappView {
@@ -98,7 +99,7 @@ namespace FlaUITests.Util {
             {new string [] {"XYJoystick", "", "", ""} }
         };
         string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
-        MappViewObjects 
+        MappViewObjects Objects = new MappViewObjects();
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             editorPathTS = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\TextSystem\\n.d\\Editors\\";
@@ -122,6 +123,7 @@ namespace FlaUITests.Util {
             InsertWidgets();
             TreeConfig.IdeMain.Build();
             TM611_6_Navigation();
+            TM611_8_Binding();
         }
         public override void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
@@ -439,6 +441,17 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_Navigation.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             Mouse.Click(navConfigWorkspaceWindow.BoundingRectangle.Center());
             SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0");
+        }
+        void TM611_8_Binding() {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Inserting OPC UA/CS default view");
+            }
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DafaultView");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
+            AutomationElement uamapConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("OpcUaCsMap.uad") >= 0);
+            
         }
         void SelectFromMappViewDropDown(string [] stree, string select) {
             if (Verbose >= Util.Environment.Verbose.FULL)
