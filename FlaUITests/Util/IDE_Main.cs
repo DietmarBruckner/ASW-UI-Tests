@@ -795,7 +795,7 @@ namespace FlaUITests.Util {
         }
         public void GenerateProgram(string Name, bool AB = false, bool ANSIC = false, bool ANSICPP = false, bool CFC = false, bool CNC = false, bool FBD = false, bool IL = false, bool LD = false, bool reACTION = false, bool Robot = false, bool SFC = false, bool STOOP = false, bool ST = false, bool AllInOne = false) {
             SwitchView(TreeConfig.ViewType.LogicalView);
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null, out var e);
             if (AB)
                 InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "AB Program" + (AllInOne?" All In One":""));
             if (ANSIC)
@@ -822,7 +822,7 @@ namespace FlaUITests.Util {
                 InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "ST OOP Program" + (AllInOne?" All In One":""));
             if (ST)
                 InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "ST Program" + (AllInOne?" All In One":""));
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Program"}, new List<string> { "_Object Name" });
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Program"}, new List<string> { "_Object Name" }, out e);
             Mouse.RightClick();
             TreeConfig.ClickContextMenuItem(MainWindow, "Rename");
             Keyboard.Type(Name);
@@ -830,15 +830,10 @@ namespace FlaUITests.Util {
         }
         public void GenerateVariables(Object o, string package = "") {
             Editor e;
-            if (package == string.Empty) {
-                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Global.var"}, new List<string> { "_Object Name" });
-                e = Editor.OpenOrAttach("Global.var");
-            }
-            else {
-                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_" + package, "BR_Variables.var"}, new List<string> { "_Object Name", "_Object Name" });
-                e = Editor.OpenOrAttach(package + "::" + "Variables.var");
-            }
-            e.Restore();
+            if (package == string.Empty)
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Global.var"}, new List<string> { "_Object Name" }, out e);
+            else
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_" + package, "BR_Variables.var"}, new List<string> { "_Object Name", "_Object Name" }, out e, Editorname:package + "::" + "Variables.var");
             Mouse.Click(e.ConfigWorkspace.BoundingRectangle.Center());
             AutomationElement configTree = e.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             Button newVariable = e.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Variable Declaration")).FindFirstChild(cf => cf.ByName("Add Variable")).AsButton();
@@ -877,27 +872,38 @@ namespace FlaUITests.Util {
             AutomationElement ConfigWorkspaceWindow = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
             return ConfigWorkspaceWindow.FindAllChildren().First(cf => cf.ClassName.IndexOf("ToolBar") >= 0);
         }
+        public AutomationElement GetWorkspaceToolbar(Editor editor) {
+            return editor.ConfigWorkspace.FindAllChildren().First(cf => cf.ClassName.IndexOf("ToolBar") >= 0);
+        }
         public AutomationElement GetWorkspaceConfigRoot(string WindowSubString, string ElementName) {
             AutomationElement ConfigWorkspaceWindow = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
             AutomationElement configTree = ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            return configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(ElementName)));
+        }
+        public AutomationElement GetWorkspaceConfigRoot(Editor editor, string ElementName) {
+            AutomationElement configTree = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             return configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(ElementName)));
         }
 
         public class Editor {
             public AutomationElement ConfigWorkspace, Tab;
             public string Name;
-            public bool open = false;
             public Editor Open(string name) {
                 Name = name;
-                open = true;
                 ConfigWorkspace = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(name) >= 0);
                 AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
-                Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.Tab)).First(cf => cf.Name.IndexOf(name) >= 0);
+                Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(name) >= 0);
                 return this;
             }
+            public Editor Rename(string name) {
+                Editor ret = new Editor().Open(name);
+                Editors.Add(ret);
+                Editors.Remove(this);
+                return ret;
+            } 
             public void Restore() {
                 AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
-                Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.Tab)).First(cf => cf.Name.IndexOf(Name) >= 0);
+                Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);
                 if (Tab == null) {
                     Button tabs = TabList.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
                     tabs.Click();
@@ -910,34 +916,20 @@ namespace FlaUITests.Util {
                 else
                     Tab.Click();
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
+                TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
+                Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);
             }
             public void Close() {
                 Restore();
                 Rectangle rec = Tab.BoundingRectangle;
                 Mouse.MoveTo(new Point {X = rec.Right - 10, Y = rec.Top + 10});
                 Mouse.Click();
-                open = false;
+                Editors.Remove(this);
             }
-            public static bool IsEditorOpen(string Name) {
-                bool ret = false;
-                foreach (var e in Editors)
-                    if (e.Name == Name && e.open)
-                        ret = true;
-                return ret;
-            }
-            public static Editor GetEditorByName(string Name) {
-                foreach (var e in Editors)
-                    if (e.Name == Name)
-                        return e;
-                return null;
-            }
-            public static Editor OpenOrAttach(string Name)
-            {
-                Editor e;
-                if (!IsEditorOpen(Name))
+            public static Editor OpenOrAttach(string Name) {
+                Editor e = Editors.Find(x => x.Name == Name);
+                if (e == null)
                     Editors.Add(e = new Editor().Open(Name));
-                else
-                    e = GetEditorByName(Name);
                 return e;
             }
         }    
