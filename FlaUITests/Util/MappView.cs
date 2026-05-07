@@ -469,6 +469,7 @@ namespace FlaUITests.Util {
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = aproperties.BoundingRectangle.Center();
+            Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement afirst = aproperties.FindFirstChild();
             if (content) {
@@ -535,6 +536,7 @@ namespace FlaUITests.Util {
         void EditPosition(int top = -1, int left = -1, bool area = false) {
             AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = aproperties.BoundingRectangle.Center();
+            Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement afirst = aproperties.FindFirstChild();
             AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
