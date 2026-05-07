@@ -248,5 +248,10 @@ namespace FlaUITests.Util {
         public static string RemoveSpecialChars(string input) {
             return Regex.Replace(input, @"[^0-9a-zA-Z\._]", string.Empty);
         }
+        public static AutomationElement GetConfigRoot(string WindowSubString, string ElementName) {
+            AutomationElement ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
+            AutomationElement configTree = ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            return configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(ElementName)));
+        }
     }
 }
