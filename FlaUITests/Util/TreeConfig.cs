@@ -205,8 +205,8 @@ namespace FlaUITests.Util {
                 //After clicking the tree item, the tree is refreshed and we need to find the tree item again to be able to continue expanding the tree
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    
             }
-            if (Editorname != null || oldAe.Name.Contains('.'))
-                e = IDE_Main.Editor.OpenOrAttach(Editorname ?? (oldAe.Name.Substring(0, 3) == "BR_" ? oldAe.Name.Substring(3) : oldAe.Name));
+            if (Editorname != null || ae.Name.Contains('.'))
+                e = IDE_Main.Editor.OpenOrAttach(Editorname ?? (ae.Name.Substring(0, 3) == "BR_" ? ae.Name.Substring(3) : ae.Name));
             editor = e;
         }
         public static List<string> FindXMLPath(string file, string element, string addon = null) {
