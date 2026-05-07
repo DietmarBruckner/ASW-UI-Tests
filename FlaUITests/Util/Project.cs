@@ -135,7 +135,7 @@ namespace FlaUITests.Util {
             _ideMain.Build();
         }
         public void DeleteProject() {
-            if (!_ideMain.App.HasExited) {
+            if (!IDE_Main.App.HasExited) {
                     CloseProject();
                 }
             //System.IO.Directory.Delete(Path + "\\" + Name + "\\", true);
@@ -169,7 +169,7 @@ namespace FlaUITests.Util {
                 return;
             }
             targetItem.DoubleClick();
-            while (_ideMain.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0);
+            while (IDE_Main.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0);
             Console.WriteLine("Project " + projectPath + "\\" + s + " opened.");
         }
         public void ReadProject() {

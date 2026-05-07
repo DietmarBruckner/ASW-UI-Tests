@@ -8,7 +8,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
-using System.CodeDom;
 
 namespace FlaUITests.Util {
     public static class TreeConfig {
@@ -38,6 +37,14 @@ namespace FlaUITests.Util {
             ClickAutomationElement(comboBox.FindFirstChild(cf => cf.ByName(element)));
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
         }
+        public static void ClickContextMenuItem(Window window, string element) {
+            if (CurrentProject != null && CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+                Console.WriteLine("Trying to click menu item: " + element);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            AutomationElement menu = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.Menu));
+            MenuItem toClick = menu.FindFirstChild(cf => cf.ByName(element)).AsMenuItem();
+            toClick.Click();
+        }
         public static void ClickAutomationElement(AutomationElement element, bool doubleClick = false) {
             Point point = new Point { X = element.BoundingRectangle.Left + element.BoundingRectangle.Width / 2, Y = element.BoundingRectangle.Top + element.BoundingRectangle.Height / 2 };
             if (doubleClick) {
@@ -60,10 +67,10 @@ namespace FlaUITests.Util {
                     case ViewType.LogicalView:
                     case ViewType.ConfigurationView:
                     case ViewType.PhysicalView:
-                        view = IdeMain.ProjectExplorer;
+                        view = IDE_Main.ProjectExplorer;
                         break;
                     case ViewType.Workspace:
-                        view = IdeMain.Workspace;
+                        view = IDE_Main.Workspace;
                         break;
                 }
                 VerticalScrollBar verticalScrollBar = view.FindFirstDescendant(cf => cf.ByControlType(ControlType.ScrollBar).And(cf.ByAutomationId("Vertical ScrollBar"))).AsVerticalScrollBar();
@@ -177,7 +184,7 @@ namespace FlaUITests.Util {
                         AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
                         Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
                         Mouse.MoveTo(expandButton.GetClickablePoint());
-                        if (IdeMain.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
+                        if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
                              Mouse.Click();
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                         return;
@@ -248,15 +255,6 @@ namespace FlaUITests.Util {
         }
         public static string RemoveSpecialChars(string input) {
             return Regex.Replace(input, @"[^0-9a-zA-Z\._]", string.Empty);
-        }
-        public static AutomationElement GetWorkspaceConfigRoot(string WindowSubString, string ElementName) {
-            AutomationElement ConfigWorkspaceWindow = IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
-            AutomationElement configTree = ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
-            return configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(ElementName)));
-        }
-        public static AutomationElement GetWorkspaceToolbar(string WindowSubString) {
-            AutomationElement ConfigWorkspaceWindow = IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
-            return ConfigWorkspaceWindow.FindAllChildren().First(cf => cf.ClassName.IndexOf("ToolBar") >= 0);
         }
     }
 }

@@ -167,20 +167,20 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Opening new mapp View configuration in workspace");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_" + mvconfig }, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
-            AutomationElement ConfigRoot = TreeConfig.GetWorkspaceConfigRoot(mvconfig, "BR_MappViewConfiguration");
+            AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(mvconfig, "BR_MappViewConfiguration");
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Selecting HTTP as communication protocol");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathMV + "mappviewcfg.xml", "Protocol"), new List<string> { "_Name", "_Value" }, ConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0); //Select "HTTP"
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 0); //Select "HTTP"
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Selecting anonymous token as Startup User");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathMV + "mappviewcfg.xml", "Startup User"), new List<string> { "_Name", "_Value" }, ConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0); //Select "anonymous token"
-            TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.MainWindow.TitleBar);
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 0); //Select "anonymous token"
+            TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
         }
         void TM611_4_1_RenameVIS() {
             if (Verbose >= Util.Environment.Verbose.STEPS) {
@@ -189,7 +189,7 @@ namespace FlaUITests.Util {
             }
             string visname = "vis_0.vis";
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_" + visname}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
-            AutomationElement ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(visname) >= 0);
+            AutomationElement ConfigWorkspaceWindow = IDE_Main.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(visname) >= 0);
             AutomationElement adocText = ConfigWorkspaceWindow.FindAllDescendants().First(cf => cf.Name.IndexOf("<?xml") >= 0);
             TreeConfig.IdeMain.RemoveTrailingWhitespaceFromXML(adocText);
             visname = "Test_Visu";
@@ -198,7 +198,7 @@ namespace FlaUITests.Util {
             Mouse.DoubleClick();
             Keyboard.Type(visname);
             TreeConfig.IdeMain.SaveAll();
-            rec = TreeConfig.IdeMain.Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab)).FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName(visname + ".vis [XML File]"))).BoundingRectangle;
+            rec = IDE_Main.Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab)).FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName(visname + ".vis [XML File]"))).BoundingRectangle;
             Mouse.MoveTo(new Point {X = rec.Right - 10, Y = rec.Top + 10});
             Mouse.Click();
         }
@@ -224,7 +224,7 @@ namespace FlaUITests.Util {
                 text[3] = "en_" + text[0];
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Resources", "BR_Texts", "BR_" + tmxconfig}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
-            AutomationElement ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(tmxconfig) >= 0);
+            AutomationElement ConfigWorkspaceWindow = IDE_Main.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(tmxconfig) >= 0);
             AutomationElement editNamespace = ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByAutomationId("textNamespace")).AsTextBox();
             editNamespace.Patterns.Value.Pattern.SetValue("IAT");
             TreeConfig.IdeMain.SaveAll();
@@ -255,21 +255,21 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem"}, new List<string> { "_Configuration", "_Configuration" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Textsystem Configuration");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem", "BR_TC.textconfig"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
-            AutomationElement ConfigRoot = TreeConfig.GetWorkspaceConfigRoot("TC.textconfig", "BR_TextConfig");
-            Mouse.Click(TreeConfig.IdeMain.Workspace.BoundingRectangle.Center());
+            AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot("TC.textconfig", "BR_TextConfig");
+            Mouse.Click(IDE_Main.Workspace.BoundingRectangle.Center());
 
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "System language"), new List<string> { "_Name", "_Value" }, ConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "en");
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "en");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Fallback language"), new List<string> { "_Name", "_Value" }, ConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "de");
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "de");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "BR_Target language 1"), new List<string> { "_Name", "_Name", "_Value" }, ConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "en");
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "en");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "BR_Target language 2"), new List<string> { "_Name", "_Name", "_Value" }, ConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "de");
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "de");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "BR_Target language 3"), new List<string> { "_Name", "_Name", "_Value" }, ConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, "fr");
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "fr");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Tmx files for target", "BR_Tmx file 1"), new List<string> { "_Name", "_Value" }, ConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 0);
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 0);
             TreeConfig.IdeMain.SaveAll();
         }
         void TM611_5_Layout() {
@@ -279,14 +279,14 @@ namespace FlaUITests.Util {
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
-            AutomationElement ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0);
+            AutomationElement ConfigWorkspaceWindow = IDE_Main.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0);
             Point editorCenter = ConfigWorkspaceWindow.BoundingRectangle.Center();
             
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Page content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
-            AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement name = properties.FindFirstDescendant(cf => cf.ByName("Name"));
             Mouse.Click(new Point {X = name.BoundingRectangle.Right - 20, Y = name.BoundingRectangle.Top + name.BoundingRectangle.Height/2});
             Mouse.DoubleClick(new Point {X = name.BoundingRectangle.Right - 20, Y = name.BoundingRectangle.Top + name.BoundingRectangle.Height/2});
@@ -294,7 +294,6 @@ namespace FlaUITests.Util {
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             EditSize(width:100, height:500, content:true);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Navigation", true, ConfigWorkspaceWindow.BoundingRectangle.Center());
-            //properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             EditPosition(top:0, left:0);
             EditSize(width:100, height:500);
             TreeConfig.IdeMain.SaveAll(); 
@@ -303,7 +302,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Page content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
-            properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             name = properties.FindFirstDescendant(cf => cf.ByName("Name"));
             Mouse.Click(new Point {X = name.BoundingRectangle.Right - 20, Y = name.BoundingRectangle.Top + name.BoundingRectangle.Height/2});
             Mouse.DoubleClick(new Point {X = name.BoundingRectangle.Right - 20, Y = name.BoundingRectangle.Top + name.BoundingRectangle.Height/2});
@@ -324,7 +323,7 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             EditSize(width:700, height:500, content:true);
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Layouts", "BR_layout_0.layout"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
-            ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("layout_0.layout") >= 0);
+            ConfigWorkspaceWindow = IDE_Main.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("layout_0.layout") >= 0);
             Mouse.Click(editorCenter);
             EditSize(width:700, height:500, area:true);
             EditPosition(left:100, top:100, area:true);
@@ -337,7 +336,7 @@ namespace FlaUITests.Util {
             EditPosition(left:0, top:0, area:true);
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_page_0.page"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("page_0.page") >= 0);
+            ConfigWorkspaceWindow = IDE_Main.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("page_0.page") >= 0);
             Mouse.Click(editorCenter);
             AutomationElement editor = ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor")));
             TreeConfig.IdeMain.SetIWorkspaceMinSize(editor, percent:true);
@@ -355,11 +354,11 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Inserting widgets");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
-            AutomationElement ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0);
+            AutomationElement ConfigWorkspaceWindow = IDE_Main.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).First(cf => cf.Name.IndexOf("content_0.content") >= 0);
             Point editorCenter = ConfigWorkspaceWindow.BoundingRectangle.Center();
             Mouse.Click(editorCenter);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-            AutomationElement content_0Properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement content_0Properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement docIATeditor = ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
             AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
             TreeConfig.ClickAutomationElement(defaultLabel);
@@ -371,10 +370,9 @@ namespace FlaUITests.Util {
             string pageName, contentName;
             foreach(string[] text in chartStrings) {
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
-                AutomationElement [] allChildren = TreeConfig.IdeMain.ToolBarStandard.FindAllChildren();
-                TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
+                IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages"}, new List<string> { "_Object Name", "_Object Name", "_Object Name" });
-                TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nPaste ")).AsButton().Click();
+                IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nPaste ")).AsButton().Click();
                 pageID++;
                 pageName = "page_" + pageID;
                 contentName = "content_" + pageID;
@@ -392,12 +390,12 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Navigation");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_navigation_0.nav"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
-            AutomationElement ConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("navigation_0.nav [XML File]") >= 0);
+            AutomationElement ConfigWorkspaceWindow = IDE_Main.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("navigation_0.nav [XML File]") >= 0);
             AutomationElement editor = ConfigWorkspaceWindow.FindAllDescendants().FirstOrDefault(cf => cf.Name.Contains("<?xml version")).AsTextBox();
             TreeConfig.IdeMain.RemoveTrailingWhitespaceFromXML(editor);
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
+            IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             string copiedText = Clipboard.GetText();
             while (copiedText.ElementAt(0) != '<') copiedText = copiedText.Substring(1);
@@ -428,7 +426,7 @@ namespace FlaUITests.Util {
             outText += copiedText.Substring(secondIndex);
             Copy_to_clipboard(outText);
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
-            TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nPaste ")).AsButton().Click();
+            IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nPaste ")).AsButton().Click();
             TreeConfig.IdeMain.SaveAll();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
@@ -446,13 +444,14 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" });
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DafaultView");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" });
-            AutomationElement ConfigRoot = TreeConfig.GetWorkspaceConfigRoot("OpcUaCsMap.uad", "BR_<Default>");
-
+            AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot("OpcUaCsMap.uad", "BR_<Default>");
+            TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
+            TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, "Visualization");
         }
         void SelectFromMappViewDropDown(string [] stree, string select) {
             if (Verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Selecting " + select + " from Dropdown: " + stree[0] + ", " + stree[1]);
-            AutomationElement properties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = properties.BoundingRectangle.Center();
             Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
@@ -478,7 +477,7 @@ namespace FlaUITests.Util {
             Mouse.Click(point);
         }
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
-            AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = aproperties.BoundingRectangle.Center();
             Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
@@ -545,7 +544,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
         }
         void EditPosition(int top = -1, int left = -1, bool area = false) {
-            AutomationElement aproperties = TreeConfig.IdeMain.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = aproperties.BoundingRectangle.Center();
             Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
@@ -592,7 +591,6 @@ namespace FlaUITests.Util {
             System.Windows.Clipboard.SetText((string) o);
         }
         protected void Copy_to_clipboard(string text) {
-            //ParameterizedThreadStart  p = new ParameterizedThreadStart (SomethingToRunInThread);
             Thread th = new Thread(SomethingToRunInThread);
             th.SetApartmentState(ApartmentState.STA);
             th.IsBackground = false;

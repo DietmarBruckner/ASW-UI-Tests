@@ -19,35 +19,36 @@ using Button = FlaUI.Core.AutomationElements.Button;
 using MenuItem = FlaUI.Core.AutomationElements.MenuItem;
 using TextBox = FlaUI.Core.AutomationElements.TextBox;
 using System.Windows.Input;
+using System.ComponentModel;
 
 namespace FlaUITests.Util {
     public class IDE_Main {
-        public Application App { get; private set; }
+        public static Application App { get; private set; }
         private readonly UIA2Automation _automation;
-        public Window MainWindow { get; private set; }
+        public static Window MainWindow { get; private set; }
         private readonly ConditionFactory _cf;
-        private Menu _fileMenu, _editMenu, _viewMenu, _insertMenu, _openMenu, _projectMenu, _debugMenu, _onlineMenu, _toolsMenu, _windowMenu, _helpMenu;
-        private Dictionary<string, Menu> MenuNames { get {
+        private static Menu _fileMenu, _editMenu, _viewMenu, _insertMenu, _openMenu, _projectMenu, _debugMenu, _onlineMenu, _toolsMenu, _windowMenu, _helpMenu;
+        private static Dictionary<string, Menu> MenuNames { get {
             Dictionary<string, Menu> dm = new Dictionary<string, Menu> {
                 {"File", _fileMenu}, {"Edit", _editMenu}, {"View", _viewMenu}, {"Insert", _insertMenu}, {"Open", _openMenu}, {"Project", _projectMenu}, {"Debug", _debugMenu}, {"Online", _onlineMenu}, {"Tools", _toolsMenu}, {"Window", _windowMenu}, {"Help", _helpMenu}};
             return dm;
         } }
-        public AutomationElement ProjectExplorer { get; private set; }
-        public AutomationElement Toolbox { get; private set; }
-        public AutomationElement PropertyWindow { get; private set; }
-        public AutomationElement OutputWindow { get; private set; }
-        public AutomationElement StatusBar { get; private set; }
-        public AutomationElement Workspace { get; private set; }
-        private TitleBar _titleBar;
-        private AutomationElement _toolBars;
-        public AutomationElement ToolBarStandard { get; private set; }
-        public AutomationElement ToolBarBuild { get; private set; }
-        private AutomationElement _onlineToolBar;
-        private AutomationElement _unittestToolBar;
-        private AutomationElement _editToolBar;
-        private AutomationElement _formatToolBar;
-        private AutomationElement _zoomToolBar;
-        private AutomationElement _debugToolBar;
+        public static AutomationElement ProjectExplorer { get; private set; }
+        public static AutomationElement Toolbox { get; private set; }
+        public static AutomationElement PropertyWindow { get; private set; }
+        public static AutomationElement OutputWindow { get; private set; }
+        public static AutomationElement StatusBar { get; private set; }
+        public static AutomationElement Workspace { get; private set; }
+        private static TitleBar _titleBar;
+        private static AutomationElement _toolBars;
+        public static AutomationElement ToolBarStandard { get; private set; }
+        public static AutomationElement ToolBarBuild { get; private set; }
+        private static AutomationElement _onlineToolBar;
+        private static AutomationElement _unittestToolBar;
+        private static AutomationElement _editToolBar;
+        private static AutomationElement _formatToolBar;
+        private static AutomationElement _zoomToolBar;
+        private static AutomationElement _debugToolBar;
         private Screen _screen;
         public Dictionary<string, Rectangle> UIElementsBounds { get {
                 AutomationElement a;
@@ -73,7 +74,7 @@ namespace FlaUITests.Util {
                     bounds.Add("StatusBar", a.BoundingRectangle);
                 return bounds;
             } }
-
+        public List<Editor> editors = new List<Editor>();
         public IDE_Main (Application app) {
             App = app;
             App.WaitWhileMainHandleIsMissing(TimeSpan.FromSeconds(20));
@@ -679,7 +680,7 @@ namespace FlaUITests.Util {
             Button okButton = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("btnOk"))).AsButton();
             okButton.Click();
             LooseModalWindow(manageComponentsWindow);
-            TreeConfig.ClickAutomationElement(TreeConfig.IdeMain.MainWindow.TitleBar);
+            TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
         }
         public void InstallComponentVersion (string componentName, string version) {
         }
@@ -775,7 +776,7 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
-                TreeConfig.IdeMain.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
+                IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 string copiedText = Clipboard.GetText();
                 if (copiedText.ElementAt(0) != '<') {
@@ -826,10 +827,65 @@ namespace FlaUITests.Util {
             Keyboard.Type(Name);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
         }
-        public void GenerateGlobalVariables(Object o, string package = "") {
-            if (package == string.Empty) {
-                
-            }
+        public void GenerateVariables(Object o, string package = "") {
+            if (package == string.Empty)
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Global.var"}, new List<string> { "_Object Name" });
+            else
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { package, "BR_Variables.var"}, new List<string> { "_Object Name", "_Object Name" });
         }
+        public bool IsEditorOpen(string Name) {
+            bool ret = false;
+            foreach (var e in editors)
+                if (e.Name == Name && e.open)
+                    ret = true;
+            return ret;
+        }
+        public AutomationElement GetWorkspaceToolbar(string WindowSubString) {
+            AutomationElement ConfigWorkspaceWindow = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
+            return ConfigWorkspaceWindow.FindAllChildren().First(cf => cf.ClassName.IndexOf("ToolBar") >= 0);
+        }
+        public AutomationElement GetWorkspaceConfigRoot(string WindowSubString, string ElementName) {
+            AutomationElement ConfigWorkspaceWindow = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
+            AutomationElement configTree = ConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            return configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(ElementName)));
+        }
+        public Editor GetEditorByName(string Name) {
+            foreach (var e in editors)
+                if (e.Name == Name)
+                    return e;
+            return null;
+        }
+        public class Editor {
+            public AutomationElement ConfigWorkspace, Tab;
+            public string Name;
+            public bool open = false;
+            public void Open(string name) {
+                Name = name;
+                open = true;
+                ConfigWorkspace = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(name) >= 0);
+                AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
+                Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.Tab)).First(cf => cf.Name.IndexOf(name) >= 0);
+            }
+            public void Close() {
+                AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
+                Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.Tab)).First(cf => cf.Name.IndexOf(Name) >= 0);
+                if (Tab == null) {
+                    Button tabs = TabList.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
+                    tabs.Click();
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
+                    Menu m = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu)).AsMenu();
+                    AutomationElement toolBar = m.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
+                    MenuItem mi = toolBar.FindAllChildren(cf => cf.ByControlType(ControlType.MenuItem)).First(cf => cf.Name.IndexOf(Name) >= 0).AsMenuItem();
+                    mi.Click();
+                }
+                else
+                    Tab.Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
+                Rectangle rec = Tab.BoundingRectangle;
+                Mouse.MoveTo(new Point {X = rec.Right - 10, Y = rec.Top + 10});
+                Mouse.Click();
+                open = false;
+            }
+        }    
     }
 }
