@@ -366,6 +366,7 @@ namespace FlaUITests.Util {
             TreeConfig.ClickAutomationElement(defaultLabel);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
+            TreeConfig.IdeMain.SaveAll();
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
