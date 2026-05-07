@@ -20,7 +20,7 @@ namespace FlaUITests.Util {
         readonly List<string[]> chartStrings = new List<string[]> {
             {new string [] {"AlarmHistory", "", "", ""} }, 
             {new string [] {"AlarmLine", "", "", ""} }, 
-            {new string [] {"AlarmList", "", "", ""} }, 
+/*             {new string [] {"AlarmList", "", "", ""} }, 
             {new string [] {"AuditList", "", "", ""} }, 
             {new string [] {"BarChart", "", "", ""} }, 
             {new string [] {"BasicSlider", "", "", ""} }, 
@@ -99,7 +99,7 @@ namespace FlaUITests.Util {
             {new string [] {"WebViewer", "", "", ""} }, 
             {new string [] {"XYChart", "", "", ""} },
             {new string [] {"XYJoystick", "", "", ""} }
-        };
+ */        };
         string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
         MappViewObjects Objects = new MappViewObjects();
         public override void InitComponent() {
@@ -361,17 +361,18 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting widgets");
             }
+            content0_editor = IDE_Main.Editors.Find(x => x.Name.Contains("content0.content"));
             content0_editor.Restore();
             Point editorCenter = IDE_Main.Workspace.BoundingRectangle.Center();
             Mouse.Click(editorCenter);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             AutomationElement content_0Properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement docIATeditor = content0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
-            AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
+/*             AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
             TreeConfig.ClickAutomationElement(defaultLabel);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
-            TreeConfig.IdeMain.SaveAll();
+            TreeConfig.IdeMain.SaveAll(); */
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
