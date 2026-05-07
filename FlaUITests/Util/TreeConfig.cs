@@ -139,8 +139,9 @@ namespace FlaUITests.Util {
                         Console.WriteLine("Could not locate " + element.Name);
             }
         }
-        public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, AutomationElement root = null) {
+        public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, out IDE_Main.Editor editor, AutomationElement root = null, string Editorname = null) {
             AutomationElement ae = null;
+            IDE_Main.Editor e = null;
             if (leaves != null) {
                 if (CurrentProject.verbose >= Util.Environment.Verbose.STEPS)
                     Console.WriteLine("Opening treeview element: " + leaves.Last() + "." + toClickSubstrings.Last());
@@ -155,8 +156,10 @@ namespace FlaUITests.Util {
                 case ViewType.LogicalView:
                     ae = IdeMain.GetLogicalViewRoot(CurrentProject);
                     ClickConfigTreeItem(viewType, ae, "_Object Name", true);
-                    if (leaves == null)
+                    if (leaves == null) {
+                        editor = e;
                         return;
+                    }
                     break;
                 case ViewType.ConfigurationView:
                     ae = IdeMain.GetActiveConfigurtion();
@@ -173,8 +176,8 @@ namespace FlaUITests.Util {
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                     break;
             }
+            AutomationElement oldAe = ae;
             foreach (var sub in leaves) {
-                AutomationElement oldAe = ae;
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
                 if (viewType == ViewType.Workspace) { //no double clicking, but expanding via right arrow
                     ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)]); //combobox in final leaf node needs some steps to activate
@@ -187,6 +190,7 @@ namespace FlaUITests.Util {
                         if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
                              Mouse.Click();
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                        editor = e;
                         return;
                     }
                     else
@@ -200,6 +204,9 @@ namespace FlaUITests.Util {
                 //After clicking the tree item, the tree is refreshed and we need to find the tree item again to be able to continue expanding the tree
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    
             }
+            if (Editorname != null || oldAe.Name.Contains('.'))
+                e = IDE_Main.Editor.OpenOrAttach(Editorname ?? (oldAe.Name.Substring(0, 3) == "BR_" ? oldAe.Name.Substring(3) : oldAe.Name));
+            editor = e;
         }
         public static List<string> FindXMLPath(string file, string element, string addon = null) {
             List<XElement> res = new List<XElement>();
