@@ -837,15 +837,41 @@ namespace FlaUITests.Util {
             else {
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_" + package, "BR_Variables.var"}, new List<string> { "_Object Name", "_Object Name" });
                 e = Editor.OpenOrAttach(package + "::" + "Variables.var");
-            }                
-            if (o is Array array) {
-                foreach (Object ob in array) {
-                    if (ob is bool) {
-                        
-                    }
-                }
             }
-
+            e.Restore();
+            Mouse.Click(e.ConfigWorkspace.BoundingRectangle.Center());
+            AutomationElement configTree = e.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            Button newVariable = e.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Variable Declaration")).FindFirstChild(cf => cf.ByName("Add Variable")).AsButton();
+            int i = 0;
+            foreach (Object ob in (Array) o) {
+                newVariable.Click();
+                Keyboard.Type(ob.ToString() + "_" + i);
+                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+                AutomationElement varType = configTree.FindFirstChild(cf => cf.ByName("BR_" + ob.ToString() + "_" + i + "_Type"));
+                varType.Click();
+                if (ob is byte) {   //USINT
+                    ;
+                } else if (ob is sbyte) { 
+                    Keyboard.Type("SINT");
+                } else if (ob is ushort) {
+                    Keyboard.Type("UINT");
+                } else if (ob is short) {
+                    Keyboard.Type("INT");
+                } else if (ob is uint) {
+                    Keyboard.Type("UDINT");
+                } else if (ob is int) {
+                    Keyboard.Type("DINT");
+                } else if (ob is float) {
+                    Keyboard.Type("REAL");
+                } else if (ob is double) {
+                    Keyboard.Type("LREAL");
+                } else if (ob is bool) {
+                    Keyboard.Type("BOOL");
+                }
+                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                i++;
+            }
         }
         public AutomationElement GetWorkspaceToolbar(string WindowSubString) {
             AutomationElement ConfigWorkspaceWindow = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
@@ -869,7 +895,7 @@ namespace FlaUITests.Util {
                 Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.Tab)).First(cf => cf.Name.IndexOf(name) >= 0);
                 return this;
             }
-            public void Close() {
+            public void Restore() {
                 AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
                 Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.Tab)).First(cf => cf.Name.IndexOf(Name) >= 0);
                 if (Tab == null) {
@@ -884,6 +910,9 @@ namespace FlaUITests.Util {
                 else
                     Tab.Click();
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
+            }
+            public void Close() {
+                Restore();
                 Rectangle rec = Tab.BoundingRectangle;
                 Mouse.MoveTo(new Point {X = rec.Right - 10, Y = rec.Top + 10});
                 Mouse.Click();
