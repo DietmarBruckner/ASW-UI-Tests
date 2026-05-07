@@ -32,32 +32,32 @@ namespace FlaUITests.Util {
             //activate advanced visibility
             AutomationElement uaConfigWorkspaceWindow = TreeConfig.IdeMain.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(uaconfig.Substring(3, uaconfig.Length-3)) >= 0);
             AutomationElement configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
-            AutomationElement uacsConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
+            AutomationElement ConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
             AutomationElement uaToolbar = uaConfigWorkspaceWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Client/Server Configuration")));
             Button advancedVisibilityButton = uaToolbar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Change Advanced Parameter Visibility"))).AsButton();
             if (!TreeConfig.IdeMain.IsButtonActive(advancedVisibilityButton)) {
                 advancedVisibilityButton.Click();
                 configTree = uaConfigWorkspaceWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
-                uacsConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
+                ConfigRoot = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_ClientServerConfiguration")));
             }
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Setting OPC UA Client/Server to Enabled");
             }
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, new List<string> { "_Value" }, uacsConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, new List<string> { "_Value" }, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 1); //Select "Enabled"
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Setting anonymous authentication to Enabled");
             }
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "Anonymous"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "Anonymous"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 1); //Select "Enabled"
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Adding BR_Engineer as a user role");
             }
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "Anonymous Access", "BR_User Role 1"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, uacsConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "Anonymous Access", "BR_User Role 1"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(TreeConfig.IdeMain.MainWindow, 2); //Select "BR_Engineer"
         }
     }
