@@ -30,7 +30,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
             }
-            TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
+/*             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  TM611_4_InsertComponent();
             TreeConfig.IdeMain.Build();
@@ -40,7 +40,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_11_Localization();
             TreeConfig.IdeMain.Build();
-            TM611_5_Layout();
+ */            TM611_5_Layout();
             TreeConfig.IdeMain.Build();
             InsertWidgets();
             TreeConfig.IdeMain.Build();
@@ -447,10 +447,12 @@ namespace FlaUITests.Util {
                     while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
                         Mouse.Scroll(1d);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                        afirst = aproperties.FindFirstChild();
                     }
                     while (!aproperties.BoundingRectangle.IntersectsWith(size.BoundingRectangle)) {
                         Mouse.Scroll(-1d);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                        size = layout.FindFirstChild(cf => cf.ByName("Size"));
                     }
                     Mouse.Scroll(-2d);
                     Mouse.Click(new Point {X = size.BoundingRectangle.Left + 5, Y = size.BoundingRectangle.Top + 5});
@@ -488,6 +490,7 @@ namespace FlaUITests.Util {
                 while (!aproperties.BoundingRectangle.IntersectsWith(layout.BoundingRectangle)) {
                     Mouse.Scroll(-1d);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                    layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
                 }
                 Mouse.Scroll(-2d);
             }
@@ -496,6 +499,7 @@ namespace FlaUITests.Util {
                 while (!aproperties.BoundingRectangle.IntersectsWith(position.BoundingRectangle)) {
                     Mouse.Scroll(-1d);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                    position = layout.FindFirstChild(cf => cf.ByName("Position"));
                 }
                 Mouse.Scroll(-2d);
                 Mouse.Click(new Point {X = position.BoundingRectangle.Left + 5, Y = position.BoundingRectangle.Top + 5});
