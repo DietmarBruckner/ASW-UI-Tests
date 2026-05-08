@@ -851,7 +851,7 @@ namespace FlaUITests.Util {
             int i = 0;
             foreach (Object ob in (Array) o) {
                 newVariable.Click();
-                Keyboard.Type(ob.ToString() + "_" + i);
+                Keyboard.Type(ob.GetType().ToString() + "_" + i);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                 AutomationElement varType = configTree.FindFirstChild(cf => cf.ByName("BR_" + ob.ToString() + "_" + i + "_Type"));
