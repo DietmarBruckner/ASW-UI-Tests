@@ -839,8 +839,10 @@ namespace FlaUITests.Util {
             s = Name + s.Substring(s.IndexOf("::"));
             e.Rename(s);
         }
-        public void GenerateVariables(Object o, string package = "") {
+        public void GenerateVariables(Object o, out List<string []> list, string package = "") {
             Editor e;
+            List<string []> l = new List<string []>();
+            string [] sout;
             if (package == string.Empty)
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Global.var"}, new List<string> { "_Object Name" }, out e);
             else
@@ -850,36 +852,39 @@ namespace FlaUITests.Util {
             Button newVariable = e.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Variable Declaration")).FindFirstChild(cf => cf.ByName("Add Variable")).AsButton();
             int i = 0;
             foreach (Object ob in (Array) o) {
+                sout = new string[2];
                 newVariable.Click();
-                string s = ob.GetType().ToString().Replace('.', '_') + "_" + i;
-                Keyboard.Type(s);
+                sout[0] = ob.GetType().ToString().Replace('.', '_') + "_" + i;
+                Keyboard.Type(sout[0]);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-                AutomationElement varVar = configTree.FindFirstChild(cf => cf.ByName("BR_" + s));
-                AutomationElement varType = varVar.FindFirstChild(cf => cf.ByName("BR_" + s + "_Type"));
+                AutomationElement varVar = configTree.FindFirstChild(cf => cf.ByName("BR_" + sout[0]));
+                AutomationElement varType = varVar.FindFirstChild(cf => cf.ByName("BR_" + sout[0] + "_Type"));
                 varType.Click();
                 if (ob is byte) {   //USINT
-                    ;
+                    sout[1] = "USINT";
                 } else if (ob is sbyte) { 
-                    Keyboard.Type("SINT");
+                    Keyboard.Type(sout[1] = "SINT");
                 } else if (ob is ushort) {
-                    Keyboard.Type("UINT");
+                    Keyboard.Type(sout[1] = "UINT");
                 } else if (ob is short) {
-                    Keyboard.Type("INT");
+                    Keyboard.Type(sout[1] = "INT");
                 } else if (ob is uint) {
-                    Keyboard.Type("UDINT");
+                    Keyboard.Type(sout[1] = "UDINT");
                 } else if (ob is int) {
-                    Keyboard.Type("DINT");
+                    Keyboard.Type(sout[1] = "DINT");
                 } else if (ob is float) {
-                    Keyboard.Type("REAL");
+                    Keyboard.Type(sout[1] = "REAL");
                 } else if (ob is double) {
-                    Keyboard.Type("LREAL");
+                    Keyboard.Type(sout[1] = "LREAL");
                 } else if (ob is bool) {
-                    Keyboard.Type("BOOL");
+                    Keyboard.Type(sout[1] = "BOOL");
                 }
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                l.Add(sout);
                 i++;
             }
+            list = l;
         }
         public AutomationElement GetWorkspaceToolbar(string WindowSubString) {
             AutomationElement ConfigWorkspaceWindow = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
