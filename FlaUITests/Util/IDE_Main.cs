@@ -851,10 +851,12 @@ namespace FlaUITests.Util {
             int i = 0;
             foreach (Object ob in (Array) o) {
                 newVariable.Click();
-                Keyboard.Type(ob.GetType().ToString() + "_" + i);
+                string s = ob.GetType().ToString().Replace('.', '_') + "_" + i;
+                Keyboard.Type(s);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-                AutomationElement varType = configTree.FindFirstChild(cf => cf.ByName("BR_" + ob.ToString() + "_" + i + "_Type"));
+                AutomationElement varVar = configTree.FindFirstChild(cf => cf.ByName("BR_" + s));
+                AutomationElement varType = varVar.FindFirstChild(cf => cf.ByName("BR_" + s + "_Type"));
                 varType.Click();
                 if (ob is byte) {   //USINT
                     ;
