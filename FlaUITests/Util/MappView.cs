@@ -124,7 +124,7 @@ namespace FlaUITests.Util {
         //    TreeConfig.IdeMain.Build();
         //    InsertWidgets();
         //    TreeConfig.IdeMain.Build();
-            TM611_6_Navigation();
+        //    TM611_6_Navigation();
             TM611_8_Binding();
         }
         public override void TM611_4_InsertComponent() {
@@ -392,7 +392,7 @@ namespace FlaUITests.Util {
             }
         }   
         void TM611_6_Navigation() {
-/*            if (Verbose >= Util.Environment.Verbose.STEPS) {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Creating navigation file");
             }
@@ -438,7 +438,7 @@ namespace FlaUITests.Util {
             IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nPaste ")).AsButton().Click();
             TreeConfig.IdeMain.SaveAll();
             nav_editor.Close();
- */            if (Verbose >= Util.Environment.Verbose.STEPS) {
+             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Connecting it to Navigation Widget");
             }
@@ -448,13 +448,13 @@ namespace FlaUITests.Util {
             SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0");
         }
         void TM611_8_Binding() {
-            navcontent_editor.Close();
+            //navcontent_editor.Close();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting OPC UA/CS default view");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
-            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DafaultView");
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DefaultView");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
             TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
