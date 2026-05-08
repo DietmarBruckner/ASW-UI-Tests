@@ -40,12 +40,12 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_11_Localization();
             TreeConfig.IdeMain.Build();
- */            TM611_5_Layout();
+            TM611_5_Layout();
             TreeConfig.IdeMain.Build();
             InsertWidgets();
             TreeConfig.IdeMain.Build();
-            TM611_6_Navigation();
-            TM611_8_Binding();
+             TM611_6_Navigation();
+ */           TM611_8_Binding();
         }
         public override void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null, out var e);
@@ -198,7 +198,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
             Point workspaceCenter = IDE_Main.Workspace.BoundingRectangle.Center();
             
-/*             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Page content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out navcontent_editor);
@@ -214,13 +214,13 @@ namespace FlaUITests.Util {
             EditPosition(top:0, left:0);
             EditSize(width:100, height:500);
             TreeConfig.IdeMain.SaveAll(); 
- */
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
+
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Page content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var ip_editor);
-            AutomationElement properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
-            AutomationElement name = properties.FindFirstDescendant(cf => cf.ByName("Name"));
+            properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            name = properties.FindFirstDescendant(cf => cf.ByName("Name"));
             Mouse.Click(new Point {X = name.BoundingRectangle.Right - 20, Y = name.BoundingRectangle.Top + name.BoundingRectangle.Height/2});
             Mouse.DoubleClick(new Point {X = name.BoundingRectangle.Right - 20, Y = name.BoundingRectangle.Top + name.BoundingRectangle.Height/2});
             Keyboard.Type("Info_Pane");
@@ -233,7 +233,7 @@ namespace FlaUITests.Util {
             EditSize(width:200, height:30);
             EditPosition(left:50, top:5);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "LanguageSelector", drag:true, toDrag:workspaceCenter);
-            EditPosition(left:680, top:35);
+            EditPosition(left:680, top:35); //geht net!
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Preparing Layout for all Pages");
@@ -253,7 +253,7 @@ namespace FlaUITests.Util {
             EditSize(width:800, height:100, area:true);
             EditPosition(left:0, top:0, area:true);
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_page_0.page"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var page0_editor);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(1500));
             Mouse.Click(workspaceCenter);
             AutomationElement editor = page0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor")));
             TreeConfig.IdeMain.SetIWorkspaceMinSize(editor, percent:true);
@@ -273,7 +273,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting widgets");
             }
-            //content0_editor = IDE_Main.Editors.Find(x => x.Name.Contains("content_0.content"));
+            content0_editor = IDE_Main.Editors.Find(x => x.Name.Contains("content_0.content"));
             content0_editor.Restore();
             Point editorCenter = IDE_Main.Workspace.BoundingRectangle.Center();
             Mouse.Click(editorCenter);
@@ -283,14 +283,14 @@ namespace FlaUITests.Util {
             AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
             TreeConfig.ClickAutomationElement(defaultLabel);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE); 
             TreeConfig.IdeMain.SaveAll(); 
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
             List<string> buttonStrings = new List<string> {"ToggleSwitch", "ToggleButton", "RadioButton", "PushButton", "NavigationButton", "MomentaryPushButton", "HoverButton", "Checkbox", "Button"};
             foreach(string[] text in widgetStrings) {
-                if (buttonStrings.Any(text[0].Contains))
+                if (!buttonStrings.Any(text[0].Contains))
                     continue;
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
                 IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
@@ -363,7 +363,7 @@ namespace FlaUITests.Util {
             SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0");
         }
         void TM611_8_Binding() {
-            navcontent_editor.Close();
+            //navcontent_editor.Close();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting OPC UA/CS default view");
@@ -396,9 +396,10 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             }
             Mouse.Scroll(-4d);
-            //Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             Mouse.MoveTo(new Point {X = atree.ElementAt(1).BoundingRectangle.Right - 15, Y = atree.ElementAt(1).BoundingRectangle.Top + atree.ElementAt(1).BoundingRectangle.Height/2});
+            Mouse.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Rectangle rec = TreeConfig.IdeMain.FindWordinCapture(properties, select);
