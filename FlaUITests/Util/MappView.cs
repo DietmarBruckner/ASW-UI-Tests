@@ -496,7 +496,7 @@ namespace FlaUITests.Util {
             }
             else {
                 position = layout.FindFirstChild(cf => cf.ByName("Position"));
-                while (!aproperties.BoundingRectangle.IntersectsWith(position.BoundingRectangle)) {
+                while (position == null || !aproperties.BoundingRectangle.IntersectsWith(position.BoundingRectangle)) {
                     Mouse.Scroll(-1d);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
                     position = layout.FindFirstChild(cf => cf.ByName("Position"));
