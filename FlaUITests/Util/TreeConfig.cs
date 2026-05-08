@@ -209,7 +209,7 @@ namespace FlaUITests.Util {
                 e = IDE_Main.Editor.OpenOrAttach(Editorname ?? (ae.Name.Substring(0, 3) == "BR_" ? ae.Name.Substring(3) : ae.Name));
             if (program) {
                 AutomationElement a = ae.FindFirstChild(); //BR_Main.something
-                e = IDE_Main.Editor.OpenOrAttach(ae.Name.Substring(0, 3) + "::" + ae.Name.Substring(0, 3));
+                e = IDE_Main.Editor.OpenOrAttach(ae.Name.Substring(3) + "::" + ae.Name.Substring(3));
             }
             editor = e;
         }
