@@ -410,7 +410,7 @@ namespace FlaUITests.Util {
             Mouse.Position = aproperties.BoundingRectangle.Center();
             Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            AutomationElement afirst = aproperties.FindFirstChild();
+            AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
             if (content) {
                 AutomationElement aproperty = aproperties.FindFirstChild(cf => cf.ByName("Property"));
                 AutomationElement aheight = aproperty.FindFirstChild(cf => cf.ByName("height"));
@@ -479,7 +479,7 @@ namespace FlaUITests.Util {
             Mouse.Position = aproperties.BoundingRectangle.Center();
             Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            AutomationElement afirst = aproperties.FindFirstChild();
+            AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
             AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
             AutomationElement position = null;
             while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
