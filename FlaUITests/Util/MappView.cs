@@ -11,120 +11,40 @@ using System.Windows;
 using System.Threading;
 using FlaUITests.Util.AS_Objects;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace FlaUITests.Util {
     public partial class MappView {
         string editorPathMV;
         string editorPathTS;
         IDE_Main.Editor content0_editor, navcontent_editor;
-        readonly List<string[]> chartStrings = new List<string[]> {
-            {new string [] {"AlarmHistory", "", "", ""} }, 
-            {new string [] {"AlarmLine", "", "", ""} }, 
-/*             {new string [] {"AlarmList", "", "", ""} }, 
-            {new string [] {"AuditList", "", "", ""} }, 
-            {new string [] {"BarChart", "", "", ""} }, 
-            {new string [] {"BasicSlider", "", "", ""} }, 
-            {new string [] {"Button", "", "", ""} }, 
-            {new string [] {"ButtonBar", "", "", ""} }, 
-            {new string [] {"CheckBox", "", "", ""} }, 
-            {new string [] {"ContentCarousel", "", "", ""} }, 
-            {new string [] {"Database", "", "", ""} }, 
-            {new string [] {"DateTimeInput", "", "", ""} }, 
-            {new string [] {"DateTimeOutput", "", "", ""} }, 
-            {new string [] {"DonutChart", "", "", ""} }, 
-            {new string [] {"DropDownBox", "", "", ""} }, 
-            {new string [] {"Ellipse", "", "", ""} }, 
-            {new string [] {"FavoriteWatch", "", "", ""} }, 
-            {new string [] {"FlexBox", "", "", ""} }, 
-            {new string [] {"FlexLayoutPanel", "", "", ""} }, 
-            {new string [] {"FlyOut", "", "", ""} }, 
-            {new string [] {"GridLine", "", "", ""} }, 
-            {new string [] {"GroupBox", "", "", ""} }, 
-            {new string [] {"HoverButton", "", "", ""} }, 
-            {new string [] {"Image", "", "", ""} }, 
-            {new string [] {"ImageList", "", "", ""} }, 
-            {new string [] {"InfoBanner", "", "", ""} }, 
-            {new string [] {"Joystick", "", "", ""} }, 
-            {new string [] {"Label", "", "", ""} }, 
-            {new string [] {"LadderEditor", "", "", ""} }, 
-            {new string [] {"Line", "", "", ""} }, 
-            {new string [] {"LinearGauge", "", "", ""} }, 
-            {new string [] {"Linechart", "", "", ""} }, 
-            {new string [] {"ListBox", "", "", ""} }, 
-            {new string [] {"Login", "", "", ""} }, 
-            {new string [] {"LoginButton", "", "", ""} }, 
-            {new string [] {"LoginInfo", "", "", ""} }, 
-            {new string [] {"LogoutButton", "", "", ""} }, 
-            {new string [] {"MeasurementSystemSelector", "", "", ""} }, 
-            {new string [] {"MomentaryPushButton", "", "", ""} }, 
-            {new string [] {"MotionPad", "", "", ""} }, 
-            {new string [] {"NavigationBar", "", "", ""} }, 
-            {new string [] {"NavigationButton", "", "", ""} }, 
-            {new string [] {"NumericInput", "", "", ""} }, 
-            {new string [] {"NumericOutput", "", "", ""} }, 
-            {new string [] {"OnlineChart", "", "", ""} }, 
-            {new string [] {"OnlineChartHDA", "", "", ""} }, 
-            {new string [] {"Paper", "", "", ""} }, 
-            {new string [] {"Password", "", "", ""} }, 
-            {new string [] {"PDFViewer", "", "", ""} }, 
-            {new string [] {"PieChart", "", "", ""} }, 
-            {new string [] {"ProfileGenerator", "", "", ""} }, 
-            {new string [] {"ProgressBar", "", "", ""} }, 
-            {new string [] {"PushButton", "", "", ""} }, 
-            {new string [] {"QRViewer", "", "", ""} }, 
-            {new string [] {"RadialButtonBar", "", "", ""} }, 
-            {new string [] {"RadialGauge", "", "", ""} }, 
-            {new string [] {"RadialSlider", "", "", ""} }, 
-            {new string [] {"RadioButton", "", "", ""} }, 
-            {new string [] {"RadioButtonGroup", "", "", ""} }, 
-            {new string [] {"RangeSlider", "", "", ""} }, 
-            {new string [] {"Rectangle", "", "", ""} }, 
-            {new string [] {"Sequencer", "", "", ""} }, 
-            {new string [] {"SequencerStepItemParameterForm", "", "", ""} }, 
-            {new string [] {"SequencerTable", "", "", ""} }, 
-            {new string [] {"Skyline", "", "", ""} }, 
-            {new string [] {"StackedBarChart", "", "", ""} }, 
-            {new string [] {"TabControl", "", "", ""} }, 
-            {new string [] {"Table", "", "", ""} }, 
-            {new string [] {"TextInput", "", "", ""} }, 
-            {new string [] {"TextOutput", "", "", ""} }, 
-            {new string [] {"TextPad", "", "", ""} }, 
-            {new string [] {"TextPicker", "", "", ""} }, 
-            {new string [] {"TimeLine", "", "", ""} }, 
-            {new string [] {"ToggleButton", "", "", ""} }, 
-            {new string [] {"ToggleSwitch", "", "", ""} }, 
-            {new string [] {"UserList", "", "", ""} }, 
-            {new string [] {"VideoPlayer", "", "", ""} }, 
-            {new string [] {"VncViewer", "", "", ""} }, 
-            {new string [] {"WebViewer", "", "", ""} }, 
-            {new string [] {"XYChart", "", "", ""} },
-            {new string [] {"XYJoystick", "", "", ""} }
- */        };
+        readonly List<string[]> widgetStrings = new List<string[]>();
         string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
         MappViewObjects Objects = new MappViewObjects();
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             editorPathTS = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\TextSystem\\n.d\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
+            ReadConfiguration();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
             }
-        //    TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
+            TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  TM611_4_InsertComponent();
-        //    TreeConfig.IdeMain.Build();
-        //    TM611_3_2_ConfigureMappViewServer();
-        //    TreeConfig.IdeMain.Build();
-        //    TM611_4_1_RenameVIS();
-        //    TreeConfig.IdeMain.Build();
-        //    TM611_11_Localization();
-        //    TreeConfig.IdeMain.Build();
-        //    TM611_5_Layout();
-        //    TreeConfig.IdeMain.Build();
-        //    InsertWidgets();
-        //    TreeConfig.IdeMain.Build();
-        //    TM611_6_Navigation();
+            TreeConfig.IdeMain.Build();
+            TM611_3_2_ConfigureMappViewServer();
+            TreeConfig.IdeMain.Build();
+            TM611_4_1_RenameVIS();
+            TreeConfig.IdeMain.Build();
+            TM611_11_Localization();
+            TreeConfig.IdeMain.Build();
+            TM611_5_Layout();
+            TreeConfig.IdeMain.Build();
+            InsertWidgets();
+            TreeConfig.IdeMain.Build();
+            TM611_6_Navigation();
             TM611_8_Binding();
         }
         public override void TM611_4_InsertComponent() {
@@ -201,11 +121,8 @@ namespace FlaUITests.Util {
             Keyboard.Type(visname);
             TreeConfig.IdeMain.SaveAll();
             editor = editor.Rename(visname + ".vis");
-            //check!!
-/*             rec = IDE_Main.Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab)).FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName(visname + ".vis [XML File]"))).BoundingRectangle;
-            Mouse.MoveTo(new Point {X = rec.Right - 10, Y = rec.Top + 10});
-            Mouse.Click();
- */        }
+            editor.Close();
+        }
         void TM611_11_Localization() {
             string tmxconfig = "LocalizableTexts.tmx";
               if (Verbose >= Util.Environment.Verbose.STEPS) {
@@ -222,18 +139,13 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Resources", "BR_Texts"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Localizable Texts");
             TreeConfig.IdeMain.SaveAll();
-            foreach(string[] text in chartStrings) {
-                text[1] = "fr_" + text[0];
-                text[2] = "de_" + text[0];
-                text[3] = "en_" + text[0];
-            }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Resources", "BR_Texts", "BR_" + tmxconfig}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var editor);
             AutomationElement editNamespace = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByAutomationId("textNamespace")).AsTextBox();
             editNamespace.Patterns.Value.Pattern.SetValue("IAT");
             TreeConfig.IdeMain.SaveAll();
             AutomationElement textTree = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByAutomationId("B&R TreeView Control")).AsTree();
             AutomationElement newItem;
-             foreach (string[] item in chartStrings) {
+             foreach (string[] item in widgetStrings) {
                 newItem = textTree.FindAllChildren().Last();
                 AutomationElement [] fields = newItem.FindAllChildren();
                 TreeConfig.ClickAutomationElement(fields[0]);
@@ -368,7 +280,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             AutomationElement content_0Properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement docIATeditor = content0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
-             AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
+            AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
             TreeConfig.ClickAutomationElement(defaultLabel);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
@@ -376,7 +288,10 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
-            foreach(string[] text in chartStrings) {
+            List<string> buttonStrings = new List<string> {"ToggleSwitch", "ToggleButton", "RadioButton", "PushButton", "NavigationButton", "MomentaryPushButton", "HoverButton", "Checkbox", "Button"};
+            foreach(string[] text in widgetStrings) {
+                if (buttonStrings.Any(text[0].Contains))
+                    continue;
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
                 IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages"}, new List<string> { "_Object Name", "_Object Name", "_Object Name" }, out e);
@@ -396,7 +311,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Creating navigation file");
             }
-             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" }, out var e);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" }, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Navigation");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_navigation_0.nav"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var nav_editor);
             //AutomationElement ConfigWorkspaceWindow = IDE_Main.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("navigation_0.nav [XML File]") >= 0);
@@ -413,7 +328,7 @@ namespace FlaUITests.Util {
             string outText = copiedText.Substring(0, firstIndex);
             int pageID = 0;
             string pageName, page0Name = "page_0";
-            for(int i=0; i<chartStrings.Count+1; i++) {
+            for(int i=0; i<widgetStrings.Count+1; i++) {
                 outText += _navStrings[0];
                 pageName = "page_" + pageID;
                 outText += pageName;
@@ -423,7 +338,7 @@ namespace FlaUITests.Util {
                 pageName = "page_" + (pageID==0?0:(pageID-1));
                 outText += pageName;
                 outText += _navStrings[5];
-                if (i != chartStrings.Count) {
+                if (i != widgetStrings.Count) {
                     outText += _navStrings[6];
                     pageName = "page_" + (pageID+1);
                     outText += pageName;
@@ -448,24 +363,19 @@ namespace FlaUITests.Util {
             SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0");
         }
         void TM611_8_Binding() {
-            //navcontent_editor.Close();
+            navcontent_editor.Close();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting OPC UA/CS default view");
             }
-/*             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DefaultView");
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DefaultView Configuration");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
             TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
- */           TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out var l, "Visualization");
-            Dictionary<bool, string[]> dic = new Dictionary<bool, string[]>();
-            int i = 0;
-            foreach (var x in l) {
-                dic.Add(Objects.ButtonValues[i], l[i]);
-                i++;
-            }
+            TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out Objects.ButtonValuesStrings, "Visualization");
+
         }
         void SelectFromMappViewDropDown(string [] stree, string select) {
             if (Verbose >= Util.Environment.Verbose.FULL)
@@ -616,8 +526,17 @@ namespace FlaUITests.Util {
             th.Start(text);
             th.Join();
         }
-        Type GetType<T>(T obj) { 
-            return typeof(T); 
+        void ReadConfiguration() {
+            string file = System.Environment.CurrentDirectory + "\\FlaUITests\\config\\Widgets.txt";
+            if (!System.IO.File.Exists(file))
+                Console.WriteLine($"Warning: file not found at path: {file}");
+            try {
+                var lines = File.ReadLines(file);
+                foreach (var line in lines) {
+                    widgetStrings.Add(new string[] {line, "fr_" + line, "de_" + line, "en_" + line});
+                }
+            } catch (Exception ex) { Console.WriteLine($"Error reading {file}: {ex.Message}"); }
+
         }
     }
 }

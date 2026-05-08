@@ -839,10 +839,10 @@ namespace FlaUITests.Util {
             s = Name + s.Substring(s.IndexOf("::"));
             e.Rename(s);
         }
-        public void GenerateVariables(Object o, out List<string []> list, string package = "") {
+        public void GenerateVariables(Object o, out string [][] strings, string package = "") {
             Editor e;
-            List<string []> l = new List<string []>();
             string [] sout;
+            strings = new string[9][];
             if (package == string.Empty)
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Global.var"}, new List<string> { "_Object Name" }, out e);
             else
@@ -881,10 +881,9 @@ namespace FlaUITests.Util {
                     Keyboard.Type(sout[1] = "BOOL");
                 }
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-                l.Add(sout);
+                strings[i] = sout;
                 i++;
             }
-            list = l;
         }
         public AutomationElement GetWorkspaceToolbar(string WindowSubString) {
             AutomationElement ConfigWorkspaceWindow = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
@@ -939,6 +938,7 @@ namespace FlaUITests.Util {
             }
             public void Close() {
                 Restore();
+                TreeConfig.IdeMain.Save();
                 Rectangle rec;
                 Point point;
                 if (Tab == null) { //first TabItem doesn't show up in this list
