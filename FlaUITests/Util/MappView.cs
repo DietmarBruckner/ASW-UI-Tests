@@ -122,8 +122,8 @@ namespace FlaUITests.Util {
         //    TreeConfig.IdeMain.Build();
         //    TM611_5_Layout();
         //    TreeConfig.IdeMain.Build();
-            InsertWidgets();
-            TreeConfig.IdeMain.Build();
+        //    InsertWidgets();
+        //    TreeConfig.IdeMain.Build();
             TM611_6_Navigation();
             TM611_8_Binding();
         }
@@ -361,7 +361,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting widgets");
             }
-            content0_editor = IDE_Main.Editors.Find(x => x.Name.Contains("content_0.content"));
+            //content0_editor = IDE_Main.Editors.Find(x => x.Name.Contains("content_0.content"));
             content0_editor.Restore();
             Point editorCenter = IDE_Main.Workspace.BoundingRectangle.Center();
             Mouse.Click(editorCenter);
@@ -392,11 +392,11 @@ namespace FlaUITests.Util {
             }
         }   
         void TM611_6_Navigation() {
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
+/*            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Creating navigation file");
             }
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" }, out var e);
+             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" }, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Navigation");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_navigation_0.nav"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var nav_editor);
             //AutomationElement ConfigWorkspaceWindow = IDE_Main.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("navigation_0.nav [XML File]") >= 0);
@@ -438,7 +438,7 @@ namespace FlaUITests.Util {
             IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nPaste ")).AsButton().Click();
             TreeConfig.IdeMain.SaveAll();
             nav_editor.Close();
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
+ */            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Connecting it to Navigation Widget");
             }
