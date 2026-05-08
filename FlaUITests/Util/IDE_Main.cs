@@ -830,7 +830,7 @@ namespace FlaUITests.Util {
                 InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "ST OOP Program" + (AllInOne?" All In One":""));
             if (ST)
                 InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "ST Program" + (AllInOne?" All In One":""));
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Program"}, new List<string> { "_Object Name" }, out e);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Program"}, new List<string> { "_Object Name" }, out e, program:true);
             Mouse.RightClick();
             TreeConfig.ClickContextMenuItem(MainWindow, "Rename");
             Keyboard.Type(Name);
