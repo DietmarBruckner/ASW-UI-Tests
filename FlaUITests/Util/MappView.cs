@@ -452,6 +452,7 @@ namespace FlaUITests.Util {
                     while (!aproperties.BoundingRectangle.IntersectsWith(size.BoundingRectangle)) {
                         Mouse.Scroll(-1d);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                        layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
                         size = layout.FindFirstChild(cf => cf.ByName("Size"));
                     }
                     Mouse.Scroll(-2d);
@@ -499,6 +500,7 @@ namespace FlaUITests.Util {
                 while (position == null || !aproperties.BoundingRectangle.IntersectsWith(position.BoundingRectangle)) {
                     Mouse.Scroll(-1d);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                    layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
                     position = layout.FindFirstChild(cf => cf.ByName("Position"));
                 }
                 Mouse.Scroll(-2d);
