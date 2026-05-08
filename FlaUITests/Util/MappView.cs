@@ -460,6 +460,12 @@ namespace FlaUITests.Util {
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
             TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
  */           TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out var l, "Visualization");
+            Dictionary<bool, string[]> dic = new Dictionary<bool, string[]>();
+            int i = 0;
+            foreach (var x in l) {
+                dic.Add(Objects.ButtonValues[i], l[i]);
+                i++;
+            }
         }
         void SelectFromMappViewDropDown(string [] stree, string select) {
             if (Verbose >= Util.Environment.Verbose.FULL)
@@ -609,6 +615,9 @@ namespace FlaUITests.Util {
             th.IsBackground = false;
             th.Start(text);
             th.Join();
+        }
+        Type GetType<T>(T obj) { 
+            return typeof(T); 
         }
     }
 }
