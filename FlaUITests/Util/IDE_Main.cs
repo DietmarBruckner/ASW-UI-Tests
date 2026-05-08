@@ -835,6 +835,9 @@ namespace FlaUITests.Util {
             TreeConfig.ClickContextMenuItem(MainWindow, "Rename");
             Keyboard.Type(Name);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            string s = e.Name;
+            s = Name + s.Substring(s.IndexOf("::"));
+            e.Rename(s);
         }
         public void GenerateVariables(Object o, string package = "") {
             Editor e;

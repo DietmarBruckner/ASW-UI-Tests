@@ -139,7 +139,7 @@ namespace FlaUITests.Util {
                         Console.WriteLine("Could not locate " + element.Name);
             }
         }
-        public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, out IDE_Main.Editor editor, AutomationElement root = null, string Editorname = null) {
+        public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, out IDE_Main.Editor editor, AutomationElement root = null, string Editorname = null, bool program = false) {
             AutomationElement ae = null;
             IDE_Main.Editor e = null;
             if (leaves != null) {
@@ -207,6 +207,10 @@ namespace FlaUITests.Util {
             }
             if (Editorname != null || ae.Name.Contains('.'))
                 e = IDE_Main.Editor.OpenOrAttach(Editorname ?? (ae.Name.Substring(0, 3) == "BR_" ? ae.Name.Substring(3) : ae.Name));
+            if (program) {
+                AutomationElement a = ae.FindFirstChild(); //BR_Main.something
+                e = IDE_Main.Editor.OpenOrAttach(ae.Name.Substring(0, 3) + "::" + ae.Name.Substring(0, 3));
+            }
             editor = e;
         }
         public static List<string> FindXMLPath(string file, string element, string addon = null) {
