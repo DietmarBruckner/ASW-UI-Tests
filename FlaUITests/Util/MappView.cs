@@ -406,8 +406,8 @@ namespace FlaUITests.Util {
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DefaultView");
-            */TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
-            /*AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
+            AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Generating Variables");
@@ -424,7 +424,7 @@ namespace FlaUITests.Util {
                 TreeConfig.IdeMain.GenerateVariables(Objects.Numeric2DValues, out Objects.Numeric2DValuesStrings, "Visualization");
             }
           TreeConfig.IdeMain.Build();
-*/            if (Verbose >= Util.Environment.Verbose.STEPS) {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Activating Variables in Default View");
             }
@@ -440,7 +440,8 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             }
             TreeConfig.IdeMain.Build();
-            foreach(var w1 in TestWidgets) {
+            editor.Close();
+*/            foreach(var w1 in TestWidgets) {
                 MappViewPage p = null;
                 string c ="";
                 foreach (var page in Objects.Pages)
@@ -482,18 +483,18 @@ namespace FlaUITests.Util {
                     }
                 }
                 Object o;
-                string [] strings = null;
+                string str = null;
                 switch (indexWidgetgroup) {
-                    case 0: o = Objects.ButtonValues[indexWidget]; strings = Objects.ButtonValuesStrings[indexWidget]; break;
-                    case 4: o = Objects.DateTimeValues[indexWidget]; strings = Objects.DateTimeValuesStrings[indexWidget]; break;
+                    case 0: o = Objects.ButtonValues[indexWidget]; str = Objects.ButtonValuesStrings[indexWidget][0]; break;
+                    case 4: o = Objects.DateTimeValues[indexWidget]; str = Objects.DateTimeValuesStrings[indexWidget][0]; break;
                     case 10:
                         if (indexWidget<Objects.NumericValues.Count())
                             o = Objects.NumericValues[indexWidget];
                         else
                             o = Objects.Numeric2DValues[indexWidget-Objects.NumericValues.Count()]; 
-                        strings = indexWidget<Objects.NumericValues.Count()?Objects.NumericValuesStrings[indexWidget]:Objects.Numeric2DValuesStrings[indexWidget-Objects.NumericValues.Count()]; break;
+                        str = indexWidget<Objects.NumericValues.Count()?Objects.NumericValuesStrings[indexWidget][0]:Objects.Numeric2DValuesStrings[indexWidget-Objects.NumericValues.Count()][0]; break;
                 }
-                EditValue(strings);
+                EditValue(str);
             }
 
         }
@@ -701,7 +702,7 @@ namespace FlaUITests.Util {
             }
             TreeConfig.IdeMain.SaveAll();
         }
-        void EditValue(string [] variables) {
+        void EditValue(string variablestring) {
             AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = aproperties.BoundingRectangle.Center();
             Mouse.Click();
@@ -734,9 +735,7 @@ namespace FlaUITests.Util {
             FlaUI.Core.AutomationElements.Window selectVariableWindow;
             while ((selectVariableWindow = TreeConfig.IdeMain.GetModalWindow("Select Variable")) == null)
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            
-            //Keyboard.Type("$IAT/" + text);
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.BindingWindow, new List<string> { "BR_Visualizat", "BR_" + variablestring, "BR_value"}, new List<string> {  "_Address Space", "_Address Space", "_Address Space" }, out var e, selectVariableWindow);
             TreeConfig.IdeMain.SaveAll();
         }
         void EditText(string text) {
