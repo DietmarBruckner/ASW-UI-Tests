@@ -852,15 +852,6 @@ namespace FlaUITests.Util {
             Button newVariable = e.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Variable Declaration")).FindFirstChild(cf => cf.ByName("Add Variable")).AsButton();
             int i = 0;
             foreach (Object obj in (Array) o) {
-                sout = new string[2];
-                newVariable.Click();
-                sout[0] = obj.GetType().ToString().Replace('.', '_') + "_" + i;
-                Keyboard.Type(sout[0]);
-                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-                AutomationElement varVar = configTree.FindFirstChild(cf => cf.ByName("BR_" + sout[0]));
-                AutomationElement varType = varVar.FindFirstChild(cf => cf.ByName("BR_" + sout[0] + "_Type"));
-                varType.Click();
                 Object ob;
                 bool isArray = false;
                 string arrayLimits = "";
@@ -871,6 +862,15 @@ namespace FlaUITests.Util {
                 }
                 else
                     ob = obj;
+                sout = new string[2];
+                newVariable.Click();
+                sout[0] = obj.GetType().ToString().Replace('.', '_') + "_" + (isArray?"a":"") + i;
+                Keyboard.Type(sout[0]);
+                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+                AutomationElement varVar = configTree.FindFirstChild(cf => cf.ByName("BR_" + sout[0]));
+                AutomationElement varType = varVar.FindFirstChild(cf => cf.ByName("BR_" + sout[0] + "_Type"));
+                varType.Click();
                 if (ob is byte) {   //USINT
                     sout[1] = "USINT";
                 } else if (ob is sbyte) { 
