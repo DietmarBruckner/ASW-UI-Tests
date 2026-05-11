@@ -288,9 +288,23 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
-            List<string> buttonStrings = new List<string> {"ToggleSwitch", "ToggleButton", "RadioButton", "PushButton", "NavigationButton", "MomentaryPushButton", "HoverButton", "Checkbox", "Button"};
+            List<string> buttonDenominators = new List<string> {"ToggleSwitch", "ToggleButton", "RadioButton", "PushButton", "NavigationButton", "MomentaryPushButton", "HoverButton", "Checkbox", "Button"};
+            List<string> chartDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
+            List<string> containerDenominators = new List<string> {"ButtonBar", "FlexBox", "FlexLayoutPanel", "FlyOut", "GridLine", "GroupBox", "InfoBanner", /*"Navigation",*/ "NavigationBar", "RadialButtonBar", "RadioButtonGroup", "TabControl", };
+            List<string> dataDenominators = new List<string> {"AlarmHistory", "AlarmLine", "AlarmList", "AuditList", "FavoriteWatch", "Table", "UserList", "Database"};
+            List<string> dateTimeDenominators = new List<string> {"DateTimeInput", "DateTimeOutput"};
+            List<string> drawingDenominators = new List<string> {"Ellipse", "Line", "Rectangle", "Paper"};
+            List<string> imageDenominators = new List<string> {"Image", "ImageList"};
+            List<string> laginDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
+            List<string> mediaDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
+            List<string> motionDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
+            List<string> numericDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
+            List<string> selectorDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
+            List<string> systemDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
+            List<string> textDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
+            List<string> processDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
             foreach(string[] text in widgetStrings) {
-                if (!buttonStrings.Any(text[0].Contains))
+                if (!buttonDenominators.Any(text[0].Contains))
                     continue;
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
                 IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
@@ -370,7 +384,6 @@ namespace FlaUITests.Util {
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DefaultView");
-            //TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DefaultView Configuration");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
             TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
