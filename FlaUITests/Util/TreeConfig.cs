@@ -236,7 +236,7 @@ namespace FlaUITests.Util {
                         ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], !singleclick);
                     else
                         ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true);
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));                    
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                 }
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    
 
