@@ -172,7 +172,8 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
             AutomationElement textTree = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByAutomationId("B&R TreeView Control")).AsTree();
             AutomationElement newItem;
-             foreach (string[] item in inputWidgetStrings) {
+             foreach (string s in TestWidgets) {
+                string[] item = inputWidgetStrings.Find(x => x.Contains(s));
                 newItem = textTree.FindAllChildren().Last();
                 AutomationElement [] fields = newItem.FindAllChildren();
                 TreeConfig.ClickAutomationElement(fields[0]);
@@ -315,9 +316,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
-            foreach(string[] text in inputWidgetStrings) {
-                if (!buttonDenominators.Any(text[0].Contains))
-                    continue;
+            foreach(string text in TestWidgets) {
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
                 IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages"}, new List<string> { "_Object Name", "_Object Name", "_Object Name" }, out e);
@@ -326,14 +325,15 @@ namespace FlaUITests.Util {
                 pageName = "page_" + pageID;
                 contentName = "content_" + pageID;
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + pageName, "BR_" + contentName + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
-                TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", text[0], drag:true, toDrag:editorCenter);
+                TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", text, drag:true, toDrag:editorCenter);
                 EditSize(width:500, height:400);
                 EditPosition(left:100, top:50);
-                e.Close();
-                List<string[]> ls = new List<string[]> { new string[] { contentName, text[0] } };
+                EditText(text);
+                List<string[]> ls = new List<string[]> { new string[] { contentName, text } };
                 MappViewPage p = new MappViewPage(pageName, ls);
-                IntlTextBinding(p);
+                //IntlTextBinding(p);
                 Objects.Pages.Add(p);
+                e.Close();
             }
         }   
         void TM611_6_Navigation() {
