@@ -18,7 +18,7 @@ namespace FlaUITests.Util {
         string editorPathMV;
         string editorPathTS;
         IDE_Main.Editor content0_editor, navcontent_editor;
-        readonly List<string[]> widgetStrings = new List<string[]>();
+        readonly List<string[]> inputWidgetStrings = new List<string[]>();
         string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
         MappViewObjects Objects = new MappViewObjects();
         static readonly List<string> buttonDenominators = new List<string> {"ToggleSwitch", "ToggleButton", "RadioButton", "PushButton", "NavigationButton", "MomentaryPushButton", "HoverButton", "Checkbox", "Button"};
@@ -36,14 +36,23 @@ namespace FlaUITests.Util {
         static readonly List<string> systemDenominators = new List<string> {"KeyBoard", "LanguageSelector", "MeasurementSystemSelector", "MotionKeyPad", "NumPad", "SystemNavButton", "SystemLogin", "TextKeyPad", "DateTimePicker", "ContentControl", "ContentCarousel"};
         static readonly List<string> textDenominators = new List<string> {"Label", "TextInput", "TextOutput", "TextPad"};
         static readonly List<string> processDenominators = new List<string> {"Sequencer", "LadderEditor", "Skyline"};
-        bool [] toTestWidgets = new bool[] {true, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
-        List<List<string>string> TestWidgets = new List<List<string>> {buttonDenominators, chartDenominators, containerDenominators, dataDenominators, dateTimeDenominators, drawingDenominators, imageDenominators, loginDenominators, mediaDenominators, motionDenominators, numericDenominators, selectorDenominators, systemDenominators, textDenominators, processDenominators};
+        static readonly bool [] toTestWidgetGroups = new bool[] {true, false, false, false, true, false, false, false, false, false, true, false, false, false, false};
+        static readonly List<List<string>> AllWidgets = new List<List<string>> {buttonDenominators, chartDenominators, containerDenominators, dataDenominators, dateTimeDenominators, drawingDenominators, imageDenominators, loginDenominators, mediaDenominators, motionDenominators, numericDenominators, selectorDenominators, systemDenominators, textDenominators, processDenominators};
+        readonly List<string> TestWidgets = new List<string>();
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             editorPathTS = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\TextSystem\\n.d\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             ReadConfiguration();
             Objects.Pages = new List<MappViewPage>();
+            foreach (var WidgetGroup in AllWidgets) {
+                if (!toTestWidgetGroups[AllWidgets.IndexOf(WidgetGroup)])
+                    continue;
+                foreach(var item in inputWidgetStrings)
+                    if (WidgetGroup.Contains(item[0]))
+                        TestWidgets.Add(item[0]);
+            }
+
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
@@ -163,7 +172,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
             AutomationElement textTree = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByAutomationId("B&R TreeView Control")).AsTree();
             AutomationElement newItem;
-             foreach (string[] item in widgetStrings) {
+             foreach (string[] item in inputWidgetStrings) {
                 newItem = textTree.FindAllChildren().Last();
                 AutomationElement [] fields = newItem.FindAllChildren();
                 TreeConfig.ClickAutomationElement(fields[0]);
@@ -306,7 +315,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
-            foreach(string[] text in widgetStrings) {
+            foreach(string[] text in inputWidgetStrings) {
                 if (!buttonDenominators.Any(text[0].Contains))
                     continue;
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
@@ -349,7 +358,7 @@ namespace FlaUITests.Util {
             string outText = copiedText.Substring(0, firstIndex);
             int pageID = 0;
             string pageName, page0Name = "page_0";
-            for(int i=0; i<widgetStrings.Count+1; i++) {
+            for(int i=0; i<inputWidgetStrings.Count+1; i++) {
                 outText += _navStrings[0];
                 pageName = "page_" + pageID;
                 outText += pageName;
@@ -359,7 +368,7 @@ namespace FlaUITests.Util {
                 pageName = "page_" + (pageID==0?0:(pageID-1));
                 outText += pageName;
                 outText += _navStrings[5];
-                if (i != widgetStrings.Count) {
+                if (i != inputWidgetStrings.Count) {
                     outText += _navStrings[6];
                     pageName = "page_" + (pageID+1);
                     outText += pageName;
@@ -613,7 +622,7 @@ namespace FlaUITests.Util {
             try {
                 var lines = File.ReadLines(file);
                 foreach (var line in lines) {
-                    widgetStrings.Add(new string[] {line, "fr_" + line, "de_" + line, "en_" + line});
+                    inputWidgetStrings.Add(new string[] {line, "fr_" + line, "de_" + line, "en_" + line});
                 }
             } catch (Exception ex) { Console.WriteLine($"Error reading {file}: {ex.Message}"); }
 
