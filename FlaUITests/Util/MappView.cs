@@ -60,7 +60,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
             }
-/*             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
+             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  TM611_4_InsertComponent();
             TreeConfig.IdeMain.Build();
@@ -75,7 +75,7 @@ namespace FlaUITests.Util {
             InsertWidgets();
             TreeConfig.IdeMain.Build();
              TM611_6_Navigation();
- */           TM611_8_Binding();
+            TM611_8_Binding();
         }
         public override void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null, out var e);
@@ -400,7 +400,7 @@ namespace FlaUITests.Util {
         void TM611_8_Binding() {
             //navcontent_editor.Close();
             IDE_Main.Editor e;
-/*             if (Verbose >= Util.Environment.Verbose.STEPS) {
+             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting OPC UA/CS default view");
             }
@@ -441,7 +441,7 @@ namespace FlaUITests.Util {
             }
             TreeConfig.IdeMain.Build();
             editor.Close();
-*/            foreach(var w1 in TestWidgets) {
+            foreach(var w1 in TestWidgets) {
                 MappViewPage p = null;
                 string c ="";
                 foreach (var page in Objects.Pages)
