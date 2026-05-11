@@ -44,12 +44,12 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Trying to click menu item: " + menuItemName + (subMenuItemName!=null?", " + subMenuItemName:""));
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement menu = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.Menu));
-            MenuItem toClick = menu.FindFirstChild(cf => cf.ByName(menuItemName)).AsMenuItem();
+            FlaUI.Core.AutomationElements.MenuItem toClick = menu.FindFirstChild(cf => cf.ByName(menuItemName)).AsMenuItem();
             toClick.Click();
             if (subMenuItemName != null) {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
-                Menu subMenu = toClick.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(menuItemName))).AsMenu();
-                MenuItem mi = subMenu.FindFirstChild(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(subMenuItemName))).AsMenuItem();
+                FlaUI.Core.AutomationElements.Menu subMenu = toClick.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(menuItemName))).AsMenu();
+                FlaUI.Core.AutomationElements.MenuItem mi = subMenu.FindFirstChild(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(subMenuItemName))).AsMenuItem();
                 Mouse.MoveTo(mi.BoundingRectangle.Center());
                 mi.Click();
             }
