@@ -660,36 +660,39 @@ namespace FlaUITests.Util {
             Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
-            AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
+            AutomationElement alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
             AutomationElement aposition = null;
+            AutomationElement atop;
             while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
                 Mouse.Scroll(1d);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
                 afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
             }
             if (area) {
-                while (!aproperties.BoundingRectangle.IntersectsWith(layout.BoundingRectangle)) {
+                while (!aproperties.BoundingRectangle.IntersectsWith(alayout.BoundingRectangle)) {
                     Mouse.Scroll(-1d);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                    layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
+                    alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
                 }
                 Mouse.Scroll(-2d);
             }
             else {
-                aposition = layout.FindFirstChild(cf => cf.ByName("Position"));
+                aposition = alayout.FindFirstChild(cf => cf.ByName("Position"));
                 while (aposition == null || !aproperties.BoundingRectangle.IntersectsWith(aposition.BoundingRectangle)) {
                     Mouse.Scroll(-1d);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                    layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-                    aposition = layout.FindFirstChild(cf => cf.ByName("Position"));
+                    alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
+                    aposition = alayout.FindFirstChild(cf => cf.ByName("Position"));
                 }
                 Mouse.Scroll(-2d);
-                Mouse.Click(new Point {X = aposition.BoundingRectangle.Left + 5, Y = aposition.BoundingRectangle.Top + 5});
+                atop = aposition.FindFirstChild(cf => cf.ByName("top"));
+                if (!aproperties.BoundingRectangle.IntersectsWith(atop.BoundingRectangle))
+                    Mouse.Click(new Point {X = aposition.BoundingRectangle.Left + 5, Y = aposition.BoundingRectangle.Top + 5});
                 Mouse.Scroll(-2d);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             }
-            AutomationElement atop = (area?layout:aposition).FindFirstChild(cf => cf.ByName("top"));
-            AutomationElement aleft = (area?layout:aposition).FindFirstChild(cf => cf.ByName("left"));
+            atop = (area?alayout:aposition).FindFirstChild(cf => cf.ByName("top"));
+            AutomationElement aleft = (area?alayout:aposition).FindFirstChild(cf => cf.ByName("left"));
             if (top != -1 && int.Parse(atop.Patterns.Value.Pattern.Value) != top) {
                 Mouse.DoubleClick(new Point {X = atop.BoundingRectangle.Right - 20, Y = atop.BoundingRectangle.Top + atop.BoundingRectangle.Height/2});
                 Keyboard.Type("" + top);
