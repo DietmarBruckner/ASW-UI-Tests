@@ -148,7 +148,7 @@ namespace FlaUITests.Util {
                         Console.WriteLine("Could not locate " + element.Name);
             }
         }
-        public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, out IDE_Main.Editor editor, AutomationElement root = null, string Editorname = null, bool program = false) {
+        public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, out IDE_Main.Editor editor, AutomationElement root = null, string Editorname = null, bool program = false, int shortcut = -1, bool singleclick = false) {
             AutomationElement ae = null;
             IDE_Main.Editor e = null;
             if (leaves != null) {
@@ -164,7 +164,8 @@ namespace FlaUITests.Util {
             switch (viewType) {
                 case ViewType.LogicalView:
                     ae = IdeMain.GetLogicalViewRoot(CurrentProject);
-                    ClickConfigTreeItem(viewType, ae, "_Object Name", true);
+                    if (shortcut == -1)
+                        ClickConfigTreeItem(viewType, ae, "_Object Name", true);
                     if (leaves == null) {
                         editor = e;
                         return;
@@ -199,36 +200,46 @@ namespace FlaUITests.Util {
             foreach (var sub in leaves) {
                 oldAe = ae;
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
-                if (viewType == ViewType.Workspace || viewType == ViewType.BindingWindow) { //no double clicking, but expanding via right arrow
-                    ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)]); //combobox in final leaf node needs some steps to activate
-                    if (viewType == ViewType.BindingWindow && leaves.IndexOf(sub) == leaves.Count - 1) {
-                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
-                        editor = e;
-                        return;
+                if (shortcut == -1) {
+                    if (viewType == ViewType.Workspace || viewType == ViewType.BindingWindow) { //no double clicking, but expanding via right arrow
+                        ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)]); //combobox in final leaf node needs some steps to activate
+                        if (viewType == ViewType.BindingWindow && leaves.IndexOf(sub) == leaves.Count - 1) {
+                            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                            editor = e;
+                            return;
+                        }
+                        if (viewType == ViewType.Workspace && leaves.IndexOf(sub) == leaves.Count - 1) {
+                            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                            AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
+                            FlaUI.Core.AutomationElements.Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
+                            Mouse.MoveTo(expandButton.GetClickablePoint());
+                            if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
+                                Mouse.Click();
+                            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                            editor = e;
+                            return;
+                        }
+                        else
+                            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
                     }
-                    if (viewType == ViewType.Workspace && leaves.IndexOf(sub) == leaves.Count - 1) {
-                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
-                        AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
-                        FlaUI.Core.AutomationElements.Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
-                        Mouse.MoveTo(expandButton.GetClickablePoint());
-                        if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
-                             Mouse.Click();
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
-                        editor = e;
-                        return;
+                    else {//Double click all tree items to expand them, as tree items in Configuration view expand on double click
+                        ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true);
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                     }
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    //After clicking the tree item, the tree is refreshed and we need to find the tree item again to be able to continue expanding the tree
+                }
+                else if (leaves.IndexOf(sub) >= leaves.Count - 1 - shortcut) {
+                    if (leaves.IndexOf(sub) == leaves.Count - 1)
+                        ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], !singleclick);
                     else
-                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
+                        ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true);
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));                    
                 }
-                else {//Double click all tree items to expand them, as tree items in Configuration view expand on double click
-                    ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-                }
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                //After clicking the tree item, the tree is refreshed and we need to find the tree item again to be able to continue expanding the tree
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    
+
             }
             if (Editorname != null || ae.Name.Contains('.'))
                 e = IDE_Main.Editor.OpenOrAttach(Editorname ?? (ae.Name.Substring(0, 3) == "BR_" ? ae.Name.Substring(3) : ae.Name));
