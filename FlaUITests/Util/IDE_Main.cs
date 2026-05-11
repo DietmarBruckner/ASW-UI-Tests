@@ -864,7 +864,9 @@ namespace FlaUITests.Util {
                     ob = obj;
                 sout = new string[2];
                 newVariable.Click();
-                sout[0] = obj.GetType().ToString().Replace('.', '_').Replace('[', '_').Replace(']', '_') + "_" + (isArray?"a":"") + i;
+                sout[0] = obj.GetType().ToString().Replace('.', '_') + "_" + (isArray?"a":"") + i;
+                if (isArray)
+                    sout[0] = sout[0].Substring(0, sout[0].IndexOf('[')) + sout[0].Substring(sout[0].IndexOf(']') + 1);
                 Keyboard.Type(sout[0]);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
