@@ -10,7 +10,7 @@ namespace FlaUITests {
             Util.Util.Environment.InstallationPath = "C:\\Program Files (x86)\\BRAutomation\\AS6";
             as6 = new AutomationStudio6();
             Dictionary<Components, string> dictcom = new Dictionary<Components, string> () {
-                {Components.OPCUACS, "6.6.1"},
+                //{Components.OPCUACS, "6.6.1"},
                 {Components.mappView, "6.6.0"},
                 {Components.AutomationRuntime, "6.5.1"}
             };

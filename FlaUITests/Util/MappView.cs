@@ -60,7 +60,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
             }
-             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
+/*              TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                  TM611_4_InsertComponent();
             TreeConfig.IdeMain.Build();
@@ -70,7 +70,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_11_Localization();
             TreeConfig.IdeMain.Build();
-            TM611_5_Layout();
+*/            TM611_5_Layout();
             TreeConfig.IdeMain.Build();
             InsertWidgets();
             TreeConfig.IdeMain.Build();
@@ -231,7 +231,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
             Point workspaceCenter = IDE_Main.Workspace.BoundingRectangle.Center();
             
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
+/*            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Page content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out navcontent_editor);
@@ -264,7 +264,7 @@ namespace FlaUITests.Util {
             Mouse.Click(workspaceCenter);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "Label", drag:true, toDrag:workspaceCenter);
             EditSize(width:200, height:30);
-            EditPosition(left:50, top:5);
+            EditPosition(left:50, top:5); */
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "LanguageSelector", drag:true, toDrag:workspaceCenter);
             EditPosition(left:680, top:35); //geht net!
             if (Verbose >= Util.Environment.Verbose.STEPS) {
@@ -299,7 +299,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
             page0_editor.Close();
             layout0_editor.Close();
-            ip_editor.Close();
+            //ip_editor.Close();
         }
         void InsertWidgets() {
             if (Verbose >= Util.Environment.Verbose.STEPS) {
