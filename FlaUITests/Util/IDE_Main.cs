@@ -879,6 +879,8 @@ namespace FlaUITests.Util {
                     Keyboard.Type(sout[1] = "LREAL");
                 } else if (ob is bool) {
                     Keyboard.Type(sout[1] = "BOOL");
+                } else if (ob is DateTime) {
+                    Keyboard.Type(sout[1] = "DT");
                 }
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 strings[i] = sout;

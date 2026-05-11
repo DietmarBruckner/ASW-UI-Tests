@@ -399,7 +399,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Inserting OPC UA/CS default view");
             }
 //            TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
-            TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out Objects.ButtonValuesStrings, "Visualization");
+//            TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out Objects.ButtonValuesStrings, "Visualization");
             TreeConfig.IdeMain.GenerateVariables(Objects.DateTimeValues, out Objects.DateTimeValuesStrings, "Visualization");
             TreeConfig.IdeMain.GenerateVariables(Objects.NumericValues, out Objects.NumericValuesStrings, "Visualization");
             TreeConfig.IdeMain.GenerateVariables(Objects.Numeric2DValues, out Objects.Numeric2DValuesStrings, "Visualization");
