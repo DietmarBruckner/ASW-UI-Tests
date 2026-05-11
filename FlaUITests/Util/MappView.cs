@@ -70,9 +70,9 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_11_Localization();
             TreeConfig.IdeMain.Build();
-*/            TM611_5_Layout();
+           TM611_5_Layout();
             TreeConfig.IdeMain.Build();
-            InsertWidgets();
+ */            InsertWidgets();
             TreeConfig.IdeMain.Build();
             TM611_6_Navigation();
             TM611_8_Binding();
@@ -231,7 +231,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
             Point workspaceCenter = IDE_Main.Workspace.BoundingRectangle.Center();
             
-/*            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Page content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents", "BR_content_1.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out navcontent_editor);
@@ -270,7 +270,7 @@ namespace FlaUITests.Util {
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Preparing Layout for all Pages");
-            }*/
+            }
             content0_editor.Restore();
             //TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             EditSize(width:700, height:500, content:true);
@@ -299,7 +299,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
             page0_editor.Close();
             layout0_editor.Close();
-            //ip_editor.Close();
+            ip_editor.Close();
         }
         void InsertWidgets() {
             if (Verbose >= Util.Environment.Verbose.STEPS) {
@@ -313,12 +313,12 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             AutomationElement content_0Properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement docIATeditor = content0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
-            AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
+/*             AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
             TreeConfig.ClickAutomationElement(defaultLabel);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE); 
             TreeConfig.IdeMain.SaveAll(); 
-            TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
+ */            TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
             foreach(string text in TestWidgets) {
@@ -686,7 +686,7 @@ namespace FlaUITests.Util {
                 }
                 Mouse.Scroll(-2d);
                 atop = aposition.FindFirstChild(cf => cf.ByName("top"));
-                if (!aproperties.BoundingRectangle.IntersectsWith(atop.BoundingRectangle))
+                if (atop == null || !aproperties.BoundingRectangle.IntersectsWith(atop.BoundingRectangle))
                     Mouse.Click(new Point {X = aposition.BoundingRectangle.Left + 5, Y = aposition.BoundingRectangle.Top + 5});
                 Mouse.Scroll(-2d);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
