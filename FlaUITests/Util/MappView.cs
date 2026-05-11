@@ -433,13 +433,13 @@ namespace FlaUITests.Util {
             AutomationElement visuRoot = ConfigRoot.FindFirstDescendant(cf => cf.ByName("BR_Visualizat"));
             Button enableTag = editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("OPC UA Default View")).AsButton();
             AutomationElement [] vars = visuRoot.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
-            foreach(var v in vars)
-            {
+            foreach(var v in vars) {
                 AutomationElement aname = v.FindAllChildren().First(cf => cf.Name.IndexOf("_Name") > 0);
                 TreeConfig.ClickAutomationElement(aname);
                 enableTag.Click();
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             }
+            TreeConfig.IdeMain.Build();
             foreach(var w1 in TestWidgets) {
                 MappViewPage p = null;
                 string c ="";
