@@ -9,10 +9,11 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using FlaUI.Core.Tools;
+using System.Windows.Forms;
 
 namespace FlaUITests.Util {
     public static class TreeConfig {
-        public enum ViewType { LogicalView, ConfigurationView, PhysicalView, Workspace, PropertyWindow }
+        public enum ViewType { LogicalView, ConfigurationView, PhysicalView, Workspace, PropertyWindow, BindingWindow }
         public static IDE_Main IdeMain { get; set; }
         public static AppProject CurrentProject { get; set; }
 
@@ -174,6 +175,16 @@ namespace FlaUITests.Util {
                     break;
                 case ViewType.PhysicalView:
                     break;
+                case ViewType.BindingWindow:
+                    AutomationElement Tab = root.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tab));
+                    AutomationElement OPCUATab = Tab.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("OPC-UA  ")));
+                    TreeConfig.ClickAutomationElement(OPCUATab);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                    AutomationElement configTree = OPCUATab.FindFirstChild(cf => cf.ByControlType(ControlType.Tree));
+                    ae = configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_<Default>")));
+                    
+                    //AutomationElement visuRoot = configRoot.FindFirstChild(cf => cf.ByName("BR_Visualizat"));
+                    break;
                 case ViewType.Workspace:
                     if (root == null)
                         throw new Exception("Root element must be provided for Workspace view type");
@@ -188,13 +199,19 @@ namespace FlaUITests.Util {
             foreach (var sub in leaves) {
                 oldAe = ae;
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
-                if (viewType == ViewType.Workspace) { //no double clicking, but expanding via right arrow
+                if (viewType == ViewType.Workspace || viewType == ViewType.BindingWindow) { //no double clicking, but expanding via right arrow
                     ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)]); //combobox in final leaf node needs some steps to activate
-                    if (leaves.IndexOf(sub) == leaves.Count - 1) {
+                    if (viewType == ViewType.Workspace && leaves.IndexOf(sub) == leaves.Count - 1) {
+                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                        editor = e;
+                        return;
+                    }
+                    if (viewType == ViewType.Workspace && leaves.IndexOf(sub) == leaves.Count - 1) {
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                         AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
-                        Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
+                        FlaUI.Core.AutomationElements.Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
                         Mouse.MoveTo(expandButton.GetClickablePoint());
                         if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
                              Mouse.Click();
