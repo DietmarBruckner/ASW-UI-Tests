@@ -201,7 +201,7 @@ namespace FlaUITests.Util {
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
                 if (viewType == ViewType.Workspace || viewType == ViewType.BindingWindow) { //no double clicking, but expanding via right arrow
                     ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)]); //combobox in final leaf node needs some steps to activate
-                    if (viewType == ViewType.Workspace && leaves.IndexOf(sub) == leaves.Count - 1) {
+                    if (viewType == ViewType.BindingWindow && leaves.IndexOf(sub) == leaves.Count - 1) {
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                         editor = e;
