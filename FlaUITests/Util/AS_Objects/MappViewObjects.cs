@@ -10,7 +10,7 @@ namespace FlaUITests.Util.AS_Objects {
         public string [][] DateTimeValuesStrings;
         public float [] NumericValues = new float[6];
         public string [][] NumericValuesStrings;
-        public float [,] Numeric2DValues = new float[2,2];
+        public float [][] Numeric2DValues = new float[2][];
         public string [][] Numeric2DValuesStrings;
 
     }
