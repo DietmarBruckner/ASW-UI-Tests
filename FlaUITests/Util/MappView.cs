@@ -74,7 +74,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             InsertWidgets();
             TreeConfig.IdeMain.Build();
-             TM611_6_Navigation();
+            TM611_6_Navigation();
             TM611_8_Binding();
         }
         public override void TM611_4_InsertComponent() {
@@ -429,7 +429,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Activating Variables in Default View");
             }
             editor.Restore();
-            AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
+            ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
             AutomationElement visuRoot = ConfigRoot.FindFirstDescendant(cf => cf.ByName("BR_Visualizat"));
             Button enableTag = editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("OPC UA Default View")).FindFirstChild(cf => cf.ByName("Enable Tag")).AsButton();
             AutomationElement [] vars = visuRoot.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
