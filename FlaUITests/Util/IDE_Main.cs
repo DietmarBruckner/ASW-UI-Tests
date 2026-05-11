@@ -851,16 +851,26 @@ namespace FlaUITests.Util {
             AutomationElement configTree = e.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             Button newVariable = e.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Variable Declaration")).FindFirstChild(cf => cf.ByName("Add Variable")).AsButton();
             int i = 0;
-            foreach (Object ob in (Array) o) {
+            foreach (Object obj in (Array) o) {
                 sout = new string[2];
                 newVariable.Click();
-                sout[0] = ob.GetType().ToString().Replace('.', '_') + "_" + i;
+                sout[0] = obj.GetType().ToString().Replace('.', '_') + "_" + i;
                 Keyboard.Type(sout[0]);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                 AutomationElement varVar = configTree.FindFirstChild(cf => cf.ByName("BR_" + sout[0]));
                 AutomationElement varType = varVar.FindFirstChild(cf => cf.ByName("BR_" + sout[0] + "_Type"));
                 varType.Click();
+                Object ob;
+                bool isArray = false;
+                string arrayLimits = "";
+                if (obj is Array array) {
+                    ob = array.GetValue(0);
+                    isArray = true;
+                    arrayLimits = "[0.." + array.Length + "]";
+                }
+                else
+                    ob = obj;
                 if (ob is byte) {   //USINT
                     sout[1] = "USINT";
                 } else if (ob is sbyte) { 
@@ -882,6 +892,8 @@ namespace FlaUITests.Util {
                 } else if (ob is DateTime) {
                     Keyboard.Type(sout[1] = "DT");
                 }
+                if (isArray)
+                    Keyboard.Type(arrayLimits);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 strings[i] = sout;
                 i++;
