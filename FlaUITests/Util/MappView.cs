@@ -399,7 +399,7 @@ namespace FlaUITests.Util {
         }
         void TM611_8_Binding() {
             //navcontent_editor.Close();
-            IDE_Main.Editor e;
+            IDE_Main.Editor e, editor;
 /*             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting OPC UA/CS default view");
@@ -413,7 +413,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Generating Variables");
             }
             TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
- */            if (toTestWidgetGroups[0])
+             if (toTestWidgetGroups[0])
                 TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out Objects.ButtonValuesStrings, "Visualization");
             if (toTestWidgetGroups[4])
                 TreeConfig.IdeMain.GenerateVariables(Objects.DateTimeValues, out Objects.DateTimeValuesStrings, "Visualization");
@@ -423,9 +423,22 @@ namespace FlaUITests.Util {
                     Objects.Numeric2DValues[i] = new float[2];
                 TreeConfig.IdeMain.GenerateVariables(Objects.Numeric2DValues, out Objects.Numeric2DValuesStrings, "Visualization");
             }
+*/          TreeConfig.IdeMain.Build();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Activating Variables in Default View");
+            }
+            editor.Restore();
+            AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
+            AutomationElement visuRoot = ConfigRoot.FindFirstDescendant(cf => cf.ByName("BR_Visualizat"));
+            Button enableTag = editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("OPC UA Default View")).AsButton();
+            AutomationElement [] vars = visuRoot.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
+            foreach(var v in vars)
+            {
+                AutomationElement aname = v.FindAllChildren().First(cf => cf.Name.IndexOf("_Name") > 0);
+                TreeConfig.ClickAutomationElement(aname);
+                enableTag.Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             }
             foreach(var w1 in TestWidgets) {
                 MappViewPage p = null;
