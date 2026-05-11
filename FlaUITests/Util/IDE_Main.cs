@@ -842,7 +842,7 @@ namespace FlaUITests.Util {
         public void GenerateVariables(Object o, out string [][] strings, string package = "") {
             Editor e;
             string [] sout;
-            strings = new string[9][];
+            strings = new string[((Array) o).Length][];
             if (package == string.Empty)
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Global.var"}, new List<string> { "_Object Name" }, out e);
             else

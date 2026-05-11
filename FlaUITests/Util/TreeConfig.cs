@@ -8,6 +8,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
+using FlaUI.Core.Tools;
 
 namespace FlaUITests.Util {
     public static class TreeConfig {
@@ -37,13 +38,20 @@ namespace FlaUITests.Util {
             ClickAutomationElement(comboBox.FindFirstChild(cf => cf.ByName(element)));
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
         }
-        public static void ClickContextMenuItem(Window window, string element) {
+        public static void ClickContextMenuItem(Window window, string menuItemName, string subMenuItemName = null) {
             if (CurrentProject != null && CurrentProject.verbose >= Util.Environment.Verbose.FULL)
-                Console.WriteLine("Trying to click menu item: " + element);
+                Console.WriteLine("Trying to click menu item: " + menuItemName + (subMenuItemName!=null?", " + subMenuItemName:""));
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement menu = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.Menu));
-            MenuItem toClick = menu.FindFirstChild(cf => cf.ByName(element)).AsMenuItem();
+            MenuItem toClick = menu.FindFirstChild(cf => cf.ByName(menuItemName)).AsMenuItem();
             toClick.Click();
+            if (subMenuItemName != null) {
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
+                Menu subMenu = toClick.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(menuItemName))).AsMenu();
+                MenuItem mi = subMenu.FindFirstChild(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(subMenuItemName))).AsMenuItem();
+                Mouse.MoveTo(mi.BoundingRectangle.Center());
+                mi.Click();
+            }
         }
         public static void ClickAutomationElement(AutomationElement element, bool doubleClick = false) {
             Point point = new Point { X = element.BoundingRectangle.Left + element.BoundingRectangle.Width / 2, Y = element.BoundingRectangle.Top + element.BoundingRectangle.Height / 2 };

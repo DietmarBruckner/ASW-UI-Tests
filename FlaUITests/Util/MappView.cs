@@ -12,6 +12,8 @@ using System.Threading;
 using FlaUITests.Util.AS_Objects;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace FlaUITests.Util {
     public partial class MappView {
@@ -39,6 +41,7 @@ namespace FlaUITests.Util {
         static readonly bool [] toTestWidgetGroups = new bool[] {true, false, false, false, true, false, false, false, false, false, true, false, false, false, false};
         static readonly List<List<string>> AllWidgets = new List<List<string>> {buttonDenominators, chartDenominators, containerDenominators, dataDenominators, dateTimeDenominators, drawingDenominators, imageDenominators, loginDenominators, mediaDenominators, motionDenominators, numericDenominators, selectorDenominators, systemDenominators, textDenominators, processDenominators};
         readonly List<string> TestWidgets = new List<string>();
+        static int width, height;
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             editorPathTS = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\TextSystem\\n.d\\Editors\\";
@@ -99,6 +102,8 @@ namespace FlaUITests.Util {
             allTemplates[index].DoubleClick(); //Select a random template to create some variation in the created projects
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
             TreeConfig.IdeMain.WaitForMessage("finished.");
+            width = 800;
+            height = 600;
         }
         void TM611_3_2_ConfigureMappViewServer() {
             string mvconfig = "Config.mappviewcfg";
@@ -394,39 +399,146 @@ namespace FlaUITests.Util {
         }
         void TM611_8_Binding() {
             //navcontent_editor.Close();
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
+            IDE_Main.Editor e;
+/*             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting OPC UA/CS default view");
             }
-//            TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
-//            TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out Objects.ButtonValuesStrings, "Visualization");
-//            TreeConfig.IdeMain.GenerateVariables(Objects.DateTimeValues, out Objects.DateTimeValuesStrings, "Visualization");
-//            TreeConfig.IdeMain.GenerateVariables(Objects.NumericValues, out Objects.NumericValuesStrings, "Visualization");
-            for (int i = 0; i < Objects.Numeric2DValues.Count(); i++)
-                Objects.Numeric2DValues[i] = new float[2];
-            TreeConfig.IdeMain.GenerateVariables(Objects.Numeric2DValues, out Objects.Numeric2DValuesStrings, "Visualization");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DefaultView");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Generating Variables");
+            }
+            TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
+ */            if (toTestWidgetGroups[0])
+                TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out Objects.ButtonValuesStrings, "Visualization");
+            if (toTestWidgetGroups[4])
+                TreeConfig.IdeMain.GenerateVariables(Objects.DateTimeValues, out Objects.DateTimeValuesStrings, "Visualization");
+            if (toTestWidgetGroups[10]) {
+                TreeConfig.IdeMain.GenerateVariables(Objects.NumericValues, out Objects.NumericValuesStrings, "Visualization");
+                for (int i = 0; i < Objects.Numeric2DValues.Count(); i++)
+                    Objects.Numeric2DValues[i] = new float[2];
+                TreeConfig.IdeMain.GenerateVariables(Objects.Numeric2DValues, out Objects.Numeric2DValuesStrings, "Visualization");
+            }
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Activating Variables in Default View");
+            }
+            foreach(var w1 in TestWidgets) {
+                MappViewPage p = null;
+                string c ="";
+                foreach (var page in Objects.Pages)
+                    foreach (var w2 in page.Widgets)
+                        if (w2[1] == w1) {
+                            p = page;
+                            c = w2[0];
+                        }
+                e = OpenTextEditor(p, c);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                string copiedText = Clipboard.GetText();
+                XDocument doc = XDocument.Parse(copiedText);
+                XElement content = doc.Root;
+                int _top=0, _left=0, _width=0, _height=0;
+                foreach (XElement widgetElement in content.Elements("Widgets")) {
+                    XAttribute idAttr = widgetElement.Attribute("id");
+                    if (idAttr != null && idAttr.Value == w1 + "1") {
+                        _top = int.Parse(widgetElement.Attribute("top").Value);
+                        _left = int.Parse(widgetElement.Attribute("left").Value);
+                        _width = int.Parse(widgetElement.Attribute("width").Value);
+                        _height = int.Parse(widgetElement.Attribute("height").Value);
+                    }
+                }
+                e = OpenEditor(p, c);
+                TreeConfig.IdeMain.SetIWorkspaceMinSize(IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor"))));
+                Mouse.MoveTo(new Point {X = IDE_Main.Workspace.BoundingRectangle.Left + (int)(IDE_Main.Workspace.BoundingRectangle.Width * (_left+_width/2)/width), Y = IDE_Main.Workspace.BoundingRectangle.Top + (int)(IDE_Main.Workspace.BoundingRectangle.Height * (_top+_height/2)/height)});
+                Mouse.Click();
+                int indexWidgetgroup = 0, indexWidget = 0;
+                foreach (var WidgetGroup in AllWidgets) {
+                    if (!toTestWidgetGroups[AllWidgets.IndexOf(WidgetGroup)])
+                        continue;
+                    if (WidgetGroup.Contains(w1)) {
+                        indexWidgetgroup = AllWidgets.IndexOf(WidgetGroup);
+                        indexWidget = WidgetGroup.IndexOf(w1);
+                    }
+                }
+                Object o;
+                string [] strings = null;
+                switch (indexWidgetgroup) {
+                    case 0: o = Objects.ButtonValues[indexWidget]; strings = Objects.ButtonValuesStrings[indexWidget]; break;
+                    case 4: o = Objects.DateTimeValues[indexWidget]; strings = Objects.DateTimeValuesStrings[indexWidget]; break;
+                    case 10:
+                        if (indexWidget<Objects.NumericValues.Count())
+                            o = Objects.NumericValues[indexWidget];
+                        else
+                            o = Objects.Numeric2DValues[indexWidget-Objects.NumericValues.Count()]; 
+                        strings = indexWidget<Objects.NumericValues.Count()?Objects.NumericValuesStrings[indexWidget]:Objects.Numeric2DValuesStrings[indexWidget-Objects.NumericValues.Count()]; break;
+                }
+                EditValue(strings);
+            }
 
         }
-        void IntlTextBinding(MappViewPage page) {
-            List<string> contents = new List<string>();
-            List<IDE_Main.Editor> editors = new List<IDE_Main.Editor>();
+        IDE_Main.Editor OpenEditor(MappViewPage page, string content) {
+            CloseTextEditor(page, content);
             IDE_Main.Editor e = null;
             foreach (var v in page.Widgets) {
-                string s = page.Name + "." + v[0];
-                if (!contents.Contains(s)) {
-                    contents.Add(s);
-                    e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
-                    if (e.Name == String.Empty)
-                        TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name, "BR_" + v[0] + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
-                    editors.Add(e);
-                }
-                e.Restore();
+                if (content != v[0])
+                    continue;
+                string s = v[0] + ".content";
+                e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
+                if (e.Name == String.Empty)
+                    TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name, "BR_" + v[0] + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
+                else
+                    e.Restore();
                 Mouse.Click(IDE_Main.Workspace.BoundingRectangle.Center());
-                EditText(v[1]);
+            }
+            return e;
+        }
+        IDE_Main.Editor OpenTextEditor(MappViewPage page, string content) {
+            CloseEditor(page, content);
+            IDE_Main.Editor e = null;
+            foreach (var v in page.Widgets) {
+                if (content != v[0])
+                    continue;
+                string s = page.Name + "::" + v[0] + ".content";
+                e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
+                if (e.Name == String.Empty) {
+                    TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
+                    Mouse.RightClick(IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByName("BR_" + content + ".content" + "_Object Name")).BoundingRectangle.Center());
+                    TreeConfig.ClickContextMenuItem(IDE_Main.MainWindow, "Open", "Open As Text");
+                }
+                else
+                    e.Restore();
+                Mouse.Click(IDE_Main.Workspace.BoundingRectangle.Center());
+            }
+            return e;
+        }
+        void CloseTextEditor(MappViewPage page, string content) {
+            IDE_Main.Editor e = null;
+            foreach (var v in page.Widgets) {
+                if (content != v[0])
+                    continue;
+                string s = page.Name + "::" + v[0] + ".content";
+                e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
+                if (e.Name != String.Empty)
+                    e.Close();
+            }
+        }
+        void CloseEditor(MappViewPage page, string content) {
+            IDE_Main.Editor e = null;
+            foreach (var v in page.Widgets) {
+                if (content != v[0])
+                    continue;
+                string s = v[0] + ".content";
+                e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
+                if (e.Name != String.Empty)
+                    e.Close();
             }
         }
         void SelectFromMappViewDropDown(string [] stree, string select) {
@@ -495,32 +607,32 @@ namespace FlaUITests.Util {
                     }
                 }
                 else {
-                    AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-                    AutomationElement size = layout.FindFirstChild(cf => cf.ByName("Size"));
+                    AutomationElement alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
+                    AutomationElement asize = alayout.FindFirstChild(cf => cf.ByName("Size"));
                     while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
                         Mouse.Scroll(1d);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
                         afirst = aproperties.FindFirstChild();
                     }
-                    while (!aproperties.BoundingRectangle.IntersectsWith(size.BoundingRectangle)) {
+                    while (!aproperties.BoundingRectangle.IntersectsWith(asize.BoundingRectangle)) {
                         Mouse.Scroll(-1d);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                        layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-                        size = layout.FindFirstChild(cf => cf.ByName("Size"));
+                        alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
+                        asize = alayout.FindFirstChild(cf => cf.ByName("Size"));
                     }
                     Mouse.Scroll(-2d);
-                    Mouse.Click(new Point {X = size.BoundingRectangle.Left + 5, Y = size.BoundingRectangle.Top + 5});
+                    Mouse.Click(new Point {X = asize.BoundingRectangle.Left + 5, Y = asize.BoundingRectangle.Top + 5});
                     Mouse.Scroll(-2d);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                    AutomationElement s_width = size.FindFirstChild(cf => cf.ByName("width"));
-                    if (width != -1 && int.Parse(s_width.Patterns.Value.Pattern.Value) != width) {
-                        Mouse.DoubleClick(new Point {X = s_width.BoundingRectangle.Right - 20, Y = s_width.BoundingRectangle.Top + s_width.BoundingRectangle.Height/2});
+                    AutomationElement awidth = asize.FindFirstChild(cf => cf.ByName("width"));
+                    if (width != -1 && int.Parse(awidth.Patterns.Value.Pattern.Value) != width) {
+                        Mouse.DoubleClick(new Point {X = awidth.BoundingRectangle.Right - 20, Y = awidth.BoundingRectangle.Top + awidth.BoundingRectangle.Height/2});
                         Keyboard.Type("" + width);
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                     }
-                    AutomationElement s_height = size.FindFirstChild(cf => cf.ByName("height"));
-                    if (height != -1 && int.Parse(s_height.Patterns.Value.Pattern.Value) != height) {
-                        Mouse.DoubleClick(new Point {X = s_height.BoundingRectangle.Right - 20, Y = s_height.BoundingRectangle.Top + s_height.BoundingRectangle.Height/2});
+                    AutomationElement aheight = asize.FindFirstChild(cf => cf.ByName("height"));
+                    if (height != -1 && int.Parse(aheight.Patterns.Value.Pattern.Value) != height) {
+                        Mouse.DoubleClick(new Point {X = aheight.BoundingRectangle.Right - 20, Y = aheight.BoundingRectangle.Top + aheight.BoundingRectangle.Height/2});
                         Keyboard.Type("" + height);
                         Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                     }
@@ -535,7 +647,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
             AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-            AutomationElement position = null;
+            AutomationElement aposition = null;
             while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
                 Mouse.Scroll(1d);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
@@ -550,30 +662,68 @@ namespace FlaUITests.Util {
                 Mouse.Scroll(-2d);
             }
             else {
-                position = layout.FindFirstChild(cf => cf.ByName("Position"));
-                while (position == null || !aproperties.BoundingRectangle.IntersectsWith(position.BoundingRectangle)) {
+                aposition = layout.FindFirstChild(cf => cf.ByName("Position"));
+                while (aposition == null || !aproperties.BoundingRectangle.IntersectsWith(aposition.BoundingRectangle)) {
                     Mouse.Scroll(-1d);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
                     layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-                    position = layout.FindFirstChild(cf => cf.ByName("Position"));
+                    aposition = layout.FindFirstChild(cf => cf.ByName("Position"));
                 }
                 Mouse.Scroll(-2d);
-                Mouse.Click(new Point {X = position.BoundingRectangle.Left + 5, Y = position.BoundingRectangle.Top + 5});
+                Mouse.Click(new Point {X = aposition.BoundingRectangle.Left + 5, Y = aposition.BoundingRectangle.Top + 5});
                 Mouse.Scroll(-2d);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             }
-            AutomationElement p_top = (area?layout:position).FindFirstChild(cf => cf.ByName("top"));
-            AutomationElement p_left = (area?layout:position).FindFirstChild(cf => cf.ByName("left"));
-            if (top != -1 && int.Parse(p_top.Patterns.Value.Pattern.Value) != top) {
-                Mouse.DoubleClick(new Point {X = p_top.BoundingRectangle.Right - 20, Y = p_top.BoundingRectangle.Top + p_top.BoundingRectangle.Height/2});
+            AutomationElement atop = (area?layout:aposition).FindFirstChild(cf => cf.ByName("top"));
+            AutomationElement aleft = (area?layout:aposition).FindFirstChild(cf => cf.ByName("left"));
+            if (top != -1 && int.Parse(atop.Patterns.Value.Pattern.Value) != top) {
+                Mouse.DoubleClick(new Point {X = atop.BoundingRectangle.Right - 20, Y = atop.BoundingRectangle.Top + atop.BoundingRectangle.Height/2});
                 Keyboard.Type("" + top);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             }
-            if (left != -1 && int.Parse(p_left.Patterns.Value.Pattern.Value) != left) {
-                Mouse.DoubleClick(new Point {X = p_left.BoundingRectangle.Right - 20, Y = p_left.BoundingRectangle.Top + p_left.BoundingRectangle.Height/2});
+            if (left != -1 && int.Parse(aleft.Patterns.Value.Pattern.Value) != left) {
+                Mouse.DoubleClick(new Point {X = aleft.BoundingRectangle.Right - 20, Y = aleft.BoundingRectangle.Top + aleft.BoundingRectangle.Height/2});
                 Keyboard.Type("" + left);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             }
+            TreeConfig.IdeMain.SaveAll();
+        }
+        void EditValue(string [] variables) {
+            AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            Mouse.Position = aproperties.BoundingRectangle.Center();
+            Mouse.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
+            AutomationElement alast;
+            AutomationElement adata = aproperties.FindFirstChild(cf => cf.ByName("Data"));
+            AutomationElement avalue;
+            while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
+                Mouse.Scroll(1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
+            }
+            avalue = adata.FindFirstChild(cf => cf.ByName("Value"));
+            while (avalue == null || !aproperties.BoundingRectangle.IntersectsWith(avalue.BoundingRectangle)) {
+                Mouse.Scroll(-1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                adata = aproperties.FindFirstChild(cf => cf.ByName("Data"));
+                avalue = adata.FindFirstChild(cf => cf.ByName("Value"));
+                alast = aproperties.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem)).Last();
+                if (avalue == null && alast.BoundingRectangle.Left != 0)
+                    return;
+            }
+            Mouse.Scroll(-2d);
+            Mouse.Click(new Point {X = avalue.BoundingRectangle.Left + 5, Y = avalue.BoundingRectangle.Top + 5});
+            Mouse.Scroll(-2d);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            AutomationElement abinding = avalue.FindFirstChild(cf => cf.ByName("Binding"));
+            Mouse.DoubleClick(new Point {X = abinding.BoundingRectangle.Right - 20, Y = abinding.BoundingRectangle.Top + abinding.BoundingRectangle.Height/2});
+            FlaUI.Core.AutomationElements.Window selectVariableWindow;
+            while ((selectVariableWindow = TreeConfig.IdeMain.GetModalWindow("Select Variable")) == null)
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            
+            //Keyboard.Type("$IAT/" + text);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             TreeConfig.IdeMain.SaveAll();
         }
         void EditText(string text) {
@@ -584,7 +734,7 @@ namespace FlaUITests.Util {
             AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
             AutomationElement alast;
             AutomationElement appearance = aproperties.FindFirstChild(cf => cf.ByName("Appearance"));
-            AutomationElement atext = null;
+            AutomationElement atext;
             while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
                 Mouse.Scroll(1d);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
