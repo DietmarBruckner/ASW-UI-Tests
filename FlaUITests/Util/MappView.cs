@@ -21,11 +21,29 @@ namespace FlaUITests.Util {
         readonly List<string[]> widgetStrings = new List<string[]>();
         string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
         MappViewObjects Objects = new MappViewObjects();
+        static readonly List<string> buttonDenominators = new List<string> {"ToggleSwitch", "ToggleButton", "RadioButton", "PushButton", "NavigationButton", "MomentaryPushButton", "HoverButton", "Checkbox", "Button"};
+        static readonly List<string> chartDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
+        static readonly List<string> containerDenominators = new List<string> {"ButtonBar", "FlexBox", "FlexLayoutPanel", "FlyOut", "GridLine", "GroupBox", "InfoBanner", /*"Navigation",*/ "NavigationBar", "RadialButtonBar", "RadioButtonGroup", "TabControl", };
+        static readonly List<string> dataDenominators = new List<string> {"AlarmHistory", "AlarmLine", "AlarmList", "AuditList", "FavoriteWatch", "Table", "UserList", "Database"};
+        static readonly List<string> dateTimeDenominators = new List<string> {"DateTimeInput", "DateTimeOutput"};
+        static readonly List<string> drawingDenominators = new List<string> {"Ellipse", "Line", "Rectangle", "Paper"};
+        static readonly List<string> imageDenominators = new List<string> {"Image", "ImageList"};
+        static readonly List<string> loginDenominators = new List<string> {"Login", "LoginButton", "LoginInfo", "LogoutButton", "Password"};
+        static readonly List<string> mediaDenominators = new List<string> {"PDFViewer", "QRViewer", "VideoPlayer", "VNCViewer", "WebViewer"};
+        static readonly List<string> motionDenominators = new List<string> {"MotionPad"};
+        static readonly List<string> numericDenominators = new List<string> {"BasicSlider", "Joystick", "NumericInput", "NumericOutput", "ProgressBar", "RadialSlider", "RangeSlider", "XYJoystick"};
+        static readonly List<string> selectorDenominators = new List<string> {"DropDownBox", "ListBox", "TextPicker"};
+        static readonly List<string> systemDenominators = new List<string> {"KeyBoard", "LanguageSelector", "MeasurementSystemSelector", "MotionKeyPad", "NumPad", "SystemNavButton", "SystemLogin", "TextKeyPad", "DateTimePicker", "ContentControl", "ContentCarousel"};
+        static readonly List<string> textDenominators = new List<string> {"Label", "TextInput", "TextOutput", "TextPad"};
+        static readonly List<string> processDenominators = new List<string> {"Sequencer", "LadderEditor", "Skyline"};
+        bool [] toTestWidgets = new bool[] {true, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
+        List<List<string>string> TestWidgets = new List<List<string>> {buttonDenominators, chartDenominators, containerDenominators, dataDenominators, dateTimeDenominators, drawingDenominators, imageDenominators, loginDenominators, mediaDenominators, motionDenominators, numericDenominators, selectorDenominators, systemDenominators, textDenominators, processDenominators};
         public override void InitComponent() {
             editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
             editorPathTS = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\TextSystem\\n.d\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             ReadConfiguration();
+            Objects.Pages = new List<MappViewPage>();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
@@ -288,21 +306,6 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
-            List<string> buttonDenominators = new List<string> {"ToggleSwitch", "ToggleButton", "RadioButton", "PushButton", "NavigationButton", "MomentaryPushButton", "HoverButton", "Checkbox", "Button"};
-            List<string> chartDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
-            List<string> containerDenominators = new List<string> {"ButtonBar", "FlexBox", "FlexLayoutPanel", "FlyOut", "GridLine", "GroupBox", "InfoBanner", /*"Navigation",*/ "NavigationBar", "RadialButtonBar", "RadioButtonGroup", "TabControl", };
-            List<string> dataDenominators = new List<string> {"AlarmHistory", "AlarmLine", "AlarmList", "AuditList", "FavoriteWatch", "Table", "UserList", "Database"};
-            List<string> dateTimeDenominators = new List<string> {"DateTimeInput", "DateTimeOutput"};
-            List<string> drawingDenominators = new List<string> {"Ellipse", "Line", "Rectangle", "Paper"};
-            List<string> imageDenominators = new List<string> {"Image", "ImageList"};
-            List<string> laginDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
-            List<string> mediaDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
-            List<string> motionDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
-            List<string> numericDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
-            List<string> selectorDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
-            List<string> systemDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
-            List<string> textDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
-            List<string> processDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
             foreach(string[] text in widgetStrings) {
                 if (!buttonDenominators.Any(text[0].Contains))
                     continue;
@@ -318,6 +321,10 @@ namespace FlaUITests.Util {
                 EditSize(width:500, height:400);
                 EditPosition(left:100, top:50);
                 e.Close();
+                List<string[]> ls = new List<string[]> { new string[] { contentName, text[0] } };
+                MappViewPage p = new MappViewPage(pageName, ls);
+                IntlTextBinding(p);
+                Objects.Pages.Add(p);
             }
         }   
         void TM611_6_Navigation() {
@@ -389,6 +396,24 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
             TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out Objects.ButtonValuesStrings, "Visualization");
 
+        }
+        void IntlTextBinding(MappViewPage page) {
+            List<string> contents = new List<string>();
+            List<IDE_Main.Editor> editors = new List<IDE_Main.Editor>();
+            IDE_Main.Editor e = null;
+            foreach (var v in page.Widgets) {
+                string s = page.Name + "." + v[0];
+                if (!contents.Contains(s)) {
+                    contents.Add(s);
+                    e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
+                    if (e.Name == String.Empty)
+                        TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name, "BR_" + v[0] + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
+                    editors.Add(e);
+                }
+                e.Restore();
+                Mouse.Click(IDE_Main.Workspace.BoundingRectangle.Center());
+                EditText(v[1]);
+            }
         }
         void SelectFromMappViewDropDown(string [] stree, string select) {
             if (Verbose >= Util.Environment.Verbose.FULL)
@@ -535,6 +560,40 @@ namespace FlaUITests.Util {
                 Keyboard.Type("" + left);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             }
+            TreeConfig.IdeMain.SaveAll();
+        }
+        void EditText(string text) {
+            AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            Mouse.Position = aproperties.BoundingRectangle.Center();
+            Mouse.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
+            AutomationElement alast;
+            AutomationElement appearance = aproperties.FindFirstChild(cf => cf.ByName("Appearance"));
+            AutomationElement atext = null;
+            while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
+                Mouse.Scroll(1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
+            }
+            atext = appearance.FindFirstChild(cf => cf.ByName("Text"));
+            while (atext == null || !aproperties.BoundingRectangle.IntersectsWith(atext.BoundingRectangle)) {
+                Mouse.Scroll(-1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                appearance = aproperties.FindFirstChild(cf => cf.ByName("Appearance"));
+                atext = appearance.FindFirstChild(cf => cf.ByName("Text"));
+                alast = aproperties.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem)).Last();
+                if (atext == null && alast.BoundingRectangle.Left != 0)
+                    return;
+            }
+            Mouse.Scroll(-2d);
+            Mouse.Click(new Point {X = atext.BoundingRectangle.Left + 5, Y = atext.BoundingRectangle.Top + 5});
+            Mouse.Scroll(-2d);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            AutomationElement adefault = atext.FindFirstChild(cf => cf.ByName("Default"));
+            Mouse.DoubleClick(new Point {X = adefault.BoundingRectangle.Right - 20, Y = adefault.BoundingRectangle.Top + adefault.BoundingRectangle.Height/2});
+            Keyboard.Type("$IAT/" + text);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             TreeConfig.IdeMain.SaveAll();
         }
         public static void SomethingToRunInThread(Object o) {
