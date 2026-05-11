@@ -26,7 +26,7 @@ namespace FlaUITests.Util {
         public static void ClickComboBoxTreeItem(Window window, int index) {
             if (CurrentProject != null && CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Trying to click " + (index+1) + "-th element of list");
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
             ClickAutomationElement(comboBox.FindAllChildren()[index]);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
