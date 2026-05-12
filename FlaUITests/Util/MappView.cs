@@ -74,8 +74,9 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             InsertWidgets();
             TreeConfig.IdeMain.Build();
-*/          TM611_6_Navigation();
-            TM611_8_Binding();
+            TM611_6_Navigation();
+            TreeConfig.IdeMain.Build();
+*/            TM611_8_Binding();
         }
         public override void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null, out var e);
@@ -395,7 +396,7 @@ namespace FlaUITests.Util {
             navcontent_editor = IDE_Main.Editors.Find(x => x.Name.Contains("Navigation.content"));
             navcontent_editor.Restore();
             Mouse.Click(navcontent_editor.ConfigWorkspace.BoundingRectangle.Center());
-            SelectFromMappViewDropDown("Data", "navRefId", "navigation_0"); //geht net
+            SelectFromMappViewDropDown("Data", "navRefId", "navigation_0");
             navcontent_editor.Close();
         }
         void TM611_8_Binding() {
@@ -431,6 +432,8 @@ namespace FlaUITests.Util {
             editor.Restore(); //geht net
             ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
  */            AutomationElement visuRoot = ConfigRoot.FindFirstDescendant(cf => cf.ByName("BR_Visualizat"));
+            TreeConfig.ClickConfigTreeItem(TreeConfig.ViewType.Workspace, visuRoot, "_Name");
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
             Button enableTag = editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("OPC UA Default View")).FindFirstChild(cf => cf.ByName("Enable Tag")).AsButton();
             AutomationElement [] vars = visuRoot.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
             foreach(var v in vars) {
