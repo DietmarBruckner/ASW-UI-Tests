@@ -581,8 +581,13 @@ namespace FlaUITests.Util {
             Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Rectangle rec = TreeConfig.IdeMain.FindWordinCapture(properties, select);
-            Point point = new Point {X = properties.BoundingRectangle.Left + rec.Left + rec.Width/2, Y = properties.BoundingRectangle.Top + rec.Top + rec.Height/2};
-            Mouse.Click(point);
+            if (rec != Rectangle.Empty) {
+                Point point = new Point {X = properties.BoundingRectangle.Left + rec.Left + rec.Width/2, Y = properties.BoundingRectangle.Top + rec.Top + rec.Height/2};
+                Mouse.Click(point);
+            }
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            //check
+            rec = TreeConfig.IdeMain.FindWordinCapture(properties, select);
         }
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
             AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
@@ -590,8 +595,8 @@ namespace FlaUITests.Util {
             Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
-            if (content) {
-                AutomationElement aproperty = aproperties.FindFirstChild(cf => cf.ByName("Property"));
+            if (content || area) {
+                AutomationElement aproperty = aproperties.FindFirstChild(cf => cf.ByName(content?"Property":"Layout"));
                 AutomationElement aheight = aproperty.FindFirstChild(cf => cf.ByName("height"));
                 AutomationElement awidth = aproperty.FindFirstChild(cf => cf.ByName("width"));
                 if (width != -1) {
@@ -605,51 +610,21 @@ namespace FlaUITests.Util {
                     Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 }
             }
-            else { if (area) {
-                    AutomationElement layout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-                    AutomationElement aheight = layout.FindFirstChild(cf => cf.ByName("height"));
-                    AutomationElement awidth = layout.FindFirstChild(cf => cf.ByName("width"));
-                    if (width != -1) {
-                        Mouse.DoubleClick(new Point {X = awidth.BoundingRectangle.Right - 20, Y = awidth.BoundingRectangle.Top + awidth.BoundingRectangle.Height/2});
-                        Keyboard.Type("" + width);
-                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-                    }
-                    if (height != -1) {
-                        Mouse.DoubleClick(new Point {X = aheight.BoundingRectangle.Right - 20, Y = aheight.BoundingRectangle.Top + aheight.BoundingRectangle.Height/2});
-                        Keyboard.Type("" + height);
-                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-                    }
+            else {
+                ScrollFindProperty("Layout", "Size");
+                AutomationElement alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
+                AutomationElement asize = alayout.FindFirstChild(cf => cf.ByName("Size"));
+                AutomationElement awidth = asize.FindFirstChild(cf => cf.ByName("width"));
+                if (width != -1 && int.Parse(awidth.Patterns.Value.Pattern.Value) != width) {
+                    Mouse.DoubleClick(new Point {X = awidth.BoundingRectangle.Right - 20, Y = awidth.BoundingRectangle.Top + awidth.BoundingRectangle.Height/2});
+                    Keyboard.Type("" + width);
+                    Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 }
-                else {
-                    AutomationElement alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-                    AutomationElement asize = alayout.FindFirstChild(cf => cf.ByName("Size"));
-                    while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
-                        Mouse.Scroll(1d);
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                        afirst = aproperties.FindFirstChild();
-                    }
-                    while (!aproperties.BoundingRectangle.IntersectsWith(asize.BoundingRectangle)) {
-                        Mouse.Scroll(-1d);
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                        alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-                        asize = alayout.FindFirstChild(cf => cf.ByName("Size"));
-                    }
-                    Mouse.Scroll(-2d);
-                    Mouse.Click(new Point {X = asize.BoundingRectangle.Left + 5, Y = asize.BoundingRectangle.Top + 5});
-                    Mouse.Scroll(-2d);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                    AutomationElement awidth = asize.FindFirstChild(cf => cf.ByName("width"));
-                    if (width != -1 && int.Parse(awidth.Patterns.Value.Pattern.Value) != width) {
-                        Mouse.DoubleClick(new Point {X = awidth.BoundingRectangle.Right - 20, Y = awidth.BoundingRectangle.Top + awidth.BoundingRectangle.Height/2});
-                        Keyboard.Type("" + width);
-                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-                    }
-                    AutomationElement aheight = asize.FindFirstChild(cf => cf.ByName("height"));
-                    if (height != -1 && int.Parse(aheight.Patterns.Value.Pattern.Value) != height) {
-                        Mouse.DoubleClick(new Point {X = aheight.BoundingRectangle.Right - 20, Y = aheight.BoundingRectangle.Top + aheight.BoundingRectangle.Height/2});
-                        Keyboard.Type("" + height);
-                        Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-                    }
+                AutomationElement aheight = asize.FindFirstChild(cf => cf.ByName("height"));
+                if (height != -1 && int.Parse(aheight.Patterns.Value.Pattern.Value) != height) {
+                    Mouse.DoubleClick(new Point {X = aheight.BoundingRectangle.Right - 20, Y = aheight.BoundingRectangle.Top + aheight.BoundingRectangle.Height/2});
+                    Keyboard.Type("" + height);
+                    Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                 }
             }
             TreeConfig.IdeMain.SaveAll();
@@ -742,38 +717,58 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
         }
         void EditText(string text) {
+            ScrollFindProperty("Appearance", "Text");
             AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
-            Mouse.Position = aproperties.BoundingRectangle.Center();
-            Mouse.Click();
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
-            AutomationElement alast;
             AutomationElement appearance = aproperties.FindFirstChild(cf => cf.ByName("Appearance"));
-            AutomationElement atext;
-            while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
-                Mouse.Scroll(1d);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
-            }
-            atext = appearance.FindFirstChild(cf => cf.ByName("Text"));
-            while (atext == null || !aproperties.BoundingRectangle.IntersectsWith(atext.BoundingRectangle)) {
-                Mouse.Scroll(-1d);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                appearance = aproperties.FindFirstChild(cf => cf.ByName("Appearance"));
-                atext = appearance.FindFirstChild(cf => cf.ByName("Text"));
-                alast = aproperties.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem)).Last();
-                if (atext == null && aproperties.BoundingRectangle.IntersectsWith(alast.BoundingRectangle))
-                    return;
-            }
-            Mouse.Scroll(-2d);
-            Mouse.Click(new Point {X = atext.BoundingRectangle.Left + 5, Y = atext.BoundingRectangle.Top + 5});
-            Mouse.Scroll(-2d);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            AutomationElement atext = appearance.FindFirstChild(cf => cf.ByName("Text"));
             AutomationElement adefault = atext.FindFirstChild(cf => cf.ByName("Default"));
             Mouse.DoubleClick(new Point {X = adefault.BoundingRectangle.Right - 20, Y = adefault.BoundingRectangle.Top + adefault.BoundingRectangle.Height/2});
             Keyboard.Type("$IAT/" + text);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             TreeConfig.IdeMain.SaveAll();
+        }
+        void ScrollFindProperty(string property, string sub = null, bool opensub = false) {
+            AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            Mouse.Position = aproperties.BoundingRectangle.Center();
+            Mouse.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
+            AutomationElement aproperty = aproperties.FindFirstChild(cf => cf.ByName(property));
+            AutomationElement alast, asub = null;
+            while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
+                Mouse.Scroll(1d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
+            }
+            if (sub != null) {
+                asub = aproperty.FindFirstChild(cf => cf.ByName(sub));
+                while (asub == null || !aproperties.BoundingRectangle.IntersectsWith(asub.BoundingRectangle)) {
+                    Mouse.Scroll(-1d);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                    aproperty = aproperties.FindFirstChild(cf => cf.ByName(property));
+                    asub = aproperty.FindFirstChild(cf => cf.ByName(sub));
+                    alast = aproperties.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem)).Last();
+                    if (asub == null && aproperties.BoundingRectangle.IntersectsWith(alast.BoundingRectangle))
+                        return;
+                }
+            }
+            else {
+                while (aproperty == null || !aproperties.BoundingRectangle.IntersectsWith(aproperty.BoundingRectangle)) {
+                    Mouse.Scroll(-1d);
+                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                    aproperty = aproperties.FindFirstChild(cf => cf.ByName(property));
+                    alast = aproperties.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem)).Last();
+                    if (aproperty == null && aproperties.BoundingRectangle.IntersectsWith(alast.BoundingRectangle))
+                        return;
+                }
+                
+            }
+            Mouse.Scroll(-2d);
+            if (opensub) {
+                Mouse.Click(new Point {X = asub.BoundingRectangle.Left + 5, Y = asub.BoundingRectangle.Top + 5});
+                Mouse.Scroll(-2d);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            }
         }
         public static void SomethingToRunInThread(Object o) {
             System.Windows.Clipboard.SetText((string) o);
