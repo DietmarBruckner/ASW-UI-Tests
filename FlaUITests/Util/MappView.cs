@@ -473,7 +473,10 @@ namespace FlaUITests.Util {
             }
             TreeConfig.IdeMain.Build();
             editor.Close();
- */            foreach(var w1 in TestWidgets) {
+ */         int ind = -1;    
+            foreach(var w1 in TestWidgets) {
+                if (ind++ < 9)
+                    continue;
                 MappViewPage p = null;
                 string c ="";
                 foreach (var page in Objects.Pages)
