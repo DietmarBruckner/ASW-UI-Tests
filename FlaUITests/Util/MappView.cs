@@ -434,8 +434,9 @@ namespace FlaUITests.Util {
  */            AutomationElement visuRoot = ConfigRoot.FindFirstDescendant(cf => cf.ByName("BR_Visualizat"));
             TreeConfig.ClickConfigTreeItem(TreeConfig.ViewType.Workspace, visuRoot, "_Name");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Button enableTag = editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("OPC UA Default View")).FindFirstChild(cf => cf.ByName("Enable Tag")).AsButton();
+            visuRoot = ConfigRoot.FindFirstDescendant(cf => cf.ByName("BR_Visualizat"));
             AutomationElement [] vars = visuRoot.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
             foreach(var v in vars) {
                 AutomationElement aname = v.FindAllChildren().First(cf => cf.Name.IndexOf("_Name") > 0);
