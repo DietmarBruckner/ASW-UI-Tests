@@ -76,7 +76,33 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_6_Navigation();
             TreeConfig.IdeMain.Build();
-*/            TM611_8_Binding();
+*/            CreatePageContents();
+            TM611_8_Binding();
+        }
+        void CreatePageContents()
+        {
+            int pageID = 0;
+            string pageName, contentName;
+            foreach(string text in TestWidgets) {
+                pageID++;
+                pageName = "page_" + pageID;
+                contentName = "content_" + pageID;
+                List<string[]> ls = new List<string[]> { new string[] { contentName, text } };
+                MappViewPage p = new MappViewPage(pageName, ls);
+                Objects.Pages.Add(p);
+            }
+            Objects.ButtonValuesStrings = new string[buttonDenominators.Count][];
+            for (int i = 0; i < buttonDenominators.Count; i++)
+                Objects.ButtonValuesStrings[i] = new string[] { "System_Boolean_" + i, "BOOL" };
+            Objects.DateTimeValuesStrings = new string[dateTimeDenominators.Count][];
+            for (int i = 0; i < dateTimeDenominators.Count; i++)
+                Objects.DateTimeValuesStrings[i] = new string[] { "System_DateTime_" + i, "DT" };
+            Objects.NumericValuesStrings = new string[numericDenominators.Count][];
+            for (int i = 0; i < numericDenominators.Count - 2; i++)
+                Objects.NumericValuesStrings[i] = new string[] { "System_Single_" + i, "REAL" };
+            Objects.Numeric2DValuesStrings = new string[2][];
+            for (int i = 0; i < 2; i++)
+                Objects.Numeric2DValuesStrings[i] = new string[] { "System_Single_a" + i, "REAL[0..2]" };
         }
         public override void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null, out var e);
@@ -431,7 +457,7 @@ namespace FlaUITests.Util {
             }
             editor.Restore(); //geht net
             ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
- */            AutomationElement visuRoot = ConfigRoot.FindFirstDescendant(cf => cf.ByName("BR_Visualizat"));
+            AutomationElement visuRoot = ConfigRoot.FindFirstDescendant(cf => cf.ByName("BR_Visualizat"));
             TreeConfig.ClickConfigTreeItem(TreeConfig.ViewType.Workspace, visuRoot, "_Name");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
@@ -446,7 +472,7 @@ namespace FlaUITests.Util {
             }
             TreeConfig.IdeMain.Build();
             editor.Close();
-            foreach(var w1 in TestWidgets) {
+ */            foreach(var w1 in TestWidgets) {
                 MappViewPage p = null;
                 string c ="";
                 foreach (var page in Objects.Pages)
