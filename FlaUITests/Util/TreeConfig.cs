@@ -42,7 +42,7 @@ namespace FlaUITests.Util {
         public static void ClickContextMenuItem(Window window, string menuItemName, string subMenuItemName = null) {
             if (CurrentProject != null && CurrentProject.verbose >= Util.Environment.Verbose.FULL)
                 Console.WriteLine("Trying to click menu item: " + menuItemName + (subMenuItemName!=null?", " + subMenuItemName:""));
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             AutomationElement menu = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.Menu));
             FlaUI.Core.AutomationElements.MenuItem toClick = menu.FindFirstChild(cf => cf.ByName(menuItemName)).AsMenuItem();
             toClick.Click();
