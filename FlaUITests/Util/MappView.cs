@@ -582,7 +582,7 @@ namespace FlaUITests.Util {
                     continue;
                 string s = v[0] + ".content";
                 e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
-                if (e.Name != String.Empty)
+                if (e != null && e.Name != String.Empty)
                     e.Close();
             }
         }
