@@ -537,7 +537,7 @@ namespace FlaUITests.Util {
                 if (content != v[0])
                     continue;
                 string s = v[0] + ".content";
-                e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
+                e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
                 if (e == null)
                     TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name, "BR_" + v[0] + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
                 else
@@ -553,7 +553,7 @@ namespace FlaUITests.Util {
                 if (content != v[0])
                     continue;
                 string s = page.Name + "::" + v[0] + ".content";
-                e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
+                e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
                 if (e == null) {
                     TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name, "BR_" + content + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e, singleclicklast:true);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
@@ -575,7 +575,7 @@ namespace FlaUITests.Util {
                 if (content != v[0])
                     continue;
                 string s = page.Name + "::" + v[0] + ".content";
-                e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
+                e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
                 if (e != null && e.Name != String.Empty)
                     e.Close();
             }
@@ -586,7 +586,7 @@ namespace FlaUITests.Util {
                 if (content != v[0])
                     continue;
                 string s = v[0] + ".content";
-                e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
+                e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
                 if (e != null && e.Name != String.Empty)
                     e.Close();
             }
