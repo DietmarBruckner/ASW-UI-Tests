@@ -103,7 +103,8 @@ namespace FlaUITests.Util {
             Objects.Numeric2DValuesStrings = new string[2][];
             for (int i = 0; i < 2; i++)
                 Objects.Numeric2DValuesStrings[i] = new string[] { "System_Single_a" + i, "REAL[0..2]" };
-        }
+            width = 800;
+            height = 600;        }
         public override void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null, out var e);
             if (Verbose >= Util.Environment.Verbose.STEPS) {
