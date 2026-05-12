@@ -503,6 +503,7 @@ namespace FlaUITests.Util {
                     }
                 }
                 e = OpenEditor(p, c, false);
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(1000));
                 TreeConfig.IdeMain.SetIWorkspaceMinSize(IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor"))));
                 Mouse.MoveTo(new Point {X = IDE_Main.Workspace.BoundingRectangle.Left + (int)(IDE_Main.Workspace.BoundingRectangle.Width * (_left+_width/2)/width), Y = IDE_Main.Workspace.BoundingRectangle.Top + (int)(IDE_Main.Workspace.BoundingRectangle.Height * (_top+_height/2)/height)});
                 Mouse.Click();
