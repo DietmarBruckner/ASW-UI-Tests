@@ -486,7 +486,7 @@ namespace FlaUITests.Util {
                             c = w2[0];
                         }
                 e = OpenEditor(p, c, textEditor:true);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                 Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
@@ -506,7 +506,7 @@ namespace FlaUITests.Util {
                     }
                 }
                 e = OpenEditor(p, c, textEditor:false);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                 TreeConfig.IdeMain.SetIWorkspaceMinSize(IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor"))));
                 Mouse.MoveTo(new Point {X = IDE_Main.Workspace.BoundingRectangle.Left + (int)(IDE_Main.Workspace.BoundingRectangle.Width * (_left+_width/2)/width), Y = IDE_Main.Workspace.BoundingRectangle.Top + (int)(IDE_Main.Workspace.BoundingRectangle.Height * (_top+_height/2)/height)});
                 Mouse.Click();
