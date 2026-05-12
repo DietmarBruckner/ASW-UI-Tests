@@ -483,7 +483,7 @@ namespace FlaUITests.Util {
                             c = w2[0];
                         }
                 e = OpenEditor(p, c, true);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(1000));
                 Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
@@ -530,6 +530,7 @@ namespace FlaUITests.Util {
                 }
                 EditValue(str);
                 doc = null;
+                e.Close();
             }
 
         }
