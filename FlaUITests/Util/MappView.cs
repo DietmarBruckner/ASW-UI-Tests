@@ -333,7 +333,7 @@ namespace FlaUITests.Util {
                 TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", text, drag:true, toDrag:editorCenter);
                 EditSize(width:500, height:400);
                 EditPosition(left:100, top:50);
-                EditText(text);
+                EditText(text); //geht net
                 List<string[]> ls = new List<string[]> { new string[] { contentName, text } };
                 MappViewPage p = new MappViewPage(pageName, ls);
                 //IntlTextBinding(p);
@@ -363,7 +363,7 @@ namespace FlaUITests.Util {
             string outText = copiedText.Substring(0, firstIndex);
             int pageID = 0;
             string pageName, page0Name = "page_0";
-            for(int i=0; i<inputWidgetStrings.Count+1; i++) {
+            for(int i=0; i<inputWidgetStrings.Count+1; i++) { //ausklammern!
                 outText += _navStrings[0];
                 pageName = "page_" + pageID;
                 outText += pageName;
@@ -395,10 +395,10 @@ namespace FlaUITests.Util {
             navcontent_editor = IDE_Main.Editors.Find(x => x.Name.Contains("Navigation.content"));
             navcontent_editor.Restore();
             Mouse.Click(navcontent_editor.ConfigWorkspace.BoundingRectangle.Center());
-            SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0");
+            SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0"); //geht net
+            navcontent_editor.Close();
         }
         void TM611_8_Binding() {
-            //navcontent_editor.Close();
             IDE_Main.Editor e;
              if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
@@ -428,7 +428,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Activating Variables in Default View");
             }
-            editor.Restore();
+            editor.Restore(); //geht net
             ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
             AutomationElement visuRoot = ConfigRoot.FindFirstDescendant(cf => cf.ByName("BR_Visualizat"));
             Button enableTag = editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("OPC UA Default View")).FindFirstChild(cf => cf.ByName("Enable Tag")).AsButton();
@@ -726,7 +726,7 @@ namespace FlaUITests.Util {
                 adata = aproperties.FindFirstChild(cf => cf.ByName("Data"));
                 avalue = adata.FindFirstChild(cf => cf.ByName("Value"));
                 alast = aproperties.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem)).Last();
-                if (avalue == null && alast.BoundingRectangle.Left != 0)
+                if (avalue == null && aproperties.BoundingRectangle.IntersectsWith(alast.BoundingRectangle))
                     return;
             }
             Mouse.Scroll(-2d);
@@ -762,7 +762,7 @@ namespace FlaUITests.Util {
                 appearance = aproperties.FindFirstChild(cf => cf.ByName("Appearance"));
                 atext = appearance.FindFirstChild(cf => cf.ByName("Text"));
                 alast = aproperties.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem)).Last();
-                if (atext == null && alast.BoundingRectangle.Left != 0)
+                if (atext == null && aproperties.BoundingRectangle.IntersectsWith(alast.BoundingRectangle))
                     return;
             }
             Mouse.Scroll(-2d);
