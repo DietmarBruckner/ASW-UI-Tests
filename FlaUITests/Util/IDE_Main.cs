@@ -949,16 +949,16 @@ namespace FlaUITests.Util {
                 else
                     Tab.Click();
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
-                TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
-                try {Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);} catch (Exception) {}
             }
             public void Close() {
                 Restore();
+                AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
+                try {Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);} catch (Exception) {}
                 TreeConfig.IdeMain.Save();
                 Rectangle rec;
                 Point point;
                 if (Tab == null) { //first TabItem doesn't show up in this list
-                    AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
+                    TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
                     Tab = TabList.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem));
                     rec = Tab.BoundingRectangle;
                     point = new Point {X = rec.Left - 10, Y = rec.Top + 10};
