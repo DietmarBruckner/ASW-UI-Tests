@@ -538,7 +538,7 @@ namespace FlaUITests.Util {
             CloseEditor(page, content, !textEditor);
             IDE_Main.Editor e = null;
             string s = textEditor ? page.Name + "::" + content + ".content" : content + ".content";
-            e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
+            e = IDE_Main.Editors.Find(x => x.Name == s);
             if (e == null) {
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name, "BR_" + content + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e, singleclicklast:textEditor);
                 if (textEditor) {
@@ -555,7 +555,7 @@ namespace FlaUITests.Util {
         void CloseEditor(MappViewPage page, string content, bool textEditor = false) {
             IDE_Main.Editor e = null;
             string s = textEditor ? page.Name + "::" + content + ".content" : content + ".content";
-            e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
+            e = IDE_Main.Editors.Find(x => x.Name == s);
             if (e != null && e.Name != String.Empty)
                 e.Close();
         }
