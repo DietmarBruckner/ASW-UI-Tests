@@ -489,9 +489,10 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 string copiedText = Clipboard.GetText();
                 XDocument doc = XDocument.Parse(copiedText);
-                XElement content = doc.Root;
+                XElement xContent = doc.Root;
+                XElement xWidgets = xContent.Element("Widgets");
                 int _top=0, _left=0, _width=0, _height=0;
-                foreach (XElement widgetElement in content.Elements("Widgets")) {
+                foreach (XElement widgetElement in xWidgets.Elements("Widget")) {
                     XAttribute idAttr = widgetElement.Attribute("id");
                     if (idAttr != null && idAttr.Value == w1 + "1") {
                         _top = int.Parse(widgetElement.Attribute("top").Value);
