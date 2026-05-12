@@ -148,7 +148,7 @@ namespace FlaUITests.Util {
                         Console.WriteLine("Could not locate " + element.Name);
             }
         }
-        public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, out IDE_Main.Editor editor, AutomationElement root = null, string Editorname = null, bool program = false, int shortcut = -1, bool singleclick = false) {
+        public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, out IDE_Main.Editor editor, AutomationElement root = null, string Editorname = null, bool program = false, int shortcut = -1, bool singleclicklast = false) {
             AutomationElement ae = null;
             IDE_Main.Editor e = null;
             if (leaves != null) {
@@ -233,7 +233,7 @@ namespace FlaUITests.Util {
                 }
                 else if (leaves.IndexOf(sub) >= leaves.Count - 1 - shortcut) {
                     if (leaves.IndexOf(sub) == leaves.Count - 1)
-                        ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], !singleclick);
+                        ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], !singleclicklast);
                     else
                         ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
