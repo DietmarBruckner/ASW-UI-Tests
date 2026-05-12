@@ -72,9 +72,10 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
            TM611_5_Layout();
             TreeConfig.IdeMain.Build();
- */            InsertWidgets();
+             InsertWidgets();
             TreeConfig.IdeMain.Build();
-            TM611_6_Navigation();
+*/            SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0");
+            //TM611_6_Navigation();
             TM611_8_Binding();
         }
         public override void TM611_4_InsertComponent() {
@@ -363,7 +364,7 @@ namespace FlaUITests.Util {
             string outText = copiedText.Substring(0, firstIndex);
             int pageID = 0;
             string pageName, page0Name = "page_0";
-            for(int i=0; i<inputWidgetStrings.Count+1; i++) { //ausklammern!
+            for(int i=0; i<TestWidgets.Count+1; i++) {
                 outText += _navStrings[0];
                 pageName = "page_" + pageID;
                 outText += pageName;
@@ -373,7 +374,7 @@ namespace FlaUITests.Util {
                 pageName = "page_" + (pageID==0?0:(pageID-1));
                 outText += pageName;
                 outText += _navStrings[5];
-                if (i != inputWidgetStrings.Count) {
+                if (i != TestWidgets.Count) {
                     outText += _navStrings[6];
                     pageName = "page_" + (pageID+1);
                     outText += pageName;
