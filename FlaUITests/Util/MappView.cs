@@ -554,11 +554,12 @@ namespace FlaUITests.Util {
                 string s = page.Name + "::" + v[0] + ".content";
                 e = IDE_Main.Editors.Find(x => x.Name.Contains(s));
                 if (e == null) {
-                    TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
+                    TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name, "BR_" + content + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e, singleclicklast:true);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-                    AutomationElement pageContent = IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByName("BR_" + content + ".content"));
-                    AutomationElement pageContentName = pageContent.FindFirstChild(cf => cf.ByName("BR_" + content + ".content" +"_Object Name"));
-                    Mouse.RightClick(pageContentName.BoundingRectangle.Center());
+                    //AutomationElement pageContent = IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByName("BR_" + content + ".content"));
+                    //AutomationElement pageContentName = pageContent.FindFirstChild(cf => cf.ByName("BR_" + content + ".content" +"_Object Name"));
+                    //Mouse.RightClick(pageContentName.BoundingRectangle.Center());
+                    Mouse.RightClick();
                     TreeConfig.ClickContextMenuItem(IDE_Main.MainWindow, "Open", "Open As Text");
                 }
                 else
