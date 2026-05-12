@@ -165,7 +165,7 @@ namespace FlaUITests.Util {
                 case ViewType.LogicalView:
                     ae = IdeMain.GetLogicalViewRoot(CurrentProject);
                     if (shortcut == -1)
-                        ClickConfigTreeItem(viewType, ae, "_Object Name", singleclicklast);
+                        ClickConfigTreeItem(viewType, ae, "_Object Name", true);
                     if (leaves == null) {
                         editor = e;
                         return;
@@ -226,7 +226,7 @@ namespace FlaUITests.Util {
                     }
                     else {//Double click all tree items to expand them, as tree items in Configuration view expand on double click
                         if (leaves.IndexOf(sub) == leaves.Count - 1)
-                            ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], singleclicklast);
+                            ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], !singleclicklast);
                         else
                             ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
