@@ -475,7 +475,7 @@ namespace FlaUITests.Util {
             editor.Close();
  */         int ind = -1;    
             foreach(var w1 in TestWidgets) {
-                if (ind++ < 9)
+                if (ind++ < 8)
                     continue;
                 MappViewPage p = null;
                 string c ="";
