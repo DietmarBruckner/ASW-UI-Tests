@@ -491,6 +491,7 @@ namespace FlaUITests.Util {
                 XDocument doc = XDocument.Parse(copiedText);
                 XElement xContent = doc.Root;
                 XName widg = XName.Get("Widgets");
+                XElement [] allElements = xContent.Nodes().OfType<XElement>().ToArray();
                 XElement xWidgets = xContent.Nodes().OfType<XElement>().FirstOrDefault(x => x.Name == widg);
                 //.Element(widg);
                 int _top=0, _left=0, _width=0, _height=0;
