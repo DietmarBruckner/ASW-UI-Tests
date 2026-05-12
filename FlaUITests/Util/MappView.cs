@@ -294,10 +294,10 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SetIWorkspaceMinSize(editor, percent:true);
             Mouse.MoveTo(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 50/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 300/600)});
             Mouse.Click();
-            SelectFromMappViewDropDown(new string [] {"Common", "refId"}, "Navigation");
+            SelectFromMappViewDropDown("Common", "refId", "Navigation");
             Mouse.MoveTo(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 400/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 50/600)});
             Mouse.Click();
-            SelectFromMappViewDropDown(new string [] {"Common", "refId"}, "Info_Pane");
+            SelectFromMappViewDropDown("Common", "refId", "Info_Pane");
             TreeConfig.IdeMain.SaveAll();
             page0_editor.Close();
             layout0_editor.Close();
@@ -397,7 +397,7 @@ namespace FlaUITests.Util {
             navcontent_editor = IDE_Main.Editors.Find(x => x.Name.Contains("Navigation.content"));
             navcontent_editor.Restore();
             Mouse.Click(navcontent_editor.ConfigWorkspace.BoundingRectangle.Center());
-            SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0"); //geht net
+            SelectFromMappViewDropDown("Data", "navRefId", "navigation_0"); //geht net
             navcontent_editor.Close();
         }
         void TM611_8_Binding() {
@@ -573,8 +573,6 @@ namespace FlaUITests.Util {
             Point point = new Point {X = properties.BoundingRectangle.Left + rec.Left + rec.Width/2, Y = properties.BoundingRectangle.Top + rec.Top + rec.Height/2};
             Mouse.Click(point);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-            //check
-            rec = TreeConfig.IdeMain.FindWordinCapture(properties, select);
         }
         void EditSize(int width = -1, int height = -1, bool content = false, bool area = false) {
             AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
