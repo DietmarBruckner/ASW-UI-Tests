@@ -545,6 +545,7 @@ namespace FlaUITests.Util {
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                     Mouse.RightClick();
                     TreeConfig.ClickContextMenuItem(IDE_Main.MainWindow, "Open", "Open As Text");
+                    e.Rename(s);
                 }
             }
             else
