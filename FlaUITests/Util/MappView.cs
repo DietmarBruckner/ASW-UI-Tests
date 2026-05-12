@@ -482,7 +482,7 @@ namespace FlaUITests.Util {
                             p = page;
                             c = w2[0];
                         }
-                e = OpenTextEditor(p, c);
+                e = OpenEditor(p, c, true);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
                 Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
@@ -502,7 +502,7 @@ namespace FlaUITests.Util {
                         _height = int.Parse(widgetElement.Attribute("height").Value);
                     }
                 }
-                e = OpenEditor(p, c);
+                e = OpenEditor(p, c, false);
                 TreeConfig.IdeMain.SetIWorkspaceMinSize(IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor"))));
                 Mouse.MoveTo(new Point {X = IDE_Main.Workspace.BoundingRectangle.Left + (int)(IDE_Main.Workspace.BoundingRectangle.Width * (_left+_width/2)/width), Y = IDE_Main.Workspace.BoundingRectangle.Top + (int)(IDE_Main.Workspace.BoundingRectangle.Height * (_top+_height/2)/height)});
                 Mouse.Click();
@@ -531,66 +531,30 @@ namespace FlaUITests.Util {
             }
 
         }
-        IDE_Main.Editor OpenEditor(MappViewPage page, string content) {
-            CloseTextEditor(page, content);
+        IDE_Main.Editor OpenEditor(MappViewPage page, string content, bool textEditor = false) {
+            CloseEditor(page, content, !textEditor);
             IDE_Main.Editor e = null;
-            foreach (var v in page.Widgets) {
-                if (content != v[0])
-                    continue;
-                string s = v[0] + ".content";
-                e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
-                if (e == null)
-                    TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name, "BR_" + v[0] + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
-                else
-                    e.Restore();
-                Mouse.Click(IDE_Main.Workspace.BoundingRectangle.Center());
-            }
-            return e;
-        }
-        IDE_Main.Editor OpenTextEditor(MappViewPage page, string content) {
-            CloseEditor(page, content);
-            IDE_Main.Editor e = null;
-            foreach (var v in page.Widgets) {
-                if (content != v[0])
-                    continue;
-                string s = page.Name + "::" + v[0] + ".content";
-                e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
-                if (e == null) {
-                    TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name, "BR_" + content + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e, singleclicklast:true);
+            string s = textEditor ? page.Name + "::" + content + ".content" : content + ".content";
+            e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
+            if (e == null) {
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name, "BR_" + content + ".content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e, singleclicklast:textEditor);
+                if (textEditor) {
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-                    //AutomationElement pageContent = IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByName("BR_" + content + ".content"));
-                    //AutomationElement pageContentName = pageContent.FindFirstChild(cf => cf.ByName("BR_" + content + ".content" +"_Object Name"));
-                    //Mouse.RightClick(pageContentName.BoundingRectangle.Center());
                     Mouse.RightClick();
                     TreeConfig.ClickContextMenuItem(IDE_Main.MainWindow, "Open", "Open As Text");
                 }
-                else
-                    e.Restore();
-                Mouse.Click(IDE_Main.Workspace.BoundingRectangle.Center());
             }
+            else
+                e.Restore();
+            Mouse.Click(IDE_Main.Workspace.BoundingRectangle.Center());
             return e;
         }
-        void CloseTextEditor(MappViewPage page, string content) {
+        void CloseEditor(MappViewPage page, string content, bool textEditor = false) {
             IDE_Main.Editor e = null;
-            foreach (var v in page.Widgets) {
-                if (content != v[0])
-                    continue;
-                string s = page.Name + "::" + v[0] + ".content";
-                e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
-                if (e != null && e.Name != String.Empty)
-                    e.Close();
-            }
-        }
-        void CloseEditor(MappViewPage page, string content) {
-            IDE_Main.Editor e = null;
-            foreach (var v in page.Widgets) {
-                if (content != v[0])
-                    continue;
-                string s = v[0] + ".content";
-                e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
-                if (e != null && e.Name != String.Empty)
-                    e.Close();
-            }
+            string s = textEditor ? page.Name + "::" + content + ".content" : content + ".content";
+            e = IDE_Main.Editors.Find(x => x.Name.Equals(s));
+            if (e != null && e.Name != String.Empty)
+                e.Close();
         }
         void SelectFromMappViewDropDown(string property, string subproperty, string select) {
             if (Verbose >= Util.Environment.Verbose.FULL)
