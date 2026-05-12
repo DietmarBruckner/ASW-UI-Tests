@@ -482,7 +482,7 @@ namespace FlaUITests.Util {
                             p = page;
                             c = w2[0];
                         }
-                e = OpenEditor(p, c, true);
+                e = OpenEditor(p, c, textEditor:true);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(1000));
                 Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
@@ -502,7 +502,7 @@ namespace FlaUITests.Util {
                         _height = int.Parse(widgetElement.Attribute("height").Value);
                     }
                 }
-                e = OpenEditor(p, c, false);
+                e = OpenEditor(p, c, textEditor:false);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(1000));
                 TreeConfig.IdeMain.SetIWorkspaceMinSize(IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor"))));
                 Mouse.MoveTo(new Point {X = IDE_Main.Workspace.BoundingRectangle.Left + (int)(IDE_Main.Workspace.BoundingRectangle.Width * (_left+_width/2)/width), Y = IDE_Main.Workspace.BoundingRectangle.Top + (int)(IDE_Main.Workspace.BoundingRectangle.Height * (_top+_height/2)/height)});
