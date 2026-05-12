@@ -685,6 +685,8 @@ namespace FlaUITests.Util {
             ScrollFindProperty("Data", "Value", true);
             AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement adata = aproperties.FindFirstChild(cf => cf.ByName("Data"));
+            if (adata == null)
+                return;
             AutomationElement avalue = adata.FindFirstChild(cf => cf.ByName("Value"));
             AutomationElement abinding = avalue.FindFirstChild(cf => cf.ByName("Binding"));
             Mouse.DoubleClick(new Point {X = abinding.BoundingRectangle.Right - 20, Y = abinding.BoundingRectangle.Top + abinding.BoundingRectangle.Height/2});
@@ -718,6 +720,9 @@ namespace FlaUITests.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
                 afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
             }
+            aproperty = aproperties.FindFirstChild(cf => cf.ByName(property));
+            if (aproperty == null)
+                return;
             if (sub != null) {
                 asub = aproperty.FindFirstChild(cf => cf.ByName(sub));
                 while (asub == null || !aproperties.BoundingRectangle.IntersectsWith(asub.BoundingRectangle)) {
