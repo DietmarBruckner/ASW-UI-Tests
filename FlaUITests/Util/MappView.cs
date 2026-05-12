@@ -649,12 +649,12 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
         }
         void EditValue(string variablestring) {
-            ScrollFindProperty("Data", "Value", true);
+            ScrollFindProperty("Data", "value", true);
             AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement adata = aproperties.FindFirstChild(cf => cf.ByName("Data"));
             if (adata == null)
                 return;
-            AutomationElement avalue = adata.FindFirstChild(cf => cf.ByName("Value"));
+            AutomationElement avalue = adata.FindFirstChild(cf => cf.ByName("value"));
             AutomationElement abinding = avalue.FindFirstChild(cf => cf.ByName("Binding"));
             Mouse.DoubleClick(new Point {X = abinding.BoundingRectangle.Right - 20, Y = abinding.BoundingRectangle.Top + abinding.BoundingRectangle.Height/2});
             FlaUI.Core.AutomationElements.Window selectVariableWindow;
