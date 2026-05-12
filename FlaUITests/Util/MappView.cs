@@ -528,6 +528,7 @@ namespace FlaUITests.Util {
                         str = indexWidget<Objects.NumericValues.Count()?Objects.NumericValuesStrings[indexWidget][0]:Objects.Numeric2DValuesStrings[indexWidget-Objects.NumericValues.Count()][0]; break;
                 }
                 EditValue(str);
+                doc = null;
             }
 
         }
