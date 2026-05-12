@@ -492,7 +492,7 @@ namespace FlaUITests.Util {
                 XElement xContent = doc.Root;
                 XName widg = XName.Get("Widgets");
                 XElement [] allElements = xContent.Nodes().OfType<XElement>().ToArray();
-                XElement xWidgets = xContent.Nodes().OfType<XElement>().FirstOrDefault(x => x.Name == widg);
+                XElement xWidgets = xContent.Nodes().OfType<XElement>().FirstOrDefault(x => x.Name.LocalName == "Widgets");
                 //.Element(widg);
                 int _top=0, _left=0, _width=0, _height=0;
                 foreach (XElement widgetElement in xWidgets.Elements("Widget")) {
