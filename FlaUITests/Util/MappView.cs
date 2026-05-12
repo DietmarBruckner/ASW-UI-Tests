@@ -556,7 +556,9 @@ namespace FlaUITests.Util {
                 if (e == null) {
                     TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_" + page.Name}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
                     System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-                    Mouse.RightClick(IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByName("BR_" + content + ".content" + "_Object Name")).BoundingRectangle.Center());
+                    AutomationElement pageContent = IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByName("BR_" + content + ".content"));
+                    AutomationElement pageContentName = pageContent.FindFirstChild(cf => cf.ByName("BR_" + content + ".content" +"_Object Name"));
+                    Mouse.RightClick(pageContentName.BoundingRectangle.Center());
                     TreeConfig.ClickContextMenuItem(IDE_Main.MainWindow, "Open", "Open As Text");
                 }
                 else
