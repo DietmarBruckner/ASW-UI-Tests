@@ -70,13 +70,11 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_11_Localization();
             TreeConfig.IdeMain.Build();
-           TM611_5_Layout();
+            TM611_5_Layout();
             TreeConfig.IdeMain.Build();
-             InsertWidgets();
+            InsertWidgets();
             TreeConfig.IdeMain.Build();
-*/            Mouse.Click(IDE_Main.Workspace.BoundingRectangle.Center());
-            SelectFromMappViewDropDown("Data", "navRefId", "navigation_0");
-            //TM611_6_Navigation();
+*/          TM611_6_Navigation();
             TM611_8_Binding();
         }
         public override void TM611_4_InsertComponent() {
