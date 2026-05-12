@@ -433,9 +433,9 @@ namespace FlaUITests.Util {
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DefaultView");
- */            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
-/*             if (Verbose >= Util.Environment.Verbose.STEPS) {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Generating Variables");
             }
@@ -491,7 +491,8 @@ namespace FlaUITests.Util {
                 XDocument doc = XDocument.Parse(copiedText);
                 XElement xContent = doc.Root;
                 XName widg = XName.Get("Widgets");
-                XElement xWidgets = xContent.Element(widg);
+                XElement xWidgets = xContent.Nodes().OfType<XElement>().FirstOrDefault(x => x.Name == widg);
+                //.Element(widg);
                 int _top=0, _left=0, _width=0, _height=0;
                 foreach (XElement widgetElement in xWidgets.Elements("Widget")) {
                     XAttribute idAttr = widgetElement.Attribute("id");
