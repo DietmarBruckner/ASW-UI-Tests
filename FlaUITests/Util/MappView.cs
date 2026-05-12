@@ -74,7 +74,8 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
              InsertWidgets();
             TreeConfig.IdeMain.Build();
-*/            SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0");
+*/            Mouse.Click(IDE_Main.Workspace.BoundingRectangle.Center());
+            SelectFromMappViewDropDown(new string [] {"Data", "navRefId"}, "navigation_0");
             //TM611_6_Navigation();
             TM611_8_Binding();
         }
