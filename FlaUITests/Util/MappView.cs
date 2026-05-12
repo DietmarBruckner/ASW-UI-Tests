@@ -611,7 +611,7 @@ namespace FlaUITests.Util {
                 }
             }
             else {
-                ScrollFindProperty("Layout", "Size");
+                ScrollFindProperty("Layout", "Size", true);
                 AutomationElement alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
                 AutomationElement asize = alayout.FindFirstChild(cf => cf.ByName("Size"));
                 AutomationElement awidth = asize.FindFirstChild(cf => cf.ByName("width"));
@@ -631,35 +631,16 @@ namespace FlaUITests.Util {
         }
         void EditPosition(int top = -1, int left = -1, bool area = false) {
             AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
-            Mouse.Position = aproperties.BoundingRectangle.Center();
-            Mouse.Click();
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
-            AutomationElement alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-            AutomationElement aposition = null;
-            AutomationElement atop;
-            while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
-                Mouse.Scroll(1d);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
-            }
+            AutomationElement alayout, aposition = null, atop;
             if (area) {
-                while (!aproperties.BoundingRectangle.IntersectsWith(alayout.BoundingRectangle)) {
-                    Mouse.Scroll(-1d);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                    alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-                }
-                Mouse.Scroll(-2d);
+                ScrollFindProperty("Layout", opensub:true);
+                alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
             }
             else {
+                ScrollFindProperty("Layout", "Position", true);
+                alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
                 aposition = alayout.FindFirstChild(cf => cf.ByName("Position"));
-                while (aposition == null || !aproperties.BoundingRectangle.IntersectsWith(aposition.BoundingRectangle)) {
-                    Mouse.Scroll(-1d);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                    alayout = aproperties.FindFirstChild(cf => cf.ByName("Layout"));
-                    aposition = alayout.FindFirstChild(cf => cf.ByName("Position"));
-                }
-                Mouse.Scroll(-2d);
                 atop = aposition.FindFirstChild(cf => cf.ByName("top"));
                 if (atop == null || !aproperties.BoundingRectangle.IntersectsWith(atop.BoundingRectangle))
                     Mouse.Click(new Point {X = aposition.BoundingRectangle.Left + 5, Y = aposition.BoundingRectangle.Top + 5});
@@ -681,33 +662,10 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
         }
         void EditValue(string variablestring) {
+            ScrollFindProperty("Data", "Value", true);
             AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
-            Mouse.Position = aproperties.BoundingRectangle.Center();
-            Mouse.Click();
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            AutomationElement afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
-            AutomationElement alast;
             AutomationElement adata = aproperties.FindFirstChild(cf => cf.ByName("Data"));
-            AutomationElement avalue;
-            while (!aproperties.BoundingRectangle.IntersectsWith(afirst.BoundingRectangle)) {
-                Mouse.Scroll(1d);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                afirst = aproperties.FindFirstChild(cf => cf.ByControlType(ControlType.DataItem));
-            }
-            avalue = adata.FindFirstChild(cf => cf.ByName("Value"));
-            while (avalue == null || !aproperties.BoundingRectangle.IntersectsWith(avalue.BoundingRectangle)) {
-                Mouse.Scroll(-1d);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                adata = aproperties.FindFirstChild(cf => cf.ByName("Data"));
-                avalue = adata.FindFirstChild(cf => cf.ByName("Value"));
-                alast = aproperties.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem)).Last();
-                if (avalue == null && aproperties.BoundingRectangle.IntersectsWith(alast.BoundingRectangle))
-                    return;
-            }
-            Mouse.Scroll(-2d);
-            Mouse.Click(new Point {X = avalue.BoundingRectangle.Left + 5, Y = avalue.BoundingRectangle.Top + 5});
-            Mouse.Scroll(-2d);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            AutomationElement avalue = adata.FindFirstChild(cf => cf.ByName("Value"));
             AutomationElement abinding = avalue.FindFirstChild(cf => cf.ByName("Binding"));
             Mouse.DoubleClick(new Point {X = abinding.BoundingRectangle.Right - 20, Y = abinding.BoundingRectangle.Top + abinding.BoundingRectangle.Height/2});
             FlaUI.Core.AutomationElements.Window selectVariableWindow;
@@ -717,7 +675,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
         }
         void EditText(string text) {
-            ScrollFindProperty("Appearance", "Text");
+            ScrollFindProperty("Appearance", "Text", true);
             AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement appearance = aproperties.FindFirstChild(cf => cf.ByName("Appearance"));
             AutomationElement atext = appearance.FindFirstChild(cf => cf.ByName("Text"));
