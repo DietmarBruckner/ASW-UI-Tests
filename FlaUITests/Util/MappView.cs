@@ -187,7 +187,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
             AutomationElement textTree = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByAutomationId("B&R TreeView Control")).AsTree();
             AutomationElement newItem;
-             foreach (string s in TestWidgets) {
+            foreach (string s in TestWidgets) {
                 string[] item = inputWidgetStrings.Find(x => x.Contains(s));
                 newItem = textTree.FindAllChildren().Last();
                 AutomationElement [] fields = newItem.FindAllChildren();
@@ -240,6 +240,12 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out content0_editor);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
             Point workspaceCenter = IDE_Main.Workspace.BoundingRectangle.Center();
+            AutomationElement docIATeditor = content0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
+            AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
+            TreeConfig.ClickAutomationElement(defaultLabel);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE); 
+            TreeConfig.IdeMain.SaveAll(); 
             
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var e);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -323,11 +329,6 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             AutomationElement content_0Properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement docIATeditor = content0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
-            AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
-            TreeConfig.ClickAutomationElement(defaultLabel);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE); 
-            TreeConfig.IdeMain.SaveAll(); 
             TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
