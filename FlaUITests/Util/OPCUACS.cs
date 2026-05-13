@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using FlaUI.Core.Input;
+using FlaUI.Core.Tools;
 
 namespace FlaUITests.Util {
     public partial class OPCUACS {
@@ -122,7 +123,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Editing role permissions for OPC UA Default View");
             }
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, new List<string> { "_Value" }, out var e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, new List<string> { "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Enabled"
 
         }
