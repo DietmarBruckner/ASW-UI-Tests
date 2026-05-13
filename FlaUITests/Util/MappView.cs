@@ -550,7 +550,7 @@ namespace FlaUITests.Util {
             Button newRole = role_editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Role Configuration")).FindFirstChild(cf => cf.ByName("Add \"Role\" Element")).AsButton();
             AutomationElement newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
             AutomationElement newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
-            TreeConfig.ClickAutomationElement(newRoleTreeItemName);
+            TreeConfig.ClickAutomationElement(newRoleTreeItemName, true);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.Type("Operator");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
@@ -558,7 +558,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
             newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
-            TreeConfig.ClickAutomationElement(newRoleTreeItemName);
+            TreeConfig.ClickAutomationElement(newRoleTreeItemName, true);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.Type("Service");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
@@ -566,7 +566,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
             newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
-            TreeConfig.ClickAutomationElement(newRoleTreeItemName);
+            TreeConfig.ClickAutomationElement(newRoleTreeItemName, true);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.Type("Observer");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
@@ -819,11 +819,11 @@ namespace FlaUITests.Util {
                 Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, Role);
-            TreeConfig.ClickAutomationElement(newUserTreeItemPwdName);
+            TreeConfig.ClickAutomationElement(newUserTreeItemPwdName, true);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.Type(Password);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-            TreeConfig.ClickAutomationElement(newUserTreeItemName);
+            TreeConfig.ClickAutomationElement(newUserTreeItemName, true);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.Type(Name);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
