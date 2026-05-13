@@ -242,13 +242,13 @@ namespace FlaUITests.Util {
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "en");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Fallback language"), new List<string> { "_Name", "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "de");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "BR_Target language 1"), new List<string> { "_Name", "_Name", "_Value" }, out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", new string [] { "BR_Target language 1" }), new List<string> { "_Name", "_Name", "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "en");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "BR_Target language 2"), new List<string> { "_Name", "_Name", "_Value" }, out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", new string [] { "BR_Target language 2" }), new List<string> { "_Name", "_Name", "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "de");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", "BR_Target language 3"), new List<string> { "_Name", "_Name", "_Value" }, out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", new string [] { "BR_Target language 3" }), new List<string> { "_Name", "_Name", "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "fr");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Tmx files for target", "BR_Tmx file 1"), new List<string> { "_Name", "_Value" }, out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Tmx files for target", new string [] { "BR_Tmx file 1" }), new List<string> { "_Name", "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 0);
             TreeConfig.IdeMain.SaveAll();
             editor.Close();
