@@ -16,7 +16,7 @@ namespace FlaUITests {
             };
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             Console.WriteLine("Creating new project with OPC UA, mapp View, Automation Runtime; CPU: X20CP1684, AS version: 6.3");
-            as6.Project = new FlaUITests.Util.AppProject(as6.Ide_Main, "FlaUI_Test1", "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\", "Config1", "X20CP1684", dictcom, "6.3", Util.Util.Environment.Verbose.STEPS);
+            as6.Project = new FlaUITests.Util.AppProject(as6.Ide_Main, "FlaUI_Test1", "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\", "Config1", "X20CP1684", dictcom, "6.3", Util.Util.Verbose.STEPS);
             as6.Project.ReadProject();
             //as6.CloseApplication();
             //as6.Project.DeleteProject();
