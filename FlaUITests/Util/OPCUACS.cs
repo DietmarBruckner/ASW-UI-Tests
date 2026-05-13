@@ -16,11 +16,12 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting OPC UA/CS version to " + Version);
             }
-            TreeConfig.IdeMain.SelectComponentVersion("OPC", Version);
-            TM611_3_1_ActivateOPCUACS();
+            //TreeConfig.IdeMain.SelectComponentVersion("OPC", Version);
+            InsertComponent();
+            //TM611_3_1_ActivateOPCUACS();
             TM611_10_RBAC();
         }
-        public override void TM611_4_InsertComponent() {
+        public override void InsertComponent() {
             //activated by default, nothing to do
         }
         void TM611_3_1_ActivateOPCUACS() {
