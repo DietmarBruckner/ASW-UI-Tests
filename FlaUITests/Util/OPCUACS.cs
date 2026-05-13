@@ -124,11 +124,11 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Editing role permissions for OPC UA Default View");
             }
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "DefaultRolePermissions", "Role 1", "Name"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out var e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", "Role 1", "Name"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out var e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "Operator");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "DefaultRolePermissions", "Role 2", "Name"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", "Role 2", "Name"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "Service");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "DefaultRolePermissions", "Role 3", "Name"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", "Role 3", "Name"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "Observer");
 
         }
