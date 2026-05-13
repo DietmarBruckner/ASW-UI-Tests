@@ -76,10 +76,10 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_6_Navigation();
             TreeConfig.IdeMain.Build();
-*/            CreatePageContents();
+*/            CreatePageContentsShortcut();
             TM611_8_Binding();
         }
-        void CreatePageContents()
+        void CreatePageContentsShortcut()
         {
             int pageID = 0;
             string pageName, contentName;
@@ -428,7 +428,7 @@ namespace FlaUITests.Util {
         }
         void TM611_8_Binding() {
             IDE_Main.Editor e;
-/*              if (Verbose >= Util.Environment.Verbose.STEPS) {
+              if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Inserting OPC UA/CS default view");
             }
@@ -441,7 +441,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Generating Variables");
             }
             TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
-             if (toTestWidgetGroups[0])
+            if (toTestWidgetGroups[0])
                 TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out Objects.ButtonValuesStrings, "Visualization");
             if (toTestWidgetGroups[4])
                 TreeConfig.IdeMain.GenerateVariables(Objects.DateTimeValues, out Objects.DateTimeValuesStrings, "Visualization");
@@ -451,12 +451,12 @@ namespace FlaUITests.Util {
                     Objects.Numeric2DValues[i] = new float[2];
                 TreeConfig.IdeMain.GenerateVariables(Objects.Numeric2DValues, out Objects.Numeric2DValuesStrings, "Visualization");
             }
-          TreeConfig.IdeMain.Build();
+            TreeConfig.IdeMain.Build();
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Activating Variables in Default View");
             }
-            editor.Restore(); //geht net
+            editor.Restore();
             ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
             AutomationElement visuRoot = ConfigRoot.FindFirstDescendant(cf => cf.ByName("BR_Visualizat"));
             TreeConfig.ClickConfigTreeItem(TreeConfig.ViewType.Workspace, visuRoot, "_Name");
@@ -473,10 +473,10 @@ namespace FlaUITests.Util {
             }
             TreeConfig.IdeMain.Build();
             editor.Close();
- */         int ind = -1;    
+            //int ind = -1;    
             foreach(var w1 in TestWidgets) {
-                if (ind++ < 8)
-                    continue;
+                //if (ind++ < 8)
+                //    continue;
                 MappViewPage p = null;
                 string c ="";
                 foreach (var page in Objects.Pages)
@@ -535,7 +535,80 @@ namespace FlaUITests.Util {
                 doc = null;
                 e.Close();
             }
+        }
+        void TM611_10_RBAC() {
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Creating roles: Operator, Service and Observer");
+            }
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Role");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_Role.role"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var role_editor);
+            Mouse.Click(role_editor.ConfigWorkspace.BoundingRectangle.Center());
+            AutomationElement configTree = role_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            Button newRole = role_editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Role Configuration")).FindFirstChild(cf => cf.ByName("Add \"Role\" Element")).AsButton();
+            AutomationElement newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
+            AutomationElement newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
+            TreeConfig.ClickAutomationElement(newRoleTreeItemName);
+            Keyboard.Type("Operator");
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            newRole.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
+            newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
+            TreeConfig.ClickAutomationElement(newRoleTreeItemName);
+            Keyboard.Type("Service");
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            newRole.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
+            newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
+            TreeConfig.ClickAutomationElement(newRoleTreeItemName);
+            Keyboard.Type("Observer");
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            TreeConfig.IdeMain.SaveAll();
+            role_editor.Close();
 
+            if (Verbose >= Util.Environment.Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+                Console.WriteLine("Creating users: Operator, Service and Observer");
+            }
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out e);
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "User");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_User.user"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var user_editor);
+            
+        }
+        void AddUser(IDE_Main.Editor editor, string Name, string Password, string Role, Boolean addUser = true) {
+            Mouse.Click(editor.ConfigWorkspace.BoundingRectangle.Center());
+            AutomationElement configTree = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            Button newUser = editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("User Configuration")).FindFirstChild(cf => cf.ByName("Add \"User\" Element")).AsButton();
+            if (addUser) {
+                newUser.Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            }
+            AutomationElement newUserTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
+            AutomationElement newUserTreeItemName = newUserTreeItem.FindFirstChild(cf => cf.ByName(newUserTreeItem.Name + "_Name"));
+            AutomationElement newUserTreeItemPwd = newUserTreeItem.FindFirstChild(cf => cf.ByName("BR_Password"));
+            AutomationElement newUserTreeItemPwdName = newUserTreeItemPwd.FindFirstChild(cf => cf.ByName(newUserTreeItemPwd.Name + "_Name"));
+            AutomationElement newUserTreeItemRole = newUserTreeItem.FindFirstChild(cf => cf.ByName("BR_Roles"));
+            AutomationElement newUserTreeItemRoleAssigned = newUserTreeItemRole.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem));
+            TreeConfig.ClickConfigTreeItem(TreeConfig.ViewType.Workspace, newUserTreeItemRoleAssigned, "_Name");
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+            AutomationElement combobox = configTree.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
+            Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
+            Mouse.MoveTo(expandButton.GetClickablePoint());
+            if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
+                Mouse.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, Role);
+            TreeConfig.ClickAutomationElement(newUserTreeItemPwdName);
+            Keyboard.Type(Password);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            TreeConfig.ClickAutomationElement(newUserTreeItemName);
+            Keyboard.Type(Name);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            TreeConfig.IdeMain.SaveAll();
         }
         IDE_Main.Editor OpenEditor(MappViewPage page, string content, bool textEditor = false) {
             CloseEditor(page, content, !textEditor);
