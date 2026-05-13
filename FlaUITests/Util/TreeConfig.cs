@@ -252,7 +252,7 @@ namespace FlaUITests.Util {
             }
             editor = e;
         }
-        public static List<string> FindXMLPath(string file, string element, string addon = null, string furtheraddon = null) {
+        public static List<string> FindXMLPath(string file, string element, string [] addon = null) {
             List<XElement> res = new List<XElement>();
             List<string> s = new List<string>();
             if (!System.IO.File.Exists(file))
@@ -268,9 +268,7 @@ namespace FlaUITests.Util {
                     if (xe != root)
                         s.Add("BR_" + xe.Attribute("Name-en").Value);
                 if (addon != null)
-                    s.Add(addon);
-                if (furtheraddon != null)
-                    s.Add(furtheraddon);
+                    s.AddRange(addon);
             } catch (Exception ex) { Console.WriteLine($"Error reading {file}: {ex.Message}"); }
             return s;
         }
