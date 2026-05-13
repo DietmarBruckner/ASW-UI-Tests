@@ -551,7 +551,7 @@ namespace FlaUITests.Util {
             AutomationElement newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
             AutomationElement newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
             TreeConfig.ClickAutomationElement(newRoleTreeItemName, true);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(3000));
             Keyboard.Type("Operator");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             newRole.Click();
