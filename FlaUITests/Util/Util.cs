@@ -2,10 +2,22 @@ using System;
 
 namespace FlaUITests.Util {
     public static class Util {
+        public enum Verbose {NONE, LIGHT, STEPS, FULL}
         public static class Environment {
-            public enum Verbose {NONE, LIGHT, STEPS, FULL}
             public static string InstallationPath;
             public static Verbose verbose;
+        }
+        public static void ConsoleOut(Verbose verbose, string text){
+            if (verbose >= Verbose.LIGHT) {
+                Console.WriteLine("==========================================");
+            }
+            else if (verbose >= Verbose.STEPS) {
+                Console.WriteLine("==========================================");
+            }
+            else if (verbose >= Verbose.FULL) {
+                Console.WriteLine("==========================================");
+            }
+            Console.WriteLine(text);
         }
         public static int GetDamerauLevenshteinDistance(string s, string t) {
             if (string.IsNullOrEmpty(s))
