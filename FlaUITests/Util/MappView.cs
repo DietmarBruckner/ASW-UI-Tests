@@ -36,7 +36,7 @@ namespace FlaUITests.Util {
                         TestWidgets.Add(item[0]);
             }
             Util.ConsoleOut(Util.Verbose.STEPS, "Checking/setting mapp View version to " + Version);
-             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
+            TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                 InsertComponent();
             TreeConfig.IdeMain.Build();
@@ -90,11 +90,9 @@ namespace FlaUITests.Util {
             FlaUI.Core.AutomationElements.Window newMappViewDialog = TreeConfig.IdeMain.GetModalWindow("Insert mapp View solution");
             AutomationElement defaultTemplate = null;
             AutomationElement [] allElements = newMappViewDialog.FindAllDescendants();
-            foreach (var element in allElements) {
-                string childName = element.Name;
-                if (childName.IndexOf("Default", StringComparison.OrdinalIgnoreCase) >= 0)
+            foreach (var element in allElements) 
+                if (element.Name.IndexOf("Default", StringComparison.OrdinalIgnoreCase) >= 0)
                     defaultTemplate = element;
-            }
             if (defaultTemplate == null) {
                 Util.ConsoleOut(Util.Verbose.STEPS, "Default template not found in mapp View wizard");
                 return;
@@ -249,15 +247,15 @@ namespace FlaUITests.Util {
             EditPosition(left:50, top:5); 
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "LanguageSelector", drag:true, toDrag:workspaceCenter);
             EditPosition(left:680, top:35);
+            
             Util.ConsoleOut(Util.Verbose.STEPS, "Preparing Layout for all Pages");
             content0_editor.Restore();
-            //TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             EditSize(width:700, height:500, content:true);
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Layouts", "BR_layout_0.layout"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out var layout0_editor);
             Mouse.Click(workspaceCenter);
             EditSize(width:700, height:500, area:true);
             EditPosition(left:100, top:100, area:true);
-            FlaUI.Core.AutomationElements.Button createArea = layout0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Create Area"))).AsButton();
+            Button createArea = layout0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Create Area"))).AsButton();
             createArea.Click();
             EditSize(width:100, height:500, area:true);
             EditPosition(left:0, top:100, area:true);
@@ -269,10 +267,10 @@ namespace FlaUITests.Util {
             Mouse.Click(workspaceCenter);
             AutomationElement editor = page0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor")));
             TreeConfig.IdeMain.SetIWorkspaceMinSize(editor, percent:true);
-            Mouse.MoveTo(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 50/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 300/600)});
+            Mouse.MoveTo(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 50/width), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 300/height)});
             Mouse.Click();
             SelectFromMappViewDropDown("Common", "refId", "Navigation");
-            Mouse.MoveTo(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 400/800), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 50/600)});
+            Mouse.MoveTo(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 400/width), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 50/height)});
             Mouse.Click();
             SelectFromMappViewDropDown("Common", "refId", "Info_Pane");
             TreeConfig.IdeMain.SaveAll();
@@ -282,7 +280,7 @@ namespace FlaUITests.Util {
         }
         void InsertWidgets() {
             Util.ConsoleOut(Util.Verbose.STEPS, "Inserting widgets");
-            content0_editor = IDE_Main.Editors.Find(x => x.Name.Contains("content_0.content"));
+            //content0_editor = IDE_Main.Editors.Find(x => x.Name.Contains("content_0.content"));
             content0_editor.Restore();
             Point editorCenter = IDE_Main.Workspace.BoundingRectangle.Center();
             Mouse.Click(editorCenter);
@@ -359,9 +357,8 @@ namespace FlaUITests.Util {
             navcontent_editor.Close();
         }
         void TM611_8_Binding() {
-            IDE_Main.Editor e;
             Util.ConsoleOut(Util.Verbose.STEPS, "Inserting OPC UA/CS default view");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out e);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DefaultView");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
@@ -416,10 +413,10 @@ namespace FlaUITests.Util {
                 foreach (XElement widgetElement in xWidgets.Nodes().OfType<XElement>()) {
                     XAttribute idAttr = widgetElement.Attribute("id");
                     if (idAttr != null && idAttr.Value == w1 + "1") {
-                        _top = int.Parse(widgetElement.Attribute("top").Value);
-                        _left = int.Parse(widgetElement.Attribute("left").Value);
-                        _width = int.Parse(widgetElement.Attribute("width").Value);
-                        _height = int.Parse(widgetElement.Attribute("height").Value);
+                        _top =      int.Parse(widgetElement.Attribute("top").Value);
+                        _left =     int.Parse(widgetElement.Attribute("left").Value);
+                        _width =    int.Parse(widgetElement.Attribute("width").Value);
+                        _height =   int.Parse(widgetElement.Attribute("height").Value);
                     }
                 }
                 e = OpenEditor(p, c, textEditor:false);
