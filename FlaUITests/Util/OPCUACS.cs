@@ -12,10 +12,7 @@ namespace FlaUITests.Util {
         public override void InitComponent() {
             editorPathOP = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\OpcUaCs\\" + Version + "\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Checking/setting OPC UA/CS version to " + Version);
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Checking/setting OPC UA/CS version to " + Version);
             TreeConfig.IdeMain.SelectComponentVersion("OPC", Version);
             InsertComponent();
             TM611_3_1_ActivateOPCUACS();
@@ -27,10 +24,7 @@ namespace FlaUITests.Util {
         void TM611_3_1_ActivateOPCUACS() {
             string uaconfig = "UaCsConfig.uacfg";
              //open UACS configuration page
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Opening OPC UA/CS configuration in workspace");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Opening OPC UA/CS configuration in workspace");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_" + uaconfig}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             //activate advanced visibility
@@ -42,31 +36,19 @@ namespace FlaUITests.Util {
                 ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(uaconfig, "BR_ClientServerConfiguration");
             }
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Setting OPC UA Client/Server to Enabled");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Setting OPC UA Client/Server to Enabled");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, new List<string> { "_Value" }, out var e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Enabled"
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Setting anonymous authentication to Enabled");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Setting anonymous authentication to Enabled");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "Anonymous"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Enabled"
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Adding BR_Engineer as a user role");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Adding BR_Engineer as a user role");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "Anonymous Access", new string [] { "BR_User Role 1" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 2); //Select "BR_Engineer"
             editor.Close();
         }
         void TM611_10_RBAC() {
-             if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Creating roles: Operator, Service and Observer");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Creating roles: Operator, Service and Observer");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Role");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_Role.role"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var role_editor);
@@ -101,10 +83,7 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.SaveAll();
             role_editor.Close();
 
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Creating users: Operator, Service and Observer");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Creating users: Operator, Service and Observer");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "User");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_User.user"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var user_editor);
@@ -112,18 +91,12 @@ namespace FlaUITests.Util {
             AddUser(user_editor, "UserService", "9999", "Service");
             AddUser(user_editor, "UserObserver", "0000", "Observer");
             user_editor.Close();
-             string uadvconfig = "UaDvConfig.uadcfg";
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Opening OPC UA Default View configuration in workspace");
-            }
+            string uadvconfig = "UaDvConfig.uadcfg";
+            Util.ConsoleOut(Util.Verbose.STEPS, "Opening OPC UA Default View configuration in workspace");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_" + uadvconfig}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var uadv_editor);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(uadv_editor, "BR_DefaultViewConfiguration");
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Editing role permissions for OPC UA Default View");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Editing role permissions for OPC UA Default View");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Name" }), new List<string> { "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "Operator");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Name" }), new List<string> { "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
