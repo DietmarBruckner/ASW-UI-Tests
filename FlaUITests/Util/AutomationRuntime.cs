@@ -14,7 +14,7 @@ namespace FlaUITests.Util {
             }
             TreeConfig.IdeMain.SelectComponentVersion("Automation Runtime", Version);
         }
-        public override void TM611_4_InsertComponent() {
+        public override void InsertComponent() {
             
         }
     }
