@@ -67,7 +67,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Creating roles: Operator, Service and Observer");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
-//            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Role");
+            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Role");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_Role.role"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var role_editor);
             Mouse.Click(role_editor.ConfigWorkspace.BoundingRectangle.Center());
             AutomationElement configTree = role_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
