@@ -433,17 +433,11 @@ namespace FlaUITests.Util {
                         indexWidget = WidgetGroup.IndexOf(w1);
                     }
                 }
-                Object o;
                 string str = null;
                 switch (indexWidgetgroup) {
-                    case 0: o = Objects.ButtonValues[indexWidget]; str = Objects.ButtonValuesStrings[indexWidget][0]; break;
-                    case 4: o = Objects.DateTimeValues[indexWidget]; str = Objects.DateTimeValuesStrings[indexWidget][0]; break;
-                    case 10:
-                        if (indexWidget<Objects.NumericValues.Count())
-                            o = Objects.NumericValues[indexWidget];
-                        else
-                            o = Objects.Numeric2DValues[indexWidget-Objects.NumericValues.Count()]; 
-                        str = indexWidget<Objects.NumericValues.Count()?Objects.NumericValuesStrings[indexWidget][0]:Objects.Numeric2DValuesStrings[indexWidget-Objects.NumericValues.Count()][0]; break;
+                    case 0:     str = Objects.ButtonValuesStrings[indexWidget][0]; break;
+                    case 4:     str = Objects.DateTimeValuesStrings[indexWidget][0]; break;
+                    case 10:    str = indexWidget<Objects.NumericValues.Count()?Objects.NumericValuesStrings[indexWidget][0]:Objects.Numeric2DValuesStrings[indexWidget-Objects.NumericValues.Count()][0]; break;
                 }
                 EditValue(str);
                 doc = null;
