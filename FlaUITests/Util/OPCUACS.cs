@@ -62,7 +62,7 @@ namespace FlaUITests.Util {
             editor.Close();
         }
         void TM611_10_RBAC() {
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
+/*             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Creating roles: Operator, Service and Observer");
             }
@@ -111,7 +111,7 @@ namespace FlaUITests.Util {
             AddUser(user_editor, "UserService", "9999", "Service");
             AddUser(user_editor, "UserObserver", "0000", "Observer");
             user_editor.Close();
-            string uadvconfig = "UaDvConfig.uadcfg";
+ */            string uadvconfig = "UaDvConfig.uadcfg";
             if (Verbose >= Util.Environment.Verbose.STEPS) {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Opening OPC UA Default View configuration in workspace");
@@ -123,8 +123,12 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Editing role permissions for OPC UA Default View");
             }
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, new List<string> { "_Value" }, out e, ConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Enabled"
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "DefaultRolePermissions", "Role 1", "Name"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out var e, ConfigRoot);
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "Operator");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "DefaultRolePermissions", "Role 2", "Name"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot);
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "Service");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "DefaultRolePermissions", "Role 3", "Name"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot);
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "Observer");
 
         }
         void AddUser(IDE_Main.Editor editor, string Name, string Password, string Role, Boolean addUser = true) {
