@@ -545,13 +545,13 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
 //            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Role");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_Role.role"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var role_editor);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+            Mouse.Click(role_editor.ConfigWorkspace.BoundingRectangle.Center());
             AutomationElement configTree = role_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             Button newRole = role_editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Role Configuration")).FindFirstChild(cf => cf.ByName("Add \"Role\" Element")).AsButton();
             AutomationElement newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
             AutomationElement newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
-            Mouse.Click(role_editor.ConfigWorkspace.BoundingRectangle.Center());
-            TreeConfig.ClickAutomationElement(newRoleTreeItemName, true);
+            Mouse.MoveTo(newRoleTreeItemName.BoundingRectangle.Center());
+            Mouse.DoubleClick();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(3000));
             Keyboard.Type("Operator");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
