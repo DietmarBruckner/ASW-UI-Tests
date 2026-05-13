@@ -576,39 +576,9 @@ namespace FlaUITests.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "User");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_User.user"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var user_editor);
-            
-        }
-        void AddUser(IDE_Main.Editor editor, string Name, string Password, string Role, Boolean addUser = true) {
-            Mouse.Click(editor.ConfigWorkspace.BoundingRectangle.Center());
-            AutomationElement configTree = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
-            Button newUser = editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("User Configuration")).FindFirstChild(cf => cf.ByName("Add \"User\" Element")).AsButton();
-            if (addUser) {
-                newUser.Click();
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-            }
-            AutomationElement newUserTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
-            AutomationElement newUserTreeItemName = newUserTreeItem.FindFirstChild(cf => cf.ByName(newUserTreeItem.Name + "_Name"));
-            AutomationElement newUserTreeItemPwd = newUserTreeItem.FindFirstChild(cf => cf.ByName("BR_Password"));
-            AutomationElement newUserTreeItemPwdName = newUserTreeItemPwd.FindFirstChild(cf => cf.ByName(newUserTreeItemPwd.Name + "_Name"));
-            AutomationElement newUserTreeItemRole = newUserTreeItem.FindFirstChild(cf => cf.ByName("BR_Roles"));
-            AutomationElement newUserTreeItemRoleAssigned = newUserTreeItemRole.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem));
-            TreeConfig.ClickConfigTreeItem(TreeConfig.ViewType.Workspace, newUserTreeItemRoleAssigned, "_Name");
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
-            AutomationElement combobox = configTree.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
-            Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
-            Mouse.MoveTo(expandButton.GetClickablePoint());
-            if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
-                Mouse.Click();
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
-            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, Role);
-            TreeConfig.ClickAutomationElement(newUserTreeItemPwdName);
-            Keyboard.Type(Password);
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-            TreeConfig.ClickAutomationElement(newUserTreeItemName);
-            Keyboard.Type(Name);
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-            TreeConfig.IdeMain.SaveAll();
+            AddUser(user_editor, "UserOperator", "5555", "Operator", false);
+            AddUser(user_editor, "UserService", "9999", "Service");
+            AddUser(user_editor, "UserObserver", "0000", "Observer");
         }
         IDE_Main.Editor OpenEditor(MappViewPage page, string content, bool textEditor = false) {
             CloseEditor(page, content, !textEditor);
@@ -820,6 +790,38 @@ namespace FlaUITests.Util {
                 }
             } catch (Exception ex) { Console.WriteLine($"Error reading {file}: {ex.Message}"); }
 
+        }
+        void AddUser(IDE_Main.Editor editor, string Name, string Password, string Role, Boolean addUser = true) {
+            Mouse.Click(editor.ConfigWorkspace.BoundingRectangle.Center());
+            AutomationElement configTree = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            Button newUser = editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("User Configuration")).FindFirstChild(cf => cf.ByName("Add \"User\" Element")).AsButton();
+            if (addUser) {
+                newUser.Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            }
+            AutomationElement newUserTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
+            AutomationElement newUserTreeItemName = newUserTreeItem.FindFirstChild(cf => cf.ByName(newUserTreeItem.Name + "_Name"));
+            AutomationElement newUserTreeItemPwd = newUserTreeItem.FindFirstChild(cf => cf.ByName("BR_Password"));
+            AutomationElement newUserTreeItemPwdName = newUserTreeItemPwd.FindFirstChild(cf => cf.ByName(newUserTreeItemPwd.Name + "_Name"));
+            AutomationElement newUserTreeItemRole = newUserTreeItem.FindFirstChild(cf => cf.ByName("BR_Roles"));
+            AutomationElement newUserTreeItemRoleAssigned = newUserTreeItemRole.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem));
+            TreeConfig.ClickConfigTreeItem(TreeConfig.ViewType.Workspace, newUserTreeItemRoleAssigned, "_Name");
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+            AutomationElement combobox = configTree.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
+            Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
+            Mouse.MoveTo(expandButton.GetClickablePoint());
+            if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
+                Mouse.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, Role);
+            TreeConfig.ClickAutomationElement(newUserTreeItemPwdName);
+            Keyboard.Type(Password);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            TreeConfig.ClickAutomationElement(newUserTreeItemName);
+            Keyboard.Type(Name);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            TreeConfig.IdeMain.SaveAll();
         }
     }
 }
