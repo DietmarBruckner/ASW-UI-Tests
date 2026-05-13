@@ -59,7 +59,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting mapp View version to " + Version);
             }
-/*              TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
+             TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                 InsertComponent();
             TreeConfig.IdeMain.Build();
@@ -75,12 +75,10 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_6_Navigation();
             TreeConfig.IdeMain.Build();
-            CreatePageContentsShortcut();
+            //CreatePageContentsShortcut();
             TM611_8_Binding();
-*/            
         }
-        void CreatePageContentsShortcut()
-        {
+        void CreatePageContentsShortcut() {
             int pageID = 0;
             string pageName, contentName;
             foreach(string text in TestWidgets) {
