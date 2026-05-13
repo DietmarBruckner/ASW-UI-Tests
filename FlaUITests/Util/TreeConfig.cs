@@ -235,8 +235,23 @@ namespace FlaUITests.Util {
                     //After clicking the tree item, the tree is refreshed and we need to find the tree item again to be able to continue expanding the tree
                 }
                 else if (leaves.IndexOf(sub) >= leaves.Count - 1 - shortcut) {
-                    if (leaves.IndexOf(sub) == leaves.Count - 1)
-                        ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], !singleclicklast);
+                    if (leaves.IndexOf(sub) == leaves.Count - 1) {
+                        if (viewType == ViewType.Workspace) {
+                            ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)]); //combobox in final leaf node needs some steps to activate
+                            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+                            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                            AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
+                            FlaUI.Core.AutomationElements.Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
+                            Mouse.MoveTo(expandButton.GetClickablePoint());
+                            if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
+                                Mouse.Click();
+                            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                            editor = e;
+                            return;
+                        }
+                        else
+                            ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], !singleclicklast);
+                    }
                     else
                         ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true);
                         System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
