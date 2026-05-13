@@ -19,7 +19,6 @@ namespace FlaUITests.Util {
         string editorPathTS;
         IDE_Main.Editor content0_editor, navcontent_editor;
         readonly List<string[]> inputWidgetStrings = new List<string[]>();
-        readonly string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
         readonly MappViewObjects Objects = new MappViewObjects();
         readonly List<string> TestWidgets = new List<string>();
         static int width, height;
@@ -36,10 +35,7 @@ namespace FlaUITests.Util {
                     if (WidgetGroup.Contains(item[0]))
                         TestWidgets.Add(item[0]);
             }
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Checking/setting mapp View version to " + Version);
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Checking/setting mapp View version to " + Version);
              TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                 InsertComponent();
@@ -89,10 +85,7 @@ namespace FlaUITests.Util {
         }
         void TM611_4_InsertComponent() {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null, out var e);
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Adding mapp View object");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Adding mapp View object");
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "mapp View", "mapp View");
             FlaUI.Core.AutomationElements.Window newMappViewDialog = TreeConfig.IdeMain.GetModalWindow("Insert mapp View solution");
             AutomationElement defaultTemplate = null;
@@ -103,7 +96,7 @@ namespace FlaUITests.Util {
                     defaultTemplate = element;
             }
             if (defaultTemplate == null) {
-                Console.WriteLine("Default template not found in mapp View wizard");
+                Util.ConsoleOut(Util.Verbose.STEPS, "Default template not found in mapp View wizard");
                 return;
             }
             AutomationElement [] allTemplates = defaultTemplate.Parent.FindAllChildren();
@@ -119,39 +112,24 @@ namespace FlaUITests.Util {
             string mvconfig = "Config.mappviewcfg";
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" }, out var e);
             if (TreeConfig.IdeMain.GetActiveConfigurtion().FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).First(cf => cf.Name.IndexOf("mappView") >= 0).FindAllChildren(cf => cf.ByName("BR_" + mvconfig)).Count() == 0) {
-                if (Verbose >= Util.Environment.Verbose.STEPS) {
-                    Console.WriteLine("==========================================");
-                    Console.WriteLine("Inserting new mapp View configuration");
-                }
+                Util.ConsoleOut(Util.Verbose.STEPS, "Inserting new mapp View configuration");
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" }, out e);
                 TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "mapp View", "mapp View Configuration");
             }
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Opening new mapp View configuration in workspace");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Opening new mapp View configuration in workspace");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_" + mvconfig }, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var editor);
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_MappViewConfiguration");
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Selecting HTTP as communication protocol");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Selecting HTTP as communication protocol");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathMV + "mappviewcfg.xml", "Protocol"), new List<string> { "_Name", "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 0); //Select "HTTP"
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Selecting anonymous token as Startup User");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Selecting anonymous token as Startup User");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathMV + "mappviewcfg.xml", "Startup User"), new List<string> { "_Name", "_Value" }, out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 2); //Select "force login"
             TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
             editor.Close();
         }
         void TM611_4_1_RenameVIS() {
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Renaming Visu");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Renaming Visu");
             string visname = "vis_0.vis";
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_" + visname}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
             AutomationElement adocText = editor.ConfigWorkspace.FindAllDescendants().First(cf => cf.Name.IndexOf("<?xml") >= 0);
@@ -167,17 +145,11 @@ namespace FlaUITests.Util {
         }
         void TM611_11_Localization() {
             string tmxconfig = "LocalizableTexts.tmx";
-              if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Inserting new Project Language container");
-            } 
+            Util.ConsoleOut(Util.Verbose.STEPS, "Inserting new Project Language container");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView"}, new List<string> { "_Object Name" }, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Project Languages");
-             TreeConfig.IdeMain.SaveAll();
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Inserting new Localizable Texts container and changing namespace to IAT");
-            }
+            TreeConfig.IdeMain.SaveAll();
+            Util.ConsoleOut(Util.Verbose.STEPS, "Inserting new Localizable Texts container and changing namespace to IAT");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Resources", "BR_Texts"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Localizable Texts");
             TreeConfig.IdeMain.SaveAll();
@@ -207,10 +179,7 @@ namespace FlaUITests.Util {
             }
             TreeConfig.IdeMain.SaveAll();
             editor.Close();
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Inserting and editing Textsystem Config File");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Inserting and editing Textsystem Config File");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem"}, new List<string> { "_Configuration", "_Configuration" }, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Textsystem Configuration");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem", "BR_TC.textconfig"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out editor);
@@ -233,10 +202,7 @@ namespace FlaUITests.Util {
             editor.Close();
         }
         void TM611_5_Layout() {
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Inserting navigation and info content");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Inserting navigation and info content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" }, out content0_editor);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
             Point workspaceCenter = IDE_Main.Workspace.BoundingRectangle.Center();
@@ -283,10 +249,7 @@ namespace FlaUITests.Util {
             EditPosition(left:50, top:5); 
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", "LanguageSelector", drag:true, toDrag:workspaceCenter);
             EditPosition(left:680, top:35);
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Preparing Layout for all Pages");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Preparing Layout for all Pages");
             content0_editor.Restore();
             //TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, new List<string> { "_Object Name", "_Object Name", "_Object Name", "_Object Name", "_Object Name" });
             EditSize(width:700, height:500, content:true);
@@ -318,10 +281,7 @@ namespace FlaUITests.Util {
             ip_editor.Close();
         }
         void InsertWidgets() {
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Inserting widgets");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Inserting widgets");
             content0_editor = IDE_Main.Editors.Find(x => x.Name.Contains("content_0.content"));
             content0_editor.Restore();
             Point editorCenter = IDE_Main.Workspace.BoundingRectangle.Center();
@@ -344,30 +304,22 @@ namespace FlaUITests.Util {
                 TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.Workspace, "", text, drag:true, toDrag:editorCenter);
                 EditSize(width:500, height:400);
                 EditPosition(left:100, top:50);
-                EditText(text); //geht net
+                EditText(text);
                 List<string[]> ls = new List<string[]> { new string[] { contentName, text } };
                 MappViewPage p = new MappViewPage(pageName, ls);
-                //IntlTextBinding(p);
                 Objects.Pages.Add(p);
                 e.Close();
             }
-        }   
+        }
         void TM611_6_Navigation() {
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Creating navigation file");
-            }
+            string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
+            Util.ConsoleOut(Util.Verbose.STEPS, "Creating navigation file");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, new List<string> { "_Configuration", "_Configuration" }, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Navigation");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_navigation_0.nav"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var nav_editor);
-            //AutomationElement ConfigWorkspaceWindow = IDE_Main.Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf("navigation_0.nav [XML File]") >= 0);
             AutomationElement editor = nav_editor.ConfigWorkspace.FindAllDescendants().FirstOrDefault(cf => cf.Name.Contains("<?xml version")).AsTextBox();
             TreeConfig.IdeMain.RemoveTrailingWhitespaceFromXML(editor);
-            Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            string copiedText = Clipboard.GetText();
+            string copiedText = GetTextFromEditor();
             while (copiedText.ElementAt(0) != '<') copiedText = copiedText.Substring(1);
             int firstIndex = copiedText.IndexOf("    <NavigationPath ");
             int secondIndex = copiedText.IndexOf("  </NavigationPaths>");
@@ -399,10 +351,7 @@ namespace FlaUITests.Util {
             IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nPaste ")).AsButton().Click();
             TreeConfig.IdeMain.SaveAll();
             nav_editor.Close();
-             if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Connecting it to Navigation Widget");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Connecting it to Navigation Widget");
             navcontent_editor = IDE_Main.Editors.Find(x => x.Name.Contains("Navigation.content"));
             navcontent_editor.Restore();
             Mouse.Click(navcontent_editor.ConfigWorkspace.BoundingRectangle.Center());
@@ -411,18 +360,12 @@ namespace FlaUITests.Util {
         }
         void TM611_8_Binding() {
             IDE_Main.Editor e;
-              if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Inserting OPC UA/CS default view");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Inserting OPC UA/CS default view");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DefaultView");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_OpcUaCsMap.uad"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Generating Variables");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Generating Variables");
             TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
             if (MappViewObjects.toTestWidgetGroups[0])
                 TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out Objects.ButtonValuesStrings, "Visualization");
@@ -435,10 +378,7 @@ namespace FlaUITests.Util {
                 TreeConfig.IdeMain.GenerateVariables(Objects.Numeric2DValues, out Objects.Numeric2DValuesStrings, "Visualization");
             }
             TreeConfig.IdeMain.Build();
-            if (Verbose >= Util.Environment.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Activating Variables in Default View");
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Activating Variables in Default View");
             editor.Restore();
             ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_<Default>");
             AutomationElement visuRoot = ConfigRoot.FindFirstDescendant(cf => cf.ByName("BR_Visualizat"));
@@ -469,13 +409,7 @@ namespace FlaUITests.Util {
                             c = w2[0];
                         }
                 e = OpenEditor(p, c, textEditor:true);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-                Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
-                IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
-                string copiedText = Clipboard.GetText();
-                XDocument doc = XDocument.Parse(copiedText);
+                XDocument doc = XDocument.Parse(GetTextFromEditor());
                 XElement xContent = doc.Root;
                 XElement xWidgets = xContent.Nodes().OfType<XElement>().FirstOrDefault(x => x.Name.LocalName == "Widgets");
                 int _top=0, _left=0, _width=0, _height=0;
@@ -519,6 +453,13 @@ namespace FlaUITests.Util {
                 e.Close();
             }
         }
+        string GetTextFromEditor() {
+            Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            return Clipboard.GetText();
+        }
         IDE_Main.Editor OpenEditor(MappViewPage page, string content, bool textEditor = false) {
             CloseEditor(page, content, !textEditor);
             IDE_Main.Editor e = null;
@@ -546,8 +487,7 @@ namespace FlaUITests.Util {
                 e.Close();
         }
         void SelectFromMappViewDropDown(string property, string subproperty, string select) {
-            if (Verbose >= Util.Environment.Verbose.FULL)
-                Console.WriteLine("Selecting " + select + " from Dropdown: " + property + ", " + subproperty);
+            Util.ConsoleOut(Util.Verbose.FULL, "Selecting " + select + " in " + property + "." + subproperty);
             ScrollFindProperty(property, subproperty);
             AutomationElement properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement aproperty = properties.FindFirstChild(cf => cf.ByName(property));
