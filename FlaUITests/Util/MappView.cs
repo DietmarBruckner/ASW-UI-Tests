@@ -10,9 +10,7 @@ using Point = System.Drawing.Point;
 using System.Windows;
 using System.Threading;
 using FlaUITests.Util.AS_Objects;
-using System.Runtime.InteropServices;
 using System.IO;
-using System.ComponentModel;
 using System.Xml.Linq;
 
 namespace FlaUITests.Util {
@@ -21,8 +19,8 @@ namespace FlaUITests.Util {
         string editorPathTS;
         IDE_Main.Editor content0_editor, navcontent_editor;
         readonly List<string[]> inputWidgetStrings = new List<string[]>();
-        string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
-        MappViewObjects Objects = new MappViewObjects();
+        readonly string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
+        readonly MappViewObjects Objects = new MappViewObjects();
         readonly List<string> TestWidgets = new List<string>();
         static int width, height;
         public override void InitComponent() {
