@@ -543,7 +543,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Creating roles: Operator, Service and Observer");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
-            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Role");
+//            TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Role");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_Role.role"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var role_editor);
             Mouse.Click(role_editor.ConfigWorkspace.BoundingRectangle.Center());
             AutomationElement configTree = role_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
@@ -551,6 +551,7 @@ namespace FlaUITests.Util {
             AutomationElement newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
             AutomationElement newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
             TreeConfig.ClickAutomationElement(newRoleTreeItemName);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.Type("Operator");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             newRole.Click();
@@ -558,6 +559,7 @@ namespace FlaUITests.Util {
             newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
             newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
             TreeConfig.ClickAutomationElement(newRoleTreeItemName);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.Type("Service");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             newRole.Click();
@@ -565,6 +567,7 @@ namespace FlaUITests.Util {
             newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
             newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
             TreeConfig.ClickAutomationElement(newRoleTreeItemName);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.Type("Observer");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             TreeConfig.IdeMain.SaveAll();
@@ -817,9 +820,11 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, Role);
             TreeConfig.ClickAutomationElement(newUserTreeItemPwdName);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.Type(Password);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             TreeConfig.ClickAutomationElement(newUserTreeItemName);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.Type(Name);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             TreeConfig.IdeMain.SaveAll();
