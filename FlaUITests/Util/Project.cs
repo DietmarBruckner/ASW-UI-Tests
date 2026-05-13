@@ -14,7 +14,7 @@ namespace FlaUITests.Util {
         public string Config { get; set; }
         public string CPU { get; set; }
         public string WorkingVersion { get; set; }
-        public Util.Environment.Verbose verbose;
+        public Util.Verbose verbose;
         readonly Dictionary<Components, string> DictComponents;
         List<ComponentInProject> components;
 
@@ -34,7 +34,7 @@ namespace FlaUITests.Util {
             else
                 Console.WriteLine("No project loaded.");
         }
-        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu, Dictionary<Components, string> dictComponents, string workingVersion = null, Util.Environment.Verbose verbose = Util.Environment.Verbose.NONE) {
+        public AppProject(IDE_Main ideMain, string name, string path, string config, string cpu, Dictionary<Components, string> dictComponents, string workingVersion = null, Util.Verbose verbose = Util.Verbose.NONE) {
             _ideMain = ideMain;
             Name = name;
             Path = path;
