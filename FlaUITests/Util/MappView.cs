@@ -23,23 +23,6 @@ namespace FlaUITests.Util {
         readonly List<string[]> inputWidgetStrings = new List<string[]>();
         string[] _navStrings = new string[] {"    <NavigationPath refId=\"", "\">\r\n", "      <Destination refId=\"", "\" index=\"0\" />\r\n", "      <Destination refId=\"", "\" index=\"1\" />\r\n", "      <Destination refId=\"", "\" index=\"2\" />\r\n", "    </NavigationPath>\r\n"};
         MappViewObjects Objects = new MappViewObjects();
-        static readonly List<string> buttonDenominators = new List<string> {"ToggleSwitch", "ToggleButton", "RadioButton", "PushButton", "NavigationButton", "MomentaryPushButton", "HoverButton", "Checkbox", "Button"};
-        static readonly List<string> chartDenominators = new List<string> {"BarChart", "DonutChart", "LinearGauge", "LineChart", "OnlineChart", "OnlineChartHDA", "PieChart", "ProfileGenerator", "RadialGauge", "StackedBarChart", "Timeline", "XYChart"};
-        static readonly List<string> containerDenominators = new List<string> {"ButtonBar", "FlexBox", "FlexLayoutPanel", "FlyOut", "GridLine", "GroupBox", "InfoBanner", /*"Navigation",*/ "NavigationBar", "RadialButtonBar", "RadioButtonGroup", "TabControl", };
-        static readonly List<string> dataDenominators = new List<string> {"AlarmHistory", "AlarmLine", "AlarmList", "AuditList", "FavoriteWatch", "Table", "UserList", "Database"};
-        static readonly List<string> dateTimeDenominators = new List<string> {"DateTimeInput", "DateTimeOutput"};
-        static readonly List<string> drawingDenominators = new List<string> {"Ellipse", "Line", "Rectangle", "Paper"};
-        static readonly List<string> imageDenominators = new List<string> {"Image", "ImageList"};
-        static readonly List<string> loginDenominators = new List<string> {"Login", "LoginButton", "LoginInfo", "LogoutButton", "Password"};
-        static readonly List<string> mediaDenominators = new List<string> {"PDFViewer", "QRViewer", "VideoPlayer", "VNCViewer", "WebViewer"};
-        static readonly List<string> motionDenominators = new List<string> {"MotionPad"};
-        static readonly List<string> numericDenominators = new List<string> {"BasicSlider", "Joystick", "NumericInput", "NumericOutput", "ProgressBar", "RadialSlider", "RangeSlider", "XYJoystick"};
-        static readonly List<string> selectorDenominators = new List<string> {"DropDownBox", "ListBox", "TextPicker"};
-        static readonly List<string> systemDenominators = new List<string> {"KeyBoard", "LanguageSelector", "MeasurementSystemSelector", "MotionKeyPad", "NumPad", "SystemNavButton", "SystemLogin", "TextKeyPad", "DateTimePicker", "ContentControl", "ContentCarousel"};
-        static readonly List<string> textDenominators = new List<string> {"Label", "TextInput", "TextOutput", "TextPad"};
-        static readonly List<string> processDenominators = new List<string> {"Sequencer", "LadderEditor", "Skyline"};
-        static readonly bool [] toTestWidgetGroups = new bool[] {true, false, false, false, true, false, false, false, false, false, true, false, false, false, false};
-        static readonly List<List<string>> AllWidgets = new List<List<string>> {buttonDenominators, chartDenominators, containerDenominators, dataDenominators, dateTimeDenominators, drawingDenominators, imageDenominators, loginDenominators, mediaDenominators, motionDenominators, numericDenominators, selectorDenominators, systemDenominators, textDenominators, processDenominators};
         readonly List<string> TestWidgets = new List<string>();
         static int width, height;
         public override void InitComponent() {
@@ -48,8 +31,8 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             ReadConfiguration();
             Objects.Pages = new List<MappViewPage>();
-            foreach (var WidgetGroup in AllWidgets) {
-                if (!toTestWidgetGroups[AllWidgets.IndexOf(WidgetGroup)])
+            foreach (var WidgetGroup in MappViewObjects.AllWidgets) {
+                if (!MappViewObjects.toTestWidgetGroups[MappViewObjects.AllWidgets.IndexOf(WidgetGroup)])
                     continue;
                 foreach(var item in inputWidgetStrings)
                     if (WidgetGroup.Contains(item[0]))
@@ -89,14 +72,14 @@ namespace FlaUITests.Util {
                 MappViewPage p = new MappViewPage(pageName, ls);
                 Objects.Pages.Add(p);
             }
-            Objects.ButtonValuesStrings = new string[buttonDenominators.Count][];
-            for (int i = 0; i < buttonDenominators.Count; i++)
+            Objects.ButtonValuesStrings = new string[MappViewObjects.buttonDenominators.Count][];
+            for (int i = 0; i < MappViewObjects.buttonDenominators.Count; i++)
                 Objects.ButtonValuesStrings[i] = new string[] { "System_Boolean_" + i, "BOOL" };
-            Objects.DateTimeValuesStrings = new string[dateTimeDenominators.Count][];
-            for (int i = 0; i < dateTimeDenominators.Count; i++)
+            Objects.DateTimeValuesStrings = new string[MappViewObjects.dateTimeDenominators.Count][];
+            for (int i = 0; i < MappViewObjects.dateTimeDenominators.Count; i++)
                 Objects.DateTimeValuesStrings[i] = new string[] { "System_DateTime_" + i, "DT" };
-            Objects.NumericValuesStrings = new string[numericDenominators.Count][];
-            for (int i = 0; i < numericDenominators.Count - 2; i++)
+            Objects.NumericValuesStrings = new string[MappViewObjects.numericDenominators.Count][];
+            for (int i = 0; i < MappViewObjects.numericDenominators.Count - 2; i++)
                 Objects.NumericValuesStrings[i] = new string[] { "System_Single_" + i, "REAL" };
             Objects.Numeric2DValuesStrings = new string[2][];
             for (int i = 0; i < 2; i++)
@@ -442,11 +425,11 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Generating Variables");
             }
             TreeConfig.IdeMain.GenerateProgram("Visualization", ST:true, AllInOne:true);
-            if (toTestWidgetGroups[0])
+            if (MappViewObjects.toTestWidgetGroups[0])
                 TreeConfig.IdeMain.GenerateVariables(Objects.ButtonValues, out Objects.ButtonValuesStrings, "Visualization");
-            if (toTestWidgetGroups[4])
+            if (MappViewObjects.toTestWidgetGroups[4])
                 TreeConfig.IdeMain.GenerateVariables(Objects.DateTimeValues, out Objects.DateTimeValuesStrings, "Visualization");
-            if (toTestWidgetGroups[10]) {
+            if (MappViewObjects.toTestWidgetGroups[10]) {
                 TreeConfig.IdeMain.GenerateVariables(Objects.NumericValues, out Objects.NumericValuesStrings, "Visualization");
                 for (int i = 0; i < Objects.Numeric2DValues.Count(); i++)
                     Objects.Numeric2DValues[i] = new float[2];
@@ -512,11 +495,11 @@ namespace FlaUITests.Util {
                 Mouse.MoveTo(new Point {X = IDE_Main.Workspace.BoundingRectangle.Left + (int)(IDE_Main.Workspace.BoundingRectangle.Width * (_left+_width/2)/width), Y = IDE_Main.Workspace.BoundingRectangle.Top + (int)(IDE_Main.Workspace.BoundingRectangle.Height * (_top+_height/2)/height)});
                 Mouse.Click();
                 int indexWidgetgroup = 0, indexWidget = 0;
-                foreach (var WidgetGroup in AllWidgets) {
-                    if (!toTestWidgetGroups[AllWidgets.IndexOf(WidgetGroup)])
+                foreach (var WidgetGroup in MappViewObjects.AllWidgets) {
+                    if (!MappViewObjects.toTestWidgetGroups[MappViewObjects.AllWidgets.IndexOf(WidgetGroup)])
                         continue;
                     if (WidgetGroup.Contains(w1)) {
-                        indexWidgetgroup = AllWidgets.IndexOf(WidgetGroup);
+                        indexWidgetgroup = MappViewObjects.AllWidgets.IndexOf(WidgetGroup);
                         indexWidget = WidgetGroup.IndexOf(w1);
                     }
                 }
