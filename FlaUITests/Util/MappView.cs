@@ -586,6 +586,7 @@ namespace FlaUITests.Util {
             AddUser(user_editor, "UserOperator", "5555", "Operator", false);
             AddUser(user_editor, "UserService", "9999", "Service");
             AddUser(user_editor, "UserObserver", "0000", "Observer");
+            user_editor.Close();
         }
         IDE_Main.Editor OpenEditor(MappViewPage page, string content, bool textEditor = false) {
             CloseEditor(page, content, !textEditor);
@@ -809,7 +810,7 @@ namespace FlaUITests.Util {
             AutomationElement newUserTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
             AutomationElement newUserTreeItemName = newUserTreeItem.FindFirstChild(cf => cf.ByName(newUserTreeItem.Name + "_Name"));
             AutomationElement newUserTreeItemPwd = newUserTreeItem.FindFirstChild(cf => cf.ByName("BR_Password"));
-            AutomationElement newUserTreeItemPwdName = newUserTreeItemPwd.FindFirstChild(cf => cf.ByName(newUserTreeItemPwd.Name + "_Name"));
+            AutomationElement newUserTreeItemPwdValue = newUserTreeItemPwd.FindFirstChild(cf => cf.ByName(newUserTreeItemPwd.Name + "_Value"));
             AutomationElement newUserTreeItemRole = newUserTreeItem.FindFirstChild(cf => cf.ByName("BR_Roles"));
             AutomationElement newUserTreeItemRoleAssigned = newUserTreeItemRole.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem));
             TreeConfig.ClickConfigTreeItem(TreeConfig.ViewType.Workspace, newUserTreeItemRoleAssigned, "_Value");
@@ -822,7 +823,7 @@ namespace FlaUITests.Util {
                 Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, Role);
-            Mouse.MoveTo(newUserTreeItemPwdName.BoundingRectangle.Center());
+            Mouse.MoveTo(newUserTreeItemPwdValue.BoundingRectangle.Center());
             Mouse.DoubleClick();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             Keyboard.Type(Password);
