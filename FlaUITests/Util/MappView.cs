@@ -164,7 +164,7 @@ namespace FlaUITests.Util {
                 Console.WriteLine("Selecting anonymous token as Startup User");
             }
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathMV + "mappviewcfg.xml", "Startup User"), new List<string> { "_Name", "_Value" }, out e, ConfigRoot);
-            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 0); //Select "anonymous token"
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 2); //Select "force login"
             TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
             editor.Close();
         }
