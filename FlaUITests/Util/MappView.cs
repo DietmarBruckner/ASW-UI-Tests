@@ -342,12 +342,12 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             AutomationElement content_0Properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement docIATeditor = content0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
-/*             AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
+            AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
             TreeConfig.ClickAutomationElement(defaultLabel);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE); 
             TreeConfig.IdeMain.SaveAll(); 
- */            TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
+            TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
             foreach(string text in TestWidgets) {
