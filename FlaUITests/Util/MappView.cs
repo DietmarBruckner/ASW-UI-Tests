@@ -806,7 +806,7 @@ namespace FlaUITests.Util {
             AutomationElement newUserTreeItemPwdName = newUserTreeItemPwd.FindFirstChild(cf => cf.ByName(newUserTreeItemPwd.Name + "_Name"));
             AutomationElement newUserTreeItemRole = newUserTreeItem.FindFirstChild(cf => cf.ByName("BR_Roles"));
             AutomationElement newUserTreeItemRoleAssigned = newUserTreeItemRole.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem));
-            TreeConfig.ClickConfigTreeItem(TreeConfig.ViewType.Workspace, newUserTreeItemRoleAssigned, "_Name");
+            TreeConfig.ClickConfigTreeItem(TreeConfig.ViewType.Workspace, newUserTreeItemRoleAssigned, "_Value");
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             AutomationElement combobox = configTree.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
