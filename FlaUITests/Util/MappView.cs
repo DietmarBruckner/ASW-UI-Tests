@@ -76,8 +76,9 @@ namespace FlaUITests.Util {
             TreeConfig.IdeMain.Build();
             TM611_6_Navigation();
             TreeConfig.IdeMain.Build();
-*/            CreatePageContentsShortcut();
+            CreatePageContentsShortcut();
             TM611_8_Binding();
+*/            TM611_10_RBAC();
         }
         void CreatePageContentsShortcut()
         {
