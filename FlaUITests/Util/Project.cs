@@ -91,34 +91,21 @@ namespace FlaUITests.Util {
             TreeConfig.CurrentProject = this;
             if (dictComponents != null)
                 components = new List<ComponentInProject>();
-            if (this.verbose >= Util.Environment.Verbose.LIGHT) {
-                Console.WriteLine("------------------------------------------");
-                Console.WriteLine("Activating Simulation");
-                Console.WriteLine("------------------------------------------");
-            }
+            Util.ConsoleOut(Util.Verbose.LIGHT, "Activating Simulation");
             _ideMain.ActivateSimulation();
             foreach (KeyValuePair<Components, string> kvp in DictComponents) {
                 ComponentInProject cip = null;
-                //System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
-                switch (kvp.Key) {
+                   switch (kvp.Key) {
                     case Components.AutomationRuntime:  cip = new AutomationRuntime(this, kvp.Value);   break;
                     case Components.mappView:           cip = new MappView(this, kvp.Value);            break;
                     case Components.OPCUACS:            cip = new OPCUACS(this, kvp.Value);             break;
                 }
                 components.Add(cip);
                 cip.Verbose = this.verbose;
-                if (this.verbose >= Util.Environment.Verbose.LIGHT) {
-                    Console.WriteLine("------------------------------------------");
-                    Console.WriteLine("Initializing component: " + cip.ToString());
-                    Console.WriteLine("------------------------------------------");
-                }
+                Util.ConsoleOut(Util.Verbose.LIGHT, "Initializing component: " + cip.ToString());
                 Init(cip);
             }
-            if (this.verbose >= Util.Environment.Verbose.LIGHT) {
-                Console.WriteLine("------------------------------------------");
-                Console.WriteLine("Transferring ...");
-                Console.WriteLine("------------------------------------------");
-            }
+            Util.ConsoleOut(Util.Verbose.LIGHT, "Transferring ...");
             _ideMain.Transfer();
         }
         public void Init(ComponentInProject cip) {
@@ -127,11 +114,7 @@ namespace FlaUITests.Util {
         }
         public void Update () {
             _ideMain.SaveAll();
-            if (verbose >= Util.Environment.Verbose.LIGHT) {
-                Console.WriteLine("------------------------------------------");
-                Console.WriteLine("Building ...");
-                Console.WriteLine("------------------------------------------");
-            }
+            Util.ConsoleOut(Util.Verbose.LIGHT, "Building ...");
             _ideMain.Build();
         }
         public void DeleteProject() {
@@ -174,11 +157,7 @@ namespace FlaUITests.Util {
         }
         public void ReadProject() {
             if (_ideMain.IsProjectLoaded()) {
-                if (verbose >= Util.Environment.Verbose.LIGHT) {
-                    Console.WriteLine("------------------------------------------");
-                    Console.WriteLine("Reading project content ...");
-                    Console.WriteLine("------------------------------------------");
-                }
+                Util.ConsoleOut(Util.Verbose.LIGHT, "Reading project content ...");
                 new HardwareConfigReader(Path, Config).ReadHardwareTopology();
             }
         }
