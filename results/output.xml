@@ -1,33 +1,168 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-04-07T16:06:42.439970" rpa="false" schemaversion="5">
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-05-18T12:24:18.611399" rpa="false" schemaversion="5">
 <suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
-<suite id="s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\tests">
-<suite id="s1-s1-s1" name="First" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\tests\first.robot">
-<test id="s1-s1-s1-t1" name="First Test" line="2">
-<kw name="Log" owner="BuiltIn">
-<msg time="2026-04-07T16:06:42.486355" level="INFO">Hello, World!</msg>
-<arg>Hello, World!</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-04-07T16:06:42.486014" elapsed="0.000577"/>
+<suite id="s1-s1" name="RobotTests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests">
+<suite id="s1-s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests">
+<suite id="s1-s1-s1-s1" name="Project Creation" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\project_creation">
+<suite id="s1-s1-s1-s1-s1" name="Project Creation" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\project_creation\project_creation.robot">
+<test id="s1-s1-s1-s1-s1-t1" name="Create Project With OPCUA Component" line="10">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-18T12:24:18.939902" level="INFO">${project_name} = Project_OPCUA</msg>
+<var>${project_name}</var>
+<arg>Project_OPCUA</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-18T12:24:18.939462" elapsed="0.000617"/>
 </kw>
-<status status="PASS" start="2026-04-07T16:06:42.482501" elapsed="0.004362"/>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-18T12:24:18.940814" level="INFO">${project_path} = C:\temp\automation-studio-tests\Project_OPCUA</msg>
+<var>${project_path}</var>
+<arg>${PROJECT_TEMP_PATH}${project_name}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-18T12:24:18.940427" elapsed="0.000543"/>
+</kw>
+<kw name="Create New Project In Automation Studio" owner="project_keywords">
+<kw name="Initialize Automation Studio" owner="ide_keywords">
+<kw name="Initialize Automation Studio" owner="FlaUILib">
+<arg>${AS_IDE_PATH}</arg>
+<arg>${AS_DEFAULT_TIMEOUT}</arg>
+<doc>Launch or attach to Automation Studio IDE.</doc>
+<status status="PASS" start="2026-05-18T12:24:24.590170" elapsed="2.452328"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-18T12:24:31.816871" level="INFO">Automation Studio initialised at: C:\Program Files (x86)\BRAutomation\AS6\bin-en\pg.exe</msg>
+<arg>Automation Studio initialised at: ${AS_IDE_PATH}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-18T12:24:27.042942" elapsed="4.774196"/>
+</kw>
+<doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
+<status status="PASS" start="2026-05-18T12:24:23.062853" elapsed="8.754527"/>
+</kw>
+<kw name="Invoke IDE Menu" owner="ide_keywords">
+<kw name="Invoke Menu" owner="FlaUILib">
+<msg time="2026-05-18T12:24:35.282519" level="FAIL">FlaUILibrary keyword 'invoke_menu' failed: Menu item 'New Project...' not found in 'File'</msg>
+<arg>${menu_name}</arg>
+<arg>${menu_item}</arg>
+<arg>${submenu_item}</arg>
+<doc>Invoke a top-level menu, optionally clicking a menu item and submenu.</doc>
+<status status="FAIL" start="2026-05-18T12:24:33.835847" elapsed="1.453719">FlaUILibrary keyword 'invoke_menu' failed: Menu item 'New Project...' not found in 'File'</status>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>Menu invoked: ${menu_name} &gt; ${menu_item} &gt; ${submenu_item}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.929450" elapsed="0.000277"/>
+</kw>
+<arg>File</arg>
+<arg>New Project...</arg>
+<doc>Clicks a top-level menu and optionally a menu/sub-menu item.</doc>
+<status status="FAIL" start="2026-05-18T12:24:31.817679" elapsed="1261.112324">FlaUILibrary keyword 'invoke_menu' failed: Menu item 'New Project...' not found in 'File'</status>
+</kw>
+<kw name="Wait For Dialog" owner="FlaUILib">
+<arg>New Project</arg>
+<doc>Wait for a modal dialog with the given title to appear.</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.930286" elapsed="0.000151"/>
+</kw>
+<kw name="Type Into Dialog Field" owner="FlaUILib">
+<arg>Name</arg>
+<arg>${project_name}</arg>
+<doc>Type text into a labeled dialog field.</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.930615" elapsed="0.000114"/>
+</kw>
+<kw name="Set Dialog Field Value" owner="FlaUILib">
+<arg>Location</arg>
+<arg>${project_path}</arg>
+<doc>Set value in a labeled dialog field.</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.930871" elapsed="0.000110"/>
+</kw>
+<kw name="Select CPU In New Project Dialog" owner="project_keywords">
+<arg>${cpu_type}</arg>
+<doc>Selects the CPU type inside the New Project dialog.</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.931252" elapsed="0.000134"/>
+</kw>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>OK</arg>
+<arg>New Project</arg>
+<doc>Click a button in a modal dialog.</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.931538" elapsed="0.000101"/>
+</kw>
+<kw name="Wait Until IDE Is Ready" owner="ide_keywords">
+<doc>Waits for the IDE to become idle (no busy indicator).</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.931841" elapsed="0.000128"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>Project "${project_name}" created at ${project_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.932134" elapsed="0.000111"/>
+</kw>
+<arg>${project_name}</arg>
+<arg>${project_path}</arg>
+<doc>Creates a new Automation Studio project.
+Opens File &gt; New Project, fills in name and location, selects CPU, confirms.</doc>
+<status status="FAIL" start="2026-05-18T12:24:18.941257" elapsed="1273.991155">FlaUILibrary keyword 'invoke_menu' failed: Menu item 'New Project...' not found in 'File'</status>
+</kw>
+<kw name="Initialize OPCUA Component" owner="component_keywords">
+<doc>Adds and configures the OPCUA component in the project.</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.933387" elapsed="0.000202"/>
+</kw>
+<kw name="Build Project" owner="project_keywords">
+<doc>Builds the active project (Build &gt; Build Active Project) and waits for completion.</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.934033" elapsed="0.000154"/>
+</kw>
+<kw name="Directory Should Exist" owner="OperatingSystem">
+<arg>${project_path}</arg>
+<doc>Fails unless the given path points to an existing directory.</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.934523" elapsed="0.000129"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>Project with OPCUA created successfully: ${project_name}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-18T12:45:32.934941" elapsed="0.000125"/>
+</kw>
+<doc>Creates a new project with OPCUA component configured.</doc>
+<tag>project-creation</tag>
+<tag>smoke</tag>
+<status status="FAIL" start="2026-05-18T12:24:18.923892" elapsed="1274.011557">FlaUILibrary keyword 'invoke_menu' failed: Menu item 'New Project...' not found in 'File'</status>
 </test>
-<status status="PASS" start="2026-04-07T16:06:42.479792" elapsed="0.010350"/>
+<kw name="Close Automation Studio" owner="ide_keywords" type="TEARDOWN">
+<kw name="Close Application" owner="FlaUILib">
+<arg>${save_changes}</arg>
+<doc>Close the IDE application.</doc>
+<status status="PASS" start="2026-05-18T12:45:32.967077" elapsed="0.921121"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-18T12:45:33.888766" level="INFO">Automation Studio closed (save_changes=False)</msg>
+<arg>Automation Studio closed (save_changes=${save_changes})</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-18T12:45:33.888379" elapsed="0.000587"/>
+</kw>
+<arg>save_changes=False</arg>
+<doc>Closes Automation Studio IDE.</doc>
+<status status="PASS" start="2026-05-18T12:45:32.966532" elapsed="0.922561"/>
+</kw>
+<doc>Test cases for Automation Studio project creation and initialization.</doc>
+<status status="FAIL" start="2026-05-18T12:24:18.710850" elapsed="1275.178338"/>
 </suite>
-<status status="PASS" start="2026-04-07T16:06:42.476045" elapsed="0.020800"/>
+<status status="FAIL" start="2026-05-18T12:24:18.707071" elapsed="1275.188734"/>
 </suite>
-<status status="PASS" start="2026-04-07T16:06:42.445450" elapsed="0.054056"/>
+<status status="FAIL" start="2026-05-18T12:24:18.703686" elapsed="1275.195221"/>
+</suite>
+<status status="FAIL" start="2026-05-18T12:24:18.690569" elapsed="1275.211345"/>
+</suite>
+<status status="FAIL" start="2026-05-18T12:24:18.616749" elapsed="1275.287822"/>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="0" skip="0">All Tests</stat>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
 </total>
 <tag>
+<stat pass="0" fail="1" skip="0">project-creation</stat>
+<stat pass="0" fail="1" skip="0">smoke</stat>
 </tag>
 <suite>
-<stat name="ASW-UI-Tests" id="s1" pass="1" fail="0" skip="0">ASW-UI-Tests</stat>
-<stat name="Tests" id="s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.Tests</stat>
-<stat name="First" id="s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.Tests.First</stat>
+<stat name="ASW-UI-Tests" id="s1" pass="0" fail="1" skip="0">ASW-UI-Tests</stat>
+<stat name="RobotTests" id="s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests</stat>
+<stat name="Tests" id="s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests</stat>
+<stat name="Project Creation" id="s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.Project Creation</stat>
+<stat name="Project Creation" id="s1-s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.Project Creation.Project Creation</stat>
 </suite>
 </statistics>
 <errors>
