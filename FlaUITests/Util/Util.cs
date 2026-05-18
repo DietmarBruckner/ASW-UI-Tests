@@ -8,16 +8,22 @@ namespace FlaUITests.Util {
             public static Verbose verbose;
         }
         public static void ConsoleOut(Verbose verbose, string text){
-            if (verbose >= Verbose.LIGHT) {
-                Console.WriteLine("==========================================");
+            if (Environment.verbose < verbose)
+                return;
+            if (verbose == Verbose.LIGHT) {
+                Console.WriteLine("------------------------------------------");
+                Console.WriteLine(text);
+                Console.WriteLine("------------------------------------------");
             }
-            else if (verbose >= Verbose.STEPS) {
+            else if (verbose == Verbose.STEPS) {
                 Console.WriteLine("==========================================");
+                Console.WriteLine(text);
             }
-            else if (verbose >= Verbose.FULL) {
+            else if (verbose == Verbose.FULL) {
                 Console.WriteLine("==========================================");
+                Console.WriteLine(text);
             }
-            Console.WriteLine(text);
+
         }
         public static int GetDamerauLevenshteinDistance(string s, string t) {
             if (string.IsNullOrEmpty(s))

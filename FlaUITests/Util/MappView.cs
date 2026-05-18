@@ -437,7 +437,7 @@ namespace FlaUITests.Util {
                 switch (indexWidgetgroup) {
                     case 0:     str = Objects.ButtonValuesStrings[indexWidget][0]; break;
                     case 4:     str = Objects.DateTimeValuesStrings[indexWidget][0]; break;
-                    case 10:    str = indexWidget<Objects.NumericValues.Count()?Objects.NumericValuesStrings[indexWidget][0]:Objects.Numeric2DValuesStrings[indexWidget-Objects.NumericValues.Count()][0]; break;
+                    case 10:    str = indexWidget < Objects.NumericValues.Count()?Objects.NumericValuesStrings[indexWidget][0]:Objects.Numeric2DValuesStrings[indexWidget-Objects.NumericValues.Count()][0]; break;
                 }
                 EditValue(str);
                 doc = null;

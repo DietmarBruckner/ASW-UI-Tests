@@ -91,6 +91,7 @@ namespace FlaUITests.Util {
             AddUser(user_editor, "UserService", "9999", "Service");
             AddUser(user_editor, "UserObserver", "0000", "Observer");
             user_editor.Close();
+            
             string uadvconfig = "UaDvConfig.uadcfg";
             Util.ConsoleOut(Util.Verbose.STEPS, "Opening OPC UA Default View configuration in workspace");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_" + uadvconfig}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var uadv_editor);
