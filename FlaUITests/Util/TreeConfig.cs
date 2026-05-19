@@ -18,13 +18,13 @@ namespace FlaUITests.Util {
         public static AppProject CurrentProject { get; set; }
 
         public static void ClickConfigTreeItem(ViewType viewType, AutomationElement element, string sub, bool doubleClick = false) {
-            if (CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+            if (CurrentProject.verbose >= Util.Verbose.FULL)
                 Console.WriteLine("Trying to " + (doubleClick?"double click ":"click ") + "element: " + element.Name + sub);
             MakeTreeItemVisible(viewType, element, sub);
             ClickAutomationElement(element.FindFirstChild(cf => cf.ByName(element.Name + sub)), doubleClick);
         }
         public static void ClickComboBoxTreeItem(Window window, int index) {
-            if (CurrentProject != null && CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+            if (CurrentProject != null && CurrentProject.verbose >= Util.Verbose.FULL)
                 Console.WriteLine("Trying to click " + (index+1) + "-th element of list");
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
@@ -32,7 +32,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
         }
         public static void ClickComboBoxTreeItem(Window window, string element) {
-            if (CurrentProject != null && CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+            if (CurrentProject != null && CurrentProject.verbose >= Util.Verbose.FULL)
                 Console.WriteLine("Trying to click element: " + element + " in list");
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
@@ -40,7 +40,7 @@ namespace FlaUITests.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
         }
         public static void ClickContextMenuItem(Window window, string menuItemName, string subMenuItemName = null) {
-            if (CurrentProject != null && CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+            if (CurrentProject != null && CurrentProject.verbose >= Util.Verbose.FULL)
                 Console.WriteLine("Trying to click menu item: " + menuItemName + (subMenuItemName!=null?", " + subMenuItemName:""));
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             AutomationElement menu = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.Menu));
@@ -64,12 +64,12 @@ namespace FlaUITests.Util {
                 Mouse.Click(point);
         }
         public static void MakeTreeItemVisible(ViewType viewType, AutomationElement element, string sub) {
-            if (CurrentProject.verbose >= Util.Environment.Verbose.STEPS)
+            if (CurrentProject.verbose >= Util.Verbose.STEPS)
                 Console.WriteLine("Checking if element: " + element.Name + "." + sub + " is within view");
             AutomationElement clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
             Rectangle elementRect = clickElement.BoundingRectangle;
             if (elementRect.Width == 0 || elementRect.Height == 0) {
-            if (CurrentProject.verbose >= Util.Environment.Verbose.FULL)
+            if (CurrentProject.verbose >= Util.Verbose.FULL)
                 Console.WriteLine("Element: " + element.Name + "." + sub + " not within view, scrolling ...");
                 AutomationElement view = null;
                 switch (viewType) {
@@ -144,7 +144,7 @@ namespace FlaUITests.Util {
                     }
                 }
                 else
-                    if (CurrentProject.verbose >= Util.Environment.Verbose.LIGHT)
+                    if (CurrentProject.verbose >= Util.Verbose.LIGHT)
                         Console.WriteLine("Could not locate " + element.Name);
             }
         }
@@ -152,9 +152,9 @@ namespace FlaUITests.Util {
             AutomationElement ae = null;
             IDE_Main.Editor e = null;
             if (leaves != null) {
-                if (CurrentProject.verbose >= Util.Environment.Verbose.STEPS)
+                if (CurrentProject.verbose >= Util.Verbose.STEPS)
                     Console.WriteLine("Opening treeview element: " + leaves.Last() + "." + toClickSubstrings.Last());
-                if (CurrentProject.verbose >= Util.Environment.Verbose.FULL) {
+                if (CurrentProject.verbose >= Util.Verbose.FULL) {
                     Console.Write("Along the path: ");
                     foreach (string s in leaves)
                         Console.Write(s + ", ");

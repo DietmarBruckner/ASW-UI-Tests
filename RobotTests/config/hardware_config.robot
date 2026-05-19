@@ -1,3 +1,6 @@
+*** Settings ***
+Resource            ${CURDIR}\\general\\cpu_types.robot
+
 *** Variables ***
 # Hardware Configuration for Automation Studio 6 Tests
 # These variables define the target hardware and IDE settings
