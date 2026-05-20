@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MYyoEbBR5Vc=",
+  "dgSpecHash": "OQX3oZBqKiY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\TestProject1.csproj",
+  "projectFilePath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\flaui.core\\5.0.0\\flaui.core.5.0.0.nupkg.sha512",
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\flaui.uia2\\5.0.0\\flaui.uia2.5.0.0.nupkg.sha512",
@@ -10,15 +10,7 @@
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\microsoft.net.test.sdk\\17.14.1\\microsoft.net.test.sdk.17.14.1.nupkg.sha512",
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\system.codedom\\8.0.0\\system.codedom.8.0.0.nupkg.sha512",
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\system.management\\8.0.0\\system.management.8.0.0.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\tesseract\\5.2.0\\tesseract.5.2.0.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\xunit\\2.4.2\\xunit.2.4.2.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\xunit.abstractions\\2.0.3\\xunit.abstractions.2.0.3.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\xunit.analyzers\\1.0.0\\xunit.analyzers.1.0.0.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\xunit.assert\\2.4.2\\xunit.assert.2.4.2.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\xunit.core\\2.4.2\\xunit.core.2.4.2.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\xunit.extensibility.core\\2.4.2\\xunit.extensibility.core.2.4.2.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\xunit.extensibility.execution\\2.4.2\\xunit.extensibility.execution.2.4.2.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.5\\xunit.runner.visualstudio.2.4.5.nupkg.sha512"
+    "C:\\Users\\ATDIBRU\\.nuget\\packages\\tesseract\\5.2.0\\tesseract.5.2.0.nupkg.sha512"
   ],
   "logs": []
 }

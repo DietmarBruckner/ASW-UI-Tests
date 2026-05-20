@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-05-20T15:10:00.916456" rpa="false" schemaversion="5">
+<suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
+<suite id="s1-s1" name="RobotTests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests">
+<suite id="s1-s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests">
+<suite id="s1-s1-s1-s1" name="Automation Studio" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\Automation Studio">
+<suite id="s1-s1-s1-s1-s1" name="Automation Studio tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\Automation Studio\Automation Studio_tests.robot">
+<test id="s1-s1-s1-s1-s1-t1" name="Initialise AutomationRuntime Component" line="9">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-20T15:10:01.260990" level="INFO">${project_name} = Runtime_Init</msg>
+<var>${project_name}</var>
+<arg>Runtime_Init</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-20T15:10:01.260328" elapsed="0.000831"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-05-20T15:10:01.262146" level="INFO">${project_path} = C:\temp\automation-studio-tests\Runtime_Init</msg>
+<var>${project_path}</var>
+<arg>${PROJECT_TEMP_PATH}${project_name}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-05-20T15:10:01.261572" elapsed="0.000788"/>
+</kw>
+<kw name="Create New Project In Automation Studio" owner="project_keywords">
+<kw name="Initialize Automation Studio" owner="ide_keywords">
+<kw name="Initialize Automation Studio" owner="FlaUILib">
+<arg>${AS_IDE_PATH}</arg>
+<arg>${AS_DEFAULT_TIMEOUT}</arg>
+<status status="PASS" start="2026-05-20T15:10:06.915685" elapsed="10.631651"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-20T15:10:23.790056" level="INFO">Automation Studio initialised at: C:\Program Files (x86)\BRAutomation\AS6</msg>
+<arg>Automation Studio initialised at: ${AS_IDE_PATH}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-20T15:10:17.547555" elapsed="6.242837"/>
+</kw>
+<doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
+<status status="PASS" start="2026-05-20T15:10:05.381398" elapsed="18.409224"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-20T15:10:26.988059" level="INFO">Project "Runtime_Init" created at C:\temp\automation-studio-tests\Runtime_Init</msg>
+<arg>Project "${project_name}" created at ${project_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-20T15:10:23.790873" elapsed="3.197479"/>
+</kw>
+<arg>${project_name}</arg>
+<arg>${project_path}</arg>
+<doc>Creates a new Automation Studio project.
+Opens File &gt; New Project, fills in name and location, selects CPU, confirms.</doc>
+<status status="PASS" start="2026-05-20T15:10:01.262749" elapsed="25.725774"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-20T15:10:36.163179" level="INFO">AutomationRuntime component initialised (v6.6.3)</msg>
+<arg>AutomationRuntime component initialised (v${AR_VERSION})</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-20T15:10:26.988862" elapsed="9.174469"/>
+</kw>
+<doc>Scenario: Initialize Automation Runtime component and build
+Traceability ID: FW-AR-B1
+Component: Automation Runtime
+Source Manual: agents/TM213TRE.462-ENG_Automation_Runtime_V3003.md
+Source Section: 3 Installation and commissioning
+Evidence Type: Manual procedure
+Determinism: Deterministic UI path
+Preconditions: Automation Runtime package is available</doc>
+<tag>automationruntime</tag>
+<tag>configuration</tag>
+<tag>smoke</tag>
+<tag>trace:fw-ar-b1</tag>
+<tag>trace:sec-3</tag>
+<tag>trace:tm213</tag>
+<status status="PASS" start="2026-05-20T15:10:01.256295" elapsed="34.907493"/>
+</test>
+<doc>Test cases for AutomationRuntime component configuration.</doc>
+<status status="PASS" start="2026-05-20T15:10:00.965899" elapsed="35.225030"/>
+</suite>
+<status status="PASS" start="2026-05-20T15:10:00.962792" elapsed="35.230970"/>
+</suite>
+<status status="PASS" start="2026-05-20T15:10:00.959392" elapsed="35.236564"/>
+</suite>
+<status status="PASS" start="2026-05-20T15:10:00.955373" elapsed="35.243191"/>
+</suite>
+<status status="PASS" start="2026-05-20T15:10:00.921753" elapsed="35.278740"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">automationruntime</stat>
+<stat pass="1" fail="0" skip="0">configuration</stat>
+<stat pass="1" fail="0" skip="0">smoke</stat>
+<stat pass="1" fail="0" skip="0">trace:fw-ar-b1</stat>
+<stat pass="1" fail="0" skip="0">trace:sec-3</stat>
+<stat pass="1" fail="0" skip="0">trace:tm213</stat>
+</tag>
+<suite>
+<stat name="ASW-UI-Tests" id="s1" pass="1" fail="0" skip="0">ASW-UI-Tests</stat>
+<stat name="RobotTests" id="s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests</stat>
+<stat name="Tests" id="s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests</stat>
+<stat name="Automation Studio" id="s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.Automation Studio</stat>
+<stat name="Automation Studio tests" id="s1-s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.Automation Studio.Automation Studio tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2026-05-20T15:10:01.228321" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+</errors>
+</robot>

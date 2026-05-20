@@ -1,0 +1,105 @@
+*** Settings ***
+Documentation       Keywords for Automation Studio project creation and management.
+...                 All IDE interactions use FlaUILib (via ide_keywords.robot).
+Library             OperatingSystem
+Resource            ${CURDIR}/ide_keywords.robot
+
+
+*** Keywords ***
+
+Create New Project In Automation Studio
+    [Documentation]    Creates a new Automation Studio project.
+    ...                Opens File > New Project, fills in name and location, selects CPU, confirms.
+    [Arguments]        ${project_name}    ${project_path}    ${cpu_type}=${CPU_TYPE}    ${working_version}=${AS_WORKING_VERSION}
+    Initialize Automation Studio
+    Invoke IDE Menu    File    New Project...
+    FlaUILib.Wait For Dialog    New Project
+    FlaUILib.Type Into Dialog Field    projectNameTextBox    ${project_name}
+    FlaUILib.Set Dialog Field Value    pathTextBox    ${project_path}
+    Select CPU In New Project Dialog    ${cpu_type}
+    FlaUILib.Click Dialog Button    OK    New Project
+    Wait Until IDE Is Ready
+    Log    Project "${project_name}" created at ${project_path}
+
+
+Select CPU In New Project Dialog
+    [Documentation]    Selects the CPU type inside the New Project dialog.
+    [Arguments]        ${cpu_type}
+    # Navigate the CPU tree/list inside the dialog and select the given cpu_type string
+    Navigate To Tree Leaf    ${cpu_type}
+    Log    CPU selected: ${cpu_type}
+
+
+Load Existing Project
+    [Documentation]    Opens an existing Automation Studio project via File > Open Project.
+    [Arguments]        ${project_path}
+    Initialize Automation Studio
+    Invoke IDE Menu    File    Open Project...
+    FlaUILib.Wait For Dialog    Open
+    FlaUILib.Type Into Dialog Field    File name    ${project_path}
+    FlaUILib.Click Dialog Button    Open
+    Wait Until IDE Is Ready
+    Project Should Be Loaded
+    Log    Project loaded from ${project_path}
+
+
+Delete Project
+    [Documentation]    Removes a project directory from the filesystem (project must be closed first).
+    [Arguments]        ${project_path}
+    Remove Directory    ${project_path}    recursive=True
+    Log    Project deleted: ${project_path}
+
+
+Switch To Logical View
+    [Documentation]    Switches the project tree to Logical View.
+    Navigate To Tree Leaf    Logical View
+    Log    Switched to Logical View
+
+
+Switch To Configuration View
+    [Documentation]    Switches the project tree to Configuration View.
+    Navigate To Tree Leaf    Configuration View
+    Log    Switched to Configuration View
+
+
+Switch To Physical View
+    [Documentation]    Switches the project tree to Physical View.
+    Navigate To Tree Leaf    Physical View
+    Log    Switched to Physical View
+
+
+Build Project
+    [Documentation]    Builds the active project (Build > Build Active Project) and waits for completion.
+    [Arguments]        ${timeout}=60
+    Invoke IDE Menu    Build    Build Active Project
+    FlaUILib.Wait For Build To Complete    ${timeout}
+    Log    Project build complete
+
+
+Transfer Project To CPU
+    [Documentation]    Transfers the project to the target CPU (Online > Transfer To Target) and waits.
+    [Arguments]        ${timeout}=120
+    Invoke IDE Menu    Online    Transfer To Target
+    FlaUILib.Wait For Transfer To Complete    ${timeout}
+    Log    Project transferred to CPU
+
+
+Build And Transfer Project
+    [Documentation]    Convenience keyword: builds then transfers the project.
+    [Arguments]        ${build_timeout}=60    ${transfer_timeout}=120
+    Build Project    ${build_timeout}
+    Transfer Project To CPU    ${transfer_timeout}
+    Log    Build and transfer completed
+
+
+Add Software Component
+    [Documentation]    Adds a software component to the project via the Logical View context menu.
+    [Arguments]        ${component_name}
+    Switch To Logical View
+    Open Context Menu For Element    Logical
+    Select Context Menu Item    Add Object
+    FlaUILib.Wait For Dialog    Add Object
+    Navigate To Tree Leaf    ${component_name}
+    FlaUILib.Click Dialog Button    OK
+    Wait Until IDE Is Ready
+    Log    Component added: ${component_name}

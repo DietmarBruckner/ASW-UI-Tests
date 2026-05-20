@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ZUH69LoNX34=",
+  "dgSpecHash": "Di3j0I8leTg=",
   "success": true,
   "projectFilePath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
   "expectedPackageFiles": [
@@ -11,19 +11,5 @@
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\system.management\\8.0.0\\system.management.8.0.0.nupkg.sha512",
     "C:\\Users\\ATDIBRU\\.nuget\\packages\\tesseract\\5.2.0\\tesseract.5.2.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "message": "FlaUILibrary depends on Tesseract (>= 5.0.0) but Tesseract 5.0.0 was not found. Tesseract 5.2.0 was resolved instead.",
-      "projectPath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
-      "libraryId": "Tesseract",
-      "targetGraphs": [
-        "net48",
-        "net48/win-x86"
-      ]
-    }
-  ]
+  "logs": []
 }

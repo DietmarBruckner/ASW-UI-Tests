@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Keyboard = FlaUI.Core.Input.Keyboard;
 using Mouse = FlaUI.Core.Input.Mouse;
+using FlaUILibrary.Util;
 
 namespace FlaUILibrary
 {
@@ -25,71 +26,49 @@ namespace FlaUILibrary
     {
         private readonly HttpListener _listener;
         private Application _app;
-        private UIA2Automation _automation;
-        private Window _mainWindow;
-        private ConditionFactory _cf;
-        // IDE pane references (mirrors IDE_Main.cs)
-        private AutomationElement _projectExplorer;
-        private AutomationElement _workspace;
-        private AutomationElement _toolbox;
-        private AutomationElement _propertyWindow;
+        private IDE_Main Ide_Main { get; set; }
+        private AppProject Project { get; set; }
 
-        public FlaUILibraryServer(string prefix = "http://localhost:5000/")
-        {
+        public FlaUILibraryServer(string prefix = "http://localhost:5000/") {
             _listener = new HttpListener();
             _listener.Prefixes.Add(prefix);
         }
-
-        public void Start()
-        {
+        public void Start() {
             _listener.Start();
             Task.Run(() => ListenLoop());
             Console.WriteLine("Server listening on: " + string.Join(",", _listener.Prefixes));
         }
-
-        public void Stop()
-        {
-            try
-            {
-                _listener.Stop();
-            }
-            catch { }
+        public void Stop() {
+            try { _listener.Stop(); } catch { }
         }
-
-        private async Task ListenLoop()
-        {
-            while (_listener.IsListening)
-            {
-                try
-                {
+        private async Task ListenLoop() {
+            while (_listener.IsListening) {
+                try {
                     var context = await _listener.GetContextAsync();
                     _ = Task.Run(() => HandleRequest(context));
                 }
                 catch (HttpListenerException) { break; }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Listener loop error: " + ex.Message);
-                }
+                catch (Exception ex) { Console.WriteLine("Listener loop error: " + ex.Message); }
             }
         }
-
-        private void HandleRequest(HttpListenerContext context)
-        {
-            try
-            {
+        private void HandleRequest(HttpListenerContext context) {
+            try {
                 var request = context.Request;
                 var response = context.Response;
                 string path = request.Url.AbsolutePath.Trim('/');
-
-                if (request.HttpMethod == "POST")
-                {
-                    using (var sr = new StreamReader(request.InputStream, request.ContentEncoding))
-                    {
+                if (request.HttpMethod == "GET" && path.Equals("ping", StringComparison.OrdinalIgnoreCase)) {
+                    var pingBytes = Encoding.UTF8.GetBytes("{\"result\":\"pong\"}");
+                    response.ContentType = "application/json";
+                    response.StatusCode = 200;
+                    response.OutputStream.Write(pingBytes, 0, pingBytes.Length);
+                    response.OutputStream.Close();
+                    return;
+                }
+                if (request.HttpMethod == "POST") {
+                    using (var sr = new StreamReader(request.InputStream, request.ContentEncoding)) {
                         var body = sr.ReadToEnd();
                         var json = string.IsNullOrEmpty(body) ? null : JObject.Parse(body);
-
-                        if (path.StartsWith("keyword/"))
-                        {
+                        if (path.StartsWith("keyword/")) {
                             var keyword = path.Substring("keyword/".Length);
                             var result = ExecuteKeyword(keyword, json);
                             var outBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(result));
@@ -97,39 +76,31 @@ namespace FlaUILibrary
                             response.OutputStream.Write(outBytes, 0, outBytes.Length);
                             response.StatusCode = 200;
                         }
-                        else
-                        {
+                        else {
                             response.StatusCode = 404;
                         }
                     }
                 }
-                else
-                {
+                else {
                     response.StatusCode = 405;
                 }
-
                 response.OutputStream.Close();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("HandleRequest error: " + ex.Message);
-            }
+            catch (Exception ex) { Console.WriteLine("HandleRequest error: " + ex.Message); }
         }
 
-        private object ExecuteKeyword(string keyword, JObject args)
-        {
-            try
-            {
+        private object ExecuteKeyword(string keyword, JObject args) {
+            try {
                 string A(string key, string def = null) => args?[key] != null ? (string)args[key] : def;
                 int    Ai(string key, int def = 0)    => args?[key] != null ? (int)args[key] : def;
-                bool   Ab(string key, bool def=false) => args?[key] != null ? (bool)args[key] : def;
+                bool   Ab(string key, bool def=false) => ParseBool(args?[key], def);
 
                 switch (keyword.ToLowerInvariant().Replace("-", "_"))
                 {
                     // IDE lifecycle
                     case "initialize_automation_studio": return KwInitAS(A("app_path"), Ai("timeout", 30));
                     case "close_application":            return KwCloseApp(Ab("save_changes", true));
-                    case "is_project_loaded":            return KwIsProjectLoaded();
+/*                     case "is_project_loaded":            return KwIsProjectLoaded();
                     case "get_window_title":             return new { result = _mainWindow?.Title ?? "" };
                     // Element finding
                     case "find_element":    return KwFindElement(A("identifier"), A("search_by","name"), Ai("timeout",10));
@@ -165,7 +136,7 @@ namespace FlaUILibrary
                     case "wait_for_idle":     { _app?.WaitWhileBusy(TimeSpan.FromSeconds(Ai("timeout",30))); return Ok("idle"); }
                     // Screenshot
                     case "take_screenshot":   return KwScreenshot(A("filename"), A("outputdir"));
-                    default: return Err("Unknown keyword: " + keyword);
+ */                    default: return Err("Unknown keyword: " + keyword);
                 }
             }
             catch (Exception ex) { return Err(ex.Message); }
@@ -173,44 +144,34 @@ namespace FlaUILibrary
 
         // ── IDE lifecycle ────────────────────────────────────────────────────
 
-        private object KwInitAS(string appPath, int timeout)
-        {
-            if (string.IsNullOrEmpty(appPath)) return Err("app_path is required");
-            if (_app != null) return Ok("already_initialized", _mainWindow?.Title);
-
-            try { _app = Application.Attach(appPath); } catch { _app = Application.Launch(appPath); }
-
-            _automation = new UIA2Automation();
-            _cf = new ConditionFactory(new UIA2PropertyLibrary());
+        private object KwInitAS(string appPath, int timeout) {
+            if (string.IsNullOrEmpty(appPath)) return Err("Automation Studio 6 installation path is required");
+            if ( _app != null) return Ok("already initialized", IDE_Main.MainWindow.Title);
+            try {_app = Application.Attach(appPath + "\\bin-en\\pg.exe"); } catch { _app = Application.Launch(appPath + "\\bin-en\\pg.exe"); }
+            if ( _app == null) return Err("Could not find or start Automation Studio 6 process.");
             _app.WaitWhileMainHandleIsMissing(TimeSpan.FromSeconds(timeout));
             _app.WaitWhileBusy(TimeSpan.FromSeconds(timeout));
-            _mainWindow = _app.GetMainWindow(_automation);
-            if (_mainWindow == null) return Err("IDE main window not found within " + timeout + "s");
-
-            _mainWindow.Focus();
-            ResolveIDEPanes();
-
-            // Wait until status bar stops showing "Opening..."
-            var sw = System.Diagnostics.Stopwatch.StartNew();
-            while (sw.Elapsed.TotalSeconds < timeout)
-            {
-                var sb = _mainWindow.FindFirstChild(_cf.ByControlType(ControlType.StatusBar));
-                if (sb == null || sb.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) < 0) break;
-                Thread.Sleep(500);
+            Ide_Main = new IDE_Main(_app, timeout);
+            TreeConfig.IdeMain = Ide_Main;
+            if (Ide_Main.IsProjectLoaded()) {
+                Project = new AppProject(Ide_Main);
+                TreeConfig.CurrentProject = Project;
+                Project.LoadActiveProject();
             }
-            return Ok("initialized", _mainWindow.Title);
+            return Ok("Automation Studio 6 initialized", IDE_Main.MainWindow.Title);
+        }
+         private object KwCloseApp(bool saveChanges) {
+            if (_app == null) return Ok("Automation Studio 6 not running, nothing to close.");
+            try {
+                _app.Close();
+                TryHandleSavePrompt(saveChanges);
+            }
+            catch { try { _app.Kill(); } catch { } }
+            _app = null; Ide_Main = null; Project = null;
+            return Ok("Automation Studio 6 closed");
         }
 
-        private object KwCloseApp(bool saveChanges)
-        {
-            if (_app == null) return Ok("no_app");
-            try { _app.Close(); } catch { _app.Kill(); }
-            _app = null; _automation?.Dispose(); _automation = null;
-            _mainWindow = null; _projectExplorer = _workspace = _toolbox = _propertyWindow = null;
-            return Ok("closed");
-        }
-
-        private object KwIsProjectLoaded()
+/*        private object KwIsProjectLoaded()
         {
             var tb = _mainWindow?.TitleBar;
             bool loaded = tb != null && !string.IsNullOrEmpty(tb.Name) &&
@@ -519,23 +480,76 @@ namespace FlaUILibrary
             }
             return new { result = "saved", path = fullPath };
         }
-
+ */
         // ── Private helpers ──────────────────────────────────────────────────
 
-        private void ResolveIDEPanes()
+        private static bool ParseBool(JToken token, bool fallback)
         {
-            if (_mainWindow == null) return;
-            foreach (var pane in _mainWindow.FindAllChildren(_cf.ByControlType(ControlType.Pane)))
+            if (token == null)
+                return fallback;
+
+            if (token.Type == JTokenType.Boolean)
+                return token.Value<bool>();
+
+            if (token.Type == JTokenType.Integer)
+                return token.Value<int>() != 0;
+
+            if (token.Type == JTokenType.String)
             {
-                string name = pane.Name ?? "";
-                string autoId; try { autoId = pane.AutomationId; } catch { autoId = ""; }
-                if (name.IndexOf("View", StringComparison.OrdinalIgnoreCase) >= 0) _projectExplorer = pane;
-                if (autoId == "59648") _workspace = pane;
-                else if (autoId == "6154") _toolbox = pane;
-                else if (autoId == "6155") _propertyWindow = pane;
+                var value = token.Value<string>()?.Trim().ToLowerInvariant();
+                if (value == null)
+                    return fallback;
+
+                if (value == "true" || value == "1" || value == "yes" || value == "y" || value == "on")
+                    return true;
+                if (value == "false" || value == "0" || value == "no" || value == "n" || value == "off")
+                    return false;
+            }
+
+            return fallback;
+        }
+        private void TryHandleSavePrompt(bool saveChanges)
+        {
+            if (IDE_Main.MainWindow == null)
+                return;
+
+            Thread.Sleep(300);
+            Window modal = null;
+            try
+            {
+                modal = IDE_Main.MainWindow.ModalWindows.FirstOrDefault();
+            }
+            catch
+            {
+                return;
+            }
+
+            if (modal == null)
+                return;
+
+            var candidates = saveChanges
+                ? new[] { "Save", "Yes", "&Save", "&Yes" }
+                : new[] { "Don't Save", "Do&n't Save", "No", "&No", "Discard" };
+
+            foreach (var caption in candidates)
+            {
+                var button = modal.FindFirstDescendant(cf =>
+                    cf.ByControlType(ControlType.Button).And(cf.ByName(caption)));
+                if (button == null)
+                    continue;
+
+                try
+                {
+                    button.AsButton().Invoke();
+                    Thread.Sleep(200);
+                    return;
+                }
+                catch
+                {
+                    // Try next matching button caption.
+                }
             }
         }
-
         private static object Ok(string result, string detail = null) =>
             detail != null ? (object)new { result, detail } : new { result };
         private static object Err(string message) => new { error = message };

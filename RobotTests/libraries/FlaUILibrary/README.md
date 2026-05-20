@@ -2,6 +2,12 @@ FlaUILibrary (HTTP keyword server)
 
 This component implements a minimal HTTP-based keyword server that exposes basic FlaUI operations as JSON endpoints. A lightweight Python Robot Framework client (`robot_flaulib.py`) is provided to call the server keywords.
 
+Phase 2 wrapper behavior:
+- The Python wrapper uses a persistent `requests.Session`.
+- On first use it checks server health via `POST /keyword/get_window_title`.
+- If the server is not reachable, it auto-starts `bin/Release/net48/FlaUILibrary.exe`.
+- The server also exposes `GET /ping` returning `{"result":"pong"}`.
+
 Build and run (Windows, MSBuild):
 
 1. Build with MSBuild (adjust path if needed):
@@ -13,7 +19,7 @@ Build and run (Windows, MSBuild):
 2. Run the server executable:
 
 ```powershell
-.\bin\Release\FlaUILibrary.exe
+.\bin\Release\net48\FlaUILibrary.exe
 ```
 
 3. Use the Python Robot wrapper from Robot Framework tests:
@@ -48,8 +54,9 @@ Notes & Next Steps
 	- Add robust error handling and logging.
 
 - The server currently implements:
-	- `initialize_automation_studio` (requires `app_path` argument)
-	- `close_application` (optional `save_changes`)
-	- `take_screenshot` (optional filename)
+	- Keyword endpoints under `POST /keyword/{name}`.
+	- `GET /ping` for health checks.
+	- Save-prompt aware close handling (`close_application`).
+	- Robust bool parsing for JSON boolean and string inputs.
 
 - Extend `FlaUILibraryServer.ExecuteKeyword` to add more keyword handlers (click, find, type, etc.) and map them in `robot_flaulib.py`.

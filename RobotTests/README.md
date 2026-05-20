@@ -15,6 +15,12 @@ RobotTests/
 │   │   └── opcua_tests.robot
 │   ├── automationruntime/           # AutomationRuntime component tests
 │   │   └── automationruntime_tests.robot
+│   ├── mappmotion/                  # mappMotion axis and commissioning tests
+│   │   └── mappmotion_tests.robot
+│   ├── safety/                      # mapp Safety and SafeDESIGNER tests
+│   │   └── safety_tests.robot
+│   ├── diagnostics/                 # Diagnostics and SDM tests
+│   │   └── diagnostics_tests.robot
 │   └── integration/                 # Multi-component integration tests
 │       └── integration_tests.robot
 │
@@ -23,14 +29,22 @@ RobotTests/
 │   ├── ide_keywords.robot           # IDE interaction keywords (menus, views, dialogs)
 │   ├── component_keywords.robot     # Component setup and configuration keywords
 │   └── widget_keywords.robot        # Widget testing and management keywords
+│   ├── motion_keywords.robot        # mappMotion and axis-specific workflows
+│   ├── safety_keywords.robot        # mapp Safety-specific workflows
+│   └── diagnostics_keywords.robot   # SDM and diagnostics workflows
 │
 ├── config/                          # Test configuration and data files
 │   ├── hardware_config.robot        # Hardware and environment variables
+│   ├── mappMotion/versions.robot    # mappMotion training/manual versions
+│   ├── Safety/versions.robot        # mapp Safety training/manual versions
+│   ├── Diagnostics/versions.robot   # Diagnostics training/manual versions
 │   └── Widgets.txt                  # List of all supported MappView widgets (85+ types)
 │
-├── libraries/                       # FlaUILibrary wrapper (Phase 2)
+├── libraries/                       # FlaUILibrary wrapper and HTTP server
 │   └── FlaUILibrary/
-│       └── README.md                # FlaUILibrary implementation (pending)
+│       ├── robot_flaulib.py         # Robot Framework Python client (auto-start + retry)
+│       ├── FlaUILibraryServer.cs    # C# HTTP keyword server
+│       └── README.md                # Wrapper/server usage and troubleshooting
 │
 ├── resources/                       # Screenshots, logs, and test artifacts
 ├── results/                         # Test execution outputs
@@ -48,27 +62,27 @@ RobotTests/
 This is a multi-phase conversion project:
 
 - **Phase 1**: Project structure setup (COMPLETED)
-  - Directory and file organization
-  - Configuration files (hardware_config.robot, robot.cfg)
-  - Template keyword files
-  - Template test files
+  - Directory and file organization finalized
+  - Configuration files expanded and normalized
+  - Component test suites created under `tests/`
 
-- **Phase 2**: FlaUILibrary wrapper development (PENDING)
-  - C# or Python wrapper exposing FlaUI to Robot Framework
-  - Core keywords: element finding, clicking, typing, waiting
-  - Component-specific keywords
+- **Phase 2**: FlaUILibrary wrapper development (COMPLETED)
+  - Python Robot client rewritten for robust server lifecycle management
+  - C# HTTP server extended with health endpoint and resilient bool parsing
+  - Close-application flow improved with save-prompt handling
 
-- **Phase 3**: Robot keyword implementation (PENDING)
-  - Conversion of C# utilities to Robot keywords
-  - Implementation of project_keywords.robot, ide_keywords.robot, etc.
+- **Phase 3**: Robot keyword implementation (COMPLETED for current scope)
+  - Core keywords in place for project/IDE/component/widget
+  - Added `motion_keywords.robot`, `safety_keywords.robot`, and `diagnostics_keywords.robot`
 
-- **Phase 4**: Test case conversion (PENDING)
-  - Conversion of C# test logic to .robot test files
-  - Parametrized testing of 85+ widget types
+- **Phase 4**: Test case conversion (COMPLETED for current scope)
+  - Functional suites implemented for project creation, mappView, OPC UA, Automation Runtime
+  - Added first-wave suites for mappMotion, Safety, and Diagnostics
+  - Integration coverage added for multi-component workflows
 
-- **Phase 5**: Verification and migration (PENDING)
-  - Execute Robot test suite against Automation Studio 6
-  - Validate results and cross-reference with FlaUITests
+- **Phase 5**: Verification and migration (IN PROGRESS)
+  - Dry-run validation currently passing for all committed suites
+  - Full runtime execution in live AS environment remains as final operational gate
 
 ## Getting Started
 
@@ -91,7 +105,8 @@ This is a multi-phase conversion project:
    - Review [config/hardware_config.robot](config/hardware_config.robot) for AS IDE path, CPU type, ports, etc.
    - Ensure Automation Studio 6 is installed at the configured path
 
-3. (Phase 2): Place FlaUILibrary in `libraries/FlaUILibrary/`
+3. Build the FlaUI wrapper server (Release/net48) in `libraries/FlaUILibrary/`
+4. Ensure the generated `FlaUILibrary.exe` is available for wrapper auto-start
 
 ### Running Tests
 
@@ -106,6 +121,9 @@ robot tests/project_creation/
 robot tests/mappview/
 robot tests/opcua/
 robot tests/automationruntime/
+robot tests/mappmotion/
+robot tests/safety/
+robot tests/diagnostics/
 robot tests/integration/
 ```
 
@@ -132,6 +150,9 @@ Tests are organized by **functional area** (component focus):
 | `mappview/` | MappView visualization configuration | Protocols, ports, visualizations, widget insertion, properties |
 | `opcua/` | OPCUA component setup | Port configuration, component integration |
 | `automationruntime/` | AutomationRuntime 6.5+ configuration | Version selection, integration tests |
+| `mappmotion/` | Motion axis setup and commissioning smoke flows | Axis creation, base parameter setup |
+| `safety/` | mapp Safety and SafeDESIGNER setup flows | Safety component bootstrap, domain creation |
+| `diagnostics/` | SDM and diagnostics collection flows | SDM session open, logger capture |
 | `integration/` | Multi-component workflows | Full stack projects, build→transfer→deploy workflows |
 
 ### Test Tags
@@ -141,6 +162,7 @@ Tests are tagged for filtering:
 - `regression` — Comprehensive test coverage
 - `project-creation` — Project creation tests
 - `mappview`, `opcua`, `automationruntime` — Component-specific
+- `mappmotion`, `safety`, `diagnostics` — Additional first-wave component tags
 - `integration`, `full-stack` — Multi-component scenarios
 - `widget-*` — Widget testing categories
 
@@ -212,18 +234,39 @@ robocop keywords/
 
 ## Current Status
 
-- ✅ **Phase 1**: Project structure and templates completed
-- ⏳ **Phase 2**: FlaUILibrary wrapper (pending agent implementation)
-- ⏳ **Phase 3**: Keyword implementation (pending agent implementation)
-- ⏳ **Phase 4**: Test case conversion (pending agent implementation)
-- ⏳ **Phase 5**: Verification and migration (pending final testing)
+- ✅ **Phase 1**: Structure and configuration completed
+- ✅ **Phase 2**: FlaUILibrary wrapper/client-server stack completed
+- ✅ **Phase 3**: Keyword implementation completed for defined suites
+- ✅ **Phase 4**: Test conversion completed for defined suites
+- ⏳ **Phase 5**: Live execution verification in target environment pending
+
+### Achieved In This Iteration
+
+- Added and expanded component suites for mappMotion, Safety, and Diagnostics.
+- Standardized traceability metadata format across all suites in `tests/`.
+- Expanded keyword coverage in:
+  - `keywords/motion_keywords.robot`
+  - `keywords/safety_keywords.robot`
+  - `keywords/diagnostics_keywords.robot`
+- Added and normalized config assets for motion/safety/diagnostics and general hardware settings.
+- Rewrote `libraries/FlaUILibrary/robot_flaulib.py` with:
+  - server auto-start
+  - health checking
+  - robust bool/time conversion
+  - retry-aware HTTP calls
+- Updated `libraries/FlaUILibrary/FlaUILibraryServer.cs` with:
+  - `GET /ping` endpoint
+  - robust bool argument parsing
+  - save-prompt aware close flow
+- Validation results:
+  - FlaUILibrary build: success (0 compile errors)
+  - Robot dry-run for `tests/`: 28 passed, 0 failed
 
 ## Next Steps
 
-1. **Implement FlaUILibrary** (Phase 2) — Use agent instruction to create the wrapper
-2. **Implement Keywords** (Phase 3) — Convert C# logic to Robot keywords
-3. **Convert Tests** (Phase 4) — Convert FlaUITests C# to .robot files
-4. **Verify and Migrate** (Phase 5) — Execute and validate test suite
+1. Execute full non-dry-run suite in target AS environment and capture runtime evidence.
+2. Add targeted tests around wrapper/server edge cases (timeouts, prompt variants, reconnect).
+3. Expand coverage for backlog components from follow-up prompt.
 
 ## Related Projects
 

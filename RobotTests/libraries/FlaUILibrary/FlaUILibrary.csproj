@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <OutputType>Exe</OutputType>
     <AssemblyName>FlaUILibrary</AssemblyName>
     <RootNamespace>FlaUILibrary</RootNamespace>
@@ -9,7 +9,10 @@
   <ItemGroup>
     <PackageReference Include="FlaUI.Core" Version="5.0.0" />
     <PackageReference Include="FlaUI.UIA2" Version="5.0.0" />
-    <PackageReference Include="Tesseract" Version="5.0.0" />
+    <PackageReference Include="Tesseract" Version="5.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\Extensions\TestPlatform\Microsoft.VisualStudio.TestTools.UITesting.dll" />
   </ItemGroup>
 </Project>

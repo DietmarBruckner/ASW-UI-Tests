@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    ".NETFramework,Version=v4.8": {
+    ".NETFramework,Version=v4.8.1": {
       "FlaUI.Core/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -106,7 +106,7 @@
         }
       }
     },
-    ".NETFramework,Version=v4.8/win-x86": {
+    ".NETFramework,Version=v4.8.1/win-x86": {
       "FlaUI.Core/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -364,11 +364,11 @@
     }
   },
   "projectFileDependencyGroups": {
-    ".NETFramework,Version=v4.8": [
+    ".NETFramework,Version=v4.8.1": [
       "FlaUI.Core >= 5.0.0",
       "FlaUI.UIA2 >= 5.0.0",
       "Newtonsoft.Json >= 13.0.1",
-      "Tesseract >= 5.0.0"
+      "Tesseract >= 5.2.0"
     ]
   },
   "packageFolders": {
@@ -387,14 +387,14 @@
         "C:\\Users\\ATDIBRU\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "net48"
+        "net481"
       ],
       "sources": {
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net48": {
-          "targetAlias": "net48",
+        "net481": {
+          "targetAlias": "net481",
           "projectReferences": {}
         }
       },
@@ -411,8 +411,8 @@
       "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
-      "net48": {
-        "targetAlias": "net48",
+      "net481": {
+        "targetAlias": "net481",
         "dependencies": {
           "FlaUI.Core": {
             "target": "Package",
@@ -428,10 +428,10 @@
           },
           "Tesseract": {
             "target": "Package",
-            "version": "[5.0.0, )"
+            "version": "[5.2.0, )"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203\\RuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {
@@ -439,18 +439,5 @@
         "#import": []
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "FlaUILibrary depends on Tesseract (>= 5.0.0) but Tesseract 5.0.0 was not found. Tesseract 5.2.0 was resolved instead.",
-      "libraryId": "Tesseract",
-      "targetGraphs": [
-        "net48",
-        "net48/win-x86"
-      ]
-    }
-  ]
+  }
 }

@@ -20,7 +20,7 @@
             "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe",
             "type": "process",
             "args": [
-                "${workspaceFolder}/FlaUITests/TestProject1.csproj",
+                "${workspaceFolder}/FlaUITests/FlaUITests.csproj",
                 "/t:Build",
                 "/p:Configuration=Debug",
                 "/p:Platform=AnyCPU"

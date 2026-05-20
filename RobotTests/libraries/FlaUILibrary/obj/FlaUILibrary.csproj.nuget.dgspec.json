@@ -17,14 +17,14 @@
           "C:\\Users\\ATDIBRU\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net48"
+          "net481"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net48": {
-            "targetAlias": "net48",
+          "net481": {
+            "targetAlias": "net481",
             "projectReferences": {}
           }
         },
@@ -41,8 +41,8 @@
         "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
-        "net48": {
-          "targetAlias": "net48",
+        "net481": {
+          "targetAlias": "net481",
           "dependencies": {
             "FlaUI.Core": {
               "target": "Package",
@@ -58,10 +58,10 @@
             },
             "Tesseract": {
               "target": "Package",
-              "version": "[5.0.0, )"
+              "version": "[5.2.0, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

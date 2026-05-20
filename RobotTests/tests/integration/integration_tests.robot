@@ -8,8 +8,15 @@ Suite Teardown      Close Automation Studio    save_changes=False
 *** Test Cases ***
 
 Full Stack Project With All Components
-    [Documentation]    Creates a project with OPCUA, MappView, AutomationRuntime and all widgets.
-    [Tags]              integration    full-stack    smoke
+    [Documentation]    Scenario: Build full stack project with core components and widgets
+    ...                Traceability ID: FW-INTEG-I1
+    ...                Component: Integration
+    ...                Source Manual: agents/TM210-ENG_Working_with_Automation_Studio_V4003_AS60.md
+    ...                Source Section: 6 Configure the hardware; 7.2 Project installation
+    ...                Evidence Type: Manual procedure
+    ...                Determinism: Deterministic UI path
+    ...                Preconditions: Required component packages are available
+    [Tags]              integration    full-stack    smoke    trace:fw-integ-i1    trace:tm210    trace:sec-6    trace:sec-7.2
     ${project_name}=    Set Variable    FullStack_All
     ${project_path}=    Set Variable    ${PROJECT_TEMP_PATH}${project_name}
     Create New Project In Automation Studio    ${project_name}    ${project_path}    ${CPU_TYPE}
@@ -23,8 +30,15 @@ Full Stack Project With All Components
 
 
 Complete Workflow Build Transfer Deploy
-    [Documentation]    Creates a project with a Button widget, builds and transfers it.
-    [Tags]              integration    workflow    deployment
+    [Documentation]    Scenario: Run end-to-end build and transfer deployment workflow
+    ...                Traceability ID: FW-INTEG-I2
+    ...                Component: Integration
+    ...                Source Manual: agents/TM210-ENG_Working_with_Automation_Studio_V4003_AS60.md
+    ...                Source Section: 6.6 Compiling the project; 7.2.1 Online installation
+    ...                Evidence Type: Manual procedure
+    ...                Determinism: Deterministic UI path
+    ...                Preconditions: Transfer target is reachable from engineering station
+    [Tags]              integration    workflow    deployment    trace:fw-integ-i2    trace:tm210    trace:sec-6.6    trace:sec-7.2.1
     ${project_name}=    Set Variable    Workflow_Complete
     ${project_path}=    Set Variable    ${PROJECT_TEMP_PATH}${project_name}
     Create New Project In Automation Studio    ${project_name}    ${project_path}
@@ -38,8 +52,15 @@ Complete Workflow Build Transfer Deploy
 
 
 Multiple Projects Lifecycle
-    [Documentation]    Creates, builds and deletes three projects in sequence.
-    [Tags]              integration    lifecycle    cleanup
+    [Documentation]    Scenario: Validate multi-project lifecycle create/build/delete sequence
+    ...                Traceability ID: FW-INTEG-I3
+    ...                Component: Integration
+    ...                Source Manual: agents/TM210-ENG_Working_with_Automation_Studio_V4003_AS60.md
+    ...                Source Section: 3 My first project; 4.3 The workspace
+    ...                Evidence Type: Manual procedure
+    ...                Determinism: Deterministic UI path
+    ...                Preconditions: Filesystem paths are writable and deletable
+    [Tags]              integration    lifecycle    cleanup    trace:fw-integ-i3    trace:tm210    trace:sec-3    trace:sec-4.3
     @{project_names}=    Create List    Project_1    Project_2    Project_3
     FOR    ${project_name}    IN    @{project_names}
         ${project_path}=    Set Variable    ${PROJECT_TEMP_PATH}${project_name}
