@@ -1,5 +1,5 @@
 *** Variables ***
-${DEFAULT_AS_VERSION}                 6.3
+${DEFAULT_AS_VERSION}                 6.5
 @{SUPPORTED_AS_VERSIONS}
 ...    6.0
 ...    6.1
