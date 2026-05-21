@@ -20,6 +20,5 @@ Initialise AutomationRuntime Component
     ${project_path}=    Set Variable    ${PROJECT_TEMP_PATH}${project_name}
     Create New Project In Automation Studio    ${project_name}    ${project_path}
 
-    Log    AutomationRuntime component initialised (v${AR_VERSION})
-
+    Log    Automation Studio and new project initialised
 
