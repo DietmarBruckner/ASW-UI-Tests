@@ -10,8 +10,8 @@ Resource            ${CURDIR}\\..\\..\\config\\Config.robot
 
 Initialize Automation Studio
     [Documentation]    Launches (or attaches to) Automation Studio IDE and waits until ready.
-    FlaUILib.Initialize Automation Studio    ${AS_IDE_PATH}    ${AS_DEFAULT_TIMEOUT}
-    Log    Automation Studio initialised at: ${AS_IDE_PATH}
+    FlaUILib.Initialize Automation Studio    ${AS_DEFAULT_TIMEOUT}
+    Log    Automation Studio initialised.
 
 Close Automation Studio
     [Documentation]    Closes Automation Studio IDE.
@@ -25,4 +25,14 @@ Invoke IDE Menu
     FlaUILib.Invoke Menu    ${menu_name}    ${menu_item}    ${submenu_item}
     Log    Menu invoked: ${menu_name} > ${menu_item} > ${submenu_item}
 
+Wait Until IDE Is Ready
+    [Documentation]    Waits for the IDE to become idle (no busy indicator).
+    [Arguments]        ${timeout}=30
+    FlaUILib.Wait For Idle    ${timeout}
+    Log    IDE is ready (idle)
 
+Select From ComboBox
+    [Documentation]    Selects a value from a combo box by opening it and clicking the item.
+    [Arguments]        ${combo_label}    ${item_text}
+    FlaUILib.Select From ComboBox    ${combo_label}    ${item_text}
+    Log    Selected from combo box: ${combo_label} > ${item_text}

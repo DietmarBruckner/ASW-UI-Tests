@@ -180,6 +180,7 @@ namespace FlaUILibrary.Util {
         }
         
         public object InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
+            if (menu == null) return Util.Err("Menu not found");
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'BR&' from the menu name
             if (nameMenu == "&nline")
                 nameMenu = "Online";
@@ -242,13 +243,13 @@ namespace FlaUILibrary.Util {
             CheckResizeWindowWithinScreen(w);
             return w;
         }
-        public void LooseModalWindow(Window w) {
+        public static void LooseModalWindow(Window w) {
             while (MainWindow.ModalWindows.Contains(w)) {
                 Util.ConsoleOut(Util.Verbose.FULL, "Waiting for closing of window: " + w.Name);
                 Sleep(TimeSpan.FromSeconds(1));
             }
         }
-        public void CheckResizeWindowWithinScreen (Window w) {
+        public static void CheckResizeWindowWithinScreen (Window w) {
             Rectangle wbr = w.BoundingRectangle;
             Screen screen = Screen.FromHandle(w.Properties.NativeWindowHandle);
             Rectangle sr = screen.Bounds;
@@ -366,7 +367,7 @@ namespace FlaUILibrary.Util {
                 }
             }
         }
-        public void WaitForMessage(string message, int timeout = 30) {
+        public object WaitForMessage(string message, int timeout = 30) {
             InitializeViews(outputResults:true);
             if (TreeConfig.CurrentProject != null)
                 Util.ConsoleOut(Util.Verbose.FULL, "Waiting for message: " + message + "; Timeout: " + timeout);
@@ -413,9 +414,9 @@ namespace FlaUILibrary.Util {
                         done = true;
             }
             if (!done)
-                Util.ConsoleOut(Util.Verbose.FULL, "Waiting for message ran into timeout");
-            else if (TreeConfig.CurrentProject != null)
-                Util.ConsoleOut(Util.Verbose.FULL, "Message arrived");
+                return Util.Err("Waiting for message ran into timeout");
+            else
+                return Util.Ok("message_arrived", message);
         }
         public void SwitchView(TreeConfig.ViewType view, int x = 400, int y = 400) {
             Util.ConsoleOut(Util.Verbose.LIGHT, "Switching to view: " + view.ToString());

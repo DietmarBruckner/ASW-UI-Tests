@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-05-20T15:10:00.916456" rpa="false" schemaversion="5">
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-05-21T14:14:16.359097" rpa="false" schemaversion="5">
 <suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
 <suite id="s1-s1" name="RobotTests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests">
 <suite id="s1-s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests">
@@ -7,52 +7,170 @@
 <suite id="s1-s1-s1-s1-s1" name="Automation Studio tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\Automation Studio\Automation Studio_tests.robot">
 <test id="s1-s1-s1-s1-s1-t1" name="Initialise AutomationRuntime Component" line="9">
 <kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-20T15:10:01.260990" level="INFO">${project_name} = Runtime_Init</msg>
+<msg time="2026-05-21T14:14:21.991350" level="INFO">${project_name} = Basic_Project</msg>
 <var>${project_name}</var>
-<arg>Runtime_Init</arg>
+<arg>Basic_Project</arg>
 <doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-20T15:10:01.260328" elapsed="0.000831"/>
+<status status="PASS" start="2026-05-21T14:14:21.990899" elapsed="0.000598"/>
 </kw>
 <kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-05-20T15:10:01.262146" level="INFO">${project_path} = C:\temp\automation-studio-tests\Runtime_Init</msg>
+<msg time="2026-05-21T14:14:21.992252" level="INFO">${project_path} = C:\temp\automation-studio-tests\Basic_Project</msg>
 <var>${project_path}</var>
 <arg>${PROJECT_TEMP_PATH}${project_name}</arg>
 <doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-05-20T15:10:01.261572" elapsed="0.000788"/>
+<status status="PASS" start="2026-05-21T14:14:21.991871" elapsed="0.000540"/>
 </kw>
 <kw name="Create New Project In Automation Studio" owner="project_keywords">
 <kw name="Initialize Automation Studio" owner="ide_keywords">
 <kw name="Initialize Automation Studio" owner="FlaUILib">
-<arg>${AS_IDE_PATH}</arg>
 <arg>${AS_DEFAULT_TIMEOUT}</arg>
-<status status="PASS" start="2026-05-20T15:10:06.915685" elapsed="10.631651"/>
+<status status="PASS" start="2026-05-21T14:14:21.993482" elapsed="0.452128"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-20T15:10:23.790056" level="INFO">Automation Studio initialised at: C:\Program Files (x86)\BRAutomation\AS6</msg>
-<arg>Automation Studio initialised at: ${AS_IDE_PATH}</arg>
+<msg time="2026-05-21T14:14:22.446275" level="INFO">Automation Studio initialised.</msg>
+<arg>Automation Studio initialised.</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-20T15:10:17.547555" elapsed="6.242837"/>
+<status status="PASS" start="2026-05-21T14:14:22.445808" elapsed="0.000753"/>
 </kw>
 <doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
-<status status="PASS" start="2026-05-20T15:10:05.381398" elapsed="18.409224"/>
+<status status="PASS" start="2026-05-21T14:14:21.993258" elapsed="0.453496"/>
+</kw>
+<kw name="Invoke IDE Menu" owner="ide_keywords">
+<kw name="Invoke Menu" owner="FlaUILib">
+<arg>${menu_name}</arg>
+<arg>${menu_item}</arg>
+<arg>${submenu_item}</arg>
+<status status="PASS" start="2026-05-21T14:14:22.447539" elapsed="1.238614"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-20T15:10:26.988059" level="INFO">Project "Runtime_Init" created at C:\temp\automation-studio-tests\Runtime_Init</msg>
+<msg time="2026-05-21T14:14:23.686709" level="INFO">Menu invoked: File &gt; New Project... &gt; None</msg>
+<arg>Menu invoked: ${menu_name} &gt; ${menu_item} &gt; ${submenu_item}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-21T14:14:23.686359" elapsed="0.000580"/>
+</kw>
+<arg>File</arg>
+<arg>New Project...</arg>
+<doc>Clicks a top-level menu and optionally a menu/sub-menu item.</doc>
+<status status="PASS" start="2026-05-21T14:14:22.447085" elapsed="1.239973"/>
+</kw>
+<kw name="Wait For Dialog" owner="FlaUILib">
+<arg>New Project</arg>
+<status status="PASS" start="2026-05-21T14:14:23.687176" elapsed="0.679813"/>
+</kw>
+<kw name="Type Into Dialog Field" owner="FlaUILib">
+<arg>projectNameTextBox</arg>
+<arg>${project_name}</arg>
+<status status="PASS" start="2026-05-21T14:14:24.367164" elapsed="0.639600"/>
+</kw>
+<kw name="Set Dialog Field Value" owner="FlaUILib">
+<arg>pathTextBox</arg>
+<arg>${project_path}</arg>
+<status status="PASS" start="2026-05-21T14:14:25.006945" elapsed="1.135145"/>
+</kw>
+<kw name="Select Working Version In New Project Dialog" owner="project_keywords">
+<kw name="Select From ComboBox" owner="ide_keywords">
+<kw name="Select From ComboBox" owner="FlaUILib">
+<arg>${combo_label}</arg>
+<arg>${item_text}</arg>
+<status status="PASS" start="2026-05-21T14:14:26.144073" elapsed="1.377048"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-21T14:14:27.521761" level="INFO">Selected from combo box: cbWorkingVersion &gt; 6.3</msg>
+<arg>Selected from combo box: ${combo_label} &gt; ${item_text}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-21T14:14:27.521349" elapsed="0.000795"/>
+</kw>
+<arg>cbWorkingVersion</arg>
+<arg>${working_version}</arg>
+<doc>Selects a value from a combo box by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-21T14:14:26.143455" elapsed="1.379041"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-21T14:14:27.523317" level="INFO">Working version selected: 6.3</msg>
+<arg>Working version selected: ${working_version}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-21T14:14:27.522766" elapsed="0.000790"/>
+</kw>
+<arg>${working_version}</arg>
+<doc>Selects the AS working version inside the New Project dialog.</doc>
+<status status="PASS" start="2026-05-21T14:14:26.142639" elapsed="1.381112"/>
+</kw>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Next</arg>
+<status status="PASS" start="2026-05-21T14:14:27.524050" elapsed="1.863783"/>
+</kw>
+<kw name="Wait For Dialog" owner="FlaUILib">
+<msg time="2026-05-21T14:14:30.062613" level="INFO">${dialog_appeared} = True</msg>
+<var>${dialog_appeared}</var>
+<arg>Automation Studio</arg>
+<arg>2</arg>
+<status status="PASS" start="2026-05-21T14:14:29.388061" elapsed="0.674837"/>
+</kw>
+<if>
+<branch type="IF" condition="${dialog_appeared}">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-21T14:14:30.064054" level="INFO">Create path question dialog appeared, proceeding with yes.</msg>
+<arg>Create path question dialog appeared, proceeding with yes.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-21T14:14:30.063481" elapsed="0.000774"/>
+</kw>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Yes</arg>
+<arg>dialog_close=True</arg>
+<status status="PASS" start="2026-05-21T14:14:30.064460" elapsed="0.523606"/>
+</kw>
+<status status="PASS" start="2026-05-21T14:14:30.063163" elapsed="0.525039"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>No Create path question dialog appeared, assuming path exists and proceeding.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-21T14:14:30.588474" elapsed="0.000085"/>
+</kw>
+<status status="NOT RUN" start="2026-05-21T14:14:30.588270" elapsed="0.000347"/>
+</branch>
+<status status="PASS" start="2026-05-21T14:14:30.063114" elapsed="0.525532"/>
+</if>
+<kw name="Set Dialog Field Value" owner="FlaUILib">
+<arg>configurationNameTextBox</arg>
+<arg>${config_name}</arg>
+<status status="PASS" start="2026-05-21T14:14:30.588711" elapsed="0.261056"/>
+</kw>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Next</arg>
+<status status="PASS" start="2026-05-21T14:14:30.849948" elapsed="0.985751"/>
+</kw>
+<kw name="Type Slowly Into Dialog Field" owner="FlaUILib">
+<arg>searchTermTextBox</arg>
+<arg>${cpu_type}</arg>
+<status status="PASS" start="2026-05-21T14:14:31.835916" elapsed="5.845366"/>
+</kw>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Finish</arg>
+<status status="PASS" start="2026-05-21T14:14:37.681483" elapsed="0.949142"/>
+</kw>
+<kw name="Wait For Message" owner="FlaUILib">
+<arg>finished.</arg>
+<arg>timeout=20</arg>
+<status status="PASS" start="2026-05-21T14:14:38.630905" elapsed="5.423796"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-21T14:14:44.055258" level="INFO">Project "Basic_Project" created at C:\temp\automation-studio-tests\Basic_Project</msg>
 <arg>Project "${project_name}" created at ${project_path}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-20T15:10:23.790873" elapsed="3.197479"/>
+<status status="PASS" start="2026-05-21T14:14:44.054915" elapsed="0.000588"/>
 </kw>
 <arg>${project_name}</arg>
 <arg>${project_path}</arg>
 <doc>Creates a new Automation Studio project.
 Opens File &gt; New Project, fills in name and location, selects CPU, confirms.</doc>
-<status status="PASS" start="2026-05-20T15:10:01.262749" elapsed="25.725774"/>
+<status status="PASS" start="2026-05-21T14:14:21.992805" elapsed="22.062809"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-20T15:10:36.163179" level="INFO">AutomationRuntime component initialised (v6.6.3)</msg>
+<msg time="2026-05-21T14:14:44.056425" level="INFO">AutomationRuntime component initialised (v6.6.3)</msg>
 <arg>AutomationRuntime component initialised (v${AR_VERSION})</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-20T15:10:26.988862" elapsed="9.174469"/>
+<status status="PASS" start="2026-05-21T14:14:44.056103" elapsed="0.000507"/>
 </kw>
 <doc>Scenario: Initialize Automation Runtime component and build
 Traceability ID: FW-AR-B1
@@ -68,18 +186,18 @@ Preconditions: Automation Runtime package is available</doc>
 <tag>trace:fw-ar-b1</tag>
 <tag>trace:sec-3</tag>
 <tag>trace:tm213</tag>
-<status status="PASS" start="2026-05-20T15:10:01.256295" elapsed="34.907493"/>
+<status status="PASS" start="2026-05-21T14:14:21.987389" elapsed="22.069578"/>
 </test>
 <doc>Test cases for AutomationRuntime component configuration.</doc>
-<status status="PASS" start="2026-05-20T15:10:00.965899" elapsed="35.225030"/>
+<status status="PASS" start="2026-05-21T14:14:16.433505" elapsed="27.627910"/>
 </suite>
-<status status="PASS" start="2026-05-20T15:10:00.962792" elapsed="35.230970"/>
+<status status="PASS" start="2026-05-21T14:14:16.428983" elapsed="27.636189"/>
 </suite>
-<status status="PASS" start="2026-05-20T15:10:00.959392" elapsed="35.236564"/>
+<status status="PASS" start="2026-05-21T14:14:16.411407" elapsed="27.656801"/>
 </suite>
-<status status="PASS" start="2026-05-20T15:10:00.955373" elapsed="35.243191"/>
+<status status="PASS" start="2026-05-21T14:14:16.406847" elapsed="27.664616"/>
 </suite>
-<status status="PASS" start="2026-05-20T15:10:00.921753" elapsed="35.278740"/>
+<status status="PASS" start="2026-05-21T14:14:16.366283" elapsed="27.707548"/>
 </suite>
 <statistics>
 <total>
@@ -102,6 +220,6 @@ Preconditions: Automation Runtime package is available</doc>
 </suite>
 </statistics>
 <errors>
-<msg time="2026-05-20T15:10:01.228321" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+<msg time="2026-05-21T14:14:21.966116" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
 </errors>
 </robot>

@@ -20,7 +20,7 @@ class RobotFlaulib:
         if exe_path:
             self.exe_path = Path(exe_path)
         else:
-            self.exe_path = Path(__file__).resolve().parent / "bin" / "Release" / "net481" / "FlaUILibrary.exe"
+            self.exe_path = Path(__file__).resolve().parent / "bin" / "Debug" / "net481" / "FlaUILibrary.exe"
         self._ensure_server()
 
     def _is_server_alive(self):
@@ -111,12 +111,8 @@ class RobotFlaulib:
         return int(amount * factor)
 
     @keyword("Initialize Automation Studio")
-    def initialize_automation_studio(self, app_path, timeout=30):
-        return self._call(
-            "initialize_automation_studio",
-            app_path=app_path,
-            timeout=self._to_seconds(timeout),
-        )
+    def initialize_automation_studio(self, timeout=30):
+        return self._call("initialize_automation_studio", timeout=self._to_seconds(timeout))
 
     @keyword("Close Application")
     def close_application(self, save_changes=True):
@@ -124,28 +120,45 @@ class RobotFlaulib:
 
     @keyword("Invoke Menu")
     def invoke_menu(self, menu_name, menu_item=None, submenu_item=None):
-        return self._call(
-            "invoke_menu",
-            menu_name=menu_name,
-            menu_item=menu_item,
-            submenu_item=submenu_item,
-        )
+        return self._call("invoke_menu", menu_name=menu_name, menu_item=menu_item, submenu_item=submenu_item)
 
     @keyword("Wait For Dialog")
     def wait_for_dialog(self, dialog_title, timeout=15):
-        return self._call(
-            "wait_for_dialog",
-            dialog_title=dialog_title,
-            timeout=self._to_seconds(timeout),
-        )
+        result = self._call("wait_for_dialog", dialog_title=dialog_title, timeout=self._to_seconds(timeout))
+        return result == "found"
+
+    @keyword("Wait For Message")
+    def wait_for_message(self, message, timeout=30):
+        return self._call("wait_for_message", message=message, timeout=self._to_seconds(timeout))
 
     @keyword("Type Into Dialog Field")
     def type_into_dialog_field(self, field_label, text):
         return self._call("type_into_field", field_label=field_label, text=text)
 
+    @keyword("Type Slowly Into Dialog Field")
+    def type_slowly_into_dialog_field(self, field_label, text):
+        return self._call("type_slowly_into_field", field_label=field_label, text=text)
+
     @keyword("Set Dialog Field Value")
     def set_dialog_field_value(self, field_label, value):
         return self._call("set_field_value", field_label=field_label, value=value)
+
+    @keyword("Click Dialog Button")
+    def click_dialog_button(self, button_name="OK", dialog_title=None, dialog_close=False):
+        return self._call("click_dialog_button", button_name=button_name, dialog_title=dialog_title, dialog_close=self._to_bool(dialog_close))
+
+    @keyword("Activate Tree Leaf")
+    def activate_tree_leaf(self, tree_path, double_click=False):
+        return self._call("activate_tree_leaf", tree_path=tree_path, double_click=self._to_bool(double_click))
+
+    @keyword("Select From ComboBox")
+    def select_from_combo_box(self, combo_label, item_text):
+        return self._call("select_from_combo_box", combo_label=combo_label, item_text=item_text)
+
+    @keyword("Wait For Idle")
+    def wait_for_idle(self, timeout=30):
+        return self._call("wait_for_idle", timeout=self._to_seconds(timeout))
+
 
 """     @keyword("Is Project Loaded")
     def is_project_loaded(self):
@@ -206,13 +219,6 @@ class RobotFlaulib:
         result = self._call("get_text_from_element", identifier=identifier, search_by=search_by)
         return result if isinstance(result, str) else result.get("result", "")
 
-    @keyword("Click Dialog Button")
-    def click_dialog_button(self, button_name="OK", dialog_title=None):
-        return self._call(
-            "click_dialog_button",
-            button_name=button_name,
-            dialog_title=dialog_title,
-        )
 
     @keyword("Get Dialog Field Text")
     def get_dialog_field_text(self, field_label, dialog_title=None):
@@ -233,14 +239,6 @@ class RobotFlaulib:
             "select_context_menu_item",
             menu_item=menu_item,
             submenu_item=submenu_item,
-        )
-
-    @keyword("Activate Tree Leaf")
-    def activate_tree_leaf(self, tree_path, double_click=False):
-        return self._call(
-            "activate_tree_leaf",
-            tree_path=tree_path,
-            double_click=self._to_bool(double_click),
         )
 
     @keyword("Expand Tree Node")
@@ -267,10 +265,6 @@ class RobotFlaulib:
     @keyword("Wait For Transfer To Complete")
     def wait_for_transfer_to_complete(self, timeout=120):
         return self._call("wait_for_transfer", timeout=self._to_seconds(timeout))
-
-    @keyword("Wait For Idle")
-    def wait_for_idle(self, timeout=30):
-        return self._call("wait_for_idle", timeout=self._to_seconds(timeout))
 
     @keyword("Take Screenshot")
     def take_screenshot(self, filename=None, outputdir=None):

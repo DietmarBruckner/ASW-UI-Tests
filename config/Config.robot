@@ -16,7 +16,6 @@ ${CPU_TYPE}                         ${DEFAULT_CPU_TYPE}
 ${CPU_SERIAL}                       -
 
 # Automation Studio IDE Configuration
-${AS_IDE_PATH}                      C:\\Program Files (x86)\\BRAutomation\\AS6
 ${AS_VERSION}                       ${DEFAULT_AS_VERSION}
 ${AS_WORKING_VERSION}               6.3
 ${AS_DEFAULT_TIMEOUT}               10
@@ -44,6 +43,7 @@ ${OPCUA_SERVER_PORT}                4840
 ${PROJECT_NAME_PREFIX}              RobotTest
 ${PROJECT_TEMP_PATH}                C:\\temp\\automation-studio-tests\\
 ${PROJECT_BACKUP_PATH}              C:\\temp\\automation-studio-backups\\
+${PROJECT_DEFAULT_CONFIG_NAME}      Config1
 
 # Logging and Diagnostics
 ${TEST_LOG_LEVEL}                   INFO
