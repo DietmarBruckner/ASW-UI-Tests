@@ -6,7 +6,7 @@ Resource            ${CURDIR}/../../keywords/component_keywords.robot
 
 *** Test Cases ***
 
-Initialise AutomationRuntime Component
+Initialise Automation Studio And Create New Project
     [Documentation]    Scenario: Initialize Automation Runtime component and build
     ...                Traceability ID: FW-AR-B1
     ...                Component: Automation Runtime
