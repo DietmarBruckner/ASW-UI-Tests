@@ -18,9 +18,7 @@ using Application = FlaUI.Core.Application;
 using Button = FlaUI.Core.AutomationElements.Button;
 using MenuItem = FlaUI.Core.AutomationElements.MenuItem;
 using TextBox = FlaUI.Core.AutomationElements.TextBox;
-using System.Windows.Input;
-using System.ComponentModel;
-using System.Collections;
+using static System.Threading.Thread;
 
 namespace FlaUILibrary.Util {
     public class IDE_Main {
@@ -98,7 +96,7 @@ namespace FlaUILibrary.Util {
             while (sw.Elapsed.TotalSeconds < timeout) {
                 var sb = MainWindow.FindFirstChild(_cf.ByControlType(ControlType.StatusBar));
                 if (sb == null || sb.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) < 0) break;
-                System.Threading.Thread.Sleep(500);
+                Sleep(500);
                 StatusBar = sb;
             }
             InitUIElements();
@@ -181,55 +179,30 @@ namespace FlaUILibrary.Util {
             }            
         }
         
-        public void InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
+        public object InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'BR&' from the menu name
             if (nameMenu == "&nline")
                 nameMenu = "Online";
-            int i = 4;
-            while (i-- >= 0) {
-                try {
-                    menu.Click();
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
-                    Menu m = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(nameMenu))).AsMenu();
-                    AutomationElement toolBar = m.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
-                    MenuItem mi = null;
-                    bool notFound = true;
-                    AutomationElement[] children = toolBar.FindAllChildren();
-                    foreach (AutomationElement child in children) {
-                        string name = child.Name;
-                        if (name.IndexOf(menuItemName) >= 0) {
-                            mi = child.AsMenuItem();
-                            notFound = false;
-                            break;
-                        }
-                    }
-                    if (notFound) 
-                        continue; 
-                    mi.Click();
-                    if (subMenuItemName != null) {
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
-                        Menu subMenu = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(menuItemName))).AsMenu();
-                        toolBar = subMenu.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
-                        mi = null;
-                        notFound = true;
-                        AutomationElement[] subChildren = toolBar.FindAllChildren();
-                        foreach (AutomationElement child in subChildren) {
-                            string name = child.Name;
-                            if (name.IndexOf(subMenuItemName) >= 0) {
-                                mi = child.AsMenuItem();
-                                notFound = false;
-                                break;
-                            }
-                        }
-                        if (notFound) 
-                            continue;
-                        Mouse.MoveTo(mi.BoundingRectangle.Center());
-                        mi.Click();
-                    }
-                    break;
-                }
-                catch (Exception) { Util.ConsoleOut(Util.Verbose.LIGHT, "Error while trying to click " + menuItemName + " in menu " + nameMenu + ((subMenuItemName != null)? " in submenu " + subMenuItemName : "") + ". trys left: " + i); }
+            try {
+                menu.Click();
+                Sleep(800);
+                Menu popup = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(nameMenu))).AsMenu();
+                AutomationElement toolBar = popup.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
+                var target = toolBar.FindAllChildren().FirstOrDefault(c => c.Name != null && c.Name.IndexOf(menuItemName) >= 0);
+                if (target == null) return Util.Err($"Menu item '{menuItemName}' not found in '{nameMenu}'");
+                target.AsMenuItem().Click(); 
+                if (subMenuItemName == null) return Util.Ok("menu_item_clicked", menuItemName);
+                Sleep(800);
+                Menu subPopup = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(menuItemName))).AsMenu();
+                toolBar = subPopup.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
+                var subTarget = toolBar.FindAllChildren().FirstOrDefault(c => c.Name != null && c.Name.IndexOf(subMenuItemName) >= 0);
+                if (subTarget == null) return Util.Err($"Submenu item '{subMenuItemName}' not found");
+                Mouse.MoveTo(subTarget.BoundingRectangle.Center()); 
+                subTarget.AsMenuItem().Click(); 
+                Sleep(500);
+                return Util.Ok("submenu_item_clicked", subMenuItemName);
             }
+            catch (Exception) { return Util.ConsoleOut(Util.Verbose.LIGHT, "Error while trying to click " + menuItemName + " in menu " + nameMenu + ((subMenuItemName != null)? " in submenu " + subMenuItemName : ""), true); }
         }
         public string[] GetProjectpath()
         {
@@ -264,7 +237,7 @@ namespace FlaUILibrary.Util {
             Window w;
             while ((w = MainWindow.ModalWindows.FirstOrDefault(x => x.Title.Contains(name))) == null) {
                 Util.ConsoleOut(Util.Verbose.FULL, "Waiting for window: " + name);
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                Sleep(TimeSpan.FromSeconds(1));
             }
             CheckResizeWindowWithinScreen(w);
             return w;
@@ -272,7 +245,7 @@ namespace FlaUILibrary.Util {
         public void LooseModalWindow(Window w) {
             while (MainWindow.ModalWindows.Contains(w)) {
                 Util.ConsoleOut(Util.Verbose.FULL, "Waiting for closing of window: " + w.Name);
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                Sleep(TimeSpan.FromSeconds(1));
             }
         }
         public void CheckResizeWindowWithinScreen (Window w) {
@@ -299,7 +272,7 @@ namespace FlaUILibrary.Util {
                 ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View") >= 0);
                 if (ProjectExplorer == null) {
                     InvokeMenuItem(GetMenu("View"), "Project Explorer", "Logical View");
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    Sleep(TimeSpan.FromSeconds(1));
                     ProjectExplorer = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(c => c.Name.IndexOf("View") >= 0);
                 }
             }
@@ -307,7 +280,7 @@ namespace FlaUILibrary.Util {
                 Toolbox = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(cf => cf.Name.IndexOf("Toolbox") >= 0);
                 if (Toolbox == null) {
                     InvokeMenuItem(GetMenu("View"), "Toolbox");
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    Sleep(TimeSpan.FromSeconds(1));
                     Toolbox = MainWindow.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).FirstOrDefault(cf => cf.Name.IndexOf("Toolbox") >= 0);
                 }
             }
@@ -315,7 +288,7 @@ namespace FlaUILibrary.Util {
                 PropertyWindow = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Property Window")));
                 if (PropertyWindow == null) {
                     InvokeMenuItem(GetMenu("View"), "Property Window");
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    Sleep(TimeSpan.FromSeconds(1));
                     PropertyWindow = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Property Window")));
                 }
             }
@@ -328,21 +301,21 @@ namespace FlaUILibrary.Util {
                             OutputWindow = v;
                 if (OutputWindow == null) {
                     InvokeMenuItem(GetMenu("View"), "Output", "Output Results");
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    Sleep(TimeSpan.FromSeconds(1));
                     OutputWindow = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Output Results")));
                 }
                 AutomationElement a = OutputWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
                 a = a.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Output Results")));
                 if (a == null) {
                     InvokeMenuItem(GetMenu("View"), "Output", "Output Results");
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));                    
+                    Sleep(TimeSpan.FromSeconds(1));                    
                 }
             }
             if (statusBar) {
                 StatusBar = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar));
                 if (StatusBar == null) {
                     InvokeMenuItem(GetMenu("View"), "Status Bar");
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    Sleep(TimeSpan.FromSeconds(1));
                     StatusBar = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar));
                 }
             }
@@ -389,7 +362,7 @@ namespace FlaUILibrary.Util {
                 TreeConfig.ClickAutomationElement(searchTextBox);
                 foreach (char ch in searchTerm) {
                     Keyboard.Type(ch);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(50));
+                    Sleep(TimeSpan.FromMilliseconds(50));
                 }
             }
         }
@@ -418,7 +391,7 @@ namespace FlaUILibrary.Util {
             }
             //sort descriptions by datetime and parse through last 3 seconds for desired message
             while (!done && DateTime.Now < now.AddSeconds(timeout)) {
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                Sleep(TimeSpan.FromSeconds(1));
                 outputListView = OutputWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("outputListView")));
                 AutomationElement [] allMessages = outputListView.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem));
                 if (allMessages.Count() == 0)
@@ -484,7 +457,7 @@ namespace FlaUILibrary.Util {
                 TreeConfig.ClickAutomationElement(ViewTab);
             else
                 Mouse.Click(Rect.Center());
-            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            Sleep(TimeSpan.FromMilliseconds(300));
         }
         public AutomationElement GetActiveConfigurtion() {
             SwitchView(TreeConfig.ViewType.ConfigurationView);
@@ -511,12 +484,12 @@ namespace FlaUILibrary.Util {
                 AutomationElement [] allDesc = desiredToolBoxItem.FindAllChildren();
                 if (allDesc[0].AsCheckBox().IsChecked == false) {
                     desiredToolBoxItem.Click();
-                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+                    Sleep(TimeSpan.FromSeconds(1));
                 }
             }
             SetToolBoxMinSize(categories: false);
             SearchToolBox(objectName);
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            Sleep(TimeSpan.FromSeconds(1));
             AutomationElement toolBoxContextContent = Toolbox.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid).And(cf.ByAutomationId("_elementsListView")));
             AutomationElement desiredElementItem = toolBoxContextContent.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataItem).And(cf.ByName(objectName))) ?? throw new Exception(objectName + " element not found");
             if (drag) {
@@ -527,7 +500,7 @@ namespace FlaUILibrary.Util {
             }
             else
                 desiredElementItem.DoubleClick();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            Sleep(TimeSpan.FromSeconds(1));
         }
         public bool IsButtonActive(Button button, string image = "") {
             //string workingDirectory = System.Environment.CurrentDirectory;
@@ -571,18 +544,18 @@ namespace FlaUILibrary.Util {
             ToolBarBuild.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nTransfer", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
             Window transferDialog;
             while ((transferDialog = GetModalWindow("Transfer to target")) == null)
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                Sleep(TimeSpan.FromMilliseconds(500));
             Button transferButton = transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Transfer"))).AsButton();
             AutomationElement infoPane = transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("pStepsOutline")));
             if (infoPane.Name.IndexOf("initial", StringComparison.OrdinalIgnoreCase) >= 0) {
                 transferButton.Click();
                 Window deletionWarningDialog;
                 while ((deletionWarningDialog = GetModalWindow("Target application storage will be deleted")) == null)
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                    Sleep(TimeSpan.FromMilliseconds(100));
                 Button yesButton = deletionWarningDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Yes"))).AsButton();
                 yesButton.Click();
                 while (transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text).And(cf.ByAutomationId("tBInfo"))).AsTextBox().Text.IndexOf("Install finished", StringComparison.OrdinalIgnoreCase) < 0)
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                    Sleep(TimeSpan.FromMilliseconds(500));
                 Button closeButton = transferDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("bClose"))).AsButton();
                 closeButton.Click();
             }
@@ -603,7 +576,7 @@ namespace FlaUILibrary.Util {
             InvokeMenuItem(GetMenu("Project"), "Change Runtime Versions...");
             Window manageComponentsWindow;
             while ((manageComponentsWindow = GetModalWindow(TreeConfig.CurrentProject.CPU + " - Properties")) == null)
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                Sleep(TimeSpan.FromMilliseconds(500));
             AutomationElement tabcontrol = manageComponentsWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Tab).And(cf.ByAutomationId("tabControl")));
             TabItem componentsTab = tabcontrol.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Runtime Versions"))).AsTabItem();
             TreeConfig.ClickAutomationElement(componentsTab);
@@ -641,7 +614,7 @@ namespace FlaUILibrary.Util {
             TextBox versText = allTexts[2].FindFirstChild().AsTextBox();
             if (!(versText.Name.IndexOf(version) >= 0)) {
                 TreeConfig.ClickAutomationElement(allTexts[1].FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox)));
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+                Sleep(TimeSpan.FromMilliseconds(300));
                 AutomationElement wa = manageComponentsWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window));
                 AutomationElement a = wa.FindFirstChild(cf => cf.ByName(version).And(cf.ByControlType(ControlType.ListItem)));
                 if (a != null)
@@ -651,7 +624,7 @@ namespace FlaUILibrary.Util {
                     SelectComponentVersion(componentName, version);
                     return;
                 }
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                Sleep(TimeSpan.FromMilliseconds(500));
             }
             Button okButton = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("btnOk"))).AsButton();
             okButton.Click();
@@ -727,7 +700,7 @@ namespace FlaUILibrary.Util {
                 using (Keyboard.Pressing(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL)) {
                     do {
                         Mouse.Scroll(0.5d);
-                        System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                        Sleep(TimeSpan.FromMilliseconds(500));
                     } while (scrollableEditor.Patterns.Scroll.Pattern.VerticalScrollPercent != 0d);
                 }
             }
@@ -735,28 +708,28 @@ namespace FlaUILibrary.Util {
                 rect = UIElementsBounds["Workspace"];
                 Point point = new Point { X = rect.Left - 1, Y = rect.Bottom - 100};
                 Mouse.DragHorizontally(point, 100);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                Sleep(TimeSpan.FromMilliseconds(500));
                 if (scrollableEditor.Patterns.Scroll.Pattern.HorizontalScrollPercent == 0d) break;
                 point = new Point { X = rect.Right + 1, Y = rect.Bottom - 100};
                 Mouse.DragHorizontally(point, -100);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                Sleep(TimeSpan.FromMilliseconds(500));
             }
         }
         public void RemoveTrailingWhitespaceFromXML(AutomationElement editor) {
             bool emptyline = true;
             while (emptyline) {
                 TreeConfig.ClickAutomationElement(editor);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                Sleep(TimeSpan.FromMilliseconds(200));
                 Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                Sleep(TimeSpan.FromMilliseconds(200));
                 IDE_Main.ToolBarStandard.FindFirstChild(cf => cf.ByName("BR_\nCopy ")).AsButton().Click();
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                Sleep(TimeSpan.FromMilliseconds(200));
                 string copiedText = Clipboard.GetText();
                 if (copiedText.ElementAt(0) != '<') {
                     TreeConfig.ClickAutomationElement(editor);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                    Sleep(TimeSpan.FromMilliseconds(200));
                     Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.HOME);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+                    Sleep(TimeSpan.FromMilliseconds(200));
                     Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
                 }
                 else {
@@ -833,7 +806,7 @@ namespace FlaUILibrary.Util {
                     sout[0] = sout[0].Substring(0, sout[0].IndexOf('[')) + sout[0].Substring(sout[0].IndexOf(']') + 1);
                 Keyboard.Type(sout[0]);
                 Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+                Sleep(TimeSpan.FromMilliseconds(300));
                 AutomationElement varVar = configTree.FindFirstChild(cf => cf.ByName("BR_" + sout[0]));
                 AutomationElement varType = varVar.FindFirstChild(cf => cf.ByName("BR_" + sout[0] + "_Type"));
                 varType.Click();
@@ -904,7 +877,7 @@ namespace FlaUILibrary.Util {
                 if (Tab == null) {
                     Button tabs = TabList.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
                     tabs.Click();
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
+                    Sleep(TimeSpan.FromMilliseconds(800));
                     Menu m = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu)).AsMenu();
                     AutomationElement toolBar = m.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
                     MenuItem mi = toolBar.FindAllChildren(cf => cf.ByControlType(ControlType.MenuItem)).First(cf => cf.Name.IndexOf(Name) >= 0).AsMenuItem();
@@ -912,7 +885,7 @@ namespace FlaUILibrary.Util {
                 }
                 else
                     Tab.Click();
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(800));
+                Sleep(TimeSpan.FromMilliseconds(800));
             }
             public void Close() {
                 Restore();

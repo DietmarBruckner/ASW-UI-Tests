@@ -100,6 +100,10 @@ namespace FlaUILibrary
                     // IDE lifecycle
                     case "initialize_automation_studio": return KwInitAS(A("app_path"), Ai("timeout", 30));
                     case "close_application":            return KwCloseApp(Ab("save_changes", true));
+                    case "invoke_menu":             return KwInvokeMenu(A("menu_name"), A("menu_item"), A("submenu_item"));
+                    case "wait_for_dialog":      return KwWaitForDialog(A("dialog_title"), Ai("timeout",15));
+                    case "type_into_field":       return KwTypeIntoField(A("field_label"), A("text"));
+                    case "set_field_value":        return KwTypeIntoField(A("field_label"), A("value"));
 /*                     case "is_project_loaded":            return KwIsProjectLoaded();
                     case "get_window_title":             return new { result = _mainWindow?.Title ?? "" };
                     // Element finding
@@ -112,15 +116,11 @@ namespace FlaUILibrary
                     case "right_click_element":  return KwRightClick(A("identifier"), A("search_by","name"));
                     case "hover_element":         return KwHover(A("identifier"), A("search_by","name"));
                     case "type_text":             return KwTypeText(A("text"));
-                    case "type_into_field":       return KwTypeIntoField(A("field_label"), A("text"));
-                    case "set_field_value":        return KwTypeIntoField(A("field_label"), A("value"));
                     case "get_text_from_element":  return KwGetText(A("identifier"), A("search_by","name"));
                     // Dialog
                     case "click_dialog_button": return KwClickDialogButton(A("button_name","OK"), A("dialog_title"));
-                    case "wait_for_dialog":      return KwWaitForDialog(A("dialog_title"), Ai("timeout",15));
                     case "get_dialog_text":      return KwGetDialogText(A("field_label"), A("dialog_title"));
                     // Menu
-                    case "invoke_menu":             return KwInvokeMenu(A("menu_name"), A("menu_item"), A("submenu_item"));
                     case "open_context_menu":       return KwOpenContextMenu(A("identifier"), A("search_by","name"));
                     case "select_context_menu_item": return KwSelectContextMenuItem(A("menu_item"), A("submenu_item"));
                     // Tree
@@ -136,19 +136,19 @@ namespace FlaUILibrary
                     case "wait_for_idle":     { _app?.WaitWhileBusy(TimeSpan.FromSeconds(Ai("timeout",30))); return Ok("idle"); }
                     // Screenshot
                     case "take_screenshot":   return KwScreenshot(A("filename"), A("outputdir"));
- */                    default: return Err("Unknown keyword: " + keyword);
+ */                    default: return Util.Util.Err("Unknown keyword: " + keyword);
                 }
             }
-            catch (Exception ex) { return Err(ex.Message); }
+            catch (Exception ex) { return Util.Util.Err(ex.Message); }
         }
 
         // ── IDE lifecycle ────────────────────────────────────────────────────
 
         private object KwInitAS(string appPath, int timeout) {
-            if (string.IsNullOrEmpty(appPath)) return Err("Automation Studio 6 installation path is required");
-            if ( _app != null) return Ok("already initialized", IDE_Main.MainWindow.Title);
+            if (string.IsNullOrEmpty(appPath)) return Util.Util.Err("Automation Studio 6 installation path is required");
+            if ( _app != null) return Util.Util.Ok("already initialized", IDE_Main.MainWindow.Title);
             try {_app = Application.Attach(appPath + "\\bin-en\\pg.exe"); } catch { _app = Application.Launch(appPath + "\\bin-en\\pg.exe"); }
-            if ( _app == null) return Err("Could not find or start Automation Studio 6 process.");
+            if ( _app == null) return Util.Util.Err("Could not find or start Automation Studio 6 process.");
             _app.WaitWhileMainHandleIsMissing(TimeSpan.FromSeconds(timeout));
             _app.WaitWhileBusy(TimeSpan.FromSeconds(timeout));
             Ide_Main = new IDE_Main(_app, timeout);
@@ -158,19 +158,22 @@ namespace FlaUILibrary
                 TreeConfig.CurrentProject = Project;
                 Project.LoadActiveProject();
             }
-            return Ok("Automation Studio 6 initialized", IDE_Main.MainWindow.Title);
+            return Util.Util.Ok("Automation Studio 6 initialized", IDE_Main.MainWindow.Title);
         }
          private object KwCloseApp(bool saveChanges) {
-            if (_app == null) return Ok("Automation Studio 6 not running, nothing to close.");
+            if (_app == null) return Util.Util.Ok("Automation Studio 6 not running, nothing to close.");
             try {
                 _app.Close();
                 TryHandleSavePrompt(saveChanges);
             }
             catch { try { _app.Kill(); } catch { } }
             _app = null; Ide_Main = null; Project = null;
-            return Ok("Automation Studio 6 closed");
+            return Util.Util.Ok("Automation Studio 6 closed");
         }
 
+        private object KwInvokeMenu(string menuName, string menuItem, string submenuItem) {
+            return Ide_Main.InvokeMenuItem(Ide_Main.GetMenu(menuName), menuItem, submenuItem);
+        }
 /*        private object KwIsProjectLoaded()
         {
             var tb = _mainWindow?.TitleBar;
@@ -316,35 +319,6 @@ namespace FlaUILibrary
 
         // ── Menu interaction ─────────────────────────────────────────────────
 
-        private object KwInvokeMenu(string menuName, string menuItem, string submenuItem)
-        {
-            var menuBar = _mainWindow.FindFirstChild(_cf.Menu()).AsMenu();
-            if (menuBar == null) return Err("Menu bar not found");
-
-            var topMenu = menuBar.FindAllChildren()
-                .FirstOrDefault(m => m.Name != null && m.Name.IndexOf(menuName, StringComparison.OrdinalIgnoreCase) >= 0);
-            if (topMenu == null) return Err("Menu not found: " + menuName);
-            topMenu.AsMenuItem().Click(); Thread.Sleep(800);
-            if (menuItem == null) return Ok("menu_opened", menuName);
-
-            var popup = _mainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(menuName)))
-                ?? _mainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Menu));
-            var toolbar = popup?.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
-            var target = (toolbar ?? popup)?.FindAllChildren()
-                .FirstOrDefault(c => c.Name != null && c.Name.IndexOf(menuItem, StringComparison.OrdinalIgnoreCase) >= 0);
-            if (target == null) return Err($"Menu item '{menuItem}' not found in '{menuName}'");
-            target.AsMenuItem().Click(); Thread.Sleep(500);
-            if (submenuItem == null) return Ok("menu_item_clicked", menuItem);
-
-            Thread.Sleep(400);
-            var subPopup = _mainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(menuItem)));
-            var subToolbar = subPopup?.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
-            var subTarget = (subToolbar ?? subPopup)?.FindAllChildren()
-                .FirstOrDefault(c => c.Name != null && c.Name.IndexOf(submenuItem, StringComparison.OrdinalIgnoreCase) >= 0);
-            if (subTarget == null) return Err($"Submenu item '{submenuItem}' not found");
-            Mouse.MoveTo(Center(subTarget)); subTarget.AsMenuItem().Click(); Thread.Sleep(500);
-            return Ok("submenu_item_clicked", submenuItem);
-        }
 
         private object KwOpenContextMenu(string id, string by)
         {
@@ -550,8 +524,5 @@ namespace FlaUILibrary
                 }
             }
         }
-        private static object Ok(string result, string detail = null) =>
-            detail != null ? (object)new { result, detail } : new { result };
-        private static object Err(string message) => new { error = message };
     }
 }

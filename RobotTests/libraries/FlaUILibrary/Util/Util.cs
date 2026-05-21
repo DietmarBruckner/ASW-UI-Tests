@@ -7,22 +7,14 @@ namespace FlaUILibrary.Util {
             public static string InstallationPath;
             public static Verbose verbose;
         }
-        public static void ConsoleOut(Verbose verbose, string text){
-            if (Environment.verbose < verbose)
-                return;
-            if (verbose == Verbose.LIGHT) {
-                Console.WriteLine("------------------------------------------");
-                Console.WriteLine(text);
-                Console.WriteLine("------------------------------------------");
-            }
-            else if (verbose == Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine(text);
-            }
-            else if (verbose == Verbose.FULL) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine(text);
-            }
+        public static object ConsoleOut(Verbose verbose, string text, bool error = false) {
+            if (Environment.verbose < verbose)  return null;
+            if (verbose == Verbose.LIGHT)       return !error?Ok("------------------------------------------\n" + text + "\n------------------------------------------\n"):
+                                                             Err("------------------------------------------\n" + text + "\n------------------------------------------\n");
+            if (verbose == Verbose.STEPS)       return !error?Ok("==========================================\n" + text):
+                                                             Err("==========================================\n" + text);
+            if (verbose == Verbose.FULL)        return !error?Ok(text):Err(text);
+            return null;
         }
         public static int GetDamerauLevenshteinDistance(string s, string t) {
             if (string.IsNullOrEmpty(s))
@@ -59,5 +51,8 @@ namespace FlaUILibrary.Util {
             // actually has the most recent cost counts
             return p[n];
         }
+        public static object Ok(string result, string detail = null) =>
+            detail != null ? (object)new { result, detail } : new { result };
+        public static object Err(string message) => new { error = message };
     }
 }

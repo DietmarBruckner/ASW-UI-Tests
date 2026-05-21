@@ -16,7 +16,7 @@ Initialise AutomationRuntime Component
     ...                Determinism: Deterministic UI path
     ...                Preconditions: Automation Runtime package is available
     [Tags]              automationruntime    configuration    smoke    trace:fw-ar-b1    trace:tm213    trace:sec-3
-    ${project_name}=    Set Variable    Runtime_Init
+    ${project_name}=    Set Variable    Basic_Project
     ${project_path}=    Set Variable    ${PROJECT_TEMP_PATH}${project_name}
     Create New Project In Automation Studio    ${project_name}    ${project_path}
 

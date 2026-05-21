@@ -122,6 +122,31 @@ class RobotFlaulib:
     def close_application(self, save_changes=True):
         return self._call("close_application", save_changes=self._to_bool(save_changes))
 
+    @keyword("Invoke Menu")
+    def invoke_menu(self, menu_name, menu_item=None, submenu_item=None):
+        return self._call(
+            "invoke_menu",
+            menu_name=menu_name,
+            menu_item=menu_item,
+            submenu_item=submenu_item,
+        )
+
+    @keyword("Wait For Dialog")
+    def wait_for_dialog(self, dialog_title, timeout=15):
+        return self._call(
+            "wait_for_dialog",
+            dialog_title=dialog_title,
+            timeout=self._to_seconds(timeout),
+        )
+
+    @keyword("Type Into Dialog Field")
+    def type_into_dialog_field(self, field_label, text):
+        return self._call("type_into_field", field_label=field_label, text=text)
+
+    @keyword("Set Dialog Field Value")
+    def set_dialog_field_value(self, field_label, value):
+        return self._call("set_field_value", field_label=field_label, value=value)
+
 """     @keyword("Is Project Loaded")
     def is_project_loaded(self):
         return self._call("is_project_loaded")
@@ -176,14 +201,6 @@ class RobotFlaulib:
     def type_text(self, text):
         return self._call("type_text", text=text)
 
-    @keyword("Type Into Dialog Field")
-    def type_into_dialog_field(self, field_label, text):
-        return self._call("type_into_field", field_label=field_label, text=text)
-
-    @keyword("Set Dialog Field Value")
-    def set_dialog_field_value(self, field_label, value):
-        return self._call("set_field_value", field_label=field_label, value=value)
-
     @keyword("Get Text From Element")
     def get_text_from_element(self, identifier, search_by="name"):
         result = self._call("get_text_from_element", identifier=identifier, search_by=search_by)
@@ -197,14 +214,6 @@ class RobotFlaulib:
             dialog_title=dialog_title,
         )
 
-    @keyword("Wait For Dialog")
-    def wait_for_dialog(self, dialog_title, timeout=15):
-        return self._call(
-            "wait_for_dialog",
-            dialog_title=dialog_title,
-            timeout=self._to_seconds(timeout),
-        )
-
     @keyword("Get Dialog Field Text")
     def get_dialog_field_text(self, field_label, dialog_title=None):
         result = self._call(
@@ -213,15 +222,6 @@ class RobotFlaulib:
             dialog_title=dialog_title,
         )
         return result if isinstance(result, str) else result.get("result", "")
-
-    @keyword("Invoke Menu")
-    def invoke_menu(self, menu_name, menu_item=None, submenu_item=None):
-        return self._call(
-            "invoke_menu",
-            menu_name=menu_name,
-            menu_item=menu_item,
-            submenu_item=submenu_item,
-        )
 
     @keyword("Open Context Menu")
     def open_context_menu(self, identifier, search_by="name"):

@@ -13,9 +13,16 @@ Initialize Automation Studio
     FlaUILib.Initialize Automation Studio    ${AS_IDE_PATH}    ${AS_DEFAULT_TIMEOUT}
     Log    Automation Studio initialised at: ${AS_IDE_PATH}
 
-
 Close Automation Studio
     [Documentation]    Closes Automation Studio IDE.
     [Arguments]        ${save_changes}=True
     FlaUILib.Close Application    ${save_changes}
     Log    Automation Studio closed (save_changes=${save_changes})
+
+Invoke IDE Menu
+    [Documentation]    Clicks a top-level menu and optionally a menu/sub-menu item.
+    [Arguments]        ${menu_name}    ${menu_item}=${NONE}    ${submenu_item}=${NONE}
+    FlaUILib.Invoke Menu    ${menu_name}    ${menu_item}    ${submenu_item}
+    Log    Menu invoked: ${menu_name} > ${menu_item} > ${submenu_item}
+
+
