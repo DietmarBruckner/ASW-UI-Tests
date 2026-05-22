@@ -7,9 +7,9 @@ Resource            ${CURDIR}/../../keywords/component_keywords.robot
 *** Test Cases ***
 
 Initialise Automation Studio And Create New Project
-    [Documentation]    Scenario: Initialize Automation Runtime component and build
+    [Documentation]    Scenario: Initialize Automation Studio and create a new project
     ...                Traceability ID: FW-AR-B1
-    ...                Component: Automation Runtime
+    ...                Component: Automation Studio
     ...                Source Manual: agents/TM213TRE.462-ENG_Automation_Runtime_V3003.md
     ...                Source Section: 3 Installation and commissioning
     ...                Evidence Type: Manual procedure
@@ -21,4 +21,3 @@ Initialise Automation Studio And Create New Project
     Create New Project In Automation Studio    ${project_name}    ${project_path}
 
     Log    Automation Studio and new project initialised
-
