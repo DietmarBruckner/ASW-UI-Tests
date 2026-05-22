@@ -13,7 +13,7 @@ namespace FlaUILibrary.Util {
             editorPathOP = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\OpcUaCs\\" + Version + "\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             Util.ConsoleOut(Util.Verbose.STEPS, "Checking/setting OPC UA/CS version to " + Version);
-            TreeConfig.IdeMain.SelectComponentVersion("OPC", Version);
+            TreeConfig.IdeMain.SelectComponentVersion(null, "OPC", Version);
             InsertComponent();
             TM611_3_1_ActivateOPCUACS();
             TM611_10_RBAC();
@@ -31,7 +31,7 @@ namespace FlaUILibrary.Util {
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_ClientServerConfiguration");
             AutomationElement uaToolbar = TreeConfig.IdeMain.GetWorkspaceToolbar(editor);
             Button advancedVisibilityButton = uaToolbar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Change Advanced Parameter Visibility"))).AsButton();
-            if (!TreeConfig.IdeMain.IsButtonActive(advancedVisibilityButton)) {
+            if (!IDE_Main.IsButtonActive(advancedVisibilityButton)) {
                 advancedVisibilityButton.Click();
                 ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(uaconfig, "BR_ClientServerConfiguration");
             }

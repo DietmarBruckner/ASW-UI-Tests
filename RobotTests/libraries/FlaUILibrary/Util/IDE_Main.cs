@@ -23,9 +23,9 @@ using static System.Threading.Thread;
 namespace FlaUILibrary.Util {
     public class IDE_Main {
         public static Application App { get; private set; }
-        private readonly UIA2Automation _automation;
+        private static UIA2Automation _automation;
         public static Window MainWindow { get; private set; }
-        private readonly ConditionFactory _cf;
+        private static ConditionFactory _cf;
         private static Menu _fileMenu, _editMenu, _viewMenu, _insertMenu, _openMenu, _projectMenu, _debugMenu, _onlineMenu, _toolsMenu, _windowMenu, _helpMenu;
         private static Dictionary<string, Menu> MenuNames { get {
             Dictionary<string, Menu> dm = new Dictionary<string, Menu> {
@@ -111,7 +111,7 @@ namespace FlaUILibrary.Util {
                 Editors.Add(new Editor().Open(s));
             }
         }
-        void InitMenues() {
+        static void InitMenues() {
             Menu menu = MainWindow.FindFirstChild(_cf.Menu()).AsMenu();
             AutomationElement[] menus = menu.FindAllChildren();
             foreach (AutomationElement m in menus) {
@@ -179,7 +179,7 @@ namespace FlaUILibrary.Util {
             }            
         }
         
-        public object InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
+        public static object InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
             if (menu == null) return Util.Err("Menu not found");
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'BR&' from the menu name
             if (nameMenu == "&nline")
@@ -227,7 +227,7 @@ namespace FlaUILibrary.Util {
         public bool IsProjectLoaded() {
             return _titleBar != null && !string.IsNullOrEmpty(_titleBar.Name) && _titleBar.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) >= 10;
         }
-        public Menu GetMenu(string menuName) {
+        public static Menu GetMenu(string menuName) {
             InitMenues();
             if (MenuNames.ContainsKey(menuName)) {
                 return MenuNames[menuName];
@@ -470,9 +470,10 @@ namespace FlaUILibrary.Util {
             SwitchView(TreeConfig.ViewType.LogicalView);
             return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
         }
-        public void ActivateSimulation() {
+        public static object ActivateSimulation() {
             if (!IsButtonActive(_onlineToolBar.FindFirstChild(cf => cf.ByName("BR_\nActivate Simulation")).AsButton(), "activateSimulation"))
                 InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
+            return Util.Ok("activated_simulation", "Simulation mode activated");
         }
         public void InsertObjectFromToolBox(TreeConfig.ViewType viewType, string category, string objectName, bool drag = false, Point toDrag = new Point()) {
             InitializeViews(projectExplorer: true, toolbox: true, outputResults: true);
@@ -503,7 +504,7 @@ namespace FlaUILibrary.Util {
                 desiredElementItem.DoubleClick();
             Sleep(TimeSpan.FromSeconds(1));
         }
-        public bool IsButtonActive(Button button, string image = "") {
+        public static bool IsButtonActive(Button button, string image = "") {
             //string workingDirectory = System.Environment.CurrentDirectory;
             //Capture.Element(button).ToFile(             workingDirectory + "\\FlaUITests\\Util\\screenshots\\" + image + ".png");
             Util.ConsoleOut(Util.Verbose.FULL, "Checking if button: " + button.Name + " is activated");
@@ -573,18 +574,14 @@ namespace FlaUILibrary.Util {
         public void SaveAll() {
             ToolBarStandard.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf("BR_\nSave All", StringComparison.OrdinalIgnoreCase) >= 0).AsButton().Click();
         }
-        public void SelectComponentVersion (string componentName, string version) {
-            InvokeMenuItem(GetMenu("Project"), "Change Runtime Versions...");
-            Window manageComponentsWindow;
-            while ((manageComponentsWindow = GetModalWindow(TreeConfig.CurrentProject.CPU + " - Properties")) == null)
-                Sleep(TimeSpan.FromMilliseconds(500));
-            AutomationElement tabcontrol = manageComponentsWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Tab).And(cf.ByAutomationId("tabControl")));
+        public object SelectComponentVersion (Window window, string componentName, string version) {
+            AutomationElement tabcontrol = window.FindFirstChild(cf => cf.ByControlType(ControlType.Tab).And(cf.ByAutomationId("tabControl")));
             TabItem componentsTab = tabcontrol.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Runtime Versions"))).AsTabItem();
             TreeConfig.ClickAutomationElement(componentsTab);
             AutomationElement componentsListView = componentsTab.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid));
             AutomationElement [] componentItems = componentsListView.FindAllDescendants(cf => cf.ByControlType(ControlType.DataItem));
             AutomationElement componentItem = null;
-            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
+            using (var engine = new TesseractEngine("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\Util\\tessdata", "eng", EngineMode.Default)) {
                 if (componentName == "Automation Runtime") {
                     componentItem = componentItems.FirstOrDefault(c => c.Name.IndexOf(".ArCfg", StringComparison.OrdinalIgnoreCase) >= 0);
                 }
@@ -596,7 +593,7 @@ namespace FlaUILibrary.Util {
                         if (item.Name.IndexOf(".DomainCfg", StringComparison.OrdinalIgnoreCase) >= 0) {
                             AutomationElement compText = item.FindAllChildren(cf => cf.ByControlType(ControlType.Custom))[0];
                             CaptureImage compImg = Capture.Element(compText);
-                            string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR.png";
+                            string file = "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\Util\\screenshots\\OCR.png";
                             compImg.ToFile(file);
                             Page page = engine.Process(Pix.LoadFromFile(file));
                             string text = page.GetText();
@@ -616,21 +613,16 @@ namespace FlaUILibrary.Util {
             if (!(versText.Name.IndexOf(version) >= 0)) {
                 TreeConfig.ClickAutomationElement(allTexts[1].FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox)));
                 Sleep(TimeSpan.FromMilliseconds(300));
-                AutomationElement wa = manageComponentsWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window));
+                AutomationElement wa = window.FindFirstChild(cf => cf.ByControlType(ControlType.Window));
                 AutomationElement a = wa.FindFirstChild(cf => cf.ByName(version).And(cf.ByControlType(ControlType.ListItem)));
                 if (a != null)
                     TreeConfig.ClickAutomationElement(a);
                 else {
-                    InstallComponentVersion(componentName, version);
-                    SelectComponentVersion(componentName, version);
-                    return;
+                    return Util.Err("Version " + version + " not found for component " + componentName);
                 }
                 Sleep(TimeSpan.FromMilliseconds(500));
             }
-            Button okButton = manageComponentsWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId("btnOk"))).AsButton();
-            okButton.Click();
-            LooseModalWindow(manageComponentsWindow);
-            TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
+            return Util.Ok("version_selected", "Version " + version + " selected for component " + componentName);
         }
         public void InstallComponentVersion (string componentName, string version) {
         }
@@ -638,9 +630,9 @@ namespace FlaUILibrary.Util {
             Util.ConsoleOut(Util.Verbose.FULL, "No text available, searching for word \"" + text + "\" in element: " + ae.Name);
             Dictionary<Rectangle, string> dict = new Dictionary<Rectangle, string>();
             PageIteratorLevel containingWord = PageIteratorLevel.Word;
-            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\tessdata", "eng", EngineMode.Default)) {
+            using (var engine = new TesseractEngine("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\Util\\tessdata", "eng", EngineMode.Default)) {
                 CaptureImage compImg = Capture.Element(ae);
-                string file = System.Environment.CurrentDirectory + "\\FlaUITests\\Util\\screenshots\\OCR_" + TreeConfig.RemoveSpecialChars(text) + ".png";
+                string file = "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\Util\\screenshots\\OCR_" + TreeConfig.RemoveSpecialChars(text) + ".png";
                 compImg.ToFile(file);
                 using (Page page = engine.Process(Pix.LoadFromFile(file))) {
                     using (var iter = page.GetIterator()) {

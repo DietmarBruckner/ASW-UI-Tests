@@ -36,3 +36,10 @@ Select From ComboBox
     [Arguments]        ${combo_label}    ${item_text}
     FlaUILib.Select From ComboBox    ${combo_label}    ${item_text}
     Log    Selected from combo box: ${combo_label} > ${item_text}
+
+Activate Simulation Mode
+    [Documentation]    Activates simulation mode in the IDE, if not already active.
+    FlaUILib.Activate Simulation Mode
+    Log    Simulation mode activated
+
+    

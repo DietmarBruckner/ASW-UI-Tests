@@ -112,6 +112,8 @@ namespace FlaUILibrary
                     case "select_from_combo_box":           return KwSelectFromComboBox(A("combo_label"), A("item_text"));
                     case "wait_for_idle":                   { _app?.WaitWhileBusy(TimeSpan.FromSeconds(Ai("timeout",30))); return Util.Util.Ok("idle"); }
                     case "wait_for_message":                return KwWaitForMessage(A("message"), Ai("timeout",30));
+                    case "activate_simulation_mode":        return KwActivateSimulationMode();
+                    case "select_component_version":        return KwSelectComponentVersion(A("component_name"), A("version"));
 /*                     case "is_project_loaded":            return KwIsProjectLoaded();
                     case "get_window_title":             return new { result = _mainWindow?.Title ?? "" };
                     // Element finding
@@ -177,7 +179,7 @@ namespace FlaUILibrary
             return Util.Util.Ok("Automation Studio 6 closed");
         }
         private object KwInvokeMenu(string menuName, string menuItem, string submenuItem) {
-            return Ide_Main.InvokeMenuItem(Ide_Main.GetMenu(menuName), menuItem, submenuItem);
+            return IDE_Main.InvokeMenuItem(IDE_Main.GetMenu(menuName), menuItem, submenuItem);
         }
         private object KwWaitForMessage(string message, int timeout) {
             return Ide_Main.WaitForMessage(message, timeout);
@@ -186,9 +188,8 @@ namespace FlaUILibrary
             var w = GetModalWindow(title, timeout);
             if (w != null) {
                 _modalWindows = _modalWindows ?? new List<Window>();
-                if (!_modalWindows.Contains(w)) {
+                if (!_modalWindows.Contains(w))
                     _modalWindows.Add(w);
-                }
             }
             return w != null
                 ? Util.Util.Ok("found", w.Title)
@@ -239,9 +240,14 @@ namespace FlaUILibrary
             if (btn == null) return Util.Util.Err($"Button '{buttonName}' not found");
             btn.AsButton().Invoke(); Thread.Sleep(500);
             if (dialogClose) {
-                if (_modalWindows != null) _modalWindows.Remove(dialog);
+                IDE_Main.LooseModalWindow(dialog);
+                _modalWindows?.Remove(dialog);
+                TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
             }
             return Util.Util.Ok("clicked_button", buttonName);
+        }
+        private object KwSelectComponentVersion(string componentName, string version) {
+            return Ide_Main.SelectComponentVersion(_modalWindows.Last(), componentName, version);
         }
 /*         private object KwActivateTreeLeaf(string treePath, bool doubleClick)
         {
@@ -279,6 +285,9 @@ namespace FlaUILibrary
                 TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, text);
             }
             return Util.Util.Ok("typed_into_combobox", comboLabel);
+        }
+        private object KwActivateSimulationMode() {
+            return IDE_Main.ActivateSimulation();
         }
 
         

@@ -44,55 +44,12 @@ namespace FlaUILibrary.Util {
             DictComponents = dictComponents;
             this.verbose = verbose;
 
-              _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the New Project dialog to appear
-            Window newProjectDialog = _ideMain.GetModalWindow("New Project");
-            if (newProjectDialog == null) {
-                Console.WriteLine("Error: New Project dialog did not appear.");
-                return;
-            }
-            TreeConfig.ClickAutomationElement(newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("projectNameTextBox"))).AsTextBox());
-            Keyboard.Type(name);
-            TextBox pathTextBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("pathTextBox"))).AsTextBox();
-            if (pathTextBox.Text != path) {
-                TreeConfig.ClickAutomationElement(pathTextBox);
-                Keyboard.TypeSimultaneously(new FlaUI.Core.WindowsAPI.VirtualKeyShort[] { FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A });
-                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE);
-                Keyboard.Type(path);
-            }
-            if (workingVersion != null) {
-                ComboBox versionComboBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByAutomationId("cbWorkingVersion"))).AsComboBox();
-                if (versionComboBox.Value != workingVersion) {
-                    TreeConfig.ClickAutomationElement(versionComboBox);
-                    System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                    TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, workingVersion);
-                }
-            }
-            Button nextButton = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Next >"))).AsButton();
-            nextButton.Invoke();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            TextBox configTextBox = newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("configurationNameTextBox"))).AsTextBox();
-            if (configTextBox.Text != config) {
-                TreeConfig.ClickAutomationElement(configTextBox);
-                Keyboard.Type(config);
-            }
-            nextButton.Invoke();
-            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
-            TreeConfig.ClickAutomationElement(newProjectDialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByAutomationId("searchTermTextBox"))).AsTextBox());
-            foreach (char ch in CPU) {
-                Keyboard.Type(ch);
-                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
-            }
-            nextButton.Invoke();
-            while (IDE_Main.StatusBar.Name.IndexOf("Opening", StringComparison.OrdinalIgnoreCase) >= 0)
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            TreeConfig.IdeMain.WaitForMessage("finished.");
-              Name += ".apj";
+            Name += ".apj";
             TreeConfig.CurrentProject = this;
             if (dictComponents != null)
                 components = new List<ComponentInProject>();
             Util.ConsoleOut(Util.Verbose.LIGHT, "Activating Simulation");
-            _ideMain.ActivateSimulation();
+            IDE_Main.ActivateSimulation();
             foreach (KeyValuePair<Components, string> kvp in DictComponents) {
                 ComponentInProject cip = null;
                    switch (kvp.Key) {
@@ -125,12 +82,12 @@ namespace FlaUILibrary.Util {
         }
         public void CloseProject() {
             if (_ideMain.IsProjectLoaded()) {
-                _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "Close Project");
+                IDE_Main.InvokeMenuItem(IDE_Main.GetMenu("File"), "Close Project");
                 Console.WriteLine("Project " + Name + " closed.");
             }
         }
         public void OpenProject(string projectPath) {
-            _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "Open Project...");
+            IDE_Main.InvokeMenuItem(IDE_Main.GetMenu("File"), "Open Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the Open Project dialog to appear
             Window openProjectDialog = _ideMain.GetModalWindow("Open");
             if (openProjectDialog == null) {

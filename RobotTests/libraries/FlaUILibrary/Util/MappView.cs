@@ -36,7 +36,7 @@ namespace FlaUILibrary.Util {
                         TestWidgets.Add(item[0]);
             }
             Util.ConsoleOut(Util.Verbose.STEPS, "Checking/setting mapp View version to " + Version);
-            TreeConfig.IdeMain.SelectComponentVersion("mapp View", Version);
+            TreeConfig.IdeMain.SelectComponentVersion(null, "mapp View", Version);
             if (!TreeConfig.IdeMain.GetLogicalViewRoot(Project).FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Any(cf => cf.Name.IndexOf("mappView") >= 0))
                 InsertComponent();
             TreeConfig.IdeMain.Build();

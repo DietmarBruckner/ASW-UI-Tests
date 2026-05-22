@@ -38,3 +38,17 @@ Select Working Version In New Project Dialog
     # Navigate the working version tree/list inside the dialog and select the given working_version string
     Select From ComboBox    cbWorkingVersion     ${working_version}
     Log    Working version selected: ${working_version}
+
+Select Working Version for Component
+    [Documentation]    Selects the component's version inside the Project - Change Runtime Version dialog.
+    [Arguments]        ${component_name}     ${working_version} 
+    # Navigate the working version tree/list inside the dialog and select the given working_version string
+    Invoke IDE Menu                    Project    Change Runtime Versions...
+    ${dialog_appeared}=    FlaUILib.Wait For Dialog    ${CPU_TYPE} - Properties    1
+    IF    ${dialog_appeared}
+        FlaUILib.Select Component Version    ${component_name}     ${working_version}
+        FlaUILib.Click Dialog Button   OK    dialog_close=True
+    ELSE
+        Log    No Change Runtime Versions dialog appeared.
+    END
+    Log    Working version selected: ${working_version}

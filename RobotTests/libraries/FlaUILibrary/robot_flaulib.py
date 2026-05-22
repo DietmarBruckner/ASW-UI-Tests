@@ -159,6 +159,14 @@ class RobotFlaulib:
     def wait_for_idle(self, timeout=30):
         return self._call("wait_for_idle", timeout=self._to_seconds(timeout))
 
+    @keyword("Activate Simulation Mode")
+    def activate_simulation_mode(self):
+        return self._call("activate_simulation_mode")
+
+    @keyword("Select Component Version")
+    def select_component_version(self, component_name, version):
+        return self._call("select_component_version", component_name=component_name, version=version)
+
 
 """     @keyword("Is Project Loaded")
     def is_project_loaded(self):

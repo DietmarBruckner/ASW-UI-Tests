@@ -12,7 +12,7 @@ namespace FlaUILibrary.Util {
                 Console.WriteLine("==========================================");
                 Console.WriteLine("Checking/setting Automation Runtime version to " + Version);
             }
-            TreeConfig.IdeMain.SelectComponentVersion("Automation Runtime", Version);
+            TreeConfig.IdeMain.SelectComponentVersion(null, "Automation Runtime", Version);
         }
         public override void InsertComponent() {
             
