@@ -36,6 +36,7 @@ ${MAPPVIEW_HTTPS_PORT}              8443
 ${MAPPVIEW_PROTOCOL}                HTTP
 
 # OPC UA CS Configuration
+${UACS_VERSION}                     ${DEFAULT_UACS_VERSION}
 ${USE_OPCUACS}                      True
 ${OPCUA_SERVER_PORT}                4840
 

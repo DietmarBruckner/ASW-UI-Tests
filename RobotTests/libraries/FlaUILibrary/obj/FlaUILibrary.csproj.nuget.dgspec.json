@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj": {}
+    "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj": {}
   },
   "projects": {
-    "c:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj": {
+    "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
+        "projectUniqueName": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
         "projectName": "FlaUILibrary",
-        "projectPath": "c:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
+        "projectPath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
         "packagesPath": "C:\\Users\\ATDIBRU\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\obj\\",
+        "outputPath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ATDIBRU\\AppData\\Roaming\\NuGet\\NuGet.Config"

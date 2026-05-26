@@ -44,7 +44,7 @@ Select Working Version for Component
     [Arguments]        ${component_name}     ${working_version} 
     # Navigate the working version tree/list inside the dialog and select the given working_version string
     Invoke IDE Menu                    Project    Change Runtime Versions...
-    ${dialog_appeared}=    FlaUILib.Wait For Dialog    ${CPU_TYPE} - Properties    1
+    ${dialog_appeared}=    FlaUILib.Wait For Dialog    ${CPU_TYPE} - Properties    5
     IF    ${dialog_appeared}
         FlaUILib.Select Component Version    ${component_name}     ${working_version}
         FlaUILib.Click Dialog Button   OK    dialog_close=True
@@ -52,3 +52,24 @@ Select Working Version for Component
         Log    No Change Runtime Versions dialog appeared.
     END
     Log    Working version selected: ${working_version}
+
+Build Project
+    [Documentation]    Builds the active configuration and waits for completion.
+    [Arguments]                                        ${timeout}=60
+    FlaUILib.Click Toolbar Button                      Build Configuration
+    FlaUILib.Wait For Message                          Build:           ${timeout}
+    ${dialog_appeared}=    FlaUILib.Wait For Dialog    Build Project    10
+    IF    ${dialog_appeared}
+        FlaUILib.Click Dialog Button                   Don't Transfer    dialog_close=True
+    ELSE
+        Log    No Transfer dialog appeared.
+    END
+    Log    Project build complete
+
+Transfer Project To CPU
+    [Documentation]    Transfers the project to the target CPU (Online > Transfer To Target) and waits.
+    [Arguments]        ${timeout}=120
+    Invoke IDE Menu    Online    Transfer To Target
+    FlaUILib.Wait For Transfer To Complete    ${timeout}
+    Log    Project transferred to CPU
+

@@ -108,14 +108,15 @@ namespace FlaUILibrary
                     case "type_slowly_into_field":          return KwTypeIntoField(A("field_label"), A("text"), slow:true);
                     case "set_field_value":                 return KwTypeIntoField(A("field_label"), A("value"), check:true);
                     case "click_dialog_button":             return KwClickDialogButton(A("button_name","OK"), A("dialog_title"), Ab("dialog_close", false));
+                    case "click_toolbar_button":            return KwClickToolbarButton(A("button_name"));
 //                    case "activate_tree_leaf":              return KwActivateTreeLeaf(A("tree_path"), Ab("double_click"));
                     case "select_from_combo_box":           return KwSelectFromComboBox(A("combo_label"), A("item_text"));
                     case "wait_for_idle":                   { _app?.WaitWhileBusy(TimeSpan.FromSeconds(Ai("timeout",30))); return Util.Util.Ok("idle"); }
                     case "wait_for_message":                return KwWaitForMessage(A("message"), Ai("timeout",30));
                     case "activate_simulation_mode":        return KwActivateSimulationMode();
                     case "select_component_version":        return KwSelectComponentVersion(A("component_name"), A("version"));
+                    case "get_window_title":             return new { result = IDE_Main.MainWindow?.Title ?? "" };
 /*                     case "is_project_loaded":            return KwIsProjectLoaded();
-                    case "get_window_title":             return new { result = _mainWindow?.Title ?? "" };
                     // Element finding
                     case "find_element":    return KwFindElement(A("identifier"), A("search_by","name"), Ai("timeout",10));
                     case "wait_for_element": return KwFindElement(A("identifier"), A("search_by","name"), Ai("timeout",10));
@@ -244,7 +245,7 @@ namespace FlaUILibrary
                 _modalWindows?.Remove(dialog);
                 TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
             }
-            return Util.Util.Ok("clicked_button", buttonName);
+            return Util.Util.Ok("button_clicked", buttonName);
         }
         private object KwSelectComponentVersion(string componentName, string version) {
             return Ide_Main.SelectComponentVersion(_modalWindows.Last(), componentName, version);
@@ -290,6 +291,16 @@ namespace FlaUILibrary
             return IDE_Main.ActivateSimulation();
         }
 
+        private object KwClickToolbarButton(string buttonName) {
+            var found = IDE_Main.toolbarButtons.TryGetValue(buttonName, out var toolbar) ? toolbar : null;
+            if (toolbar == null) return Util.Util.Err("Toolbar not found for: " + buttonName);
+            var btn = toolbar.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf(IDE_Main.SanitizeButtonNames(buttonName)) >= 0).AsButton();
+            //AutomationElement [] allDesc = toolbar.FindAllDescendants(cf => cf.ByControlType(ControlType.Button));
+            if (btn == null) return Util.Util.Err($"Button '{buttonName}' not found");
+            Mouse.Click(Center(btn)); Thread.Sleep(500);
+            TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
+            return Util.Util.Ok("button_clicked", buttonName);
+        }
         
         
         /*        private object KwIsProjectLoaded()

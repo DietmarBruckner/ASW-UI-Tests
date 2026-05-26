@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-05-22T12:34:50.372352" rpa="false" schemaversion="5">
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-05-26T10:24:56.453336" rpa="false" schemaversion="5">
 <suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
 <suite id="s1-s1" name="RobotTests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests">
 <suite id="s1-s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests">
-<suite id="s1-s1-s1-s1" name="Automation Runtime" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\Automation Runtime">
-<suite id="s1-s1-s1-s1-s1" name="Automation Runtime" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\Automation Runtime\Automation Runtime.robot">
-<test id="s1-s1-s1-s1-s1-t1" name="Initialise Automation Runtime Version" line="6">
+<suite id="s1-s1-s1-s1" name="OPC UA CS" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\OPC UA CS">
+<suite id="s1-s1-s1-s1-s1" name="OPC UA CS tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\OPC UA CS\OPC UA CS_tests.robot">
+<test id="s1-s1-s1-s1-s1-t1" name="Initialise OPCUA Version" line="9">
 <kw name="Initialize Automation Studio" owner="ide_keywords">
 <kw name="Initialize Automation Studio" owner="FlaUILib">
 <arg>${AS_DEFAULT_TIMEOUT}</arg>
-<status status="PASS" start="2026-05-22T12:34:56.468408" elapsed="0.002389"/>
+<status status="PASS" start="2026-05-26T10:25:00.675851" elapsed="1.105387"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-22T12:34:56.472185" level="INFO">Automation Studio initialised.</msg>
+<msg time="2026-05-26T10:25:01.782118" level="INFO">Automation Studio initialised.</msg>
 <arg>Automation Studio initialised.</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-22T12:34:56.471379" elapsed="0.001187"/>
+<status status="PASS" start="2026-05-26T10:25:01.781641" elapsed="0.000643"/>
 </kw>
 <doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
-<status status="PASS" start="2026-05-22T12:34:54.369600" elapsed="2.103172"/>
+<status status="PASS" start="2026-05-26T10:25:00.675479" elapsed="1.106919"/>
 </kw>
 <kw name="Select Working Version for Component" owner="project_keywords">
 <kw name="Invoke IDE Menu" owner="ide_keywords">
@@ -26,111 +26,156 @@
 <arg>${menu_name}</arg>
 <arg>${menu_item}</arg>
 <arg>${submenu_item}</arg>
-<status status="PASS" start="2026-05-22T12:34:57.789569" elapsed="1.210611"/>
+<status status="PASS" start="2026-05-26T10:25:01.783534" elapsed="1.218870"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-22T12:34:59.000769" level="INFO">Menu invoked: Project &gt; Change Runtime Versions... &gt; None</msg>
+<msg time="2026-05-26T10:25:03.002972" level="INFO">Menu invoked: Project &gt; Change Runtime Versions... &gt; None</msg>
 <arg>Menu invoked: ${menu_name} &gt; ${menu_item} &gt; ${submenu_item}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-22T12:34:59.000384" elapsed="0.000552"/>
+<status status="PASS" start="2026-05-26T10:25:03.002612" elapsed="0.000522"/>
 </kw>
 <arg>Project</arg>
 <arg>Change Runtime Versions...</arg>
 <doc>Clicks a top-level menu and optionally a menu/sub-menu item.</doc>
-<status status="PASS" start="2026-05-22T12:34:57.094792" elapsed="1.906255"/>
+<status status="PASS" start="2026-05-26T10:25:01.783223" elapsed="1.220104"/>
 </kw>
 <kw name="Wait For Dialog" owner="FlaUILib">
-<msg time="2026-05-22T12:35:03.066424" level="INFO">${dialog_appeared} = True</msg>
+<msg time="2026-05-26T10:25:07.477640" level="INFO">${dialog_appeared} = True</msg>
 <var>${dialog_appeared}</var>
 <arg>${CPU_TYPE} - Properties</arg>
-<arg>1</arg>
-<status status="PASS" start="2026-05-22T12:34:59.001175" elapsed="4.065434"/>
+<arg>5</arg>
+<status status="PASS" start="2026-05-26T10:25:03.003455" elapsed="4.474339"/>
 </kw>
 <if>
 <branch type="IF" condition="${dialog_appeared}">
 <kw name="Select Component Version" owner="FlaUILib">
 <arg>${component_name}</arg>
 <arg>${working_version}</arg>
-<status status="PASS" start="2026-05-22T12:35:05.491763" elapsed="3.167464"/>
+<status status="PASS" start="2026-05-26T10:25:07.478255" elapsed="1.122964"/>
 </kw>
 <kw name="Click Dialog Button" owner="FlaUILib">
 <arg>OK</arg>
 <arg>dialog_close=True</arg>
-<status status="PASS" start="2026-05-22T12:35:08.659507" elapsed="6.465182"/>
+<status status="PASS" start="2026-05-26T10:25:08.601402" elapsed="1.913213"/>
 </kw>
-<status status="PASS" start="2026-05-22T12:35:03.066785" elapsed="12.058033"/>
+<status status="PASS" start="2026-05-26T10:25:07.477964" elapsed="3.036771"/>
 </branch>
 <branch type="ELSE">
 <kw name="Log" owner="BuiltIn">
 <arg>No Change Runtime Versions dialog appeared.</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2026-05-22T12:35:15.125067" elapsed="0.000087"/>
+<status status="NOT RUN" start="2026-05-26T10:25:10.514973" elapsed="0.000087"/>
 </kw>
-<status status="NOT RUN" start="2026-05-22T12:35:15.124873" elapsed="0.000342"/>
+<status status="NOT RUN" start="2026-05-26T10:25:10.514789" elapsed="0.000330"/>
 </branch>
-<status status="PASS" start="2026-05-22T12:35:03.066755" elapsed="12.058488"/>
+<status status="PASS" start="2026-05-26T10:25:07.477934" elapsed="3.037213"/>
 </if>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-22T12:35:19.461161" level="INFO">Working version selected: 6.6.3</msg>
+<msg time="2026-05-26T10:25:10.515466" level="INFO">Working version selected: 6.6.1</msg>
 <arg>Working version selected: ${working_version}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-22T12:35:15.125315" elapsed="4.336656"/>
+<status status="PASS" start="2026-05-26T10:25:10.515215" elapsed="0.000391"/>
 </kw>
-<arg>Automation Runtime</arg>
-<arg>${AR_VERSION}</arg>
+<arg>OPC</arg>
+<arg>${UACS_VERSION}</arg>
 <doc>Selects the component's version inside the Project - Change Runtime Version dialog.</doc>
-<status status="PASS" start="2026-05-22T12:34:56.473222" elapsed="22.989239"/>
+<status status="PASS" start="2026-05-26T10:25:01.782822" elapsed="8.732874"/>
+</kw>
+<kw name="Build Project" owner="project_keywords">
+<kw name="Click Toolbar Button" owner="FlaUILib">
+<arg>Build Configuration</arg>
+<status status="PASS" start="2026-05-26T10:25:10.516407" elapsed="0.568980"/>
+</kw>
+<kw name="Wait For Message" owner="FlaUILib">
+<arg>Build:</arg>
+<arg>${timeout}</arg>
+<status status="PASS" start="2026-05-26T10:25:11.085611" elapsed="8.858870"/>
+</kw>
+<kw name="Wait For Dialog" owner="FlaUILib">
+<msg time="2026-05-26T10:25:20.818203" level="INFO">${dialog_appeared} = True</msg>
+<var>${dialog_appeared}</var>
+<arg>Build Project</arg>
+<arg>10</arg>
+<status status="PASS" start="2026-05-26T10:25:19.944666" elapsed="0.873702"/>
+</kw>
+<if>
+<branch type="IF" condition="${dialog_appeared}">
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Don't Transfer</arg>
+<arg>dialog_close=True</arg>
+<status status="PASS" start="2026-05-26T10:25:20.818807" elapsed="1.982323"/>
+</kw>
+<status status="PASS" start="2026-05-26T10:25:20.818527" elapsed="1.982879"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>No Transfer dialog appeared.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-26T10:25:22.801951" elapsed="0.000273"/>
+</kw>
+<status status="NOT RUN" start="2026-05-26T10:25:22.801506" elapsed="0.000899"/>
+</branch>
+<status status="PASS" start="2026-05-26T10:25:20.818502" elapsed="1.983980"/>
+</if>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-26T10:25:22.803245" level="INFO">Project build complete</msg>
+<arg>Project build complete</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-26T10:25:22.802697" elapsed="0.000945"/>
+</kw>
+<doc>Builds the active configuration and waits for completion.</doc>
+<status status="PASS" start="2026-05-26T10:25:10.516108" elapsed="12.287806"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-22T12:35:20.692337" level="INFO">Automation Runtime version initialised</msg>
-<arg>Automation Runtime version initialised</arg>
+<msg time="2026-05-26T10:25:22.805362" level="INFO">OPC UA CS version initialised</msg>
+<arg>OPC UA CS version initialised</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-22T12:35:19.463357" elapsed="1.229209"/>
+<status status="PASS" start="2026-05-26T10:25:22.804742" elapsed="0.001266"/>
 </kw>
-<doc>Scenario: Initialize Automation Runtime version
-Traceability ID: FW-AR-B1
-Component: Automation Runtime
+<doc>Scenario: Initialize OPC UA CS version
+Traceability ID: FW-OPCUA-C1
+Component: OPC UA CS
 Source Manual:
 Source Section:
 Evidence Type: Manual procedure
 Determinism: Deterministic UI path
-Preconditions:</doc>
-<tag>automationruntime</tag>
+Preconditions: OPC UA CS TP available</doc>
 <tag>configuration</tag>
+<tag>opcua</tag>
 <tag>smoke</tag>
-<tag>trace:fw-ar-b1</tag>
-<status status="PASS" start="2026-05-22T12:34:54.367176" elapsed="26.325798"/>
+<tag>trace:fw-opcua-c1</tag>
+<status status="PASS" start="2026-05-26T10:25:00.672735" elapsed="22.134154"/>
 </test>
-<doc>Test cases for AutomationRuntime component configuration.</doc>
-<status status="PASS" start="2026-05-22T12:34:50.423293" elapsed="30.274568"/>
+<doc>Test cases for OPCUA component configuration.</doc>
+<status status="PASS" start="2026-05-26T10:24:56.495442" elapsed="26.318143"/>
 </suite>
-<status status="PASS" start="2026-05-22T12:34:50.420526" elapsed="30.280382"/>
+<status status="PASS" start="2026-05-26T10:24:56.493243" elapsed="26.326338"/>
 </suite>
-<status status="PASS" start="2026-05-22T12:34:50.418425" elapsed="30.285958"/>
+<status status="PASS" start="2026-05-26T10:24:56.490933" elapsed="26.332529"/>
 </suite>
-<status status="PASS" start="2026-05-22T12:34:50.415434" elapsed="30.291047"/>
+<status status="PASS" start="2026-05-26T10:24:56.488279" elapsed="26.338568"/>
 </suite>
-<status status="PASS" start="2026-05-22T12:34:50.378439" elapsed="30.329799"/>
+<status status="PASS" start="2026-05-26T10:24:56.458898" elapsed="26.371042"/>
 </suite>
 <statistics>
 <total>
 <stat pass="1" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
-<stat pass="1" fail="0" skip="0">automationruntime</stat>
 <stat pass="1" fail="0" skip="0">configuration</stat>
+<stat pass="1" fail="0" skip="0">opcua</stat>
 <stat pass="1" fail="0" skip="0">smoke</stat>
-<stat pass="1" fail="0" skip="0">trace:fw-ar-b1</stat>
+<stat pass="1" fail="0" skip="0">trace:fw-opcua-c1</stat>
 </tag>
 <suite>
 <stat name="ASW-UI-Tests" id="s1" pass="1" fail="0" skip="0">ASW-UI-Tests</stat>
 <stat name="RobotTests" id="s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests</stat>
 <stat name="Tests" id="s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests</stat>
-<stat name="Automation Runtime" id="s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.Automation Runtime</stat>
-<stat name="Automation Runtime" id="s1-s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.Automation Runtime.Automation Runtime</stat>
+<stat name="OPC UA CS" id="s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.OPC UA CS</stat>
+<stat name="OPC UA CS tests" id="s1-s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.OPC UA CS.OPC UA CS tests</stat>
 </suite>
 </statistics>
 <errors>
-<msg time="2026-05-22T12:34:54.261058" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+<msg time="2026-05-26T10:25:00.567140" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
 </errors>
 </robot>

@@ -34,3 +34,4 @@ c:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\libraries\FlaUI
 c:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\obj\Debug\net481\FlaUILib.1C8C99D7.Up2Date
 c:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\obj\Debug\net481\FlaUILibrary.exe
 c:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\obj\Debug\net481\FlaUILibrary.pdb
+C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\obj\Debug\net481\FlaUILibrary.exe.config

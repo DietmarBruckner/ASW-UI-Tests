@@ -2,6 +2,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug FlaUILibrary Server",
+            "type": "clr",
+            "request": "launch",
+            "preLaunchTask": "build-solution",
+            "program": "${workspaceFolder}/RobotTests/libraries/FlaUILibrary/bin/Debug/net481/FlaUILibrary.exe",
+            "args": [],
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "enableStepFiltering": true,
+            "cwd": "${workspaceFolder}/RobotTests/libraries/FlaUILibrary"
+        },
+        {
             "name": "Debug FlaUITests",
             "type": "clr",
             "request": "launch",
@@ -9,7 +21,8 @@
             "program": "${workspaceFolder}/FlaUITests/bin/Debug/net481/FlaUITests.exe",
             "args": [],
             "console": "internalConsole",
-            "stopAtEntry": false
+            "stopAtEntry": false,
+            "enableStepFiltering": true
         }
     ]
 }

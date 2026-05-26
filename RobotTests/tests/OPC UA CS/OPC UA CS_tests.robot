@@ -1,28 +1,25 @@
 *** Settings ***
 Documentation       Test cases for OPCUA component configuration.
 Resource            ${CURDIR}/../../keywords/component_keywords.robot
-Suite Teardown      Close Automation Studio    save_changes=False
+#Suite Teardown      Close Automation Studio    save_changes=False
 
 
 *** Test Cases ***
 
-Initialise OPCUA Component With Default Port
-    [Documentation]    Scenario: Initialize OPC UA component with default port
+Initialise OPCUA Version
+    [Documentation]    Scenario: Initialize OPC UA CS version
     ...                Traceability ID: FW-OPCUA-C1
     ...                Component: OPC UA CS
-    ...                Source Manual: agents/TM980-ENG_OPC_UA_basics_ans_use_V3000_AS4C.md
-    ...                Source Section: 5 Automation Runtime OPC UA server
+    ...                Source Manual: 
+    ...                Source Section: 
     ...                Evidence Type: Manual procedure
     ...                Determinism: Deterministic UI path
-    ...                Preconditions: OPC UA component is available in configuration
-    [Tags]              opcua    configuration    smoke    trace:fw-opcua-c1    trace:tm980    trace:sec-5
-    ${project_name}=    Set Variable    OPCUA_Init
-    ${project_path}=    Set Variable    ${PROJECT_TEMP_PATH}${project_name}
-    Create New Project In Automation Studio    ${project_name}    ${project_path}
-    Initialize OPCUA Component    ${OPCUA_PORT}
+    ...                Preconditions: OPC UA CS TP available
+    [Tags]             opcua    configuration    smoke    trace:fw-opcua-c1
+    Initialize Automation Studio
+    Select Working Version for Component    OPC     ${UACS_VERSION}
     Build Project
-    Log    OPCUA component initialised on port ${OPCUA_PORT}
-
+    Log    OPC UA CS version initialised
 
 Configure OPCUA Custom Port
     [Documentation]    Scenario: Configure OPC UA custom port and verify property

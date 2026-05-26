@@ -147,6 +147,10 @@ class RobotFlaulib:
     def click_dialog_button(self, button_name="OK", dialog_title=None, dialog_close=False):
         return self._call("click_dialog_button", button_name=button_name, dialog_title=dialog_title, dialog_close=self._to_bool(dialog_close))
 
+    @keyword("Click Toolbar Button")
+    def click_toolbar_button(self, button_name):
+        return self._call("click_toolbar_button", button_name=button_name)
+
     @keyword("Activate Tree Leaf")
     def activate_tree_leaf(self, tree_path, double_click=False):
         return self._call("activate_tree_leaf", tree_path=tree_path, double_click=self._to_bool(double_click))
@@ -167,14 +171,15 @@ class RobotFlaulib:
     def select_component_version(self, component_name, version):
         return self._call("select_component_version", component_name=component_name, version=version)
 
+    @keyword("Get Window Title")
+    def get_window_title(self):
+        return self._call("get_window_title")
+
+
 
 """     @keyword("Is Project Loaded")
     def is_project_loaded(self):
         return self._call("is_project_loaded")
-
-    @keyword("Get Window Title")
-    def get_window_title(self):
-        return self._call("get_window_title")
 
     @keyword("Find UI Element")
     def find_ui_element(self, identifier, search_by="name", timeout=10):

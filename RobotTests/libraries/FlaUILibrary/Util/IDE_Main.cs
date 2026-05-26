@@ -42,12 +42,12 @@ namespace FlaUILibrary.Util {
         private static AutomationElement _toolBars;
         public static AutomationElement ToolBarStandard { get; private set; }
         public static AutomationElement ToolBarBuild { get; private set; }
-        private static AutomationElement _onlineToolBar;
-        private static AutomationElement _unittestToolBar;
-        private static AutomationElement _editToolBar;
-        private static AutomationElement _formatToolBar;
-        private static AutomationElement _zoomToolBar;
-        private static AutomationElement _debugToolBar;
+        public static AutomationElement ToolBarOnline { get; private set; }
+        public static AutomationElement ToolBarUnitTest { get; private set; }
+        public static AutomationElement ToolBarEdit { get; private set; }
+        public static AutomationElement ToolBarFormat { get; private set; }
+        public static AutomationElement ToolBarZoom { get; private set; }
+        public static AutomationElement ToolBarDebug { get; private set; }
         private Screen _screen;
         public Dictionary<string, Rectangle> UIElementsBounds { get {
                 AutomationElement a;
@@ -73,6 +73,33 @@ namespace FlaUILibrary.Util {
                     bounds.Add("StatusBar", a.BoundingRectangle);
                 return bounds;
             } }
+        public static Dictionary<string, AutomationElement> toolbarButtons { get { return new Dictionary<string, AutomationElement> {
+            {"New Project...", ToolBarStandard}, {"Open Project...", ToolBarStandard}, {"Close Project", ToolBarStandard}, {"Save", ToolBarStandard}, 
+            {"Save All", ToolBarStandard}, {"Convert Project...", ToolBarStandard}, {"Cut", ToolBarStandard}, {"Copy", ToolBarStandard}, 
+            {"Paste", ToolBarStandard}, {"Undo", ToolBarStandard}, {"Redo", ToolBarStandard}, {"Delete", ToolBarStandard}, 
+            {"Synchronize", ToolBarStandard}, {"Declare Variables", ToolBarStandard}, {"Declare All Variables", ToolBarStandard}, {"Properties...", ToolBarStandard}, 
+            {"Build Configuration", ToolBarBuild}, {"Rebuild Configuration", ToolBarBuild}, {"Stop Build", ToolBarBuild}, {"Transfer To Target", ToolBarBuild}, 
+            {"Offline Commissioning", ToolBarBuild}, {"Offline Update", ToolBarBuild}, 
+            {"Monitor", ToolBarOnline}, {"Stop Target", ToolBarOnline}, {"Cold Restart", ToolBarOnline}, {"Warm Restart", ToolBarOnline}, 
+            {"Activate Simulation", ToolBarOnline}, 
+            {"Toggle", ToolBarEdit}, {"Next", ToolBarEdit}, {"Previous", ToolBarEdit}, {"Remove All", ToolBarEdit}, 
+            {"Find", ToolBarEdit}, {"Find...", ToolBarEdit}, {"Find Next", ToolBarEdit}, {"Find Previous", ToolBarEdit}, 
+            {"Find in Files...", ToolBarEdit}, {"Sort Up", ToolBarEdit}, {"Sort Down", ToolBarEdit}, {"Move Up", ToolBarEdit}, 
+            {"Move Down", ToolBarEdit}, {"Comment Selection", ToolBarEdit}, {"Uncomment Selection", ToolBarEdit}, {"Expand All", ToolBarEdit}, 
+            {"Collapse All", ToolBarEdit}, {"Show Start Page", ToolBarEdit}, {"Show Help Explorer", ToolBarEdit}, {"Expand Selected", ToolBarEdit}, 
+            {"Collapse Selected", ToolBarEdit}, {"Expand All Children", ToolBarEdit}, {"Collapse All Children", ToolBarEdit}, 
+            {"Unit Test Page", ToolBarUnitTest}, {"Run Unit Tests", ToolBarUnitTest}, 
+            {"Binary", ToolBarFormat}, {"Octal", ToolBarFormat}, {"Decimal", ToolBarFormat}, {"Hexadecimal", ToolBarFormat}, 
+            {"String", ToolBarFormat}, {"Address", ToolBarFormat}, {"ASCII String", ToolBarFormat}, 
+            {"Region Both", ToolBarZoom}, {"Region Horizontally", ToolBarZoom}, {"Region Vertically", ToolBarZoom}, {"Zoom In", ToolBarZoom}, 
+            {"Zoom In Horizontally", ToolBarZoom}, {"Zoom In Vertically", ToolBarZoom}, {"Zoom Out", ToolBarZoom}, {"Zoom Out Horizontally", ToolBarZoom}, 
+            {"Zoom Out Vertically", ToolBarZoom}, {"Zoom 100%", ToolBarZoom}, {"Set Zoom Range", ToolBarZoom}, {"Previous Zoom Factor", ToolBarZoom}, 
+            {"Next Zoom Factor", ToolBarZoom}, {"Zoom Factor", ToolBarZoom}, 
+            {"Line Coverage", ToolBarDebug}, {"Powerflow", ToolBarDebug}, {"Toggle Breakpoint", ToolBarDebug}, {"Toggle Contextual Watch Position", ToolBarDebug}, 
+            {"Remove All Breakpoints", ToolBarDebug}, {"Continue", ToolBarDebug}, {"Step Into", ToolBarDebug}, {"Step Over", ToolBarDebug}, 
+            {"Show Active Line", ToolBarDebug}, {"Breakpoints", ToolBarDebug}, {"Callstack", ToolBarDebug}, {"Debugger Watch", ToolBarDebug}, 
+            {"Start/Stop Debugging", ToolBarDebug}, {"Start/Stop Contextual Watch", ToolBarDebug}, {"Function Block Context", ToolBarDebug}, {"Ste Module Context", ToolBarDebug}
+        }; } }
         public static List<Editor> Editors = new List<Editor>();
         public IDE_Main (Application app, int timeout) {
             App = app;
@@ -163,22 +190,30 @@ namespace FlaUILibrary.Util {
                         if (childName.IndexOf("Build", StringComparison.OrdinalIgnoreCase) >= 0)
                             ToolBarBuild = child;
                         if (childName.IndexOf("Online", StringComparison.OrdinalIgnoreCase) >= 0)
-                            _onlineToolBar = child;
+                            ToolBarOnline = child;
                         if (childName.IndexOf("Unit", StringComparison.OrdinalIgnoreCase) >= 0)
-                            _unittestToolBar = child;
+                            ToolBarUnitTest = child;
                         if (childName.IndexOf("Edit", StringComparison.OrdinalIgnoreCase) >= 0)
-                            _editToolBar = child;
+                            ToolBarEdit = child;
                         if (childName.IndexOf("Format", StringComparison.OrdinalIgnoreCase) >= 0)
-                            _formatToolBar = child;
+                            ToolBarFormat = child;
                         if (childName.IndexOf("Zoom", StringComparison.OrdinalIgnoreCase) >= 0)
-                            _zoomToolBar = child;
+                            ToolBarZoom = child;
                         if (childName.IndexOf("Debug", StringComparison.OrdinalIgnoreCase) >= 0)
-                            _debugToolBar = child;
+                            ToolBarDebug = child;
                     }
                 }
             }            
         }
-        
+        public static string SanitizeButtonNames(string s_in) {
+            string s_out;
+            switch (s_in) {
+                case "Build Configuration": s_out = "Build"; break;
+                case "Rebuild Configuration": s_out = "Rebuild"; break;
+                default: s_out = s_in; break;
+            }
+            return s_out;
+        }
         public static object InvokeMenuItem(Menu menu, string menuItemName, string subMenuItemName = null) {
             if (menu == null) return Util.Err("Menu not found");
             string nameMenu = menu.Name.Substring(3, menu.Name.Length - 3); // Remove the trailing 'BR&' from the menu name
@@ -471,7 +506,7 @@ namespace FlaUILibrary.Util {
             return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
         }
         public static object ActivateSimulation() {
-            if (!IsButtonActive(_onlineToolBar.FindFirstChild(cf => cf.ByName("BR_\nActivate Simulation")).AsButton(), "activateSimulation"))
+            if (!IsButtonActive(ToolBarOnline.FindFirstChild(cf => cf.ByName("BR_\nActivate Simulation")).AsButton(), "activateSimulation"))
                 InvokeMenuItem(GetMenu("Online"), "Activate Simulation");
             return Util.Ok("activated_simulation", "Simulation mode activated");
         }

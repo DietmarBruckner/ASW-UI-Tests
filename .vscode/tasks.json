@@ -3,10 +3,19 @@
     "tasks": [
         {
             "label": "build-solution",
+            "dependsOn": [
+                "build-FlaUITests",
+                "build-FlaUILibrary"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
+            "label": "build-FlaUITests",
             "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe",
             "type": "process",
             "args": [
-                "${workspaceFolder}/ASW-UI-Tests.sln",
+                "${workspaceFolder}/FlaUITests/FlaUITests.csproj",
                 "/t:Build",
                 "/p:Configuration=Debug",
                 "/p:Platform=AnyCPU"
@@ -16,11 +25,11 @@
             ]
         },
         {
-            "label": "build-FlaUITests",
+            "label": "build-FlaUILibrary",
             "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\MSBuild\\Current\\Bin\\MSBuild.exe",
             "type": "process",
             "args": [
-                "${workspaceFolder}/FlaUITests/FlaUITests.csproj",
+                "${workspaceFolder}/RobotTests/libraries/FlaUILibrary/FlaUILibrary.csproj",
                 "/t:Build",
                 "/p:Configuration=Debug",
                 "/p:Platform=AnyCPU"

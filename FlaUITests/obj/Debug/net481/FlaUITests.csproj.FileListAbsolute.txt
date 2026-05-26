@@ -34,3 +34,4 @@ c:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net48
 c:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\bin\Debug\net481\FlaUITests.pdb
 c:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\obj\Debug\net481\FlaUITests.exe
 c:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\obj\Debug\net481\FlaUITests.pdb
+C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\FlaUITests\obj\Debug\net481\FlaUITests.exe.config
