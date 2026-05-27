@@ -100,7 +100,7 @@ namespace FlaUILibrary
                 switch (keyword.ToLowerInvariant().Replace("-", "_"))
                 {
                     // IDE lifecycle
-                    case "initialize_automation_studio":    return KwInitAS(Ai("timeout", 30));
+                    case "initialize_automation_studio":    return KwInitAS(Ai("timeout", 30), A("verbose"));
                     case "close_application":               return KwCloseApp(Ab("save_changes", true));
                     case "invoke_menu":                     return KwInvokeMenu(A("menu_name"), A("menu_item"), A("submenu_item"));
                     case "wait_for_dialog":                 return KwWaitForDialog(A("dialog_title"), Ai("timeout",15));
@@ -108,43 +108,27 @@ namespace FlaUILibrary
                     case "type_slowly_into_field":          return KwTypeIntoField(A("field_label"), A("text"), slow:true);
                     case "set_field_value":                 return KwTypeIntoField(A("field_label"), A("value"), check:true);
                     case "click_dialog_button":             return KwClickDialogButton(A("button_name","OK"), A("dialog_title"), Ab("dialog_close", false));
-                    case "click_toolbar_button":            return KwClickToolbarButton(A("button_name"));
-//                    case "activate_tree_leaf":              return KwActivateTreeLeaf(A("tree_path"), Ab("double_click"));
+                    case "click_toolbar_button":            return KwClickToolbarButton(A("button_name"), Ab("activate", false));
+                    case "activate_tree_leaf":              return KwActivateTreeLeaf(A("viewtype"), A("tree_path"), A("editorname"), A("rootname"), Ab("program", false), Ai("shortcut", -1), Ab("single_click", false), A("filename"), A("filetree"), A("version"));
                     case "select_from_combo_box":           return KwSelectFromComboBox(A("combo_label"), A("item_text"));
+                    case "select_from_tree_combo_box":      return KwSelectFromTreeComboBox(A("item_label"), Ai("item_number", -1));
                     case "wait_for_idle":                   { _app?.WaitWhileBusy(TimeSpan.FromSeconds(Ai("timeout",30))); return Util.Util.Ok("idle"); }
                     case "wait_for_message":                return KwWaitForMessage(A("message"), Ai("timeout",30));
                     case "activate_simulation_mode":        return KwActivateSimulationMode();
                     case "select_component_version":        return KwSelectComponentVersion(A("component_name"), A("version"));
                     case "get_window_title":             return new { result = IDE_Main.MainWindow?.Title ?? "" };
-/*                     case "is_project_loaded":            return KwIsProjectLoaded();
-                    // Element finding
-                    case "find_element":    return KwFindElement(A("identifier"), A("search_by","name"), Ai("timeout",10));
-                    case "wait_for_element": return KwFindElement(A("identifier"), A("search_by","name"), Ai("timeout",10));
-                    case "element_exists":   return new { result = Resolve(A("identifier"), A("search_by","name")) != null };
-                    // Element interaction
-                    case "click_element":        return KwClick(A("identifier"), A("search_by","name"), Ab("double_click"));
-                    case "double_click_element": return KwClick(A("identifier"), A("search_by","name"), true);
-                    case "right_click_element":  return KwRightClick(A("identifier"), A("search_by","name"));
-                    case "hover_element":         return KwHover(A("identifier"), A("search_by","name"));
-                    case "type_text":             return KwTypeText(A("text"));
-                    case "get_text_from_element":  return KwGetText(A("identifier"), A("search_by","name"));
-                    // Dialog
+                    case "is_project_loaded":            return KwIsProjectLoaded();
                     case "get_dialog_text":      return KwGetDialogText(A("field_label"), A("dialog_title"));
-                    // Menu
                     case "open_context_menu":       return KwOpenContextMenu(A("identifier"), A("search_by","name"));
                     case "select_context_menu_item": return KwSelectContextMenuItem(A("menu_item"), A("submenu_item"));
-                    // Tree
-                    case "expand_tree_node":    return KwExpandCollapse(A("node_name"), true);
-                    case "collapse_tree_node":  return KwExpandCollapse(A("node_name"), false);
-                    // Property panel
                     case "set_property_value": return KwSetProperty(A("property_name"), A("value"));
                     case "get_property_value": return KwGetProperty(A("property_name"));
-                    // Wait
                     case "wait_for_build":    return KwWaitStatus(Ai("timeout",60),  "Build", "Compil");
                     case "wait_for_transfer": return KwWaitStatus(Ai("timeout",120), "Transfer", "Download");
-                    // Screenshot
                     case "take_screenshot":   return KwScreenshot(A("filename"), A("outputdir"));
- */                    default: return Util.Util.Err("Unknown keyword: " + keyword);
+                    case "configure_opcua_client_server_activation": return KwConfigureOpcUaClientServerActivation(A("version"));
+                    case "configure_opcua_rbac": return KwConfigureOpcUaRbac(A("version"));
+                    default: return Util.Util.Err("Unknown keyword: " + keyword);
                 }
             }
             catch (Exception ex) { return Util.Util.Err(ex.Message); }
@@ -152,7 +136,7 @@ namespace FlaUILibrary
 
         // ── IDE lifecycle ────────────────────────────────────────────────────
 
-        private object KwInitAS(int timeout) {
+        private object KwInitAS(int timeout, string verbose) {
             string appPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\BR_AS_AS6_L001", "BuRSharedFilesPath", null) as string;
             if (string.IsNullOrEmpty(appPath)) return Util.Util.Err("Automation Studio 6 installation path not found in registry.");
             if ( _app != null) return Util.Util.Ok("already initialized", IDE_Main.MainWindow.Title);
@@ -160,12 +144,19 @@ namespace FlaUILibrary
             if ( _app == null) return Util.Util.Err("Could not find or start Automation Studio 6 process.");
             _app.WaitWhileMainHandleIsMissing(TimeSpan.FromSeconds(timeout));
             _app.WaitWhileBusy(TimeSpan.FromSeconds(timeout));
-            Ide_Main = new IDE_Main(_app, timeout);
+            Ide_Main = new IDE_Main(_app, timeout, appPath);
             TreeConfig.IdeMain = Ide_Main;
             if (Ide_Main.IsProjectLoaded()) {
                 Project = new AppProject(Ide_Main);
                 TreeConfig.CurrentProject = Project;
                 Project.LoadActiveProject();
+            }
+            switch (verbose?.Trim().ToLowerInvariant()) {
+                case "none":  Util.Util.Environment.verbose = Util.Util.Verbose.NONE; break;
+                case "light": Util.Util.Environment.verbose = Util.Util.Verbose.LIGHT; break;
+                case "steps": Util.Util.Environment.verbose = Util.Util.Verbose.STEPS; break;
+                case "full":  Util.Util.Environment.verbose = Util.Util.Verbose.FULL; break;
+                default:      Util.Util.Environment.verbose = Util.Util.Verbose.STEPS; break;
             }
             return Util.Util.Ok("Automation Studio 6 initialized", IDE_Main.MainWindow.Title);
         }
@@ -250,31 +241,38 @@ namespace FlaUILibrary
         private object KwSelectComponentVersion(string componentName, string version) {
             return Ide_Main.SelectComponentVersion(_modalWindows.Last(), componentName, version);
         }
-/*         private object KwActivateTreeLeaf(string treePath, bool doubleClick)
-        {
-            if (_projectExplorer == null) ResolveIDEPanes();
-            var root = _projectExplorer ?? _mainWindow;
-            var segments = treePath.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
-            AutomationElement current = root;
-
-            foreach (var segment in segments)
-            {
-                var sw = System.Diagnostics.Stopwatch.StartNew();
-                AutomationElement found = null;
-                while (sw.Elapsed.TotalSeconds < 5)
-                {
-                    found = current.FindFirstDescendant(cf =>
-                        cf.ByControlType(ControlType.TreeItem).And(cf.ByName(segment)));
-                    if (found != null) break;
-                    Thread.Sleep(200);
+        private object KwActivateTreeLeaf(string viewType, string treePath, string editorName, string rootName, bool program, int shortcut, bool singleClick, string filename, string filetree, string version) {
+            AutomationElement ConfigRoot = null;
+            string file; List<string> fileTreePath = null; string [] segments = null;
+            if (filename != null) {
+                switch (filename) {
+                    case "OPCUACS": file = Util.Util.Environment.InstallationPath + Util.Util.Environment.EditorPathOPCUACS + version + "\\Editors\\" + "uacfg.xml"; break;
+                    default : file = null; break;
                 }
-                if (found == null) return Err($"Tree node not found: '{segment}' in path '{treePath}'");
-                Mouse.Click(Center(found)); Thread.Sleep(300); current = found;
+                string [] s = filetree.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                fileTreePath = TreeConfig.FindXMLPath(file, s[0], s.Skip(1).ToArray());
             }
-            if (doubleClick) Mouse.DoubleClick(Center(current));
-            return Ok("tree_leaf_activated", treePath);
+            else
+                segments = treePath.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+            List<string> ls = (filename != null) ? fileTreePath : segments.ToList();
+            TreeConfig.ViewType vtype;
+            switch (viewType) {
+                case "Logical View":         vtype = TreeConfig.ViewType.LogicalView; break;
+                case "Configuration View":   vtype = TreeConfig.ViewType.ConfigurationView; break;
+                case "Binding Window":       vtype = TreeConfig.ViewType.BindingWindow; break;
+                case "Workspace":            vtype = TreeConfig.ViewType.Workspace; break;
+                default:                     vtype = TreeConfig.ViewType.LogicalView; break;
+            }
+            if (rootName != null)
+                ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(IDE_Main.ActiveEditor, rootName);
+            if (editorName != "e")
+                TreeConfig.ActivateTreeLeaf(vtype, ls, out IDE_Main.ActiveEditor, root:ConfigRoot);
+            else
+                TreeConfig.ActivateTreeLeaf(vtype, ls, out var e, root:ConfigRoot);
+
+            return Util.Util.Ok("tree_leaf_activated", treePath);
         }
- */        private object KwSelectFromComboBox(string comboLabel, string text, Window window = null) {
+        private object KwSelectFromComboBox(string comboLabel, string text, Window window = null) {
             var source = window ?? (_modalWindows?.LastOrDefault()) ?? IDE_Main.MainWindow;
             if (source == null) return Util.Util.Err("No active window to select from.");
             var el = source.FindFirstDescendant(cf => cf.ByControlType(ControlType.ComboBox).And(cf.ByName(comboLabel)))
@@ -287,151 +285,66 @@ namespace FlaUILibrary
             }
             return Util.Util.Ok("typed_into_combobox", comboLabel);
         }
+        private object KwSelectFromTreeComboBox(string label=null, int number=-1) {
+            if (label == null && number < 0) return Util.Util.Err("Either item_label or item_number must be provided.");
+            if (label != null) 
+                TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, label);
+            else
+                TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, number);
+            return Util.Util.Ok("selected_from_tree_combobox", label ?? number.ToString());
+        }
         private object KwActivateSimulationMode() {
             return IDE_Main.ActivateSimulation();
         }
 
-        private object KwClickToolbarButton(string buttonName) {
+        private object KwClickToolbarButton(string buttonName, bool activate) {
             var found = IDE_Main.toolbarButtons.TryGetValue(buttonName, out var toolbar) ? toolbar : null;
+            if (toolbar == null) toolbar = TreeConfig.IdeMain.GetWorkspaceToolbar(IDE_Main.ActiveEditor);
             if (toolbar == null) return Util.Util.Err("Toolbar not found for: " + buttonName);
             var btn = toolbar.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf(IDE_Main.SanitizeButtonNames(buttonName)) >= 0).AsButton();
-            //AutomationElement [] allDesc = toolbar.FindAllDescendants(cf => cf.ByControlType(ControlType.Button));
             if (btn == null) return Util.Util.Err($"Button '{buttonName}' not found");
-            Mouse.Click(Center(btn)); Thread.Sleep(500);
+            if (!activate || (activate && !IDE_Main.IsButtonActive(btn))) {
+                Mouse.Click(Center(btn));
+                Thread.Sleep(500);
+            }
             TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
-            return Util.Util.Ok("button_clicked", buttonName);
+            return Util.Util.Ok(activate ? "button_activated" : "button_clicked", buttonName);
         }
-        
-        
-        /*        private object KwIsProjectLoaded()
-        {
-            var tb = _mainWindow?.TitleBar;
-            bool loaded = tb != null && !string.IsNullOrEmpty(tb.Name) &&
-                          tb.Name.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase) > 10;
-            return new { result = loaded, title = tb?.Name ?? "" };
+        private object KwIsProjectLoaded() {
+            return new { result = Ide_Main != null && Ide_Main.IsProjectLoaded() };
         }
-
-        // ── Element finding ──────────────────────────────────────────────────
-
-        private AutomationElement Resolve(string identifier, string searchBy)
-        {
-            if (_mainWindow == null) throw new InvalidOperationException("IDE not initialized");
-            switch ((searchBy ?? "name").ToLowerInvariant())
-            {
-                case "id":
-                case "automationid":
-                    return _mainWindow.FindFirstDescendant(cf => cf.ByAutomationId(identifier));
-                case "controltype":
-                    Enum.TryParse<ControlType>(identifier, true, out var ct);
-                    return _mainWindow.FindFirstDescendant(cf => cf.ByControlType(ct));
-                default:
-                    return _mainWindow.FindFirstDescendant(cf => cf.ByName(identifier));
-            }
-        }
-
-        private object KwFindElement(string identifier, string searchBy, int timeout)
-        {
-            var sw = System.Diagnostics.Stopwatch.StartNew();
-            AutomationElement el = null;
-            while (sw.Elapsed.TotalSeconds < timeout)
-            {
-                el = Resolve(identifier, searchBy);
-                if (el != null) break;
-                Thread.Sleep(200);
-            }
-            return el != null
-                ? (object)new { result = "found", name = el.Name, control_type = el.ControlType.ToString() }
-                : Err($"Element not found: {identifier} (by {searchBy}) within {timeout}s");
-        }
-
-        // ── Interaction ──────────────────────────────────────────────────────
-
-        private AutomationElement FindOrThrow(string identifier, string searchBy)
-        {
-            var el = Resolve(identifier, searchBy);
-            if (el == null) throw new Exception($"Element not found: {identifier} (by {searchBy})");
-            return el;
-        }
-
-        private object KwClick(string id, string by, bool dbl)
-        {
-            var el = FindOrThrow(id, by); var c = Center(el);
-            if (dbl) Mouse.DoubleClick(c); else Mouse.Click(c);
-            Thread.Sleep(200); return Ok(dbl ? "double_clicked" : "clicked", id);
-        }
-
-        private object KwRightClick(string id, string by)
-        {
-            Mouse.RightClick(Center(FindOrThrow(id, by)));
-            Thread.Sleep(400); return Ok("right_clicked", id);
-        }
-
-        private object KwHover(string id, string by)
-        {
-            Mouse.MoveTo(Center(FindOrThrow(id, by)));
-            Thread.Sleep(300); return Ok("hovered", id);
-        }
-
-        private object KwTypeText(string text)
-        {
-            if (text == null) return Err("text is required");
-            Keyboard.Type(text); return Ok("typed", text);
-        }
-
-
-        private object KwGetText(string id, string by)
-        {
-            var el = FindOrThrow(id, by);
-            return new { result = el.AsTextBox()?.Text ?? el.Name ?? "" };
-        }
-
-        // ── Dialog handling ──────────────────────────────────────────────────
-
-
-
-
 
         private object KwGetDialogText(string fieldLabel, string dialogTitle)
         {
-            Window dialog = dialogTitle != null ? GetModalWindow(dialogTitle) : _mainWindow;
-            if (dialog == null) return Err("Dialog not found: " + dialogTitle);
+            var dialog = dialogTitle != null ? GetModalWindow(dialogTitle) : (_modalWindows?.LastOrDefault() ?? IDE_Main.MainWindow);
+            if (dialog == null) return Util.Util.Err("Dialog not found: " + dialogTitle);
             var el = dialog.FindFirstDescendant(cf =>
                 cf.ByControlType(ControlType.Edit).And(cf.ByName(fieldLabel)));
-            return el != null ? (object)new { result = el.AsTextBox()?.Text ?? "" } : Err("Field not found: " + fieldLabel);
+            return el != null ? (object)new { result = el.AsTextBox()?.Text ?? "" } : Util.Util.Err("Field not found: " + fieldLabel);
         }
-
-        // ── Menu interaction ─────────────────────────────────────────────────
-
 
         private object KwOpenContextMenu(string id, string by)
         {
-            Mouse.RightClick(Center(FindOrThrow(id, by))); Thread.Sleep(600);
-            return Ok("context_menu_opened", id);
+            var element = ResolveElement(id, by);
+            if (element == null)
+                return Util.Util.Err("Element not found: " + id + " (by " + by + ")");
+
+            Mouse.RightClick(Center(element));
+            Thread.Sleep(600);
+            return Util.Util.Ok("context_menu_opened", id);
         }
 
         private object KwSelectContextMenuItem(string menuItem, string submenuItem)
         {
-            var menu = _mainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Menu));
-            if (menu == null) return Err("No context menu visible");
-            var item = menu.FindFirstChild(cf => cf.ByName(menuItem))
-                ?? menu.FindFirstDescendant(cf => cf.ByName(menuItem));
-            if (item == null) return Err("Context menu item not found: " + menuItem);
-            item.AsMenuItem().Click(); Thread.Sleep(400);
-            if (submenuItem == null) return Ok("context_item_clicked", menuItem);
-            Thread.Sleep(400);
-            var subItem = item.FindFirstDescendant(cf => cf.ByName(submenuItem));
-            if (subItem == null) return Err("Submenu item not found: " + submenuItem);
-            Mouse.MoveTo(Center(subItem)); subItem.AsMenuItem().Click(); Thread.Sleep(400);
-            return Ok("context_submenu_clicked", submenuItem);
+            TreeConfig.ClickContextMenuItem(IDE_Main.MainWindow, menuItem, submenuItem);
+            return Util.Util.Ok(submenuItem == null ? "context_item_clicked" : "context_submenu_clicked", submenuItem ?? menuItem);
         }
-
-        // ── Tree navigation ──────────────────────────────────────────────────
 
         private object KwExpandCollapse(string nodeName, bool expand)
         {
-            var node = _mainWindow.FindFirstDescendant(cf =>
+            var node = IDE_Main.MainWindow.FindFirstDescendant(cf =>
                 cf.ByControlType(ControlType.TreeItem).And(cf.ByName(nodeName)));
-            if (node == null) return Err("Tree node not found: " + nodeName);
+            if (node == null) return Util.Util.Err("Tree node not found: " + nodeName);
             try
             {
                 var ecp = node.Patterns.ExpandCollapse.PatternOrDefault;
@@ -447,72 +360,151 @@ namespace FlaUILibrary
                 }
             }
             catch { Mouse.DoubleClick(Center(node)); }
-            Thread.Sleep(300); return Ok(expand ? "expanded" : "collapsed", nodeName);
+            Thread.Sleep(300);
+            return Util.Util.Ok(expand ? "expanded" : "collapsed", nodeName);
         }
-
-        // ── Property panel ───────────────────────────────────────────────────
 
         private object KwSetProperty(string propertyName, string value)
         {
-            if (_propertyWindow == null) ResolveIDEPanes();
-            var root = _propertyWindow ?? _mainWindow;
+            Ide_Main.InitializeViews(propertyWindow: true);
+            var root = IDE_Main.PropertyWindow ?? IDE_Main.MainWindow;
             var nameCell = root.FindFirstDescendant(cf => cf.ByName(propertyName));
-            if (nameCell == null) return Err("Property not found: " + propertyName);
+            if (nameCell == null) return Util.Util.Err("Property not found: " + propertyName);
             var row = nameCell.Parent;
             var valueCell = row?.FindFirstChild(cf => cf.ByControlType(ControlType.Edit))
                 ?? row?.FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
-            if (valueCell == null) return Err("Value cell not found for property: " + propertyName);
-            Mouse.Click(Center(valueCell)); Thread.Sleep(200);
-            Keyboard.TypeSimultaneously(new[] { FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A });
-            Keyboard.Type(value);
-            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RETURN);
-            Thread.Sleep(300); return Ok("property_set", propertyName);
+            if (valueCell == null) return Util.Util.Err("Value cell not found for property: " + propertyName);
+
+            Mouse.Click(Center(valueCell));
+            Thread.Sleep(200);
+            if (valueCell.ControlType == ControlType.ComboBox) {
+                TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, value);
+            }
+            else {
+                Keyboard.TypeSimultaneously(new[] { FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A });
+                Keyboard.Type(value);
+                Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RETURN);
+            }
+
+            Thread.Sleep(300);
+            return Util.Util.Ok("property_set", propertyName);
         }
 
         private object KwGetProperty(string propertyName)
         {
-            if (_propertyWindow == null) ResolveIDEPanes();
-            var root = _propertyWindow ?? _mainWindow;
+            Ide_Main.InitializeViews(propertyWindow: true);
+            var root = IDE_Main.PropertyWindow ?? IDE_Main.MainWindow;
             var nameCell = root.FindFirstDescendant(cf => cf.ByName(propertyName));
-            if (nameCell == null) return Err("Property not found: " + propertyName);
-            var valueCell = nameCell.Parent?.FindFirstChild(cf => cf.ByControlType(ControlType.Edit));
-            return new { result = valueCell?.AsTextBox()?.Text ?? "" };
-        }
+            if (nameCell == null) return Util.Util.Err("Property not found: " + propertyName);
+            var row = nameCell.Parent;
+            var editValue = row?.FindFirstChild(cf => cf.ByControlType(ControlType.Edit));
+            if (editValue != null)
+                return new { result = editValue.AsTextBox()?.Text ?? "" };
 
-        // ── Status bar wait ──────────────────────────────────────────────────
+            var comboValue = row?.FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
+            return new { result = comboValue?.Name ?? comboValue?.Patterns.Value.PatternOrDefault?.Value ?? "" };
+        }
 
         private object KwWaitStatus(int timeout, params string[] busyKeywords)
         {
             var sw = System.Diagnostics.Stopwatch.StartNew();
             while (sw.Elapsed.TotalSeconds < timeout)
             {
-                var sb = _mainWindow?.FindFirstChild(_cf.ByControlType(ControlType.StatusBar));
+                var sb = IDE_Main.MainWindow?.FindFirstChild(cf => cf.ByControlType(ControlType.StatusBar));
                 var name = sb?.Name ?? "";
                 if (!busyKeywords.Any(k => name.IndexOf(k, StringComparison.OrdinalIgnoreCase) >= 0))
-                    return Ok("done");
+                    return Util.Util.Ok("done");
                 Thread.Sleep(1000);
             }
-            return Ok("timeout_done");
+            return Util.Util.Ok("timeout_done");
         }
-
-        // ── Screenshot ───────────────────────────────────────────────────────
 
         private object KwScreenshot(string filename, string outputDir)
         {
-            if (_mainWindow == null) return Err("IDE not initialized");
+            if (IDE_Main.MainWindow == null) return Util.Util.Err("IDE not initialized");
             if (string.IsNullOrEmpty(filename))
                 filename = $"screenshot_{DateTime.Now:yyyyMMdd_HHmmss}.png";
             if (string.IsNullOrEmpty(outputDir))
                 outputDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "resources");
             Directory.CreateDirectory(outputDir);
             var fullPath = Path.GetFullPath(Path.Combine(outputDir, filename));
-            using (var bmp = _mainWindow.Capture())
+            using (var bmp = IDE_Main.MainWindow.Capture())
             {
                 bmp.Save(fullPath, System.Drawing.Imaging.ImageFormat.Png);
             }
             return new { result = "saved", path = fullPath };
         }
- */
+
+        private object KwConfigureOpcUaClientServerActivation(string version) {
+            var opcUaCs = CreateOpcUaCs(version);
+            opcUaCs.ConfigureClientServerActivation();
+            return Util.Util.Ok("opcua_client_server_configured", version);
+        }
+
+        private object KwConfigureOpcUaRbac(string version) {
+            var opcUaCs = CreateOpcUaCs(version);
+            opcUaCs.ConfigureRoleBasedAccessControl();
+            return Util.Util.Ok("opcua_rbac_configured", version);
+        }
+
+        private AutomationElement GetTreeRoot() {
+            Ide_Main.InitializeViews(projectExplorer: true);
+            return IDE_Main.ProjectExplorer ?? (AutomationElement)IDE_Main.MainWindow;
+        }
+
+        private AutomationElement WaitForTreeSegment(AutomationElement root, string segment, string treePath) {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            while (sw.Elapsed.TotalSeconds < 5) {
+                var found = root.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(segment)))
+                    ?? root.FindFirstDescendant(cf => cf.ByName(segment));
+                if (found != null)
+                    return found;
+
+                Thread.Sleep(200);
+            }
+
+            return null;
+        }
+
+        private AutomationElement ResolveElement(string identifier, string searchBy) {
+            var root = (_modalWindows != null && _modalWindows.Count > 0)
+                ? (AutomationElement)_modalWindows.Last()
+                : (AutomationElement)IDE_Main.MainWindow;
+
+            switch ((searchBy ?? "name").ToLowerInvariant()) {
+                case "id":
+                case "automationid":
+                    return root.FindFirstDescendant(cf => cf.ByAutomationId(identifier));
+                case "controltype":
+                    ControlType controlType;
+                    if (Enum.TryParse(identifier, true, out controlType))
+                        return root.FindFirstDescendant(cf => cf.ByControlType(controlType));
+                    return null;
+                default:
+                    return root.FindFirstDescendant(cf => cf.ByName(identifier));
+            }
+        }
+
+        private OPCUACS CreateOpcUaCs(string version) {
+            EnsureCurrentProject();
+            return new OPCUACS(Project, version);
+        }
+
+        private void EnsureCurrentProject() {
+            if (Ide_Main == null || !Ide_Main.IsProjectLoaded())
+                throw new InvalidOperationException("No project is currently loaded in Automation Studio.");
+
+            if (Project == null) {
+                Project = new AppProject(Ide_Main);
+                Project.LoadActiveProject();
+                TreeConfig.CurrentProject = Project;
+            }
+            else if (string.IsNullOrEmpty(Project.CPU) || string.IsNullOrEmpty(Project.Name)) {
+                Project.LoadActiveProject();
+                TreeConfig.CurrentProject = Project;
+            }
+        }
+
         // ── Private helpers ──────────────────────────────────────────────────
 
         private static bool ParseBool(JToken token, bool fallback)

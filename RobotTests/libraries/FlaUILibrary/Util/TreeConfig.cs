@@ -18,30 +18,26 @@ namespace FlaUILibrary.Util {
         public static AppProject CurrentProject { get; set; }
 
         public static void ClickConfigTreeItem(ViewType viewType, AutomationElement element, string sub, bool doubleClick = false) {
-            if (CurrentProject.verbose >= Util.Verbose.FULL)
-                Console.WriteLine("Trying to " + (doubleClick?"double click ":"click ") + "element: " + element.Name + sub);
+            Util.ConsoleOut(Util.Verbose.FULL, "Trying to " + (doubleClick?"double click ":"click ") + "element: " + element.Name + sub);
             MakeTreeItemVisible(viewType, element, sub);
             ClickAutomationElement(element.FindFirstChild(cf => cf.ByName(element.Name + sub)), doubleClick);
         }
         public static void ClickComboBoxTreeItem(Window window, int index) {
-            if (CurrentProject != null && CurrentProject.verbose >= Util.Verbose.FULL)
-                Console.WriteLine("Trying to click " + (index+1) + "-th element of list");
+            Util.ConsoleOut(Util.Verbose.FULL, "Trying to click " + (index+1) + "-th element of list");
             Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
             ClickAutomationElement(comboBox.FindAllChildren()[index]);
             Sleep(TimeSpan.FromMilliseconds(500));
         }
         public static void ClickComboBoxTreeItem(Window window, string element) {
-            if (CurrentProject != null && CurrentProject.verbose >= Util.Verbose.FULL)
-                Console.WriteLine("Trying to click element: " + element + " in list");
+            Util.ConsoleOut(Util.Verbose.FULL, "Trying to click element: " + element + " in list");
             Sleep(TimeSpan.FromMilliseconds(100));
             AutomationElement comboBox = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List));
             ClickAutomationElement(comboBox.FindFirstChild(cf => cf.ByName(element)));
             Sleep(TimeSpan.FromMilliseconds(500));
         }
         public static void ClickContextMenuItem(Window window, string menuItemName, string subMenuItemName = null) {
-            if (CurrentProject != null && CurrentProject.verbose >= Util.Verbose.FULL)
-                Console.WriteLine("Trying to click menu item: " + menuItemName + (subMenuItemName!=null?", " + subMenuItemName:""));
+            Util.ConsoleOut(Util.Verbose.FULL, "Trying to click menu item: " + menuItemName + (subMenuItemName!=null?", " + subMenuItemName:""));
             Sleep(TimeSpan.FromMilliseconds(500));
             AutomationElement menu = window.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.Menu));
             MenuItem toClick = menu.FindFirstChild(cf => cf.ByName(menuItemName)).AsMenuItem();
@@ -64,13 +60,11 @@ namespace FlaUILibrary.Util {
                 Mouse.Click(point);
         }
         public static void MakeTreeItemVisible(ViewType viewType, AutomationElement element, string sub) {
-            if (CurrentProject.verbose >= Util.Verbose.STEPS)
-                Console.WriteLine("Checking if element: " + element.Name + "." + sub + " is within view");
+            Util.ConsoleOut(Util.Verbose.STEPS, "Checking if element: " + element.Name + "." + sub + " is within view");
             AutomationElement clickElement = element.FindFirstChild(cf => cf.ByName(element.Name + sub));
             Rectangle elementRect = clickElement.BoundingRectangle;
             if (elementRect.Width == 0 || elementRect.Height == 0) {
-            if (CurrentProject.verbose >= Util.Verbose.FULL)
-                Console.WriteLine("Element: " + element.Name + "." + sub + " not within view, scrolling ...");
+                Util.ConsoleOut(Util.Verbose.FULL, "Element: " + element.Name + "." + sub + " not within view, scrolling ...");
                 AutomationElement view = null;
                 switch (viewType) {
                     case ViewType.LogicalView:
@@ -148,12 +142,19 @@ namespace FlaUILibrary.Util {
                         Console.WriteLine("Could not locate " + element.Name);
             }
         }
-        public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, List<string> toClickSubstrings, out IDE_Main.Editor editor, AutomationElement root = null, string Editorname = null, bool program = false, int shortcut = -1, bool singleclicklast = false) {
+        public static void ActivateTreeLeaf(ViewType viewType, List<string> leaves, out IDE_Main.Editor editor, AutomationElement root = null, string Editorname = null, bool program = false, int shortcut = -1, bool singleclicklast = false) {
             AutomationElement ae = null;
             IDE_Main.Editor e = null;
+            string substr;
+            switch (viewType) {
+                case ViewType.LogicalView:          substr = "_Object Name"; break;
+                case ViewType.ConfigurationView:    substr = "_Configuration"; break;
+                case ViewType.BindingWindow:        substr = "_Address Space"; break;
+                case ViewType.Workspace:            substr = "_Name"; break;
+                default:                            substr = ""; break;
+            }
             if (leaves != null) {
-                if (CurrentProject.verbose >= Util.Verbose.STEPS)
-                    Console.WriteLine("Opening treeview element: " + leaves.Last() + "." + toClickSubstrings.Last());
+                Util.ConsoleOut(Util.Verbose.STEPS, "Opening treeview element: " + leaves.Last());
                 if (CurrentProject.verbose >= Util.Verbose.FULL) {
                     Console.Write("Along the path: ");
                     foreach (string s in leaves)
@@ -191,7 +192,7 @@ namespace FlaUILibrary.Util {
                         throw new Exception("Root element must be provided for Workspace view type");
                     ae = root;
                     IdeMain.SwitchView(viewType);
-                    ClickConfigTreeItem(viewType, ae, "_Name");
+                    ClickConfigTreeItem(viewType, ae, substr);
                     Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
                     Sleep(TimeSpan.FromMilliseconds(300));
                     break;
@@ -202,7 +203,7 @@ namespace FlaUILibrary.Util {
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));
                 if (shortcut == -1) {
                     if (viewType == ViewType.Workspace || viewType == ViewType.BindingWindow) { //no double clicking, but expanding via right arrow
-                        ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)]); //combobox in final leaf node needs some steps to activate
+                        ClickConfigTreeItem(viewType, ae, (viewType == ViewType.Workspace && leaves.IndexOf(sub) == leaves.Count - 1)? "_Value" : substr); //combobox in final leaf node needs some steps to activate
                         if (viewType == ViewType.BindingWindow && leaves.IndexOf(sub) == leaves.Count - 1) {
                             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                             Sleep(TimeSpan.FromMilliseconds(200));
@@ -226,9 +227,9 @@ namespace FlaUILibrary.Util {
                     }
                     else {//Double click all tree items to expand them, as tree items in Configuration view expand on double click
                         if (leaves.IndexOf(sub) == leaves.Count - 1)
-                            ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], !singleclicklast);
+                            ClickConfigTreeItem(viewType, ae, substr, !singleclicklast);
                         else
-                            ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true);
+                            ClickConfigTreeItem(viewType, ae, substr, true);
                         Sleep(TimeSpan.FromMilliseconds(300));
                     }
                     Sleep(TimeSpan.FromMilliseconds(500));
@@ -237,7 +238,7 @@ namespace FlaUILibrary.Util {
                 else if (leaves.IndexOf(sub) >= leaves.Count - 1 - shortcut) {
                     if (leaves.IndexOf(sub) == leaves.Count - 1) {
                         if (viewType == ViewType.Workspace) {
-                            ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)]); //combobox in final leaf node needs some steps to activate
+                            ClickConfigTreeItem(viewType, ae, "_Value"); //combobox in final leaf node needs some steps to activate
                             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
                             Sleep(TimeSpan.FromMilliseconds(200));
                             AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
@@ -250,10 +251,10 @@ namespace FlaUILibrary.Util {
                             return;
                         }
                         else
-                            ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], !singleclicklast);
+                            ClickConfigTreeItem(viewType, ae, substr, !singleclicklast);
                     }
                     else
-                        ClickConfigTreeItem(viewType, ae, toClickSubstrings[leaves.IndexOf(sub)], true);
+                        ClickConfigTreeItem(viewType, ae, substr, true);
                         Sleep(TimeSpan.FromMilliseconds(300));
                 }
                 ae = oldAe.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(sub)));    
@@ -271,12 +272,12 @@ namespace FlaUILibrary.Util {
             List<XElement> res = new List<XElement>();
             List<string> s = new List<string>();
             if (!System.IO.File.Exists(file))
-                Console.WriteLine($"Warning: file not found at path: {file}");
+                Util.ConsoleOut(Util.Verbose.LIGHT, $"Warning: file not found at path: {file}");
             try {
                 XDocument doc = XDocument.Load(file);
                 XElement root = doc.Root;
                 if (root == null)
-                    Console.WriteLine($"Warning: Root element not found in file: {file}");
+                    Util.ConsoleOut(Util.Verbose.LIGHT, $"Warning: Root element not found in file: {file}");
                 FindRecursive(ref res, root, ref element);
                 res.Reverse();
                 foreach (XElement xe in res)
@@ -284,7 +285,7 @@ namespace FlaUILibrary.Util {
                         s.Add("BR_" + xe.Attribute("Name-en").Value);
                 if (addon != null)
                     s.AddRange(addon);
-            } catch (Exception ex) { Console.WriteLine($"Error reading {file}: {ex.Message}"); }
+            } catch (Exception ex) { Util.ConsoleOut(Util.Verbose.LIGHT, $"Error reading {file}: {ex.Message}"); }
             return s;
         }
         static void FindRecursive(ref List<XElement> path, XElement root, ref string element) {

@@ -18,8 +18,9 @@ ${CPU_SERIAL}                       -
 # Automation Studio IDE Configuration
 ${AS_VERSION}                       ${DEFAULT_AS_VERSION}
 ${AS_WORKING_VERSION}               6.3
-${AS_DEFAULT_TIMEOUT}               10
-${AS_NETWORK_CONFIG}                Ethernet
+${AS_DEFAULT_TIMEOUT}               60
+${AS_VERBOSE}                       STEPS
+#${AS_NETWORK_CONFIG}                Ethernet
 
 # Automation Runtime Configuration
 ${AR_VERSION}                       ${DEFAULT_AR_VERSION}
@@ -36,8 +37,8 @@ ${MAPPVIEW_HTTPS_PORT}              8443
 ${MAPPVIEW_PROTOCOL}                HTTP
 
 # OPC UA CS Configuration
-${UACS_VERSION}                     ${DEFAULT_UACS_VERSION}
 ${USE_OPCUACS}                      True
+${UACS_VERSION}                     ${DEFAULT_UACS_VERSION}
 ${OPCUA_SERVER_PORT}                4840
 
 # Project Settings

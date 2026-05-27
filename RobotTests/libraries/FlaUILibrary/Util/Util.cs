@@ -5,6 +5,7 @@ namespace FlaUILibrary.Util {
         public enum Verbose {NONE, LIGHT, STEPS, FULL}
         public static class Environment {
             public static string InstallationPath;
+            public static string EditorPathOPCUACS = "\\AS\\TechnologyPackages\\OpcUaCs\\";
             public static Verbose verbose;
         }
         public static object ConsoleOut(Verbose verbose, string text, bool error = false) {

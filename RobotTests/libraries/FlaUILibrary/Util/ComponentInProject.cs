@@ -2,7 +2,6 @@ namespace FlaUILibrary.Util {
     public abstract class ComponentInProject {
         protected AppProject Project;
         protected string Version;
-        public Util.Verbose Verbose { get; set; }
         public abstract void InitComponent();
         public abstract void InsertComponent();
 

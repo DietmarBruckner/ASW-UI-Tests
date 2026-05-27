@@ -8,10 +8,11 @@ using FlaUI.Core.Tools;
 
 namespace FlaUILibrary.Util {
     public partial class OPCUACS {
-        string editorPathOP;
-        public override void InitComponent() {
-            editorPathOP = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\OpcUaCs\\" + Version + "\\Editors\\";
+        void EnsureEditorContext() {
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
+        }
+        public override void InitComponent() {
+            EnsureEditorContext();
             Util.ConsoleOut(Util.Verbose.STEPS, "Checking/setting OPC UA/CS version to " + Version);
             TreeConfig.IdeMain.SelectComponentVersion(null, "OPC", Version);
             InsertComponent();
@@ -21,37 +22,45 @@ namespace FlaUILibrary.Util {
         public override void InsertComponent() {
             //activated by default, nothing to do
         }
+        public void ConfigureClientServerActivation() {
+            EnsureEditorContext();
+            TM611_3_1_ActivateOPCUACS();
+        }
+        public void ConfigureRoleBasedAccessControl() {
+            EnsureEditorContext();
+            TM611_10_RBAC();
+        }
         void TM611_3_1_ActivateOPCUACS() {
             string uaconfig = "UaCsConfig.uacfg";
              //open UACS configuration page
             Util.ConsoleOut(Util.Verbose.STEPS, "Opening OPC UA/CS configuration in workspace");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_" + uaconfig}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var editor);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_" + uaconfig}, out IDE_Main.ActiveEditor);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             //activate advanced visibility
-            AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_ClientServerConfiguration");
-            AutomationElement uaToolbar = TreeConfig.IdeMain.GetWorkspaceToolbar(editor);
+            AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(IDE_Main.ActiveEditor, "BR_ClientServerConfiguration");
+            AutomationElement uaToolbar = TreeConfig.IdeMain.GetWorkspaceToolbar(IDE_Main.ActiveEditor);
             Button advancedVisibilityButton = uaToolbar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Change Advanced Parameter Visibility"))).AsButton();
             if (!IDE_Main.IsButtonActive(advancedVisibilityButton)) {
                 advancedVisibilityButton.Click();
-                ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(uaconfig, "BR_ClientServerConfiguration");
+                ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(IDE_Main.ActiveEditor, "BR_ClientServerConfiguration");
             }
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Util.ConsoleOut(Util.Verbose.STEPS, "Setting OPC UA Client/Server to Enabled");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, new List<string> { "_Value" }, out var e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, new List<string> { "BR_OPC UA Client/Server" }, out var e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Enabled"
             Util.ConsoleOut(Util.Verbose.STEPS, "Setting anonymous authentication to Enabled");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "Anonymous"), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\"  + "uacfg.xml", "Anonymous"), out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Enabled"
             Util.ConsoleOut(Util.Verbose.STEPS, "Adding BR_Engineer as a user role");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uacfg.xml", "Anonymous Access", new string [] { "BR_User Role 1" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uacfg.xml", "Anonymous Access", new string [] { "BR_User Role 1" }), out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 2); //Select "BR_Engineer"
-            editor.Close();
+            IDE_Main.ActiveEditor.Close();
         }
         void TM611_10_RBAC() {
             Util.ConsoleOut(Util.Verbose.STEPS, "Creating roles: Operator, Service and Observer");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out var e);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Role");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_Role.role"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var role_editor);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_Role.role"}, out var role_editor);
             Mouse.Click(role_editor.ConfigWorkspace.BoundingRectangle.Center());
             AutomationElement configTree = role_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             Button newRole = role_editor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Role Configuration")).FindFirstChild(cf => cf.ByName("Add \"Role\" Element")).AsButton();
@@ -84,9 +93,9 @@ namespace FlaUILibrary.Util {
             role_editor.Close();
 
             Util.ConsoleOut(Util.Verbose.STEPS, "Creating users: Operator, Service and Observer");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, new List<string> { "_Configuration", "_Configuration", "_Configuration" }, out e);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem"}, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "User");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_User.user"}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var user_editor);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_AccessAndSecurity", "BR_UserRoleSystem", "BR_User.user"}, out var user_editor);
             AddUser(user_editor, "UserOperator", "5555", "Operator", false);
             AddUser(user_editor, "UserService", "9999", "Service");
             AddUser(user_editor, "UserObserver", "0000", "Observer");
@@ -94,49 +103,49 @@ namespace FlaUILibrary.Util {
             
             string uadvconfig = "UaDvConfig.uadcfg";
             Util.ConsoleOut(Util.Verbose.STEPS, "Opening OPC UA Default View configuration in workspace");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_" + uadvconfig}, new List<string> { "_Configuration", "_Configuration", "_Configuration", "_Configuration" }, out var uadv_editor);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs", "BR_" + uadvconfig}, out var uadv_editor);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(uadv_editor, "BR_DefaultViewConfiguration");
             Util.ConsoleOut(Util.Verbose.STEPS, "Editing role permissions for OPC UA Default View");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Name" }), new List<string> { "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Name" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "Operator");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Name" }), new List<string> { "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Name" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "Service");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Name" }), new List<string> { "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Name" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "Observer");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_Browse" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_Browse" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_Read" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_Read" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_Write" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_Write" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_Call" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_Call" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_ReadRolePermissions" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_ReadRolePermissions" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_ReadHistory" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 1", "BR_Permissions", "BR_ReadHistory" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_Browse" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_Browse" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_Read" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_Read" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_Write" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_Write" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_Call" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_Call" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_ReadRolePermissions" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_ReadRolePermissions" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_ReadHistory" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 2", "BR_Permissions", "BR_ReadHistory" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Permissions", "BR_Browse" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Permissions", "BR_Browse" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Permissions", "BR_Read" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Permissions", "BR_Read" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Permissions", "BR_Call" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Permissions", "BR_Call" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Permissions", "BR_ReadRolePermissions" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Permissions", "BR_ReadRolePermissions" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathOP + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Permissions", "BR_ReadHistory" }), new List<string> { "_Name", "_Name", "_Name", "_Value" }, out e, ConfigRoot, shortcut:0);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Util.Environment.InstallationPath + Util.Environment.EditorPathOPCUACS + Version + "\\Editors\\" + "uadcfg.xml", "DefaultRolePermissions", new string [] { "BR_Role 3", "BR_Permissions", "BR_ReadHistory" }), out e, ConfigRoot, shortcut:0);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 1); //Select "Eanabled"
         }
         void AddUser(IDE_Main.Editor editor, string Name, string Password, string Role, Boolean addUser = true) {

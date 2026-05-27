@@ -81,6 +81,27 @@ Navigate To OPCUA Settings
     Navigate To Tree Leaf    OpcUa
 
 
+Navigate To OPCUA Default View
+    [Documentation]    Navigates to the DefaultView node under OpcUa in the Configuration View
+    Expand and Click Tree Leaf    Configuration View     BR_${CPU_TYPE}|BR_Connectivity|BR_OpcUaCs|BR_UaCsConfig.uacfg
+
+
+Activate OPCUA Client Server With Anonymous Access
+    [Documentation]    Applies the TM611_3_1 OPC UA client/server activation workflow.
+    [Arguments]        ${version}=${UACS_VERSION}
+    FlaUILib.Configure OPCUA Client Server Activation    ${version}
+    Wait Until IDE Is Ready
+    Log    OPC UA client/server activation configured for version ${version}
+
+
+Configure OPCUA RBAC Roles Users And Default Permissions
+    [Documentation]    Applies the TM611_10 RBAC workflow for OPC UA/CS.
+    [Arguments]        ${version}=${UACS_VERSION}
+    FlaUILib.Configure OPCUA RBAC    ${version}
+    Wait Until IDE Is Ready
+    Log    OPC UA RBAC configured for version ${version}
+
+
 # ── AutomationRuntime ─────────────────────────────────────────────────────────
 
 Initialize AutomationRuntime Component

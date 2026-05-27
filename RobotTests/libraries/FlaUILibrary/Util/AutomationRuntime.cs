@@ -8,10 +8,7 @@ namespace FlaUILibrary.Util {
 
         public override void InitComponent() {
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
-            if (Verbose >= Util.Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine("Checking/setting Automation Runtime version to " + Version);
-            }
+            Util.ConsoleOut(Util.Verbose.STEPS, "Checking/setting Automation Runtime version to " + Version);
             TreeConfig.IdeMain.SelectComponentVersion(null, "Automation Runtime", Version);
         }
         public override void InsertComponent() {

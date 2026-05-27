@@ -111,8 +111,8 @@ class RobotFlaulib:
         return int(amount * factor)
 
     @keyword("Initialize Automation Studio")
-    def initialize_automation_studio(self, timeout=30):
-        return self._call("initialize_automation_studio", timeout=self._to_seconds(timeout))
+    def initialize_automation_studio(self, timeout=30, verbose=None):
+        return self._call("initialize_automation_studio", timeout=self._to_seconds(timeout), verbose=verbose)
 
     @keyword("Close Application")
     def close_application(self, save_changes=True):
@@ -148,16 +148,20 @@ class RobotFlaulib:
         return self._call("click_dialog_button", button_name=button_name, dialog_title=dialog_title, dialog_close=self._to_bool(dialog_close))
 
     @keyword("Click Toolbar Button")
-    def click_toolbar_button(self, button_name):
-        return self._call("click_toolbar_button", button_name=button_name)
+    def click_toolbar_button(self, button_name, activate=False):
+        return self._call("click_toolbar_button", button_name=button_name, activate=self._to_bool(activate))
 
     @keyword("Activate Tree Leaf")
-    def activate_tree_leaf(self, tree_path, double_click=False):
-        return self._call("activate_tree_leaf", tree_path=tree_path, double_click=self._to_bool(double_click))
+    def activate_tree_leaf(self, viewtype, tree_path=None, editorname=None, rootname=None, program=False, shortcut=-1, single_click=False, filename=None, filetree=None, version=None):
+        return self._call("activate_tree_leaf", viewtype=viewtype, tree_path=tree_path, editorname=editorname, rootname=rootname, program=self._to_bool(program), shortcut=shortcut, single_click=self._to_bool(single_click), filename=filename, filetree=filetree, version=version)
 
     @keyword("Select From ComboBox")
     def select_from_combo_box(self, combo_label, item_text):
         return self._call("select_from_combo_box", combo_label=combo_label, item_text=item_text)
+
+    @keyword("Select From TreeComboBox")
+    def select_from_tree_combo_box(self, item_label=None, item_number=-1):
+        return self._call("select_from_tree_combo_box", item_label=item_label, item_number=item_number)
 
     @keyword("Wait For Idle")
     def wait_for_idle(self, timeout=30):
@@ -175,63 +179,9 @@ class RobotFlaulib:
     def get_window_title(self):
         return self._call("get_window_title")
 
-
-
-"""     @keyword("Is Project Loaded")
+    @keyword("Is Project Loaded")
     def is_project_loaded(self):
         return self._call("is_project_loaded")
-
-    @keyword("Find UI Element")
-    def find_ui_element(self, identifier, search_by="name", timeout=10):
-        return self._call(
-            "find_element",
-            identifier=identifier,
-            search_by=search_by,
-            timeout=self._to_seconds(timeout),
-        )
-
-    @keyword("Wait For Element")
-    def wait_for_element(self, identifier, search_by="name", timeout=10):
-        return self._call(
-            "wait_for_element",
-            identifier=identifier,
-            search_by=search_by,
-            timeout=self._to_seconds(timeout),
-        )
-
-    @keyword("Element Should Exist")
-    def element_should_exist(self, identifier, search_by="name"):
-        result = self._call("element_exists", identifier=identifier, search_by=search_by)
-        exists = result if isinstance(result, bool) else result.get("result", False)
-        if not exists:
-            raise AssertionError(f"Element not found: {identifier} (by {search_by})")
-        return True
-
-    @keyword("Click Element")
-    def click_element(self, identifier, search_by="name"):
-        return self._call("click_element", identifier=identifier, search_by=search_by)
-
-    @keyword("Double Click Element")
-    def double_click_element(self, identifier, search_by="name"):
-        return self._call("double_click_element", identifier=identifier, search_by=search_by)
-
-    @keyword("Right Click Element")
-    def right_click_element(self, identifier, search_by="name"):
-        return self._call("right_click_element", identifier=identifier, search_by=search_by)
-
-    @keyword("Hover Element")
-    def hover_element(self, identifier, search_by="name"):
-        return self._call("hover_element", identifier=identifier, search_by=search_by)
-
-    @keyword("Type Text")
-    def type_text(self, text):
-        return self._call("type_text", text=text)
-
-    @keyword("Get Text From Element")
-    def get_text_from_element(self, identifier, search_by="name"):
-        result = self._call("get_text_from_element", identifier=identifier, search_by=search_by)
-        return result if isinstance(result, str) else result.get("result", "")
-
 
     @keyword("Get Dialog Field Text")
     def get_dialog_field_text(self, field_label, dialog_title=None):
@@ -254,14 +204,6 @@ class RobotFlaulib:
             submenu_item=submenu_item,
         )
 
-    @keyword("Expand Tree Node")
-    def expand_tree_node(self, node_name):
-        return self._call("expand_tree_node", node_name=node_name)
-
-    @keyword("Collapse Tree Node")
-    def collapse_tree_node(self, node_name):
-        return self._call("collapse_tree_node", node_name=node_name)
-
     @keyword("Set Property Value")
     def set_property_value(self, property_name, value):
         return self._call("set_property_value", property_name=property_name, value=value)
@@ -282,4 +224,11 @@ class RobotFlaulib:
     @keyword("Take Screenshot")
     def take_screenshot(self, filename=None, outputdir=None):
         return self._call("take_screenshot", filename=filename, outputdir=outputdir)
- """
+
+    @keyword("Configure OPCUA Client Server Activation")
+    def configure_opcua_client_server_activation(self, version):
+        return self._call("configure_opcua_client_server_activation", version=version)
+
+    @keyword("Configure OPCUA RBAC")
+    def configure_opcua_rbac(self, version):
+        return self._call("configure_opcua_rbac", version=version)

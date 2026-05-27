@@ -101,7 +101,8 @@ namespace FlaUILibrary.Util {
             {"Start/Stop Debugging", ToolBarDebug}, {"Start/Stop Contextual Watch", ToolBarDebug}, {"Function Block Context", ToolBarDebug}, {"Ste Module Context", ToolBarDebug}
         }; } }
         public static List<Editor> Editors = new List<Editor>();
-        public IDE_Main (Application app, int timeout) {
+        public static Editor ActiveEditor;
+        public IDE_Main (Application app, int timeout, string apppath) {
             App = app;
             _automation = new UIA2Automation();
             MainWindow = App.GetMainWindow(_automation);
@@ -116,6 +117,7 @@ namespace FlaUILibrary.Util {
                     Util.ConsoleOut(Util.Verbose.FULL, "Maximizing main window");
                 MainWindow.TitleBar.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("Maximize"))).AsButton().Invoke();
             }
+            Util.Environment.InstallationPath = apppath;
         }
         void Init(int timeout) {
             InitMenues();
@@ -768,7 +770,7 @@ namespace FlaUILibrary.Util {
         }
         public void GenerateProgram(string Name, bool AB = false, bool ANSIC = false, bool ANSICPP = false, bool CFC = false, bool CNC = false, bool FBD = false, bool IL = false, bool LD = false, bool reACTION = false, bool Robot = false, bool SFC = false, bool STOOP = false, bool ST = false, bool AllInOne = false) {
             SwitchView(TreeConfig.ViewType.LogicalView);
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, null, out var e);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, out var e);
             if (AB)
                 InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "AB Program" + (AllInOne?" All In One":""));
             if (ANSIC)
@@ -795,7 +797,7 @@ namespace FlaUILibrary.Util {
                 InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "ST OOP Program" + (AllInOne?" All In One":""));
             if (ST)
                 InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "ST Program" + (AllInOne?" All In One":""));
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Program"}, new List<string> { "_Object Name" }, out e, program:true);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Program"}, out e, program:true);
             Mouse.RightClick();
             TreeConfig.ClickContextMenuItem(MainWindow, "Rename");
             Keyboard.Type(Name);
@@ -809,9 +811,9 @@ namespace FlaUILibrary.Util {
             string [] sout;
             strings = new string[((Array) o).Length][];
             if (package == string.Empty)
-                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Global.var"}, new List<string> { "_Object Name" }, out e);
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Global.var"}, out e);
             else
-                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_" + package, "BR_Variables.var"}, new List<string> { "_Object Name", "_Object Name" }, out e, Editorname:package + "::" + "Variables.var");
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_" + package, "BR_Variables.var"}, out e, Editorname:package + "::" + "Variables.var");
             Mouse.Click(e.ConfigWorkspace.BoundingRectangle.Center());
             AutomationElement configTree = e.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             Button newVariable = e.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Variable Declaration")).FindFirstChild(cf => cf.ByName("Add Variable")).AsButton();

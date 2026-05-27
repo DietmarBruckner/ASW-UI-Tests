@@ -58,7 +58,6 @@ namespace FlaUILibrary.Util {
                     case Components.OPCUACS:            cip = new OPCUACS(this, kvp.Value);             break;
                 }
                 components.Add(cip);
-                cip.Verbose = this.verbose;
                 Util.ConsoleOut(Util.Verbose.LIGHT, "Initializing component: " + cip.ToString());
                 Init(cip);
             }

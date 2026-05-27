@@ -39,6 +39,12 @@ Select Working Version In New Project Dialog
     Select From ComboBox    cbWorkingVersion     ${working_version}
     Log    Working version selected: ${working_version}
 
+Activate Button in Workspace Editor
+    [Documentation]    Clicks a button in the workspace editor, identified by its name.
+    [Arguments]        ${button_name}
+    FlaUILib.Click Toolbar Button    ${button_name}    activate=True
+    Log    Clicked workspace editor button: ${button_name}
+
 Select Working Version for Component
     [Documentation]    Selects the component's version inside the Project - Change Runtime Version dialog.
     [Arguments]        ${component_name}     ${working_version} 
@@ -72,4 +78,31 @@ Transfer Project To CPU
     Invoke IDE Menu    Online    Transfer To Target
     FlaUILib.Wait For Transfer To Complete    ${timeout}
     Log    Project transferred to CPU
+
+Switch To Logical View
+    [Documentation]    Switches the project tree to Logical View.
+    Expand and Click Tree Leaf    Logical View
+    Log    Switched to Logical View
+
+Switch To Configuration View
+    [Documentation]    Switches the project tree to Configuration View.
+    Expand and Click Tree Leaf    Configuration View
+    Log    Switched to Configuration View
+
+Switch To Physical View
+    [Documentation]    Switches the project tree to Physical View.
+    Expand and Click Tree Leaf    Physical View
+    Log    Switched to Physical View
+
+Add Software Component
+    [Documentation]    Adds a software component to the project via the Logical View context menu.
+    [Arguments]        ${component_name}
+    Switch To Logical View
+    Open Context Menu For Element    Logical
+    Select Context Menu Item    Add Object
+    FlaUILib.Wait For Dialog    Add Object
+    Expand and Click Tree Leaf    ${component_name}
+    FlaUILib.Click Dialog Button    OK
+    Wait Until IDE Is Ready
+    Log    Component added: ${component_name}
 
