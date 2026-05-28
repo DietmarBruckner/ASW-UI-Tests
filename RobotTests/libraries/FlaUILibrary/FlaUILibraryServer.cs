@@ -115,8 +115,13 @@ namespace FlaUILibrary
                     case "wait_for_idle":                   { _app?.WaitWhileBusy(TimeSpan.FromSeconds(Ai("timeout",30))); return Util.Util.Ok("idle"); }
                     case "wait_for_message":                return KwWaitForMessage(A("message"), Ai("timeout",30));
                     case "activate_simulation_mode":        return KwActivateSimulationMode();
+                    case "click_IDE":                       return KwClickIDE(Ab("editor", false));
                     case "select_component_version":        return KwSelectComponentVersion(A("component_name"), A("version"));
-                    case "get_window_title":             return new { result = IDE_Main.MainWindow?.Title ?? "" };
+                    case "get_window_title":                return new { result = IDE_Main.MainWindow?.Title ?? "" };
+                    case "insert_from_toolbox":             return KwInsertFromToolbox(A("view"), A("category"), A("component_name"), Ab("drag", false), Ai("xoffset", 0), Ai("yoffset", 0));
+                    case "add_role":                        return KwAddRole(A("rolename"), Ab("add_role", true));
+                    case "add_user":                        return KwAddUser(A("username"), A("password"), A("role"), Ab("add_user", true));
+                    case "close_active_editor":             return KwCloseActiveEditor(Ab("save_changes", true));
                     case "is_project_loaded":            return KwIsProjectLoaded();
                     case "get_dialog_text":      return KwGetDialogText(A("field_label"), A("dialog_title"));
                     case "open_context_menu":       return KwOpenContextMenu(A("identifier"), A("search_by","name"));
@@ -126,8 +131,6 @@ namespace FlaUILibrary
                     case "wait_for_build":    return KwWaitStatus(Ai("timeout",60),  "Build", "Compil");
                     case "wait_for_transfer": return KwWaitStatus(Ai("timeout",120), "Transfer", "Download");
                     case "take_screenshot":   return KwScreenshot(A("filename"), A("outputdir"));
-                    case "configure_opcua_client_server_activation": return KwConfigureOpcUaClientServerActivation(A("version"));
-                    case "configure_opcua_rbac": return KwConfigureOpcUaRbac(A("version"));
                     default: return Util.Util.Err("Unknown keyword: " + keyword);
                 }
             }
@@ -247,6 +250,7 @@ namespace FlaUILibrary
             if (filename != null) {
                 switch (filename) {
                     case "OPCUACS": file = Util.Util.Environment.InstallationPath + Util.Util.Environment.EditorPathOPCUACS + version + "\\Editors\\" + "uacfg.xml"; break;
+                    case "OPCUACSCONF": file = Util.Util.Environment.InstallationPath + Util.Util.Environment.EditorPathOPCUACS + version + "\\Editors\\" + "uadcfg.xml"; break;
                     default : file = null; break;
                 }
                 string [] s = filetree.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -266,9 +270,9 @@ namespace FlaUILibrary
             if (rootName != null)
                 ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(IDE_Main.ActiveEditor, rootName);
             if (editorName != "e")
-                TreeConfig.ActivateTreeLeaf(vtype, ls, out IDE_Main.ActiveEditor, root:ConfigRoot);
+                TreeConfig.ActivateTreeLeaf(vtype, ls, out IDE_Main.ActiveEditor, root:ConfigRoot, shortcut: shortcut);
             else
-                TreeConfig.ActivateTreeLeaf(vtype, ls, out var e, root:ConfigRoot);
+                TreeConfig.ActivateTreeLeaf(vtype, ls, out var e, root:ConfigRoot, shortcut: shortcut);
 
             return Util.Util.Ok("tree_leaf_activated", treePath);
         }
@@ -296,6 +300,30 @@ namespace FlaUILibrary
         private object KwActivateSimulationMode() {
             return IDE_Main.ActivateSimulation();
         }
+        private object KwClickIDE(bool editor = false) {
+            if (editor == false)
+                TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
+            else if (IDE_Main.ActiveEditor != null)
+                TreeConfig.ClickAutomationElement(IDE_Main.ActiveEditor.ConfigWorkspace);
+            else
+                return Util.Util.Err("No active editor to click on.");
+            return Util.Util.Ok("clicked_IDE", editor ? "editor" : "titlebar");
+        }
+        private object KwAddRole(string name, bool addRole) {
+            IDE_Main.AddRole(name, addRole);
+            return Util.Util.Ok("role_added", name);
+        }
+        private object KwAddUser(string name, string password, string role, bool addUser) {
+            IDE_Main.AddUser(name, password, role, addUser);
+            return Util.Util.Ok("user_added", name);
+        }
+        private object KwCloseActiveEditor(bool saveChanges) {
+            if (IDE_Main.ActiveEditor == null) return Util.Util.Err("No active editor to close.");
+            if (saveChanges)
+                Ide_Main.Save();
+            IDE_Main.ActiveEditor.Close();
+            return Util.Util.Ok("active_editor_closed");
+        }
 
         private object KwClickToolbarButton(string buttonName, bool activate) {
             var found = IDE_Main.toolbarButtons.TryGetValue(buttonName, out var toolbar) ? toolbar : null;
@@ -313,7 +341,20 @@ namespace FlaUILibrary
         private object KwIsProjectLoaded() {
             return new { result = Ide_Main != null && Ide_Main.IsProjectLoaded() };
         }
-
+        private object KwInsertFromToolbox(string view, string category, string componentName, bool drag, int xoffset, int yoffset) {
+            TreeConfig.ViewType vtype;
+            switch (view) {
+                case "Logical View":         vtype = TreeConfig.ViewType.LogicalView; break;
+                case "Configuration View":   vtype = TreeConfig.ViewType.ConfigurationView; break;
+                case "Binding Window":       vtype = TreeConfig.ViewType.BindingWindow; break;
+                case "Workspace":            vtype = TreeConfig.ViewType.Workspace; break;
+                default:                     vtype = TreeConfig.ViewType.LogicalView; break;
+            }
+            string cat = category ?? "";
+            Point point = new Point {X = xoffset, Y = yoffset};
+            TreeConfig.IdeMain.InsertObjectFromToolBox(vtype, cat, componentName, drag, point);
+            return Util.Util.Ok("inserted_from_toolbox", componentName);
+        }
         private object KwGetDialogText(string fieldLabel, string dialogTitle)
         {
             var dialog = dialogTitle != null ? GetModalWindow(dialogTitle) : (_modalWindows?.LastOrDefault() ?? IDE_Main.MainWindow);
@@ -338,30 +379,6 @@ namespace FlaUILibrary
         {
             TreeConfig.ClickContextMenuItem(IDE_Main.MainWindow, menuItem, submenuItem);
             return Util.Util.Ok(submenuItem == null ? "context_item_clicked" : "context_submenu_clicked", submenuItem ?? menuItem);
-        }
-
-        private object KwExpandCollapse(string nodeName, bool expand)
-        {
-            var node = IDE_Main.MainWindow.FindFirstDescendant(cf =>
-                cf.ByControlType(ControlType.TreeItem).And(cf.ByName(nodeName)));
-            if (node == null) return Util.Util.Err("Tree node not found: " + nodeName);
-            try
-            {
-                var ecp = node.Patterns.ExpandCollapse.PatternOrDefault;
-                if (ecp != null)
-                {
-                    if (expand) ecp.Expand();
-                    else ecp.Collapse();
-                }
-                else
-                {
-                    // Fallback: double-click to toggle
-                    Mouse.DoubleClick(Center(node));
-                }
-            }
-            catch { Mouse.DoubleClick(Center(node)); }
-            Thread.Sleep(300);
-            return Util.Util.Ok(expand ? "expanded" : "collapsed", nodeName);
         }
 
         private object KwSetProperty(string propertyName, string value)
@@ -435,37 +452,6 @@ namespace FlaUILibrary
             return new { result = "saved", path = fullPath };
         }
 
-        private object KwConfigureOpcUaClientServerActivation(string version) {
-            var opcUaCs = CreateOpcUaCs(version);
-            opcUaCs.ConfigureClientServerActivation();
-            return Util.Util.Ok("opcua_client_server_configured", version);
-        }
-
-        private object KwConfigureOpcUaRbac(string version) {
-            var opcUaCs = CreateOpcUaCs(version);
-            opcUaCs.ConfigureRoleBasedAccessControl();
-            return Util.Util.Ok("opcua_rbac_configured", version);
-        }
-
-        private AutomationElement GetTreeRoot() {
-            Ide_Main.InitializeViews(projectExplorer: true);
-            return IDE_Main.ProjectExplorer ?? (AutomationElement)IDE_Main.MainWindow;
-        }
-
-        private AutomationElement WaitForTreeSegment(AutomationElement root, string segment, string treePath) {
-            var sw = System.Diagnostics.Stopwatch.StartNew();
-            while (sw.Elapsed.TotalSeconds < 5) {
-                var found = root.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(segment)))
-                    ?? root.FindFirstDescendant(cf => cf.ByName(segment));
-                if (found != null)
-                    return found;
-
-                Thread.Sleep(200);
-            }
-
-            return null;
-        }
-
         private AutomationElement ResolveElement(string identifier, string searchBy) {
             var root = (_modalWindows != null && _modalWindows.Count > 0)
                 ? (AutomationElement)_modalWindows.Last()
@@ -482,26 +468,6 @@ namespace FlaUILibrary
                     return null;
                 default:
                     return root.FindFirstDescendant(cf => cf.ByName(identifier));
-            }
-        }
-
-        private OPCUACS CreateOpcUaCs(string version) {
-            EnsureCurrentProject();
-            return new OPCUACS(Project, version);
-        }
-
-        private void EnsureCurrentProject() {
-            if (Ide_Main == null || !Ide_Main.IsProjectLoaded())
-                throw new InvalidOperationException("No project is currently loaded in Automation Studio.");
-
-            if (Project == null) {
-                Project = new AppProject(Ide_Main);
-                Project.LoadActiveProject();
-                TreeConfig.CurrentProject = Project;
-            }
-            else if (string.IsNullOrEmpty(Project.CPU) || string.IsNullOrEmpty(Project.Name)) {
-                Project.LoadActiveProject();
-                TreeConfig.CurrentProject = Project;
             }
         }
 

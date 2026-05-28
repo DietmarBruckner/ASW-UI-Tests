@@ -884,6 +884,58 @@ namespace FlaUILibrary.Util {
             AutomationElement configTree = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
             return configTree.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName(ElementName)));
         }
+        public static void AddUser(string Name, string Password, string Role, Boolean addUser = true) {
+            Mouse.Click(ActiveEditor.ConfigWorkspace.BoundingRectangle.Center());
+            AutomationElement configTree = ActiveEditor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            Button newUser = ActiveEditor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("User Configuration")).FindFirstChild(cf => cf.ByName("Add \"User\" Element")).AsButton();
+            if (addUser) {
+                newUser.Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            }
+            AutomationElement newUserTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
+            AutomationElement newUserTreeItemName = newUserTreeItem.FindFirstChild(cf => cf.ByName(newUserTreeItem.Name + "_Name"));
+            AutomationElement newUserTreeItemPwd = newUserTreeItem.FindFirstChild(cf => cf.ByName("BR_Password"));
+            AutomationElement newUserTreeItemPwdValue = newUserTreeItemPwd.FindFirstChild(cf => cf.ByName(newUserTreeItemPwd.Name + "_Value"));
+            AutomationElement newUserTreeItemRole = newUserTreeItem.FindFirstChild(cf => cf.ByName("BR_Roles"));
+            AutomationElement newUserTreeItemRoleAssigned = newUserTreeItemRole.FindFirstChild(cf => cf.ByControlType(ControlType.TreeItem));
+            TreeConfig.ClickConfigTreeItem(TreeConfig.ViewType.Workspace, newUserTreeItemRoleAssigned, "_Value");
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+            AutomationElement combobox = configTree.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
+            Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
+            Mouse.MoveTo(expandButton.GetClickablePoint());
+            if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
+                Mouse.Click();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+            TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, Role);
+            Mouse.MoveTo(newUserTreeItemPwdValue.BoundingRectangle.Center());
+            Mouse.DoubleClick();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            Keyboard.Type(Password);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            Mouse.MoveTo(newUserTreeItemName.BoundingRectangle.Center());
+            Mouse.DoubleClick();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            Keyboard.Type(Name);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            TreeConfig.IdeMain.SaveAll();
+        }
+        public static void AddRole(string Name, Boolean addRole = true) {
+            Mouse.Click(IDE_Main.ActiveEditor.ConfigWorkspace.BoundingRectangle.Center());
+            AutomationElement configTree = IDE_Main.ActiveEditor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            Button newRole = IDE_Main.ActiveEditor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Role Configuration")).FindFirstChild(cf => cf.ByName("Add \"Role\" Element")).AsButton();
+            if (addRole) {
+                newRole.Click();
+                System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            }
+            AutomationElement newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
+            AutomationElement newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
+            Mouse.MoveTo(newRoleTreeItemName.BoundingRectangle.Center());
+            Mouse.DoubleClick();
+            System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
+            Keyboard.Type(Name);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+        }
 
         public class Editor {
             public AutomationElement ConfigWorkspace, Tab;

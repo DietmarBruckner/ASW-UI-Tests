@@ -47,7 +47,7 @@ Select From TreeComboBox
     [Documentation]    Selects a value from a combo box in a tree by opening it and clicking the item.
     [Arguments]        ${item_label}=None    ${item_number}=-1
     FlaUILib.Select From TreeComboBox    ${item_label}    ${item_number}
-    IF     ${item_label} != None
+    IF     $item_label is not None
         Log    Selected from tree combo box: ${item_label}
     ELSE
         Log    Selected from tree combo box item number: ${item_number}
@@ -65,24 +65,6 @@ Select Context Menu Item
     FlaUILib.Select From Context Menu    ${menu_item}    ${submenu_item}
     Log    Context menu item selected: ${menu_item}
 
-Get Dialog Field Value
-    [Documentation]    Returns the current text in a dialog field.
-    [Arguments]        ${field_label}    ${dialog_title}=${NONE}
-    ${value}=    FlaUILib.Get Dialog Field Text    ${field_label}    ${dialog_title}
-    RETURN    ${value}
-
-Set IDE Property
-    [Documentation]    Sets a value in the IDE property panel.
-    [Arguments]        ${property_name}    ${value}
-    FlaUILib.Set Property Value    ${property_name}    ${value}
-    Log    Property set: ${property_name} = ${value}
-
-Get IDE Property
-    [Documentation]    Reads a value from the IDE property panel.
-    [Arguments]        ${property_name}
-    ${value}=    FlaUILib.Get Property Value    ${property_name}
-    RETURN    ${value}
-
 Activate Simulation Mode
     [Documentation]    Activates simulation mode in the IDE, if not already active.
     FlaUILib.Activate Simulation Mode
@@ -99,4 +81,20 @@ Project Should Be Loaded
     ${loaded}=    FlaUILib.Is Project Loaded
     Should Be True    ${loaded}    msg=No project is currently loaded in Automation Studio
 
-    
+Click Toolbar Button
+    [Documentation]    Clicks a button in the IDE toolbar by its name.
+    [Arguments]        ${button_name}
+    FlaUILib.Click Toolbar Button    ${button_name}
+    Log    Toolbar button clicked: ${button_name}
+
+Click Into IDE    
+    [Documentation]    Clicks into the IDE to ensure it has focus, optionally on an open editor. Marked elements loose focus.
+    [Arguments]        ${editor}=False
+    FlaUILib.Click into IDE    ${editor}
+    Log    Clicked into IDE (editor=${editor})
+
+Close Editor
+    [Documentation]    Closes the currently active editor, optionally saving changes.
+    [Arguments]        ${save_changes}=True
+    FlaUILib.Close Active Editor    ${save_changes}
+    Log    Active editor closed (save_changes=${save_changes})

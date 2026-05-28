@@ -44,16 +44,16 @@ Open Visualization For Editing
     Log    Visualization opened: ${visualization_name}
 
 
-Insert MappView Widget
-    [Documentation]    Inserts a widget from the Toolbox into the open visualization.
-    [Arguments]        ${widget_type}    ${widget_name}    ${widget_id}
-    # Drag from toolbox by double-clicking the widget type entry
-    Double Click Tree Leaf    ${widget_type}
-    Wait Until IDE Is Ready
-    # Set widget properties
-    Set IDE Property    Name    ${widget_name}
-    Set IDE Property    id    ${widget_id}
-    Log    Widget ${widget_type} inserted: name=${widget_name}, id=${widget_id}
+#Insert MappView Widget
+#    [Documentation]    Inserts a widget from the Toolbox into the open visualization.
+#    [Arguments]        ${widget_type}    ${widget_name}    ${widget_id}
+#    # Drag from toolbox by double-clicking the widget type entry
+#    Double Click Tree Leaf    ${widget_type}
+#    Wait Until IDE Is Ready
+#    # Set widget properties
+#    Set IDE Property    Name    ${widget_name}
+#    Set IDE Property    id    ${widget_id}
+#    Log    Widget ${widget_type} inserted: name=${widget_name}, id=${widget_id}
 
 
 Configure Widget Property
@@ -85,21 +85,27 @@ Navigate To OPCUA Default View
     [Documentation]    Navigates to the DefaultView node under OpcUa in the Configuration View
     Expand and Click Tree Leaf    Configuration View     BR_${CPU_TYPE}|BR_Connectivity|BR_OpcUaCs|BR_UaCsConfig.uacfg
 
+Navigate To OPCUA Default View Configuration
+    [Documentation]    Navigates to the DefaultView configuration node under OpcUa in the Configuration View
+    Expand and Click Tree Leaf    Configuration View     BR_${CPU_TYPE}|BR_Connectivity|BR_OpcUaCs|BR_UaDvConfig.uadcfg
 
-Activate OPCUA Client Server With Anonymous Access
-    [Documentation]    Applies the TM611_3_1 OPC UA client/server activation workflow.
-    [Arguments]        ${version}=${UACS_VERSION}
-    FlaUILib.Configure OPCUA Client Server Activation    ${version}
-    Wait Until IDE Is Ready
-    Log    OPC UA client/server activation configured for version ${version}
+# ── User/Role management ─────────────────────────────────────────────────────────
 
+Navigate To User/Role System
+    [Documentation]    Navigates to the User/Role System node in the Configuration View
+    Expand and Click Tree Leaf    Configuration View     BR_${CPU_TYPE}|BR_AccessAndSecurity|BR_UserRoleSystem
 
-Configure OPCUA RBAC Roles Users And Default Permissions
-    [Documentation]    Applies the TM611_10 RBAC workflow for OPC UA/CS.
-    [Arguments]        ${version}=${UACS_VERSION}
-    FlaUILib.Configure OPCUA RBAC    ${version}
-    Wait Until IDE Is Ready
-    Log    OPC UA RBAC configured for version ${version}
+Add User Role in Role.role
+    [Documentation]    Adds a user role in the Role.role tree under User/Role System.
+    [Arguments]        ${rolename}    ${addrole}=True
+    FlaUILib.Add Role    ${rolename}    addrole=${addrole}
+    Log    User role added: ${rolename}
+
+Add User in User.user
+    [Documentation]    Adds a user in the User.user tree under User/Role System.
+    [Arguments]        ${username}    ${password}    ${role}    ${adduser}=True
+    FlaUILib.Add User    ${username}    ${password}    ${role}    adduser=${adduser}
+    Log    User added: ${username}
 
 
 # ── AutomationRuntime ─────────────────────────────────────────────────────────

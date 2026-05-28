@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-05-27T17:37:55.001506" rpa="false" schemaversion="5">
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-05-28T15:51:04.650451" rpa="false" schemaversion="5">
 <suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
 <suite id="s1-s1" name="RobotTests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests">
 <suite id="s1-s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests">
 <suite id="s1-s1-s1-s1" name="OPC UA CS" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\OPC UA CS">
 <suite id="s1-s1-s1-s1-s1" name="OPC UA CS tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\OPC UA CS\OPC UA CS_tests.robot">
-<test id="s1-s1-s1-s1-s1-t1" name="Activate OPCUA Client Server With Anonymous Access and BR_Engineer" line="24">
+<test id="s1-s1-s1-s1-s1-t1" name="Configure OPCUA RBAC Roles, Users, And Default Permissions" line="47">
 <kw name="Initialize Automation Studio" owner="ide_keywords">
 <kw name="Initialize Automation Studio" owner="FlaUILib">
 <arg>${AS_DEFAULT_TIMEOUT}</arg>
 <arg>${AS_VERBOSE}</arg>
-<status status="PASS" start="2026-05-27T17:37:55.266592" elapsed="0.001597"/>
+<status status="PASS" start="2026-05-28T15:51:05.058782" elapsed="1.198046"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-27T17:37:55.268773" level="INFO">Automation Studio initialised.</msg>
+<msg time="2026-05-28T15:51:06.257592" level="INFO">Automation Studio initialised.</msg>
 <arg>Automation Studio initialised.</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-27T17:37:55.268513" elapsed="0.000394"/>
+<status status="PASS" start="2026-05-28T15:51:06.257236" elapsed="0.000580"/>
 </kw>
 <doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
-<status status="PASS" start="2026-05-27T17:37:55.266228" elapsed="0.002784"/>
+<status status="PASS" start="2026-05-28T15:51:05.058378" elapsed="1.199557"/>
 </kw>
-<kw name="Navigate To OPCUA Default View" owner="component_keywords">
+<kw name="Navigate To User/Role System" owner="component_keywords">
 <kw name="Expand and Click Tree Leaf" owner="ide_keywords">
 <kw name="Activate Tree Leaf" owner="FlaUILib">
 <arg>${viewtype}</arg>
@@ -34,37 +34,42 @@
 <arg>${filename}</arg>
 <arg>${filetree}</arg>
 <arg>${version}</arg>
-<status status="PASS" start="2026-05-27T17:37:55.269964" elapsed="4.811265"/>
+<status status="PASS" start="2026-05-28T15:51:06.259101" elapsed="4.210594"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-27T17:38:00.081791" level="INFO">Double-clicked tree path: BR_X20CP1684|BR_Connectivity|BR_OpcUaCs|BR_UaCsConfig.uacfg</msg>
+<msg time="2026-05-28T15:51:10.470270" level="INFO">Double-clicked tree path: BR_X20CP1684|BR_AccessAndSecurity|BR_UserRoleSystem</msg>
 <arg>Double-clicked tree path: ${tree_path}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-27T17:38:00.081449" elapsed="0.000535"/>
+<status status="PASS" start="2026-05-28T15:51:10.469917" elapsed="0.000534"/>
 </kw>
 <arg>Configuration View</arg>
-<arg>BR_${CPU_TYPE}|BR_Connectivity|BR_OpcUaCs|BR_UaCsConfig.uacfg</arg>
+<arg>BR_${CPU_TYPE}|BR_AccessAndSecurity|BR_UserRoleSystem</arg>
 <doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
-<status status="PASS" start="2026-05-27T17:37:55.269620" elapsed="4.812464"/>
+<status status="PASS" start="2026-05-28T15:51:06.258711" elapsed="4.211839"/>
 </kw>
-<doc>Navigates to the DefaultView node under OpcUa in the Configuration View</doc>
-<status status="PASS" start="2026-05-27T17:37:55.269320" elapsed="4.812835"/>
+<doc>Navigates to the User/Role System node in the Configuration View</doc>
+<status status="PASS" start="2026-05-28T15:51:06.258332" elapsed="4.212292"/>
 </kw>
-<kw name="Activate Button in Workspace Editor" owner="project_keywords">
-<kw name="Click Toolbar Button" owner="FlaUILib">
-<arg>${button_name}</arg>
-<arg>activate=True</arg>
-<status status="PASS" start="2026-05-27T17:38:00.082828" elapsed="0.074584"/>
+<kw name="Insert From ToolBox" owner="project_keywords">
+<kw name="Insert From Toolbox" owner="FlaUILib">
+<arg>${view}</arg>
+<arg>${component_name}</arg>
+<arg>${category}</arg>
+<arg>${drag}</arg>
+<arg>${xoffset}</arg>
+<arg>${yoffset}</arg>
+<status status="PASS" start="2026-05-28T15:51:10.471494" elapsed="4.563036"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-27T17:38:00.157940" level="INFO">Clicked workspace editor button: Change Advanced Parameter Visibility</msg>
-<arg>Clicked workspace editor button: ${button_name}</arg>
+<msg time="2026-05-28T15:51:15.035067" level="INFO">Inserted from Toolbox: Role</msg>
+<arg>Inserted from Toolbox: ${component_name}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-27T17:38:00.157608" elapsed="0.000488"/>
+<status status="PASS" start="2026-05-28T15:51:15.034735" elapsed="0.000467"/>
 </kw>
-<arg>Change Advanced Parameter Visibility</arg>
-<doc>Clicks a button in the workspace editor, identified by its name.</doc>
-<status status="PASS" start="2026-05-27T17:38:00.082534" elapsed="0.075663"/>
+<arg>Configuration View</arg>
+<arg>Role</arg>
+<doc>Inserts a component from the Toolbox into the project by double-clicking it.</doc>
+<status status="PASS" start="2026-05-28T15:51:10.471123" elapsed="4.564179"/>
 </kw>
 <kw name="Expand and Click Tree Leaf" owner="ide_keywords">
 <kw name="Activate Tree Leaf" owner="FlaUILib">
@@ -78,50 +83,502 @@
 <arg>${filename}</arg>
 <arg>${filetree}</arg>
 <arg>${version}</arg>
-<status status="PASS" start="2026-05-27T17:38:00.159482" elapsed="2.200069"/>
+<status status="PASS" start="2026-05-28T15:51:15.036134" elapsed="1.406816"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-27T17:38:02.360473" level="INFO">Double-clicked tree path: BR_OPC UA Client/Server</msg>
+<msg time="2026-05-28T15:51:16.443506" level="INFO">Double-clicked tree path: BR_X20CP1684|BR_AccessAndSecurity|BR_UserRoleSystem|BR_Role.role</msg>
 <arg>Double-clicked tree path: ${tree_path}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-27T17:38:02.359860" elapsed="0.000811"/>
+<status status="PASS" start="2026-05-28T15:51:16.443162" elapsed="0.000559"/>
+</kw>
+<arg>Configuration View</arg>
+<arg>BR_${CPU_TYPE}|BR_AccessAndSecurity|BR_UserRoleSystem|BR_Role.role</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:51:15.035695" elapsed="1.408125"/>
+</kw>
+<kw name="Add User Role in Role.role" owner="component_keywords">
+<kw name="Add Role" owner="FlaUILib">
+<arg>${rolename}</arg>
+<arg>addrole=${addrole}</arg>
+<status status="PASS" start="2026-05-28T15:51:16.444622" elapsed="2.842157"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:51:19.287518" level="INFO">User role added: Operator</msg>
+<arg>User role added: ${rolename}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:51:19.287013" elapsed="0.000678"/>
+</kw>
+<arg>Operator</arg>
+<arg>addrole=False</arg>
+<doc>Adds a user role in the Role.role tree under User/Role System.</doc>
+<status status="PASS" start="2026-05-28T15:51:16.444217" elapsed="2.843597"/>
+</kw>
+<kw name="Add User Role in Role.role" owner="component_keywords">
+<kw name="Add Role" owner="FlaUILib">
+<arg>${rolename}</arg>
+<arg>addrole=${addrole}</arg>
+<status status="PASS" start="2026-05-28T15:51:19.288764" elapsed="1.620383"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:51:20.909746" level="INFO">User role added: Service</msg>
+<arg>User role added: ${rolename}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:51:20.909380" elapsed="0.000509"/>
+</kw>
+<arg>Service</arg>
+<doc>Adds a user role in the Role.role tree under User/Role System.</doc>
+<status status="PASS" start="2026-05-28T15:51:19.288319" elapsed="1.621667"/>
+</kw>
+<kw name="Add User Role in Role.role" owner="component_keywords">
+<kw name="Add Role" owner="FlaUILib">
+<arg>${rolename}</arg>
+<arg>addrole=${addrole}</arg>
+<status status="PASS" start="2026-05-28T15:51:20.910654" elapsed="1.675026"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:51:22.586221" level="INFO">User role added: Observer</msg>
+<arg>User role added: ${rolename}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:51:22.585883" elapsed="0.000483"/>
+</kw>
+<arg>Observer</arg>
+<doc>Adds a user role in the Role.role tree under User/Role System.</doc>
+<status status="PASS" start="2026-05-28T15:51:20.910323" elapsed="1.676134"/>
+</kw>
+<kw name="Close Editor" owner="ide_keywords">
+<kw name="Close Active Editor" owner="FlaUILib">
+<arg>${save_changes}</arg>
+<status status="PASS" start="2026-05-28T15:51:22.587098" elapsed="4.672235"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:51:27.259979" level="INFO">Active editor closed (save_changes=True)</msg>
+<arg>Active editor closed (save_changes=${save_changes})</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:51:27.259560" elapsed="0.000587"/>
+</kw>
+<doc>Closes the currently active editor, optionally saving changes.</doc>
+<status status="PASS" start="2026-05-28T15:51:22.586786" elapsed="4.673514"/>
+</kw>
+<kw name="Navigate To User/Role System" owner="component_keywords">
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:51:27.261625" elapsed="4.510322"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:51:31.772677" level="INFO">Double-clicked tree path: BR_X20CP1684|BR_AccessAndSecurity|BR_UserRoleSystem</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:51:31.772234" elapsed="0.000636"/>
+</kw>
+<arg>Configuration View</arg>
+<arg>BR_${CPU_TYPE}|BR_AccessAndSecurity|BR_UserRoleSystem</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:51:27.261192" elapsed="4.511796"/>
+</kw>
+<doc>Navigates to the User/Role System node in the Configuration View</doc>
+<status status="PASS" start="2026-05-28T15:51:27.260644" elapsed="4.512432"/>
+</kw>
+<kw name="Insert From ToolBox" owner="project_keywords">
+<kw name="Insert From Toolbox" owner="FlaUILib">
+<arg>${view}</arg>
+<arg>${component_name}</arg>
+<arg>${category}</arg>
+<arg>${drag}</arg>
+<arg>${xoffset}</arg>
+<arg>${yoffset}</arg>
+<status status="PASS" start="2026-05-28T15:51:31.774545" elapsed="4.407381"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:51:36.183120" level="INFO">Inserted from Toolbox: User</msg>
+<arg>Inserted from Toolbox: ${component_name}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:51:36.182491" elapsed="0.000928"/>
+</kw>
+<arg>Configuration View</arg>
+<arg>User</arg>
+<doc>Inserts a component from the Toolbox into the project by double-clicking it.</doc>
+<status status="PASS" start="2026-05-28T15:51:31.773906" elapsed="4.409673"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:51:36.184565" elapsed="1.440882"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:51:37.625991" level="INFO">Double-clicked tree path: BR_X20CP1684|BR_AccessAndSecurity|BR_UserRoleSystem|BR_User.user</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:51:37.625655" elapsed="0.000540"/>
+</kw>
+<arg>Configuration View</arg>
+<arg>BR_${CPU_TYPE}|BR_AccessAndSecurity|BR_UserRoleSystem|BR_User.user</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:51:36.184088" elapsed="1.442205"/>
+</kw>
+<kw name="Add User in User.user" owner="component_keywords">
+<kw name="Add User" owner="FlaUILib">
+<arg>${username}</arg>
+<arg>${password}</arg>
+<arg>${role}</arg>
+<arg>adduser=${adduser}</arg>
+<status status="PASS" start="2026-05-28T15:51:37.627080" elapsed="3.898585"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:51:41.526437" level="INFO">User added: UserOperator</msg>
+<arg>User added: ${username}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:51:41.526048" elapsed="0.000692"/>
+</kw>
+<arg>UserOperator</arg>
+<arg>5555</arg>
+<arg>Operator</arg>
+<arg>adduser=False</arg>
+<doc>Adds a user in the User.user tree under User/Role System.</doc>
+<status status="PASS" start="2026-05-28T15:51:37.626700" elapsed="3.900368"/>
+</kw>
+<kw name="Add User in User.user" owner="component_keywords">
+<kw name="Add User" owner="FlaUILib">
+<arg>${username}</arg>
+<arg>${password}</arg>
+<arg>${role}</arg>
+<arg>adduser=${adduser}</arg>
+<status status="PASS" start="2026-05-28T15:51:41.528548" elapsed="4.482895"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:51:46.011985" level="INFO">User added: UserService</msg>
+<arg>User added: ${username}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:51:46.011642" elapsed="0.000500"/>
+</kw>
+<arg>UserService</arg>
+<arg>9999</arg>
+<arg>Service</arg>
+<doc>Adds a user in the User.user tree under User/Role System.</doc>
+<status status="PASS" start="2026-05-28T15:51:41.527841" elapsed="4.484399"/>
+</kw>
+<kw name="Add User in User.user" owner="component_keywords">
+<kw name="Add User" owner="FlaUILib">
+<arg>${username}</arg>
+<arg>${password}</arg>
+<arg>${role}</arg>
+<arg>adduser=${adduser}</arg>
+<status status="PASS" start="2026-05-28T15:51:46.013108" elapsed="4.463956"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:51:50.477888" level="INFO">User added: UserObserver</msg>
+<arg>User added: ${username}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:51:50.477270" elapsed="0.001081"/>
+</kw>
+<arg>UserObserver</arg>
+<arg>0000</arg>
+<arg>Observer</arg>
+<doc>Adds a user in the User.user tree under User/Role System.</doc>
+<status status="PASS" start="2026-05-28T15:51:46.012752" elapsed="4.465803"/>
+</kw>
+<kw name="Close Editor" owner="ide_keywords">
+<kw name="Close Active Editor" owner="FlaUILib">
+<arg>${save_changes}</arg>
+<status status="PASS" start="2026-05-28T15:51:50.479326" elapsed="4.590034"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:51:55.069982" level="INFO">Active editor closed (save_changes=True)</msg>
+<arg>Active editor closed (save_changes=${save_changes})</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:51:55.069614" elapsed="0.000648"/>
+</kw>
+<doc>Closes the currently active editor, optionally saving changes.</doc>
+<status status="PASS" start="2026-05-28T15:51:50.479012" elapsed="4.591358"/>
+</kw>
+<kw name="Navigate To OPCUA Default View Configuration" owner="component_keywords">
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:51:55.071665" elapsed="5.291057"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:00.363269" level="INFO">Double-clicked tree path: BR_X20CP1684|BR_Connectivity|BR_OpcUaCs|BR_UaDvConfig.uadcfg</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:00.362940" elapsed="0.000518"/>
+</kw>
+<arg>Configuration View</arg>
+<arg>BR_${CPU_TYPE}|BR_Connectivity|BR_OpcUaCs|BR_UaDvConfig.uadcfg</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:51:55.071262" elapsed="5.292295"/>
+</kw>
+<doc>Navigates to the DefaultView configuration node under OpcUa in the Configuration View</doc>
+<status status="PASS" start="2026-05-28T15:51:55.070795" elapsed="5.292833"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:52:00.364446" elapsed="2.271432"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:02.636530" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:02.636130" elapsed="0.000596"/>
 </kw>
 <arg>Workspace</arg>
-<arg>BR_OPC UA Client/Server</arg>
-<arg>rootname=BR_ClientServerConfiguration</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
 <arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 1|BR_Name</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
 <doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
-<status status="PASS" start="2026-05-27T17:38:00.158777" elapsed="2.202031"/>
+<status status="PASS" start="2026-05-28T15:52:00.363994" elapsed="2.272880"/>
 </kw>
 <kw name="Select From TreeComboBox" owner="ide_keywords">
 <kw name="Select From TreeComboBox" owner="FlaUILib">
 <arg>${item_label}</arg>
 <arg>${item_number}</arg>
-<status status="PASS" start="2026-05-27T17:38:02.361864" elapsed="0.653384"/>
+<status status="PASS" start="2026-05-28T15:52:02.638105" elapsed="0.634929"/>
 </kw>
 <if>
-<branch type="IF" condition="${item_label} != None">
+<branch type="IF" condition="$item_label is not None">
 <kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:03.274974" level="INFO">Selected from tree combo box: Operator</msg>
 <arg>Selected from tree combo box: ${item_label}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2026-05-27T17:38:03.015725" elapsed="0.000088"/>
+<status status="PASS" start="2026-05-28T15:52:03.274367" elapsed="0.000847"/>
 </kw>
-<status status="NOT RUN" start="2026-05-27T17:38:03.015433" elapsed="0.000441"/>
+<status status="PASS" start="2026-05-28T15:52:03.273351" elapsed="0.002013"/>
 </branch>
 <branch type="ELSE">
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-27T17:38:03.016271" level="INFO">Selected from tree combo box item number: 1</msg>
 <arg>Selected from tree combo box item number: ${item_number}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-27T17:38:03.016020" elapsed="0.000405"/>
+<status status="NOT RUN" start="2026-05-28T15:52:03.276343" elapsed="0.000423"/>
 </kw>
-<status status="PASS" start="2026-05-27T17:38:03.015913" elapsed="0.000585"/>
+<status status="NOT RUN" start="2026-05-28T15:52:03.275445" elapsed="0.001624"/>
 </branch>
-<status status="PASS" start="2026-05-27T17:38:03.015402" elapsed="0.001190"/>
+<status status="PASS" start="2026-05-28T15:52:03.273294" elapsed="0.003912"/>
+</if>
+<arg>item_label=Operator</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:52:02.637649" elapsed="0.639727"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:52:20.386493" elapsed="2.297010"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:22.684271" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:22.683887" elapsed="0.000539"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 2|BR_Name</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:52:03.278625" elapsed="19.405902"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:52:22.685289" elapsed="0.638627"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:23.324662" level="INFO">Selected from tree combo box: Service</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:23.324376" elapsed="0.000431"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:52:23.324086" elapsed="0.000795"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:52:23.325186" elapsed="0.000106"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:52:23.324916" elapsed="0.000438"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:52:23.324060" elapsed="0.001322"/>
+</if>
+<arg>item_label=Service</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:52:22.684924" elapsed="0.640498"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:52:23.326754" elapsed="2.309625"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:25.637123" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:25.636767" elapsed="0.000596"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 3|BR_Name</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:52:23.326101" elapsed="2.311385"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:52:25.638270" elapsed="0.672520"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:26.313269" level="INFO">Selected from tree combo box: Observer</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:26.312118" elapsed="0.001715"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:52:26.311082" elapsed="0.003060"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:52:26.314801" elapsed="0.000320"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:52:26.314282" elapsed="0.001082"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:52:26.311039" elapsed="0.004430"/>
+</if>
+<arg>item_label=Observer</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:52:25.637795" elapsed="0.677835"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:52:26.318870" elapsed="2.765971"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:29.085526" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:29.085132" elapsed="0.000539"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 1|BR_Permissions|BR_Browse</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:52:26.317004" elapsed="2.768760"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:52:29.086576" elapsed="0.641554"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:29.728862" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:29.728574" elapsed="0.000427"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:52:29.728298" elapsed="0.000778"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:52:29.729234" elapsed="0.000185"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:52:29.729108" elapsed="0.000402"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:52:29.728275" elapsed="0.001266"/>
 </if>
 <arg>item_number=1</arg>
 <doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
-<status status="PASS" start="2026-05-27T17:38:02.361374" elapsed="0.655286"/>
+<status status="PASS" start="2026-05-28T15:52:29.086204" elapsed="0.643380"/>
 </kw>
 <kw name="Expand and Click Tree Leaf" owner="ide_keywords">
 <kw name="Activate Tree Leaf" owner="FlaUILib">
@@ -135,52 +592,53 @@
 <arg>${filename}</arg>
 <arg>${filetree}</arg>
 <arg>${version}</arg>
-<status status="PASS" start="2026-05-27T17:38:03.018940" elapsed="4.299488"/>
+<status status="PASS" start="2026-05-28T15:52:29.730580" elapsed="2.593328"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-27T17:38:07.319413" level="INFO">Double-clicked tree path: None</msg>
+<msg time="2026-05-28T15:52:32.324474" level="INFO">Double-clicked tree path: None</msg>
 <arg>Double-clicked tree path: ${tree_path}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-27T17:38:07.318795" elapsed="0.001083"/>
+<status status="PASS" start="2026-05-28T15:52:32.324123" elapsed="0.000490"/>
 </kw>
 <arg>Workspace</arg>
-<arg>rootname=BR_ClientServerConfiguration</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
 <arg>editorname=e</arg>
-<arg>filename=OPCUACS</arg>
-<arg>filetree=Anonymous</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 1|BR_Permissions|BR_Read</arg>
 <arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
 <doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
-<status status="PASS" start="2026-05-27T17:38:03.017385" elapsed="4.302701"/>
+<status status="PASS" start="2026-05-28T15:52:29.730125" elapsed="2.594585"/>
 </kw>
 <kw name="Select From TreeComboBox" owner="ide_keywords">
 <kw name="Select From TreeComboBox" owner="FlaUILib">
 <arg>${item_label}</arg>
 <arg>${item_number}</arg>
-<status status="PASS" start="2026-05-27T17:38:07.321528" elapsed="0.649216"/>
+<status status="PASS" start="2026-05-28T15:52:32.325560" elapsed="0.662849"/>
 </kw>
 <if>
-<branch type="IF" condition="${item_label} != None">
+<branch type="IF" condition="$item_label is not None">
 <kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:32.989267" level="INFO">Selected from tree combo box: None</msg>
 <arg>Selected from tree combo box: ${item_label}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2026-05-27T17:38:07.971600" elapsed="0.000327"/>
+<status status="PASS" start="2026-05-28T15:52:32.988931" elapsed="0.000488"/>
 </kw>
-<status status="NOT RUN" start="2026-05-27T17:38:07.971099" elapsed="0.001043"/>
+<status status="PASS" start="2026-05-28T15:52:32.988597" elapsed="0.000903"/>
 </branch>
 <branch type="ELSE">
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-27T17:38:07.973098" level="INFO">Selected from tree combo box item number: 1</msg>
 <arg>Selected from tree combo box item number: ${item_number}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-27T17:38:07.972514" elapsed="0.000948"/>
+<status status="NOT RUN" start="2026-05-28T15:52:32.989791" elapsed="0.000096"/>
 </kw>
-<status status="PASS" start="2026-05-27T17:38:07.972225" elapsed="0.001422"/>
+<status status="NOT RUN" start="2026-05-28T15:52:32.989618" elapsed="0.000344"/>
 </branch>
-<status status="PASS" start="2026-05-27T17:38:07.971051" elapsed="0.002669"/>
+<status status="PASS" start="2026-05-28T15:52:32.988570" elapsed="0.001418"/>
 </if>
 <arg>item_number=1</arg>
 <doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
-<status status="PASS" start="2026-05-27T17:38:07.320916" elapsed="0.652890"/>
+<status status="PASS" start="2026-05-28T15:52:32.325212" elapsed="0.664817"/>
 </kw>
 <kw name="Expand and Click Tree Leaf" owner="ide_keywords">
 <kw name="Activate Tree Leaf" owner="FlaUILib">
@@ -194,139 +652,994 @@
 <arg>${filename}</arg>
 <arg>${filetree}</arg>
 <arg>${version}</arg>
-<status status="PASS" start="2026-05-27T17:38:07.975806" elapsed="4.156168"/>
+<status status="PASS" start="2026-05-28T15:52:32.991345" elapsed="2.544611"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-27T17:38:12.132925" level="INFO">Double-clicked tree path: None</msg>
+<msg time="2026-05-28T15:52:35.536753" level="INFO">Double-clicked tree path: None</msg>
 <arg>Double-clicked tree path: ${tree_path}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-27T17:38:12.132346" elapsed="0.000820"/>
+<status status="PASS" start="2026-05-28T15:52:35.536247" elapsed="0.000770"/>
 </kw>
 <arg>Workspace</arg>
-<arg>rootname=BR_ClientServerConfiguration</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
 <arg>editorname=e</arg>
-<arg>filename=OPCUACS</arg>
-<arg>filetree=Anonymous Access|BR_User Role 1</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 1|BR_Permissions|BR_Write</arg>
 <arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
 <doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
-<status status="PASS" start="2026-05-27T17:38:07.974801" elapsed="4.158529"/>
+<status status="PASS" start="2026-05-28T15:52:32.990325" elapsed="2.546844"/>
 </kw>
 <kw name="Select From TreeComboBox" owner="ide_keywords">
 <kw name="Select From TreeComboBox" owner="FlaUILib">
 <arg>${item_label}</arg>
 <arg>${item_number}</arg>
-<status status="PASS" start="2026-05-27T17:38:12.134555" elapsed="0.743137"/>
+<status status="PASS" start="2026-05-28T15:52:35.538343" elapsed="0.669318"/>
 </kw>
 <if>
-<branch type="IF" condition="${item_label} != None">
+<branch type="IF" condition="$item_label is not None">
 <kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:36.208400" level="INFO">Selected from tree combo box: None</msg>
 <arg>Selected from tree combo box: ${item_label}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2026-05-27T17:38:12.878114" elapsed="0.000085"/>
+<status status="PASS" start="2026-05-28T15:52:36.208108" elapsed="0.000439"/>
 </kw>
-<status status="NOT RUN" start="2026-05-27T17:38:12.877861" elapsed="0.000394"/>
+<status status="PASS" start="2026-05-28T15:52:36.207831" elapsed="0.000881"/>
 </branch>
 <branch type="ELSE">
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-27T17:38:12.878613" level="INFO">Selected from tree combo box item number: 2</msg>
 <arg>Selected from tree combo box item number: ${item_number}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-27T17:38:12.878371" elapsed="0.000403"/>
+<status status="NOT RUN" start="2026-05-28T15:52:36.209123" elapsed="0.000159"/>
 </kw>
-<status status="PASS" start="2026-05-27T17:38:12.878285" elapsed="0.000564"/>
+<status status="NOT RUN" start="2026-05-28T15:52:36.208819" elapsed="0.000601"/>
 </branch>
-<status status="PASS" start="2026-05-27T17:38:12.877835" elapsed="0.001039"/>
+<status status="PASS" start="2026-05-28T15:52:36.207808" elapsed="0.001664"/>
 </if>
-<arg>item_number=2</arg>
+<arg>item_number=1</arg>
 <doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
-<status status="PASS" start="2026-05-27T17:38:12.134015" elapsed="0.744890"/>
+<status status="PASS" start="2026-05-28T15:52:35.537791" elapsed="0.671748"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:52:36.210597" elapsed="2.605344"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:38.816562" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:38.816205" elapsed="0.000512"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 1|BR_Permissions|BR_Call</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:52:36.209927" elapsed="2.606997"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:52:38.817823" elapsed="0.653131"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:39.472626" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:39.471909" elapsed="0.001039"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:52:39.471290" elapsed="0.001892"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:52:39.473612" elapsed="0.000202"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:52:39.473267" elapsed="0.000693"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:52:39.471244" elapsed="0.002781"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:52:38.817488" elapsed="0.656622"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:52:39.475798" elapsed="2.576794"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:42.053265" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:42.052850" elapsed="0.000587"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 1|BR_Permissions|BR_ReadRolePermissions</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:52:39.474900" elapsed="2.578681"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:52:42.054680" elapsed="0.625387"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:42.680819" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:42.680522" elapsed="0.000435"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:52:42.680252" elapsed="0.000780"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:52:42.681196" elapsed="0.000072"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:52:42.681063" elapsed="0.000286"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:52:42.680229" elapsed="0.001146"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:52:42.054205" elapsed="0.627204"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:52:49.188185" elapsed="2.701547"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:51.890583" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:51.889955" elapsed="0.000968"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 1|BR_Permissions|BR_ReadHistory</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:52:42.681714" elapsed="9.209466"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:52:51.892165" elapsed="0.638019"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:52.530940" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:52.530636" elapsed="0.000443"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:52:52.530356" elapsed="0.000794"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:52:52.531309" elapsed="0.000077"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:52:52.531183" elapsed="0.000258"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:52:52.530332" elapsed="0.001134"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:52:51.891881" elapsed="0.639620"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:52:52.532416" elapsed="2.502370"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:55.035357" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:55.035004" elapsed="0.000496"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 2|BR_Permissions|BR_Browse</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:52:52.531970" elapsed="2.503623"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:52:55.036373" elapsed="0.651915"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:55.689157" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:55.688810" elapsed="0.000511"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:52:55.688480" elapsed="0.001003"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:52:55.689731" elapsed="0.000099"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:52:55.689556" elapsed="0.000358"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:52:55.688452" elapsed="0.001492"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:52:55.036018" elapsed="0.653970"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:52:55.692578" elapsed="2.533207"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:58.227957" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:58.226498" elapsed="0.002014"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 2|BR_Permissions|BR_Read</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:52:55.690870" elapsed="2.538135"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:52:58.231724" elapsed="0.662872"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:52:58.895675" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:52:58.895168" elapsed="0.001114"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:52:58.894799" elapsed="0.001592"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:52:58.896615" elapsed="0.000095"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:52:58.896435" elapsed="0.000341"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:52:58.894769" elapsed="0.002037"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:52:58.230420" elapsed="0.666428"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:52:58.897866" elapsed="2.615671"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:01.514188" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:01.513785" elapsed="0.000841"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 2|BR_Permissions|BR_Write</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:52:58.897255" elapsed="2.617505"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:53:01.515632" elapsed="0.636364"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:02.153064" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:02.152531" elapsed="0.000785"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:53:02.152211" elapsed="0.001246"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:53:02.153747" elapsed="0.000400"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:53:02.153516" elapsed="0.000726"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:53:02.152174" elapsed="0.002096"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:53:01.515193" elapsed="0.639116"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:53:02.155191" elapsed="2.565642"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:04.721669" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:04.721215" elapsed="0.000686"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 2|BR_Permissions|BR_Call</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:53:02.154773" elapsed="2.567278"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:53:04.723219" elapsed="0.652489"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:05.376649" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:05.376243" elapsed="0.000596"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:53:05.375908" elapsed="0.001058"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:53:05.377210" elapsed="0.000116"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:53:05.377015" elapsed="0.000388"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:53:05.375880" elapsed="0.001558"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:53:04.722851" elapsed="0.654633"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:53:05.378399" elapsed="2.560011"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:07.938963" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:07.938621" elapsed="0.000491"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 2|BR_Permissions|BR_ReadRolePermissions</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:53:05.377789" elapsed="2.561425"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:53:07.940007" elapsed="0.622896"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:08.564486" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:08.563735" elapsed="0.000977"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:53:08.563238" elapsed="0.001612"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:53:08.565370" elapsed="0.000261"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:53:08.564914" elapsed="0.000908"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:53:08.563196" elapsed="0.002705"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:53:07.939618" elapsed="0.626631"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:53:08.568875" elapsed="2.703983"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:11.273543" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:11.273115" elapsed="0.000612"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 2|BR_Permissions|BR_ReadHistory</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:53:08.567431" elapsed="2.706441"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:53:11.274876" elapsed="0.620743"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:11.896350" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:11.896072" elapsed="0.000410"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:53:11.895799" elapsed="0.000762"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:53:11.896718" elapsed="0.000076"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:53:11.896597" elapsed="0.000276"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:53:11.895776" elapsed="0.001133"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:53:11.274316" elapsed="0.622632"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:53:11.899382" elapsed="2.471480"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:14.372005" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:14.371271" elapsed="0.001016"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 3|BR_Permissions|BR_Browse</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:53:11.897771" elapsed="2.474726"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:53:14.373961" elapsed="0.650500"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:15.025310" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:15.024946" elapsed="0.000553"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:53:15.024657" elapsed="0.000933"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:53:15.025807" elapsed="0.000101"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:53:15.025651" elapsed="0.000330"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:53:15.024632" elapsed="0.001383"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:53:14.373273" elapsed="0.652785"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:53:15.026963" elapsed="2.464738"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:17.492321" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:17.491937" elapsed="0.000728"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 3|BR_Permissions|BR_Read</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:53:15.026469" elapsed="2.466464"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:53:17.494312" elapsed="0.634811"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:18.129942" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:18.129617" elapsed="0.000499"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:53:18.129311" elapsed="0.000887"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:53:18.130546" elapsed="0.000118"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:53:18.130236" elapsed="0.000496"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:53:18.129286" elapsed="0.001475"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:53:17.493960" elapsed="0.636841"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:53:18.132151" elapsed="2.549725"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:20.683402" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:20.682527" elapsed="0.001155"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 3|BR_Permissions|BR_Call</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:53:18.131110" elapsed="2.552762"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:53:20.686364" elapsed="0.655052"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:21.342174" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:21.341869" elapsed="0.000453"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:53:21.341580" elapsed="0.000824"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:53:21.342580" elapsed="0.000084"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:53:21.342440" elapsed="0.000280"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:53:21.341557" elapsed="0.001188"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:53:20.685039" elapsed="0.657743"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:53:21.343707" elapsed="2.604624"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:23.949145" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:23.948596" elapsed="0.000735"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 3|BR_Permissions|BR_ReadRolePermissions</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:53:21.343264" elapsed="2.606198"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:53:23.950251" elapsed="0.654568"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:24.605609" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:24.605314" elapsed="0.000431"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:53:24.605004" elapsed="0.000817"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:53:24.606183" elapsed="0.000219"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:53:24.605853" elapsed="0.000675"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:53:24.604981" elapsed="0.001596"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:53:23.949862" elapsed="0.656783"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-05-28T15:53:24.607645" elapsed="2.774507"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:27.382728" level="INFO">Double-clicked tree path: None</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:27.382372" elapsed="0.000529"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_DefaultViewConfiguration</arg>
+<arg>editorname=e</arg>
+<arg>filename=OPCUACSCONF</arg>
+<arg>filetree=DefaultRolePermissions|BR_Role 3|BR_Permissions|BR_ReadHistory</arg>
+<arg>version=${UACS_VERSION}</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-05-28T15:53:24.607218" elapsed="2.775827"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-05-28T15:53:27.383832" elapsed="0.655560"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:28.041948" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:28.040947" elapsed="0.001453"/>
+</kw>
+<status status="PASS" start="2026-05-28T15:53:28.039826" elapsed="0.002833"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-05-28T15:53:28.043202" elapsed="0.000268"/>
+</kw>
+<status status="NOT RUN" start="2026-05-28T15:53:28.042771" elapsed="0.000901"/>
+</branch>
+<status status="PASS" start="2026-05-28T15:53:28.039763" elapsed="0.003992"/>
+</if>
+<arg>item_number=1</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-05-28T15:53:27.383501" elapsed="0.660370"/>
+</kw>
+<kw name="Close Editor" owner="ide_keywords">
+<kw name="Close Active Editor" owner="FlaUILib">
+<arg>${save_changes}</arg>
+<status status="PASS" start="2026-05-28T15:53:28.046068" elapsed="4.205150"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-05-28T15:53:32.251877" level="INFO">Active editor closed (save_changes=True)</msg>
+<arg>Active editor closed (save_changes=${save_changes})</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-05-28T15:53:32.251497" elapsed="0.000526"/>
+</kw>
+<doc>Closes the currently active editor, optionally saving changes.</doc>
+<status status="PASS" start="2026-05-28T15:53:28.044996" elapsed="4.207127"/>
 </kw>
 <kw name="Build Project" owner="project_keywords">
 <kw name="Click Toolbar Button" owner="FlaUILib">
 <arg>Build Configuration</arg>
-<status status="PASS" start="2026-05-27T17:38:12.879943" elapsed="0.594580"/>
+<status status="PASS" start="2026-05-28T15:53:32.252869" elapsed="1.027172"/>
 </kw>
 <kw name="Wait For Message" owner="FlaUILib">
 <arg>Build:</arg>
 <arg>${timeout}</arg>
-<status status="PASS" start="2026-05-27T17:38:13.474745" elapsed="12.913113"/>
+<status status="PASS" start="2026-05-28T15:53:33.280239" elapsed="16.710656"/>
 </kw>
 <kw name="Wait For Dialog" owner="FlaUILib">
-<msg time="2026-05-27T17:38:34.313702" level="INFO">${dialog_appeared} = True</msg>
+<msg time="2026-05-28T15:54:06.022839" level="INFO">${dialog_appeared} = True</msg>
 <var>${dialog_appeared}</var>
 <arg>Build Project</arg>
 <arg>10</arg>
-<status status="PASS" start="2026-05-27T17:38:26.388059" elapsed="7.925814"/>
+<status status="PASS" start="2026-05-28T15:53:49.991092" elapsed="16.032013"/>
 </kw>
 <if>
 <branch type="IF" condition="${dialog_appeared}">
 <kw name="Click Dialog Button" owner="FlaUILib">
 <arg>Don't Transfer</arg>
 <arg>dialog_close=True</arg>
-<status status="PASS" start="2026-05-27T17:38:34.314355" elapsed="9.881862"/>
+<status status="PASS" start="2026-05-28T15:54:06.023494" elapsed="10.975693"/>
 </kw>
-<status status="PASS" start="2026-05-27T17:38:34.314029" elapsed="9.882490"/>
+<status status="PASS" start="2026-05-28T15:54:06.023268" elapsed="10.976163"/>
 </branch>
 <branch type="ELSE">
 <kw name="Log" owner="BuiltIn">
 <arg>No Transfer dialog appeared.</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2026-05-27T17:38:44.196743" elapsed="0.000088"/>
+<status status="NOT RUN" start="2026-05-28T15:54:16.999943" elapsed="0.000208"/>
 </kw>
-<status status="NOT RUN" start="2026-05-27T17:38:44.196558" elapsed="0.000329"/>
+<status status="NOT RUN" start="2026-05-28T15:54:16.999519" elapsed="0.000781"/>
 </branch>
-<status status="PASS" start="2026-05-27T17:38:34.314006" elapsed="9.882905"/>
+<status status="PASS" start="2026-05-28T15:54:06.023243" elapsed="10.977121"/>
 </if>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-27T17:38:44.197440" level="INFO">Project build complete</msg>
+<msg time="2026-05-28T15:54:17.001087" level="INFO">Project build complete</msg>
 <arg>Project build complete</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-27T17:38:44.196975" elapsed="0.000661"/>
+<status status="PASS" start="2026-05-28T15:54:17.000520" elapsed="0.000856"/>
 </kw>
 <doc>Builds the active configuration and waits for completion.</doc>
-<status status="PASS" start="2026-05-27T17:38:12.879593" elapsed="31.318130"/>
+<status status="PASS" start="2026-05-28T15:53:32.252555" elapsed="44.749155"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-27T17:38:44.198498" level="INFO">OPC UA client/server activation with anonymous access and BR_Engineer configured successfully</msg>
-<arg>OPC UA client/server activation with anonymous access and BR_Engineer configured successfully</arg>
+<msg time="2026-05-28T15:54:17.002819" level="INFO">OPC UA RBAC roles, users and default permissions configured successfully</msg>
+<arg>OPC UA RBAC roles, users and default permissions configured successfully</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-27T17:38:44.198233" elapsed="0.000381"/>
+<status status="PASS" start="2026-05-28T15:54:17.002287" elapsed="0.000674"/>
 </kw>
-<doc>Scenario: Activate OPC UA CS with anonymous access and BR_Engineer user
-Traceability ID: FW-OPCUA-C4
+<doc>Scenario: Replicate TM611_10 RBAC flow for OPC UA/CS
+Traceability ID: FW-OPCUA-C5
 Component: OPC UA CS
 Source Manual:
-Source Section: TM611_3_1_ActivateOPCUACS
+Source Section: TM611_10_RBAC
 Evidence Type: Automated UI procedure
 Determinism: Deterministic UI path
 Preconditions: OPC UA CS package is available and project is open</doc>
-<tag>configuration</tag>
 <tag>opcua</tag>
+<tag>rbac</tag>
 <tag>security</tag>
-<tag>trace:fw-opcua-c4</tag>
+<tag>trace:fw-opcua-c5</tag>
 <tag>trace:tm611</tag>
-<status status="PASS" start="2026-05-27T17:37:55.263811" elapsed="48.935208"/>
+<status status="PASS" start="2026-05-28T15:51:05.053769" elapsed="191.949708"/>
 </test>
 <doc>Test cases for OPCUA component configuration.</doc>
-<status status="PASS" start="2026-05-27T17:37:55.052248" elapsed="49.149952"/>
+<status status="PASS" start="2026-05-28T15:51:04.702312" elapsed="192.315238"/>
 </suite>
-<status status="PASS" start="2026-05-27T17:37:55.041797" elapsed="49.162893"/>
+<status status="PASS" start="2026-05-28T15:51:04.700021" elapsed="192.325223"/>
 </suite>
-<status status="PASS" start="2026-05-27T17:37:55.038429" elapsed="49.168209"/>
+<status status="PASS" start="2026-05-28T15:51:04.697401" elapsed="192.334695"/>
 </suite>
-<status status="PASS" start="2026-05-27T17:37:55.035228" elapsed="49.173596"/>
+<status status="PASS" start="2026-05-28T15:51:04.692039" elapsed="192.344721"/>
 </suite>
-<status status="PASS" start="2026-05-27T17:37:55.008132" elapsed="49.202501"/>
+<status status="PASS" start="2026-05-28T15:51:04.655314" elapsed="192.383525"/>
 </suite>
 <statistics>
 <total>
 <stat pass="1" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
-<stat pass="1" fail="0" skip="0">configuration</stat>
 <stat pass="1" fail="0" skip="0">opcua</stat>
+<stat pass="1" fail="0" skip="0">rbac</stat>
 <stat pass="1" fail="0" skip="0">security</stat>
-<stat pass="1" fail="0" skip="0">trace:fw-opcua-c4</stat>
+<stat pass="1" fail="0" skip="0">trace:fw-opcua-c5</stat>
 <stat pass="1" fail="0" skip="0">trace:tm611</stat>
 </tag>
 <suite>
@@ -338,6 +1651,6 @@ Preconditions: OPC UA CS package is available and project is open</doc>
 </suite>
 </statistics>
 <errors>
-<msg time="2026-05-27T17:37:55.073790" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+<msg time="2026-05-28T15:51:04.719993" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
 </errors>
 </robot>

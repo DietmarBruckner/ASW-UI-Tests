@@ -225,10 +225,23 @@ class RobotFlaulib:
     def take_screenshot(self, filename=None, outputdir=None):
         return self._call("take_screenshot", filename=filename, outputdir=outputdir)
 
-    @keyword("Configure OPCUA Client Server Activation")
-    def configure_opcua_client_server_activation(self, version):
-        return self._call("configure_opcua_client_server_activation", version=version)
+    @keyword("Insert From Toolbox")
+    def insert_from_toolbox(self, view, component_name, category=None, drag=False, xoffset=0, yoffset=0):
+        return self._call("insert_from_toolbox", view=view, category=category, component_name=component_name, drag=self._to_bool(drag), xoffset=xoffset, yoffset=yoffset)
 
-    @keyword("Configure OPCUA RBAC")
-    def configure_opcua_rbac(self, version):
-        return self._call("configure_opcua_rbac", version=version)
+    @keyword("Click into IDE")
+    def click_into_ide(self, editor=False):
+        return self._call("click_IDE", editor=self._to_bool(editor))
+
+    @keyword("Add Role")
+    def add_role(self, rolename, addrole=True):
+        return self._call("add_role", rolename=rolename, add_role=self._to_bool(addrole))
+    
+    @keyword("Add User")
+    def add_user(self, username, password, role, adduser=True):
+        return self._call("add_user", username=username, password=password, role=role, add_user=self._to_bool(adduser))
+    
+    @keyword("Close Active Editor")
+    def close_active_editor(self, save_changes=True):
+        return self._call("close_active_editor", save_changes=self._to_bool(save_changes))
+    
