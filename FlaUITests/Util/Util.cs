@@ -5,25 +5,18 @@ namespace FlaUITests.Util {
         public enum Verbose {NONE, LIGHT, STEPS, FULL}
         public static class Environment {
             public static string InstallationPath;
+            public static string EditorPathOPCUACS = "\\AS\\TechnologyPackages\\OpcUaCs\\";
             public static Verbose verbose;
         }
         public static void ConsoleOut(Verbose verbose, string text){
             if (Environment.verbose < verbose)
                 return;
-            if (verbose == Verbose.LIGHT) {
-                Console.WriteLine("------------------------------------------");
+            if (verbose == Verbose.LIGHT)
+                Console.WriteLine("------------------------------------------\n" + text + "\n------------------------------------------");
+            else if (verbose == Verbose.STEPS)
+                Console.WriteLine("==========================================\n" + text);
+            else if (verbose == Verbose.FULL)
                 Console.WriteLine(text);
-                Console.WriteLine("------------------------------------------");
-            }
-            else if (verbose == Verbose.STEPS) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine(text);
-            }
-            else if (verbose == Verbose.FULL) {
-                Console.WriteLine("==========================================");
-                Console.WriteLine(text);
-            }
-
         }
         public static int GetDamerauLevenshteinDistance(string s, string t) {
             if (string.IsNullOrEmpty(s))

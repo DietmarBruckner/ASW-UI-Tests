@@ -101,7 +101,7 @@ namespace FlaUILibrary.Util {
             {"Start/Stop Debugging", ToolBarDebug}, {"Start/Stop Contextual Watch", ToolBarDebug}, {"Function Block Context", ToolBarDebug}, {"Ste Module Context", ToolBarDebug}
         }; } }
         public static List<Editor> Editors = new List<Editor>();
-        public static Editor ActiveEditor;
+        public static Editor ActiveEditor = null;
         public IDE_Main (Application app, int timeout, string apppath) {
             App = app;
             _automation = new UIA2Automation();
@@ -131,7 +131,9 @@ namespace FlaUILibrary.Util {
             InitUIElements();
             _titleBar = MainWindow.TitleBar;
             Util.ConsoleOut(Util.Verbose.LIGHT, "Application opened successfully. Main elements initialized.");
-            AutomationElement [] editors = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window));
+            AutomationElement[] editors = Workspace?.FindAllChildren(cf => cf.ByControlType(ControlType.Window));
+            if (editors == null)
+                return;
             foreach (var e in editors) {
                 string s = e.Name;
                 int i = s.IndexOf('[');

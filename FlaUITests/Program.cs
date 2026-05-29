@@ -12,7 +12,7 @@ namespace FlaUITests {
             Dictionary<Components, string> dictcom = new Dictionary<Components, string> () {
                 {Components.OPCUACS, "6.6.1"},
                 {Components.mappView, "6.6.0"},
-                {Components.AutomationRuntime, "6.5.1"}
+                {Components.AutomationRuntime, "6.6.3"}
             };
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             Console.WriteLine("Creating new project with OPC UA, mapp View, Automation Runtime; CPU: X20CP1684, AS version: 6.3");

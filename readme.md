@@ -18,4 +18,10 @@ Visual Studio Build Tools 2022 - building .NET 4.8/4.8.1 apps
 
     working Python environment - "create environment" command; if it works can be seen when the test explorer finds something
 
-installed Automation Studio
+UI inspection
+    FlaUI inspect
+        requires .NET runtime 8 - will be installed automatically
+    Accessibility Insights For Windows
+
+installed Automation Studio 6
+    relevant AR and TP versions

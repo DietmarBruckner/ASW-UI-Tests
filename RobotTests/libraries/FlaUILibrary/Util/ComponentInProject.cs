@@ -2,6 +2,7 @@ namespace FlaUILibrary.Util {
     public abstract class ComponentInProject {
         protected AppProject Project;
         protected string Version;
+        protected string Path;
         public abstract void InitComponent();
         public abstract void InsertComponent();
 

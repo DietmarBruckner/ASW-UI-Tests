@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FlaUITests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cdb0da21838e4720e56e3a28c9684b73c776eb4f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e4b63a5a7cbd7e5a9d2e0e0a00938a4064e3de61")]
 [assembly: System.Reflection.AssemblyProductAttribute("FlaUITests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FlaUITests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
