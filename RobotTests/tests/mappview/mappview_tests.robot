@@ -117,9 +117,9 @@ Prepare Layout for Widget Pages
     ${IAT_editor}=    Find One Element     ${xpath}
 #    ${label1}=        Find One Element     ${xpath}/Group/*[@AutomationId="content_0_Label1"]
     @{children}=      Find All Elements    ${xpath}/Group/*
-    ${label1}=        Set Variable         ${children[0]}
-    ${cx}=           Set Variable         ${label1.Xpath}
-    ${aid}=           Set Variable         ${label1.AutomationId}
+    ${label1}        Set Variable         ${children[0]}
+    ${cx}           Set Variable         ${label1.Xpath}
+    ${aid}           Set Variable         ${label1.AutomationId}
     Click                                  ${cx}
     Key Press                              s'DEL'
     FlaUILib.Click Toolbar Button          Save All
