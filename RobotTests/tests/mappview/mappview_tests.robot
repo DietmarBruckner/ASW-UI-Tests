@@ -110,12 +110,14 @@ Prepare Layout for Widget Pages
     Initialize Automation Studio
     Navigate To mapp View                  logical view=True
     Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_content_0.content    shortcut=0
-    Sleep                                  4s
+    #Sleep                                  4s
     ${xpath}=                              FlaUILib.Get IAT Editor XPath
 #    ${xpath}=                              Set Variable    /Window/Pane[10]/Window[1]/Pane[2]/Pane/Pane/Pane/Pane/Pane/Pane/Pane[3]/Pane/Pane[1]/Pane/Pane[2]/Pane/Pane/Pane/Document
 #    Wait Until Element Exist               ${xpath}
     ${IAT_editor}=    Find One Element     ${xpath}
-    ${label1}=        Find One Element     ${xpath}/Group/*[@AutomationId="content_0_Label1"]
+#    ${label1}=        Find One Element     ${xpath}/Group/*[@AutomationId="content_0_Label1"]
+    ${children}=      Find All Elements    ${xpath}/Group/*
+    ${aid}=           Get Element Attribute    ${children}[1]    AutomationId
     Mouse Click                            ${label1.Xpath}
     Key Press                              s'DEL'
     FlaUILib.Click Toolbar Button          Save All
