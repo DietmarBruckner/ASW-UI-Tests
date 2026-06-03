@@ -112,19 +112,11 @@ Prepare Layout for Widget Pages
     Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_content_0.content    shortcut=0
     #Sleep                                  4s
     ${xpath}                               FlaUILib.Get IAT Editor XPath
-#    ${xpath}=                              Set Variable    /Window/Pane[10]/Window[1]/Pane[2]/Pane/Pane/Pane/Pane/Pane/Pane/Pane[3]/Pane/Pane[1]/Pane/Pane[2]/Pane/Pane/Pane/Document
-#    Wait Until Element Exist               ${xpath}
     ${IAT_editor}    Find One Element      ${xpath}
-#    ${label1}=        Find One Element     ${xpath}/Group/*[@AutomationId="content_0_Label1"]
-#    ${childs}=   Get Childs From Element   ${xpath}/Group
     @{children}      Find All Elements     ${xpath}/Group/*
     ${label1}        Set Variable          ${children[0]}
-    ${cXpath}        Set Variable    ${label1.Xpath}
-    ${cId}           Set Variable    ${label1.AutomationId}
-    ${cName}         Set Variable    ${label1.Name}
-    ${cClassName}    Set Variable    ${label1.ClassName}
-    Click                                  ${xpath}
-    Key Press                              s'DEL'
+    Click                                  ${label1.Xpath}
+    Press Key                              s'DEL'
     FlaUILib.Click Toolbar Button          Save All
     Edit Widget Size                       width=700    height=500    is_content=True
     Close Editor
