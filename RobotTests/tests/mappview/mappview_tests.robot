@@ -116,6 +116,7 @@ Prepare Layout for Widget Pages
 #    Wait Until Element Exist               ${xpath}
     ${IAT_editor}=    Find One Element     ${xpath}
 #    ${label1}=        Find One Element     ${xpath}/Group/*[@AutomationId="content_0_Label1"]
+    ${childs}=   Get Childs From Element    ${xpath}/Group
     @{children}=      Find All Elements    ${xpath}/Group/*
     ${label1}        Set Variable         ${children[0]}
     ${cx}           Set Variable         ${label1.Xpath}
