@@ -23,7 +23,7 @@ namespace FlaUILibrary.Util {
         }
         public void LoadActiveProject() {
             if (_ideMain.IsProjectLoaded()) {
-                string[] paths = _ideMain.GetProjectpath();
+                string[] paths = IDE_Main.GetProjectpath();
                 Name = paths[2];
                 Path = paths[0];
                 Config = paths[1];
@@ -43,6 +43,7 @@ namespace FlaUILibrary.Util {
             WorkingVersion = workingVersion;
             DictComponents = dictComponents;
             this.verbose = verbose;
+            Util.Environment.verbose = verbose;
 
             Name += ".apj";
             TreeConfig.CurrentProject = this;

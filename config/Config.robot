@@ -35,6 +35,23 @@ ${VIEW_VERSION}                     ${DEFAULT_VIEW_VERSION}
 ${MAPPVIEW_HTTP_PORT}               8080
 ${MAPPVIEW_HTTPS_PORT}              8443
 ${MAPPVIEW_PROTOCOL}                HTTP
+@{toTestWidgetGroups}
+...    True
+...    False
+...    False
+...    False
+...    True
+...    False
+...    False
+...    False
+...    False
+...    False
+...    True
+...    False
+...    False
+...    False
+...    False
+
 
 # OPC UA CS Configuration
 ${USE_OPCUACS}                      True

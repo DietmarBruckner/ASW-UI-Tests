@@ -230,8 +230,8 @@ class RobotFlaulib:
         return self._call("insert_from_toolbox", view=view, category=category, component_name=component_name, drag=self._to_bool(drag), xoffset=xoffset, yoffset=yoffset)
 
     @keyword("Click into IDE")
-    def click_into_ide(self, editor=False):
-        return self._call("click_IDE", editor=self._to_bool(editor))
+    def click_into_ide(self, editor=False, position=False):
+        return self._call("click_ide", editor=self._to_bool(editor), position=self._to_bool(position))
 
     @keyword("Add Role")
     def add_role(self, rolename, addrole=True):
@@ -245,3 +245,26 @@ class RobotFlaulib:
     def close_active_editor(self, save_changes=True):
         return self._call("close_active_editor", save_changes=self._to_bool(save_changes))
     
+    @keyword("Switch To View")
+    def switch_to_view(self, view_type, sizeX=400, sizeY=400):
+        return self._call("switch_to_view", view_type=view_type, sizeX=sizeX, sizeY=sizeY)
+
+    @keyword("Find And Select Item")
+    def find_and_select_item(self, item_name, doubleclick=False):
+        return self._call("find_and_select_item", item_name=item_name, doubleclick=self._to_bool(doubleclick))
+    
+    @keyword("Get ConfigTree Xpath")
+    def get_configtree_xpath(self):
+        result = self._call("get_configtree_xpath")
+        return result if isinstance(result, str) else result.get("result", "")
+    
+    @keyword("Get IAT Editor XPath")
+    def get_iateditor_xpath(self):
+        result = self._call("get_iateditor_xpath")
+        return result if isinstance(result, str) else result.get("result", "")
+    
+    @keyword("Get Property Window XPath")
+    def get_property_window_xpath(self):
+        result = self._call("get_propertywindow_xpath")
+        return result if isinstance(result, str) else result.get("result", "")
+

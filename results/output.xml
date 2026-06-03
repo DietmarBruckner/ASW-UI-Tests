@@ -1,179 +1,372 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-05-29T08:56:49.638813" rpa="false" schemaversion="5">
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-06-03T09:07:47.769562" rpa="false" schemaversion="5">
 <suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
 <suite id="s1-s1" name="RobotTests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests">
 <suite id="s1-s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests">
-<suite id="s1-s1-s1-s1" name="Automation Runtime" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\Automation Runtime">
-<suite id="s1-s1-s1-s1-s1" name="Automation Runtime" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\Automation Runtime\Automation Runtime.robot">
-<test id="s1-s1-s1-s1-s1-t1" name="Initialise Automation Runtime Version" line="6">
+<suite id="s1-s1-s1-s1" name="mappView" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\mappView">
+<suite id="s1-s1-s1-s1-s1" name="mappView tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\mappView\mappView_tests.robot">
+<test id="s1-s1-s1-s1-s1-t1" name="Prepare Layout for Widget Pages" line="100">
 <kw name="Initialize Automation Studio" owner="ide_keywords">
 <kw name="Initialize Automation Studio" owner="FlaUILib">
 <arg>${AS_DEFAULT_TIMEOUT}</arg>
 <arg>${AS_VERBOSE}</arg>
-<status status="PASS" start="2026-05-29T08:56:53.678638" elapsed="1.184096"/>
+<status status="PASS" start="2026-06-03T09:07:52.482276" elapsed="0.002123"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-29T08:56:54.865078" level="INFO">Automation Studio initialised.</msg>
+<msg time="2026-06-03T09:07:52.485290" level="INFO">Automation Studio initialised.</msg>
 <arg>Automation Studio initialised.</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-29T08:56:54.864521" elapsed="0.000714"/>
+<status status="PASS" start="2026-06-03T09:07:52.484925" elapsed="0.000575"/>
 </kw>
 <doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
-<status status="PASS" start="2026-05-29T08:56:53.678224" elapsed="1.187116"/>
+<status status="PASS" start="2026-06-03T09:07:52.481763" elapsed="0.003872"/>
 </kw>
-<kw name="Select Working Version for Component" owner="project_keywords">
-<kw name="Invoke IDE Menu" owner="ide_keywords">
-<kw name="Invoke Menu" owner="FlaUILib">
-<arg>${menu_name}</arg>
-<arg>${menu_item}</arg>
-<arg>${submenu_item}</arg>
-<status status="PASS" start="2026-05-29T08:57:00.645073" elapsed="1.189839"/>
+<kw name="Navigate To mapp View" owner="component_keywords">
+<if>
+<branch type="IF" condition="${logical view}">
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-06-03T09:07:52.487323" elapsed="2.310347"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-29T08:57:01.835498" level="INFO">Menu invoked: Project &gt; Change Runtime Versions... &gt; None</msg>
-<arg>Menu invoked: ${menu_name} &gt; ${menu_item} &gt; ${submenu_item}</arg>
+<msg time="2026-06-03T09:07:54.798266" level="INFO">Double-clicked tree path: BR_mappView</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-29T08:57:01.835121" elapsed="0.000536"/>
+<status status="PASS" start="2026-06-03T09:07:54.797907" elapsed="0.000523"/>
 </kw>
-<arg>Project</arg>
-<arg>Change Runtime Versions...</arg>
-<doc>Clicks a top-level menu and optionally a menu/sub-menu item.</doc>
-<status status="PASS" start="2026-05-29T08:57:00.644675" elapsed="1.191096"/>
+<arg>Logical View</arg>
+<arg>BR_mappView</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-06-03T09:07:52.486849" elapsed="2.311687"/>
 </kw>
-<kw name="Wait For Dialog" owner="FlaUILib">
-<msg time="2026-05-29T08:57:09.100822" level="INFO">${dialog_appeared} = True</msg>
-<var>${dialog_appeared}</var>
-<arg>${CPU_TYPE} - Properties</arg>
-<arg>5</arg>
-<status status="PASS" start="2026-05-29T08:57:01.835889" elapsed="7.265198"/>
-</kw>
-<if>
-<branch type="IF" condition="${dialog_appeared}">
-<kw name="Select Component Version" owner="FlaUILib">
-<arg>${component_name}</arg>
-<arg>${working_version}</arg>
-<status status="PASS" start="2026-05-29T08:57:09.101512" elapsed="0.772490"/>
-</kw>
-<kw name="Click Dialog Button" owner="FlaUILib">
-<arg>OK</arg>
-<arg>dialog_close=True</arg>
-<status status="PASS" start="2026-05-29T08:57:09.874192" elapsed="3.650523"/>
-</kw>
-<status status="PASS" start="2026-05-29T08:57:09.101266" elapsed="4.423583"/>
+<status status="PASS" start="2026-06-03T09:07:52.486533" elapsed="2.312070"/>
 </branch>
 <branch type="ELSE">
-<kw name="Log" owner="BuiltIn">
-<arg>No Change Runtime Versions dialog appeared.</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2026-05-29T08:57:13.525101" elapsed="0.000090"/>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<arg>Configuration View</arg>
+<arg>BR_${CPU_TYPE}|BR_mappView</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="NOT RUN" start="2026-06-03T09:07:54.798985" elapsed="0.000124"/>
 </kw>
-<status status="NOT RUN" start="2026-05-29T08:57:13.524907" elapsed="0.000343"/>
+<status status="NOT RUN" start="2026-06-03T09:07:54.798652" elapsed="0.000528"/>
 </branch>
-<status status="PASS" start="2026-05-29T08:57:09.101237" elapsed="4.424043"/>
+<status status="PASS" start="2026-06-03T09:07:52.486507" elapsed="2.312707"/>
 </if>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-05-29T08:57:13.525652" level="INFO">Working version selected: 6.6.3</msg>
-<arg>Working version selected: ${working_version}</arg>
+<msg time="2026-06-03T09:07:54.799593" level="INFO">Navigated to mappView in True ? "Logical View" : "Configuration View"</msg>
+<arg>Navigated to mappView in ${logical view} ? "Logical View" : "Configuration View"</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-05-29T08:57:13.525355" elapsed="0.000482"/>
+<status status="PASS" start="2026-06-03T09:07:54.799305" elapsed="0.000456"/>
 </kw>
-<arg>Automation Runtime</arg>
-<arg>${AR_VERSION}</arg>
-<doc>Selects the component's version inside the Project - Change Runtime Version dialog.</doc>
-<status status="PASS" start="2026-05-29T08:56:54.865780" elapsed="18.660150"/>
+<arg>logical view=True</arg>
+<doc>Navigates to the DefaultView node under OpcUa in the Configuration View</doc>
+<status status="PASS" start="2026-06-03T09:07:52.486071" elapsed="2.313780"/>
 </kw>
-<kw name="Build Project" owner="project_keywords">
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-06-03T09:07:54.800600" elapsed="1.926674"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-06-03T09:07:56.727846" level="INFO">Double-clicked tree path: BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_content_0.content</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-06-03T09:07:56.727505" elapsed="0.000500"/>
+</kw>
+<arg>Logical View</arg>
+<arg>BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_content_0.content</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-06-03T09:07:54.800200" elapsed="1.927900"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-06-03T09:08:00.728844" level="INFO">Slept 4 seconds.</msg>
+<arg>4s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2026-06-03T09:07:56.728418" elapsed="4.000721"/>
+</kw>
+<kw name="Get IAT Editor XPath" owner="FlaUILib">
+<msg time="2026-06-03T09:08:01.317295" level="INFO">${xpath} = /Window[1]/Pane[11]/Window/Pane[2]/Pane/Pane/Pane/Pane/Pane/Pane/Pane[3]/Pane/Pane[1]/Pane/Pane[2]/Pane/Pane/Pane//Document</msg>
+<var>${xpath}</var>
+<status status="PASS" start="2026-06-03T09:08:00.729765" elapsed="0.587867"/>
+</kw>
+<kw name="Find One Element" owner="FlaUILibrary">
+<msg time="2026-06-03T09:08:01.865131" level="INFO">${IAT_editor} = &lt;FlaUILibrary.flaui.util.automationelement.AutomationElement object at 0x0000022318E33A10&gt;</msg>
+<var>${IAT_editor}</var>
+<arg>${xpath}</arg>
+<doc>Find one element from given xpath.
+Runs immediately and without retrying later.
+Returns an AutomationElement which contains properties to Xpath.
+If AutomationId, ClassName or Name is set. Xpath can be used by these values and will be returned.</doc>
+<status status="PASS" start="2026-06-03T09:08:01.317982" elapsed="0.547533"/>
+</kw>
+<kw name="Find One Element" owner="FlaUILibrary">
+<msg time="2026-06-03T09:08:05.693206" level="INFO">test_at-l-hscks04_prepare_layout_for_widget_pages_1780470485496.jpg</msg>
+<msg time="2026-06-03T09:08:05.693537" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="test_at-l-hscks04_prepare_layout_for_widget_pages_1780470485496.jpg"&gt;&lt;img src="test_at-l-hscks04_prepare_layout_for_widget_pages_1780470485496.jpg" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-06-03T09:08:05.695886" level="FAIL">FlaUiError: Element from XPath '/Window[1]/Pane[11]/Window/Pane[2]/Pane/Pane/Pane/Pane/Pane/Pane/Pane[3]/Pane/Pane[1]/Pane/Pane[2]/Pane/Pane/Pane//Document/Group/*[@AutomationId="content_0_Label1"]' could not be found</msg>
+<var>${label1}</var>
+<arg>${xpath}/Group/*[@AutomationId="content_0_Label1"]</arg>
+<doc>Find one element from given xpath.
+Runs immediately and without retrying later.
+Returns an AutomationElement which contains properties to Xpath.
+If AutomationId, ClassName or Name is set. Xpath can be used by these values and will be returned.</doc>
+<status status="FAIL" start="2026-06-03T09:08:01.865884" elapsed="3.835328">FlaUiError: Element from XPath '/Window[1]/Pane[11]/Window/Pane[2]/Pane/Pane/Pane/Pane/Pane/Pane/Pane[3]/Pane/Pane[1]/Pane/Pane[2]/Pane/Pane/Pane//Document/Group/*[@AutomationId="content_0_Label1"]' could not be found</status>
+</kw>
+<kw name="Mouse Click">
+<arg>${label1.Xpath}</arg>
+<status status="NOT RUN" start="2026-06-03T09:08:22.835190" elapsed="0.001530"/>
+</kw>
+<kw name="Key Press">
+<arg>s'DEL'</arg>
+<status status="NOT RUN" start="2026-06-03T09:08:22.838263" elapsed="0.001069"/>
+</kw>
 <kw name="Click Toolbar Button" owner="FlaUILib">
-<arg>Build Configuration</arg>
-<status status="FAIL" start="2026-05-29T08:57:18.236702" elapsed="0.000550">Execution terminated by signal</status>
+<arg>Save All</arg>
+<status status="NOT RUN" start="2026-06-03T09:08:22.840855" elapsed="0.000117"/>
 </kw>
-<kw name="Wait For Message" owner="FlaUILib">
-<arg>Build:</arg>
-<arg>${timeout}</arg>
-<status status="NOT RUN" start="2026-05-29T08:57:18.237534" elapsed="0.000203"/>
+<kw name="Edit Widget Size" owner="widget_property_keywords">
+<arg>width=700</arg>
+<arg>height=500</arg>
+<arg>is_content=True</arg>
+<doc>Sets width and/or height of the selected widget in the Property Window.
+Pass -1 to leave a dimension unchanged.
+${is_content}=True targets the "Property" group directly (no scroll).
+${is_area}=True targets the "Layout" group directly (no scroll).</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.841680" elapsed="0.000227"/>
 </kw>
-<kw name="Wait For Dialog" owner="FlaUILib">
-<var>${dialog_appeared}</var>
-<arg>Build Project</arg>
-<arg>10</arg>
-<status status="NOT RUN" start="2026-05-29T08:57:18.237953" elapsed="0.000184"/>
+<kw name="Close Editor" owner="ide_keywords">
+<doc>Closes the currently active editor, optionally saving changes.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.842361" elapsed="0.000185"/>
 </kw>
-<if>
-<branch type="IF" condition="${dialog_appeared}">
-<kw name="Click Dialog Button" owner="FlaUILib">
-<arg>Don't Transfer</arg>
-<arg>dialog_close=True</arg>
-<status status="NOT RUN" start="2026-05-29T08:57:18.238556" elapsed="0.000126"/>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<arg>Logical View</arg>
+<arg>BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.842822" elapsed="0.000086"/>
 </kw>
-<status status="NOT RUN" start="2026-05-29T08:57:18.238324" elapsed="0.000460"/>
-</branch>
-<branch type="ELSE">
-<kw name="Log" owner="BuiltIn">
-<arg>No Transfer dialog appeared.</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2026-05-29T08:57:18.239021" elapsed="0.000123"/>
+<kw name="Insert From ToolBox" owner="project_keywords">
+<arg>Logical View</arg>
+<arg>Page content</arg>
+<doc>Inserts a component from the Toolbox into the project by double-clicking it.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.843077" elapsed="0.000079"/>
 </kw>
-<status status="NOT RUN" start="2026-05-29T08:57:18.238840" elapsed="0.000405"/>
-</branch>
-<status status="NOT RUN" start="2026-05-29T08:57:18.238288" elapsed="0.001037"/>
-</if>
-<kw name="Log" owner="BuiltIn">
-<arg>Project build complete</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2026-05-29T08:57:18.239459" elapsed="0.000121"/>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<arg>Logical View</arg>
+<arg>BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents|BR_content_1.content</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.843337" elapsed="0.000086"/>
 </kw>
-<doc>Builds the active configuration and waits for completion.</doc>
-<status status="FAIL" start="2026-05-29T08:57:13.526485" elapsed="4.713291">Execution terminated by signal</status>
+<kw name="Wait Until Element Exist" owner="FlaUILibrary">
+<arg>${xpath}</arg>
+<doc>Waits until element exist or timeout was reached. If timeout was reached an FlaUIError occurred.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.843600" elapsed="0.000083"/>
 </kw>
-<kw name="Log" owner="BuiltIn">
-<arg>Automation Runtime version initialised</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2026-05-29T08:57:18.240349" elapsed="0.000207"/>
+<kw name="Edit Widget Name" owner="widget_property_keywords">
+<arg>Navigation</arg>
+<doc>Sets the widget name (not the display text) to ${name} via the
+first "Name" property field at the top of the Property Window.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.844003" elapsed="0.000104"/>
 </kw>
-<doc>Scenario: Initialize Automation Runtime version
-Traceability ID: FW-AR-B1
-Component: Automation Runtime
-Source Manual:
-Source Section:
+<kw name="Edit Widget Size" owner="widget_property_keywords">
+<arg>width=100</arg>
+<arg>height=500</arg>
+<arg>is_content=True</arg>
+<doc>Sets width and/or height of the selected widget in the Property Window.
+Pass -1 to leave a dimension unchanged.
+${is_content}=True targets the "Property" group directly (no scroll).
+${is_area}=True targets the "Layout" group directly (no scroll).</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.844640" elapsed="0.000104"/>
+</kw>
+<kw name="Insert From ToolBox" owner="project_keywords">
+<arg>Logical View</arg>
+<arg>Navigation</arg>
+<doc>Inserts a component from the Toolbox into the project by double-clicking it.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.844980" elapsed="0.000092"/>
+</kw>
+<kw name="Edit Widget Position" owner="widget_property_keywords">
+<arg>top=0</arg>
+<arg>left=0</arg>
+<doc>Sets top and/or left position of the selected widget.
+Pass -1 to leave a value unchanged.
+${is_area}=True reads position directly from the "Layout" group
+instead of the nested "Layout &gt; Position" group.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.845501" elapsed="0.000111"/>
+</kw>
+<kw name="Edit Widget Size" owner="widget_property_keywords">
+<arg>width=100</arg>
+<arg>height=500</arg>
+<doc>Sets width and/or height of the selected widget in the Property Window.
+Pass -1 to leave a dimension unchanged.
+${is_content}=True targets the "Property" group directly (no scroll).
+${is_area}=True targets the "Layout" group directly (no scroll).</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.845999" elapsed="0.000096"/>
+</kw>
+<kw name="Click Toolbar Button" owner="FlaUILib">
+<arg>Save All</arg>
+<status status="NOT RUN" start="2026-06-03T09:08:22.846254" elapsed="0.000078"/>
+</kw>
+<kw name="Close Editor" owner="ide_keywords">
+<doc>Closes the currently active editor, optionally saving changes.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.846492" elapsed="0.000079"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<arg>Logical View</arg>
+<arg>BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.846729" elapsed="0.000084"/>
+</kw>
+<kw name="Insert From ToolBox" owner="project_keywords">
+<arg>Logical View</arg>
+<arg>Page content</arg>
+<doc>Inserts a component from the Toolbox into the project by double-clicking it.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.846976" elapsed="0.000078"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<arg>Logical View</arg>
+<arg>BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents|BR_content_1.content</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.847311" elapsed="0.000109"/>
+</kw>
+<kw name="Wait Until Element Exist" owner="FlaUILibrary">
+<arg>${xpath}</arg>
+<doc>Waits until element exist or timeout was reached. If timeout was reached an FlaUIError occurred.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.847637" elapsed="0.000084"/>
+</kw>
+<kw name="Edit Widget Name" owner="widget_property_keywords">
+<arg>Info_Pane</arg>
+<doc>Sets the widget name (not the display text) to ${name} via the
+first "Name" property field at the top of the Property Window.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.847923" elapsed="0.000080"/>
+</kw>
+<kw name="Edit Widget Size" owner="widget_property_keywords">
+<arg>height=100</arg>
+<arg>is_content=True</arg>
+<doc>Sets width and/or height of the selected widget in the Property Window.
+Pass -1 to leave a dimension unchanged.
+${is_content}=True targets the "Property" group directly (no scroll).
+${is_area}=True targets the "Layout" group directly (no scroll).</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.848455" elapsed="0.000110"/>
+</kw>
+<kw name="Click Into IDE" owner="ide_keywords">
+<doc>Clicks into the IDE to ensure it has focus, optionally on an open editor. Marked elements loose focus.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.848773" elapsed="0.000113"/>
+</kw>
+<kw name="Insert From ToolBox" owner="project_keywords">
+<arg>Logical View</arg>
+<arg>Label</arg>
+<doc>Inserts a component from the Toolbox into the project by double-clicking it.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.849074" elapsed="0.000088"/>
+</kw>
+<kw name="Edit Widget Position" owner="widget_property_keywords">
+<arg>top=5</arg>
+<arg>left=50</arg>
+<doc>Sets top and/or left position of the selected widget.
+Pass -1 to leave a value unchanged.
+${is_area}=True reads position directly from the "Layout" group
+instead of the nested "Layout &gt; Position" group.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.849529" elapsed="0.000092"/>
+</kw>
+<kw name="Edit Widget Size" owner="widget_property_keywords">
+<arg>width=200</arg>
+<arg>height=30</arg>
+<doc>Sets width and/or height of the selected widget in the Property Window.
+Pass -1 to leave a dimension unchanged.
+${is_content}=True targets the "Property" group directly (no scroll).
+${is_area}=True targets the "Layout" group directly (no scroll).</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.850026" elapsed="0.000094"/>
+</kw>
+<kw name="Insert From ToolBox" owner="project_keywords">
+<arg>Logical View</arg>
+<arg>LanguageSelector</arg>
+<doc>Inserts a component from the Toolbox into the project by double-clicking it.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.850347" elapsed="0.000084"/>
+</kw>
+<kw name="Edit Widget Position" owner="widget_property_keywords">
+<arg>top=35</arg>
+<arg>left=680</arg>
+<doc>Sets top and/or left position of the selected widget.
+Pass -1 to leave a value unchanged.
+${is_area}=True reads position directly from the "Layout" group
+instead of the nested "Layout &gt; Position" group.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.850783" elapsed="0.000088"/>
+</kw>
+<kw name="Click Toolbar Button" owner="FlaUILib">
+<arg>Save All</arg>
+<status status="NOT RUN" start="2026-06-03T09:08:22.851087" elapsed="0.000086"/>
+</kw>
+<kw name="Close Editor" owner="ide_keywords">
+<doc>Closes the currently active editor, optionally saving changes.</doc>
+<status status="NOT RUN" start="2026-06-03T09:08:22.851341" elapsed="0.000081"/>
+</kw>
+<doc>Scenario: Prepare mappView layout for widget page tests
+Traceability ID: FW-MVIEW-C2
+Component: mappView
+Source Manual: agents/TM611-GER_Working_with_mapp_View_V6001_mV61.md
+Source Section: 5.4 Content and Widgets
 Evidence Type: Manual procedure
 Determinism: Deterministic UI path
-Preconditions:</doc>
-<tag>automationruntime</tag>
+Preconditions: mappView component available and configured</doc>
 <tag>configuration</tag>
-<tag>smoke</tag>
-<tag>trace:fw-ar-b1</tag>
-<status status="FAIL" start="2026-05-29T08:56:53.673173" elapsed="24.567797">Execution terminated by signal</status>
+<tag>mappview</tag>
+<tag>trace:fw-mview-c2</tag>
+<tag>trace:sec-5.4</tag>
+<tag>trace:tm611</tag>
+<status status="FAIL" start="2026-06-03T09:07:52.477719" elapsed="30.373891">FlaUiError: Element from XPath '/Window[1]/Pane[11]/Window/Pane[2]/Pane/Pane/Pane/Pane/Pane/Pane/Pane[3]/Pane/Pane[1]/Pane/Pane[2]/Pane/Pane/Pane//Document/Group/*[@AutomationId="content_0_Label1"]' could not be found</status>
 </test>
-<doc>Test cases for AutomationRuntime component configuration.</doc>
-<status status="FAIL" start="2026-05-29T08:56:49.704255" elapsed="28.549039"/>
+<doc>Test cases for MappView component configuration and widget insertion.</doc>
+<status status="FAIL" start="2026-06-03T09:07:47.810079" elapsed="35.060536"/>
 </suite>
-<status status="FAIL" start="2026-05-29T08:56:49.701747" elapsed="28.562408"/>
+<status status="FAIL" start="2026-06-03T09:07:47.807458" elapsed="35.066394"/>
 </suite>
-<status status="FAIL" start="2026-05-29T08:56:49.698843" elapsed="28.567863"/>
+<status status="FAIL" start="2026-06-03T09:07:47.804448" elapsed="35.071679"/>
 </suite>
-<status status="FAIL" start="2026-05-29T08:56:49.695458" elapsed="28.573787"/>
+<status status="FAIL" start="2026-06-03T09:07:47.800457" elapsed="35.082938"/>
 </suite>
-<status status="FAIL" start="2026-05-29T08:56:49.643675" elapsed="28.627817"/>
+<status status="FAIL" start="2026-06-03T09:07:47.774390" elapsed="35.113302"/>
 </suite>
 <statistics>
 <total>
 <stat pass="0" fail="1" skip="0">All Tests</stat>
 </total>
 <tag>
-<stat pass="0" fail="1" skip="0">automationruntime</stat>
 <stat pass="0" fail="1" skip="0">configuration</stat>
-<stat pass="0" fail="1" skip="0">smoke</stat>
-<stat pass="0" fail="1" skip="0">trace:fw-ar-b1</stat>
+<stat pass="0" fail="1" skip="0">mappview</stat>
+<stat pass="0" fail="1" skip="0">trace:fw-mview-c2</stat>
+<stat pass="0" fail="1" skip="0">trace:sec-5.4</stat>
+<stat pass="0" fail="1" skip="0">trace:tm611</stat>
 </tag>
 <suite>
 <stat name="ASW-UI-Tests" id="s1" pass="0" fail="1" skip="0">ASW-UI-Tests</stat>
 <stat name="RobotTests" id="s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests</stat>
 <stat name="Tests" id="s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests</stat>
-<stat name="Automation Runtime" id="s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.Automation Runtime</stat>
-<stat name="Automation Runtime" id="s1-s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.Automation Runtime.Automation Runtime</stat>
+<stat name="mappView" id="s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.mappView</stat>
+<stat name="mappView tests" id="s1-s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.mappView.mappView tests</stat>
 </suite>
 </statistics>
 <errors>
-<msg time="2026-05-29T08:56:49.801288" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+<msg time="2026-06-03T09:07:47.990126" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
 </errors>
 </robot>

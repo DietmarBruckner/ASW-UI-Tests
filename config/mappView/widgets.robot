@@ -2,85 +2,122 @@
 Library            Collections
 
 *** Variables ***
-@{WIDGETS_LIST}
-...    AlarmHistory
-...    AlarmLine
-...    AlarmList
-...    AuditList
-...    BarChart
-...    BasicSlider
+@{all_Widgets}
+...    @{button_Widgets}
+...    @{chart_Widgets}
+...    @{container_Widgets}
+...    @{data_Widgets}
+...    @{dateTime_Widgets}
+...    @{drawing_Widgets}
+...    @{image_Widgets}
+...    @{login_Widgets}
+...    @{media_Widgets}
+...    @{motion_Widgets}
+...    @{numeric_Widgets}
+...    @{selector_Widgets}
+...    @{system_Widgets}
+...    @{text_Widgets}
+...    @{process_Widgets}
+@{button_Widgets}
+...    ToggleSwitch
+...    ToggleButton
+...    RadioButton
+...    PushButton
+...    NavigationButton
+...    MomentaryPushButton
+...    HoverButton
+...    Checkbox
 ...    Button
-...    ButtonBar
-...    CheckBox
-...    ContentCarousel
-...    Database
-...    DateTimeInput
-...    DateTimeOutput
+@{chart_Widgets}
+...    BarChart
 ...    DonutChart
-...    DropDownBox
-...    Ellipse
-...    FavoriteWatch
+...    LinearGauge
+...    LineChart
+...    OnlineChart
+...    OnlineChartHDA
+...    PieChart
+...    ProfileGenerator
+...    RadialGauge
+...    StackedBarChart
+...    Timeline
+...    XYChart
+@{container_Widgets}
+...    ButtonBar
 ...    FlexBox
 ...    FlexLayoutPanel
 ...    FlyOut
 ...    GridLine
 ...    GroupBox
-...    HoverButton
+...    InfoBanner
+...    NavigationBar
+...    RadialButtonBar
+...    RadioButtonGroup
+...    TabControl
+@{data_Widgets}
+...    AlarmHistory
+...    AlarmLine
+...    AlarmList
+...    AuditList
+...    FavoriteWatch
+...    Table
+...    UserList
+...    Database
+@{dateTime_Widgets}
+...    DateTimeInput
+...    DateTimeOutput
+@{drawing_Widgets}
+...    Ellipse
+...    Line
+...    Rectangle
+...    Paper
+@{image_Widgets}
 ...    Image
 ...    ImageList
-...    InfoBanner
-...    Joystick
-...    Label
-...    LadderEditor
-...    Line
-...    LinearGauge
-...    Linechart
-...    ListBox
+@{login_Widgets}
 ...    Login
 ...    LoginButton
 ...    LoginInfo
 ...    LogoutButton
-...    MeasurementSystemSelector
-...    MomentaryPushButton
+...    Password
+@{media_Widgets}
+...    PDFViewer
+...    QRViewer
+...    VideoPlayer
+...    VNCViewer
+...    WebViewer
+@{motion_Widgets}
 ...    MotionPad
-...    NavigationBar
-...    NavigationButton
+@{numeric_Widgets}
+...    BasicSlider
+...    Joystick
 ...    NumericInput
 ...    NumericOutput
-...    OnlineChart
-...    OnlineChartHDA
-...    Paper
-...    Password
-...    PDFViewer
-...    PieChart
-...    ProfileGenerator
 ...    ProgressBar
-...    PushButton
-...    QRViewer
-...    RadialButtonBar
-...    RadialGauge
 ...    RadialSlider
-...    RadioButton
-...    RadioButtonGroup
 ...    RangeSlider
-...    Rectangle
-...    Sequencer
-...    SequencerStepItemParameterForm
-...    SequencerTable
-...    Skyline
-...    StackedBarChart
-...    TabControl
-...    Table
+...    XYJoystick
+@{selector_Widgets}
+...    DropDownBox
+...    ListBox
+...    TextPicker
+@{system_Widgets}
+...    KeyBoard
+...    LanguageSelector
+...    MeasurementSystemSelector
+...    MotionKeyPad
+...    NumPad
+...    SystemNavButton
+...    SystemLogin
+...    TextKeyPad
+...    DateTimePicker
+...    ContentControl
+...    ContentCarousel
+@{text_Widgets}
+...    Label
 ...    TextInput
 ...    TextOutput
 ...    TextPad
-...    TextPicker
-...    TimeLine
-...    ToggleButton
-...    ToggleSwitch
-...    UserList
-...    VideoPlayer
-...    VncViewer
-...    WebViewer
-...    XYChart
-...    XYJoystick
+@{process_Widgets}
+...    Sequencer
+...    LadderEditor
+...    Skyline

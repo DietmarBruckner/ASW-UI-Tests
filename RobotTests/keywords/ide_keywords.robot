@@ -89,12 +89,19 @@ Click Toolbar Button
 
 Click Into IDE    
     [Documentation]    Clicks into the IDE to ensure it has focus, optionally on an open editor. Marked elements loose focus.
-    [Arguments]        ${editor}=False
-    FlaUILib.Click into IDE    ${editor}
-    Log    Clicked into IDE (editor=${editor})
+    [Arguments]        ${editor}=False    ${position}=False
+    FlaUILib.Click into IDE    ${editor}    ${position}
+    Log    Clicked into IDE (editor=${editor}, position=${position})
 
 Close Editor
     [Documentation]    Closes the currently active editor, optionally saving changes.
     [Arguments]        ${save_changes}=True
     FlaUILib.Close Active Editor    ${save_changes}
     Log    Active editor closed (save_changes=${save_changes})
+
+Get ConfigTree Xpath
+    [Documentation]    Returns the XPath of a configuration tree item of the active editor
+    [Arguments]
+    ${xpath}=    FlaUILib.Get ConfigTree Xpath
+    Log    Configuration tree item XPath: ${xpath}
+    RETURN    ${xpath}

@@ -48,8 +48,8 @@ namespace FlaUILibrary.Util {
         public static AutomationElement ToolBarFormat { get; private set; }
         public static AutomationElement ToolBarZoom { get; private set; }
         public static AutomationElement ToolBarDebug { get; private set; }
-        private Screen _screen;
-        public Dictionary<string, Rectangle> UIElementsBounds { get {
+        static Screen _screen;
+        private static Dictionary<string, Rectangle> UIElementsBounds { get {
                 AutomationElement a;
                 Dictionary<string, Rectangle> bounds = new Dictionary<string, Rectangle> {
                     { "MainWindow", MainWindow.BoundingRectangle } };
@@ -73,7 +73,7 @@ namespace FlaUILibrary.Util {
                     bounds.Add("StatusBar", a.BoundingRectangle);
                 return bounds;
             } }
-        public static Dictionary<string, AutomationElement> toolbarButtons { get { return new Dictionary<string, AutomationElement> {
+        public static Dictionary<string, AutomationElement> ToolbarButtons { get { return new Dictionary<string, AutomationElement> {
             {"New Project...", ToolBarStandard}, {"Open Project...", ToolBarStandard}, {"Close Project", ToolBarStandard}, {"Save", ToolBarStandard}, 
             {"Save All", ToolBarStandard}, {"Convert Project...", ToolBarStandard}, {"Cut", ToolBarStandard}, {"Copy", ToolBarStandard}, 
             {"Paste", ToolBarStandard}, {"Undo", ToolBarStandard}, {"Redo", ToolBarStandard}, {"Delete", ToolBarStandard}, 
@@ -244,12 +244,12 @@ namespace FlaUILibrary.Util {
             }
             catch (Exception) { return Util.ConsoleOut(Util.Verbose.LIGHT, "Error while trying to click " + menuItemName + " in menu " + nameMenu + ((subMenuItemName != null)? " in submenu " + subMenuItemName : ""), true); }
         }
-        public string[] GetProjectpath()
+        public static string[] GetProjectpath()
         {
-            String titleString = _titleBar.Name;
-            String configString = "";
-            String projectString = "";
-            String folder = "";
+            string titleString = _titleBar.Name;
+            string configString = "";
+            string projectString = "";
+            string folder = "";
             int i = titleString.IndexOf("Automation Studio", StringComparison.OrdinalIgnoreCase);
             if (i >= 0)
                 projectString = titleString.Substring(0, i - 3);
@@ -273,7 +273,7 @@ namespace FlaUILibrary.Util {
             }
             return null;
         }
-        public Window GetModalWindow(String name) {
+        public Window GetModalWindow(string name) {
             Window w;
             while ((w = MainWindow.ModalWindows.FirstOrDefault(x => x.Title.Contains(name))) == null) {
                 Util.ConsoleOut(Util.Verbose.FULL, "Waiting for window: " + name);
@@ -325,11 +325,11 @@ namespace FlaUILibrary.Util {
                 }
             }
             if (propertyWindow) {
-                PropertyWindow = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Property Window")));
+                PropertyWindow = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("6155")));
                 if (PropertyWindow == null) {
                     InvokeMenuItem(GetMenu("View"), "Property Window");
                     Sleep(TimeSpan.FromSeconds(1));
-                    PropertyWindow = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("Property Window")));
+                    PropertyWindow = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByAutomationId("6155")));
                 }
             }
             if (outputResults) {
@@ -457,7 +457,7 @@ namespace FlaUILibrary.Util {
             else
                 return Util.Ok("message_arrived", message);
         }
-        public void SwitchView(TreeConfig.ViewType view, int x = 400, int y = 400) {
+        public static void SwitchView(TreeConfig.ViewType view, int x = 400, int y = 400) {
             Util.ConsoleOut(Util.Verbose.LIGHT, "Switching to view: " + view.ToString());
             Point point;
             Rectangle Rect = UIElementsBounds["ProjectExplorer"];
@@ -946,7 +946,7 @@ namespace FlaUILibrary.Util {
                 Name = name;
                 ConfigWorkspace = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(name) >= 0);
                 AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
-                try {Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(name) >= 0);} catch (Exception) {}
+                Tab = TabList?.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(name) >= 0);
                 return this;
             }
             public Editor Rename(string name) {
@@ -957,7 +957,7 @@ namespace FlaUILibrary.Util {
             } 
             public void Restore() {
                 AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
-                try {Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);} catch (Exception) {}
+                Tab = TabList?.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);
                 if (Tab == null) {
                     Button tabs = TabList.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
                     tabs.Click();
@@ -974,7 +974,8 @@ namespace FlaUILibrary.Util {
             public void Close() {
                 Restore();
                 AutomationElement TabList = Workspace.FindFirstChild(cf => cf.ByControlType(ControlType.Tab));
-                try {Tab = TabList.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);} catch (Exception) {}
+                Tab = TabList?.FindAllChildren(cf => cf.ByControlType(ControlType.TabItem)).First(cf => cf.Name.IndexOf(Name) >= 0);
+                TreeConfig.ClickAutomationElement(ConfigWorkspace);
                 TreeConfig.IdeMain.Save();
                 Rectangle rec;
                 Point point;

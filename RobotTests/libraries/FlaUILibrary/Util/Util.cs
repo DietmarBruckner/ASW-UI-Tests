@@ -5,7 +5,10 @@ namespace FlaUILibrary.Util {
         public enum Verbose {NONE, LIGHT, STEPS, FULL}
         public static class Environment {
             public static string InstallationPath;
-            public static string EditorPathOPCUACS = "\\AS\\TechnologyPackages\\OpcUaCs\\";
+            static readonly string ASTP = "\\AS\\TechnologyPackages\\";
+            public static string EditorPathOPCUACS =    ASTP + "OpcUaCs\\";
+            public static string EditorPathMV =         ASTP + "mappView\\";
+            public static string EditorPathTS =         ASTP + "TextSystem\\n.d\\Editors\\";
             public static Verbose verbose;
         }
         public static object ConsoleOut(Verbose verbose, string text, bool error = false) {

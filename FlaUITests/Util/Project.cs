@@ -43,6 +43,7 @@ namespace FlaUITests.Util {
             WorkingVersion = workingVersion;
             DictComponents = dictComponents;
             this.verbose = verbose;
+            Util.Environment.verbose = verbose;
 
               _ideMain.InvokeMenuItem(_ideMain.GetMenu("File"), "New Project...");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1)); // Wait for the New Project dialog to appear

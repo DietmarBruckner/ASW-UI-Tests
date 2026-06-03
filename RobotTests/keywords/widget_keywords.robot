@@ -9,21 +9,6 @@ Resource            ${CURDIR}/component_keywords.robot
 
 *** Keywords ***
 
-Get Widgets From Config
-    [Documentation]    Reads widget names from Widgets.txt, returns a clean list.
-    [Arguments]        ${config_file_path}=${CURDIR}/../config/Widgets.txt
-    ${raw}=           Get File    ${config_file_path}
-    @{lines}=         Split To Lines    ${raw}
-    ${result}=        Create List
-    FOR    ${line}    IN    @{lines}
-        ${stripped}=    Strip String    ${line}
-        IF    '${stripped}' != ''
-            Append To List    ${result}    ${stripped}
-        END
-    END
-    RETURN    ${result}
-
-
 Insert And Verify Widget
     [Documentation]    Inserts a single widget by type, verifies it in the property panel.
     [Arguments]        ${widget_type}    ${widget_name}    ${widget_id}

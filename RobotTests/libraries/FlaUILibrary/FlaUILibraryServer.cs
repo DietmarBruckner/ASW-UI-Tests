@@ -78,14 +78,10 @@ namespace FlaUILibrary
                             response.OutputStream.Write(outBytes, 0, outBytes.Length);
                             response.StatusCode = 200;
                         }
-                        else {
-                            response.StatusCode = 404;
-                        }
+                        else { response.StatusCode = 404; }
                     }
                 }
-                else {
-                    response.StatusCode = 405;
-                }
+                else { response.StatusCode = 405; }
                 response.OutputStream.Close();
             }
             catch (Exception ex) { Console.WriteLine("HandleRequest error: " + ex.Message); }
@@ -115,13 +111,18 @@ namespace FlaUILibrary
                     case "wait_for_idle":                   { _app?.WaitWhileBusy(TimeSpan.FromSeconds(Ai("timeout",30))); return Util.Util.Ok("idle"); }
                     case "wait_for_message":                return KwWaitForMessage(A("message"), Ai("timeout",30));
                     case "activate_simulation_mode":        return KwActivateSimulationMode();
-                    case "click_IDE":                       return KwClickIDE(Ab("editor", false));
+                    case "click_ide":                       return KwClickIDE(Ab("editor", false), Ab("position", false));
                     case "select_component_version":        return KwSelectComponentVersion(A("component_name"), A("version"));
                     case "get_window_title":                return new { result = IDE_Main.MainWindow?.Title ?? "" };
                     case "insert_from_toolbox":             return KwInsertFromToolbox(A("view"), A("category"), A("component_name"), Ab("drag", false), Ai("xoffset", 0), Ai("yoffset", 0));
                     case "add_role":                        return KwAddRole(A("rolename"), Ab("add_role", true));
                     case "add_user":                        return KwAddUser(A("username"), A("password"), A("role"), Ab("add_user", true));
                     case "close_active_editor":             return KwCloseActiveEditor(Ab("save_changes", true));
+                    case "switch_to_view":                  return KwSwitchToView(A("view_type"), Ai("sizeX",400), Ai("sizeY",400));
+                    case "find_and_select_item":            return KwFindAndSelectItem(A("item_name"), Ab("doubleclick", false));
+                    case "get_configtree_xpath":            return KwGetConfigTreeXpath();
+                    case "get_iateditor_xpath":             return KwGetIATEditorXpath();
+                    case "get_propertywindow_xpath":        return KwGetPropertyWindowXPath();
                     case "is_project_loaded":            return KwIsProjectLoaded();
                     case "get_dialog_text":      return KwGetDialogText(A("field_label"), A("dialog_title"));
                     case "open_context_menu":       return KwOpenContextMenu(A("identifier"), A("search_by","name"));
@@ -175,6 +176,19 @@ namespace FlaUILibrary
         }
         private object KwInvokeMenu(string menuName, string menuItem, string submenuItem) {
             return IDE_Main.InvokeMenuItem(IDE_Main.GetMenu(menuName), menuItem, submenuItem);
+        }
+        private object KwSwitchToView(string viewType, int x, int y) {
+            TreeConfig.ViewType vtype;
+            switch (viewType.Trim().ToLowerInvariant()) {
+                case "logical view":       vtype = TreeConfig.ViewType.LogicalView; break;
+                case "configuration view": vtype = TreeConfig.ViewType.ConfigurationView; break;
+                case "physical view":      vtype = TreeConfig.ViewType.PhysicalView; break;
+                case "binding window":     vtype = TreeConfig.ViewType.BindingWindow; break;
+                case "workspace":          vtype = TreeConfig.ViewType.Workspace; break;
+                default: return Util.Util.Err("Unknown view type: " + viewType);
+            }
+            IDE_Main.SwitchView(vtype, x, y);
+            return Util.Util.Ok("Switched to view", viewType);
         }
         private object KwWaitForMessage(string message, int timeout) {
             return Ide_Main.WaitForMessage(message, timeout);
@@ -241,6 +255,14 @@ namespace FlaUILibrary
             }
             return Util.Util.Ok("button_clicked", buttonName);
         }
+        private object KwFindAndSelectItem(string itemName, bool doubleclick = false) {
+            Window dialog = _modalWindows?.Last() ?? IDE_Main.MainWindow;
+            var item = dialog.FindAllDescendants().FirstOrDefault(cf => cf.Name.IndexOf(itemName, StringComparison.OrdinalIgnoreCase) >= 0) 
+            ?? dialog.FindAllDescendants().FirstOrDefault(cf => cf.AutomationId.IndexOf(itemName, StringComparison.OrdinalIgnoreCase) >= 0);
+            if (item == null) return Util.Util.Err("Item not found: " + itemName);
+            TreeConfig.ClickAutomationElement(item, doubleClick: doubleclick);
+            return Util.Util.Ok("item_selected", itemName);
+        }
         private object KwSelectComponentVersion(string componentName, string version) {
             return Ide_Main.SelectComponentVersion(_modalWindows.Last(), componentName, version);
         }
@@ -251,14 +273,16 @@ namespace FlaUILibrary
                 switch (filename) {
                     case "OPCUACS": file = Util.Util.Environment.InstallationPath + Util.Util.Environment.EditorPathOPCUACS + version + "\\Editors\\" + "uacfg.xml"; break;
                     case "OPCUACSCONF": file = Util.Util.Environment.InstallationPath + Util.Util.Environment.EditorPathOPCUACS + version + "\\Editors\\" + "uadcfg.xml"; break;
+                    case "TEXTSYSTEM": file = Util.Util.Environment.InstallationPath + Util.Util.Environment.EditorPathTS + "TextConfig.xml"; break;
+                    case "MAPPVIEW": file = Util.Util.Environment.InstallationPath + Util.Util.Environment.EditorPathMV + version + "\\Editors\\" + "mappviewcfg.xml"; break;
                     default : file = null; break;
                 }
                 string [] s = filetree.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                 fileTreePath = TreeConfig.FindXMLPath(file, s[0], s.Skip(1).ToArray());
             }
             else
-                segments = treePath.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-            List<string> ls = (filename != null) ? fileTreePath : segments.ToList();
+                segments = treePath?.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+            List<string> ls = (filename != null) ? fileTreePath : segments?.ToList();
             TreeConfig.ViewType vtype;
             switch (viewType) {
                 case "Logical View":         vtype = TreeConfig.ViewType.LogicalView; break;
@@ -300,14 +324,18 @@ namespace FlaUILibrary
         private object KwActivateSimulationMode() {
             return IDE_Main.ActivateSimulation();
         }
-        private object KwClickIDE(bool editor = false) {
-            if (editor == false)
-                TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
-            else if (IDE_Main.ActiveEditor != null)
-                TreeConfig.ClickAutomationElement(IDE_Main.ActiveEditor.ConfigWorkspace);
-            else
-                return Util.Util.Err("No active editor to click on.");
-            return Util.Util.Ok("clicked_IDE", editor ? "editor" : "titlebar");
+        private object KwClickIDE(bool editor = false, bool position = false) {
+            if (position)
+                Mouse.Click();
+            else {
+                if (editor == false)
+                    TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
+                else if (IDE_Main.ActiveEditor != null)
+                    TreeConfig.ClickAutomationElement(IDE_Main.ActiveEditor.ConfigWorkspace);
+                else
+                    return Util.Util.Err("No active editor to click on.");
+            }
+            return Util.Util.Ok("clicked_IDE", editor ? "editor" : position ? "current position" : "titlebar");
         }
         private object KwAddRole(string name, bool addRole) {
             IDE_Main.AddRole(name, addRole);
@@ -316,6 +344,46 @@ namespace FlaUILibrary
         private object KwAddUser(string name, string password, string role, bool addUser) {
             IDE_Main.AddUser(name, password, role, addUser);
             return Util.Util.Ok("user_added", name);
+        }
+        private object KwGetConfigTreeXpath() {
+            var editor = IDE_Main.ActiveEditor;
+            if (editor == null) return Util.Util.Err("No active editor.");
+            var tree = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            if (tree == null) return Util.Util.Err("Configuration tree not found in active editor.");
+
+            bool reachedMainWindow;
+            var xpath = BuildControlTypeXPath(tree, IDE_Main.MainWindow, out reachedMainWindow);
+            if (!reachedMainWindow)
+                return Util.Util.Err("Could not build XPath to main window from configuration tree.");
+
+            return new { result = xpath };
+        }
+        private object KwGetIATEditorXpath() {
+            var editor = IDE_Main.ActiveEditor;
+            if (editor == null) return Util.Util.Err("No active editor.");
+            var iateditor = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document));
+            if (iateditor == null) return Util.Util.Err("IAT editor not found in active editor.");
+
+            bool reachedMainWindow;
+            var xpath = BuildControlTypeXPath(iateditor, IDE_Main.MainWindow, out reachedMainWindow);
+            if (!reachedMainWindow)
+                return Util.Util.Err("Could not build XPath to main window from IAT editor.");
+
+            return new { result = xpath };
+        }
+        private object KwGetPropertyWindowXPath() {
+            Ide_Main.InitializeViews(propertyWindow: true);
+            var pw = IDE_Main.PropertyWindow;
+            if (pw == null) return Util.Util.Err("Property Window not found.");
+            var table = pw.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
+            if (table == null) return Util.Util.Err("Property table not found inside Property Window.");
+
+            bool reachedMainWindow;
+            var xpath = BuildControlTypeXPath(table, IDE_Main.MainWindow, out reachedMainWindow);
+            if (!reachedMainWindow)
+                return Util.Util.Err("Could not build XPath to main window from property table.");
+
+            return new { result = xpath };
         }
         private object KwCloseActiveEditor(bool saveChanges) {
             if (IDE_Main.ActiveEditor == null) return Util.Util.Err("No active editor to close.");
@@ -326,7 +394,7 @@ namespace FlaUILibrary
         }
 
         private object KwClickToolbarButton(string buttonName, bool activate) {
-            var found = IDE_Main.toolbarButtons.TryGetValue(buttonName, out var toolbar) ? toolbar : null;
+            var found = IDE_Main.ToolbarButtons.TryGetValue(buttonName, out var toolbar) ? toolbar : null;
             if (toolbar == null) toolbar = TreeConfig.IdeMain.GetWorkspaceToolbar(IDE_Main.ActiveEditor);
             if (toolbar == null) return Util.Util.Err("Toolbar not found for: " + buttonName);
             var btn = toolbar.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).FirstOrDefault(cf => cf.Name.IndexOf(IDE_Main.SanitizeButtonNames(buttonName)) >= 0).AsButton();
@@ -472,6 +540,46 @@ namespace FlaUILibrary
         }
 
         // ── Private helpers ──────────────────────────────────────────────────
+
+        private static string BuildControlTypeXPath(AutomationElement element, AutomationElement root, out bool reachedRoot) {
+            if (element == null) {
+                reachedRoot = false;
+                return string.Empty;
+            }
+            var segment = BuildControlTypeSegment(element);
+            if (root != null && AreSameElement(element, root)) {
+                reachedRoot = true;
+                return "/" + segment;
+            }
+            var parentPath = BuildControlTypeXPath(element.Parent, root, out reachedRoot);
+            if (string.IsNullOrEmpty(parentPath))
+                return "/" + segment;
+            return parentPath + "/" + segment;
+        }
+        private static string BuildControlTypeSegment(AutomationElement element) {
+            var segment = element.ControlType.ToString();
+            var parent = element.Parent;
+            if (parent == null)
+                return segment;
+            if (element.Name == "Chrome Legacy Window")
+                return "";
+            var sameTypeSiblings = parent.FindAllChildren().Where(child => child.ControlType == element.ControlType).ToList();
+            // it happens that element is not found under parent.FindAllChildren(); otherwise == 1 would suffice
+            if (sameTypeSiblings.Count <= 1)
+                return segment;
+            var index = sameTypeSiblings.IndexOf(element);
+            //FindIndex(child => AreSameElement(child, element));
+            return segment + "[" + (index + 1).ToString() + "]";
+        }
+        private static bool AreSameElement(AutomationElement left, AutomationElement right) {
+            if (left == null || right == null)
+                return false;
+            bool hasLeftId = left.Properties.RuntimeId.TryGetValue(out int[] leftRuntimeId) && leftRuntimeId != null;
+            bool hasRightId = right.Properties.RuntimeId.TryGetValue(out int[] rightRuntimeId) && rightRuntimeId != null;
+            if (hasLeftId && hasRightId)
+                return leftRuntimeId.SequenceEqual(rightRuntimeId);
+            return ReferenceEquals(left, right);
+        }
 
         private static bool ParseBool(JToken token, bool fallback)
         {

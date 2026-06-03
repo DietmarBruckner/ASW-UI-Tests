@@ -3,5 +3,6 @@
 
 robotframework>=7.0
 requests>=2.31.0
+robotframework-flaui>=5.0.0
 
 # Pending: install FlaUILibrary server binary separately (see libraries/FlaUILibrary/README.md)

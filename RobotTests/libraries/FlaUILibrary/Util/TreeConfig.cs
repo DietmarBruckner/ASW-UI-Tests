@@ -191,7 +191,7 @@ namespace FlaUILibrary.Util {
                     if (root == null)
                         throw new Exception("Root element must be provided for Workspace view type");
                     ae = root;
-                    IdeMain.SwitchView(viewType);
+                    IDE_Main.SwitchView(viewType);
                     ClickConfigTreeItem(viewType, ae, substr);
                     Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
                     Sleep(TimeSpan.FromMilliseconds(300));

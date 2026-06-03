@@ -1,5 +1,5 @@
 *** Variables ***
-${DEFAULT_VIEW_VERSION}                 6.6
+${DEFAULT_VIEW_VERSION}                 6.6.0
 @{SUPPORTED_VIEW_VERSIONS}
 ...    6.0
 ...    6.1

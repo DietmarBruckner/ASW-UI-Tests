@@ -2,59 +2,11 @@
 Documentation       Keywords for configuring Automation Studio components:
 ...                 MappView, OPCUA, and AutomationRuntime.
 Resource            ${CURDIR}/project_keywords.robot
-
+Library             FlaUILibrary    uia=UIA2
 
 *** Keywords ***
 
 # ── MappView ─────────────────────────────────────────────────────────────────
-
-Initialize MappView Component
-    [Documentation]    Adds and configures MappView in the project.
-    [Arguments]        ${port}=${MAPPVIEW_HTTP_PORT}
-    Add Software Component    mappView
-    Navigate To MappView Settings
-    Set IDE Property    Port    ${port}
-    Log    MappView component initialised on port ${port}
-
-
-Navigate To MappView Settings
-    [Documentation]    Navigates to the mappView node in the Logical View.
-    Switch To Logical View
-    Navigate To Tree Leaf    mappView
-
-
-Create Visualization Project
-    [Documentation]    Creates a new visualization project under mappView.
-    [Arguments]        ${project_name}=Test_Visu
-    Navigate To MappView Settings
-    Open Context Menu For Element    Visualizations
-    Select Context Menu Item    New Visualization
-    FlaUILib.Wait For Dialog    New Visualization
-    FlaUILib.Type Into Dialog Field    Name    ${project_name}
-    FlaUILib.Click Dialog Button    OK
-    Wait Until IDE Is Ready
-    Log    Visualization project created: ${project_name}
-
-
-Open Visualization For Editing
-    [Documentation]    Double-clicks a visualization to open it in the editor.
-    [Arguments]        ${visualization_name}
-    Double Click Tree Leaf    mappView/${visualization_name}
-    Wait Until IDE Is Ready
-    Log    Visualization opened: ${visualization_name}
-
-
-#Insert MappView Widget
-#    [Documentation]    Inserts a widget from the Toolbox into the open visualization.
-#    [Arguments]        ${widget_type}    ${widget_name}    ${widget_id}
-#    # Drag from toolbox by double-clicking the widget type entry
-#    Double Click Tree Leaf    ${widget_type}
-#    Wait Until IDE Is Ready
-#    # Set widget properties
-#    Set IDE Property    Name    ${widget_name}
-#    Set IDE Property    id    ${widget_id}
-#    Log    Widget ${widget_type} inserted: name=${widget_name}, id=${widget_id}
-
 
 Configure Widget Property
     [Documentation]    Sets a property on the currently selected widget.
@@ -62,24 +14,72 @@ Configure Widget Property
     Set IDE Property    ${property_name}    ${property_value}
     Log    Widget property set: ${property_name} = ${property_value}
 
+Insert mapp View with Default Template
+    [Documentation]    Inserts a mappView component using the default template.
+    Expand and Click Tree Leaf             Logical View
+    Insert From ToolBox                    Logical View    mapp View    mapp View
+    ${dialog_appeared}=    FlaUILib.Wait For Dialog    Insert mapp View solution    10
+    IF    ${dialog_appeared}
+        FlaUILib.Find And Select Item      Default
+        FlaUILib.Click Dialog Button       Finish      dialog_close=True
+    ELSE
+        Log                                No insert mapp View dialog appeared.
+    END
+    FlaUILib.Wait For Message              Build widget library finished    timeout=30
+    Log                                    mappView inserted with default template
+
+Navigate To mapp View
+    [Documentation]    Navigates to the DefaultView node under OpcUa in the Configuration View
+    [Arguments]        ${logical view}=False
+    IF   ${logical view}
+        Expand and Click Tree Leaf         Logical View      BR_mappView
+    ELSE
+        Expand and Click Tree Leaf    Configuration View     BR_${CPU_TYPE}|BR_mappView
+    END
+    Log    Navigated to mappView in ${logical view} ? "Logical View" : "Configuration View"
+
+Fill TMX Entries
+    [Arguments]    @{test_enabled_widgets}    ${xpath}
+    ${text_tree}=    Find One Element    ${xpath}
+    FOR    ${widget}    IN    @{test_enabled_widgets}
+        @{all_rows}=    Find All Elements    ${text_tree.Xpath}/TreeItem
+        ${last_row}=    Get From List    ${all_rows}    -1
+        @{fields}=    Find All Elements    ${last_row.Xpath}/*
+        Click    ${fields[0].Xpath}
+        Click Into IDE    position=True
+        Press Key    t'ID_${widget}'
+        Press Key    s'ENTER'
+#        Sleep    0.8s
+        Click    ${fields[1].Xpath}
+        Press Key    t'${widget}_fr'
+        Click    ${fields[2].Xpath}
+        Press Key    t'${widget}_de'
+        Click    ${fields[3].Xpath}
+        Press Key    t'${widget}_en'
+        Press Key    s'ENTER'
+        Click Into IDE    position=True
+#        Sleep    0.2s
+    END
+
+Read Widget Test Configuration
+    [Arguments]    @{toTestWidgetGroups}
+    @{test_enabled_widgets}=    Create List
+    @{widget_groups}=    Create List    button_Widgets    chart_Widgets    container_Widgets    data_Widgets    dateTime_Widgets    drawing_Widgets    image_Widgets    login_Widgets    media_Widgets    motion_Widgets    numeric_Widgets    selector_Widgets    system_Widgets    text_Widgets    process_Widgets
+    ${group_index}=    Set Variable    0
+    FOR    ${group_name}    IN    @{widget_groups}
+        ${should_test}=    Get From List    ${toTestWidgetGroups}    ${group_index}
+        IF    ${should_test}
+            ${widget_group}=    Get Variable Value    @{${group_name}}
+            FOR    ${widget}    IN    @{widget_group}
+                Append To List    ${test_enabled_widgets}    ${widget}
+            END
+        END
+        ${group_index}=    Evaluate    ${group_index} + 1
+    END
+    LOG    Test enabled widget types: @{test_enabled_widgets}
+    RETURN    @{test_enabled_widgets}
 
 # ── OPCUA ─────────────────────────────────────────────────────────────────────
-
-Initialize OPCUA Component
-    [Documentation]    Adds and configures the OPCUA component in the project.
-    [Arguments]        ${port}=${OPCUA_PORT}
-    Add Software Component    OpcUa
-    Navigate To OPCUA Settings
-    Set IDE Property    Port    ${port}
-    Set IDE Property    Enabled    True
-    Log    OPCUA component initialised on port ${port}
-
-
-Navigate To OPCUA Settings
-    [Documentation]    Navigates to the OpcUa node in the Logical View.
-    Switch To Logical View
-    Navigate To Tree Leaf    OpcUa
-
 
 Navigate To OPCUA Default View
     [Documentation]    Navigates to the DefaultView node under OpcUa in the Configuration View
@@ -97,8 +97,18 @@ Navigate To User/Role System
 
 Add User Role in Role.role
     [Documentation]    Adds a user role in the Role.role tree under User/Role System.
-    [Arguments]        ${rolename}    ${addrole}=True
-    FlaUILib.Add Role    ${rolename}    addrole=${addrole}
+    [Arguments]        ${rolename}   ${xpath}     ${addrole}=True
+    ${text_tree}=    Find One Element    ${xpath}
+    Click Into IDE   editor=True
+    IF    ${addrole}
+        Click Toolbar Button    Add "Role" Element
+    END
+    @{all_rows}=    Find All Elements    ${text_tree.Xpath}/TreeItem
+    ${last_row}=    Get From List    ${all_rows}    -1
+    ${role_name}=   ${last_row}.Name + _Name
+    ${rolenamefield}=    Find One Element    ${last_row.Xpath}/*[@Name="$role_name"]
+    Double Click    ${rolenamefield.Xpath}
+    Press Key    t'${rolename}'
     Log    User role added: ${rolename}
 
 Add User in User.user
@@ -110,30 +120,6 @@ Add User in User.user
 
 # ── AutomationRuntime ─────────────────────────────────────────────────────────
 
-Initialize AutomationRuntime Component
-    [Documentation]    Adds and configures the AutomationRuntime component.
-    [Arguments]        ${min_version}=${AUTOMATIONRUNTIME_MIN_VERSION}
-    Add Software Component    AutomationRuntime
-    Navigate To AutomationRuntime Settings
-    Set IDE Property    Version    ${min_version}
-    Log    AutomationRuntime component initialised (v${min_version})
-
-
-Navigate To AutomationRuntime Settings
-    [Documentation]    Navigates to the AutomationRuntime node in the Logical View.
-    Switch To Logical View
-    Navigate To Tree Leaf    AutomationRuntime
-
 
 # ── Convenience ───────────────────────────────────────────────────────────────
 
-Initialize Full Component Stack
-    [Documentation]    Initialises MappView, OPCUA and AutomationRuntime in one call.
-    [Arguments]        ${mappview_port}=${MAPPVIEW_HTTP_PORT}
-    ...                ${opcua_port}=${OPCUA_PORT}
-    ...                ${ar_version}=${AUTOMATIONRUNTIME_MIN_VERSION}
-    Initialize MappView Component    ${mappview_port}
-    Initialize OPCUA Component    ${opcua_port}
-    Initialize AutomationRuntime Component    ${ar_version}
-    Log    Full component stack initialised
-    Activate Tree Leaf    MappView

@@ -15,16 +15,12 @@ using System.Xml.Linq;
 
 namespace FlaUILibrary.Util {
     public partial class MappView {
-        string editorPathMV;
-        string editorPathTS;
         IDE_Main.Editor content0_editor, navcontent_editor;
         readonly List<string[]> inputWidgetStrings = new List<string[]>();
         readonly MappViewObjects Objects = new MappViewObjects();
         readonly List<string> TestWidgets = new List<string>();
         static int width, height;
         public override void InitComponent() {
-            editorPathMV = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\mappView\\" + Version + "\\Editors\\";
-            editorPathTS = Util.Environment.InstallationPath + "\\AS\\TechnologyPackages\\TextSystem\\n.d\\Editors\\";
             TreeConfig.IdeMain.InitializeViews(projectExplorer: true);
             ReadConfiguration();
             Objects.Pages = new List<MappViewPage>();
@@ -84,7 +80,7 @@ namespace FlaUILibrary.Util {
             TM611_4_InsertComponent();
         }
         void TM611_4_InsertComponent() {
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, out var e);
+/*             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, null, out var e);
             Util.ConsoleOut(Util.Verbose.STEPS, "Adding mapp View object");
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "mapp View", "mapp View");
             FlaUI.Core.AutomationElements.Window newMappViewDialog = TreeConfig.IdeMain.GetModalWindow("Insert mapp View solution");
@@ -102,30 +98,31 @@ namespace FlaUILibrary.Util {
             int index = rand.Next(allTemplates.Length);
             allTemplates[index].DoubleClick(); //Select a random template to create some variation in the created projects
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
-            TreeConfig.IdeMain.WaitForMessage("finished.");
+            TreeConfig.IdeMain.WaitForMessage("The mapp View object");
             width = 800;
             height = 600;
-        }
+ */        }
         void TM611_3_2_ConfigureMappViewServer() {
-            string mvconfig = "Config.mappviewcfg";
+/*             string mvconfig = "Config.mappviewcfg";
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, out var e);
             if (TreeConfig.IdeMain.GetActiveConfigurtion().FindAllDescendants(cf => cf.ByControlType(ControlType.TreeItem)).First(cf => cf.Name.IndexOf("mappView") >= 0).FindAllChildren(cf => cf.ByName("BR_" + mvconfig)).Count() == 0) {
                 Util.ConsoleOut(Util.Verbose.STEPS, "Inserting new mapp View configuration");
                 TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView"}, out e);
-                TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "mapp View", "mapp View Configuration");
+                TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "mapp View Configuration");
             }
             Util.ConsoleOut(Util.Verbose.STEPS, "Opening new mapp View configuration in workspace");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_mappView", "BR_" + mvconfig }, out var editor);
             AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_MappViewConfiguration");
             Util.ConsoleOut(Util.Verbose.STEPS, "Selecting HTTP as communication protocol");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathMV + "mappviewcfg.xml", "Protocol"), out e, ConfigRoot);
+            Path = Util.Environment.InstallationPath + Util.Environment.EditorPathMV + "mappviewcfg.xml";
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Path, "Protocol"), out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 0); //Select "HTTP"
             Util.ConsoleOut(Util.Verbose.STEPS, "Selecting anonymous token as Startup User");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathMV + "mappviewcfg.xml", "Startup User"), out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Path, "Startup User"), out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 2); //Select "force login"
             TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
             editor.Close();
-        }
+ */        }
         void TM611_4_1_RenameVIS() {
             Util.ConsoleOut(Util.Verbose.STEPS, "Renaming Visu");
             string visname = "vis_0.vis";
@@ -142,7 +139,7 @@ namespace FlaUILibrary.Util {
             editor.Close();
         }
         void TM611_11_Localization() {
-            string tmxconfig = "LocalizableTexts.tmx";
+             string tmxconfig = "LocalizableTexts.tmx";
             Util.ConsoleOut(Util.Verbose.STEPS, "Inserting new Project Language container");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView"}, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Project Languages");
@@ -151,11 +148,11 @@ namespace FlaUILibrary.Util {
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Resources", "BR_Texts"}, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Localizable Texts");
             TreeConfig.IdeMain.SaveAll();
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Resources", "BR_Texts", "BR_" + tmxconfig}, out var editor);
-            AutomationElement editNamespace = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByAutomationId("textNamespace")).AsTextBox();
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Resources", "BR_Texts", "BR_" + tmxconfig}, out IDE_Main.ActiveEditor, shortcut:0);
+            AutomationElement editNamespace = IDE_Main.ActiveEditor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByAutomationId("textNamespace")).AsTextBox();
             editNamespace.Patterns.Value.Pattern.SetValue("IAT");
             TreeConfig.IdeMain.SaveAll();
-            AutomationElement textTree = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByAutomationId("B&R TreeView Control")).AsTree();
+            AutomationElement textTree = IDE_Main.ActiveEditor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByAutomationId("B&R TreeView Control")).AsTree();
             AutomationElement newItem;
             foreach (string s in TestWidgets) {
                 string[] item = inputWidgetStrings.Find(x => x.Contains(s));
@@ -176,40 +173,43 @@ namespace FlaUILibrary.Util {
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             }
             TreeConfig.IdeMain.SaveAll();
-            editor.Close();
+            IDE_Main.ActiveEditor.Close();
             Util.ConsoleOut(Util.Verbose.STEPS, "Inserting and editing Textsystem Config File");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem"}, out e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "Textsystem Configuration");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem", "BR_TC.textconfig"}, out editor);
-            AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(editor, "BR_TextConfig");
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_TextSystem", "BR_TC.textconfig"}, out IDE_Main.ActiveEditor);
+            AutomationElement ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(IDE_Main.ActiveEditor, "BR_TextConfig");
             Mouse.Click(IDE_Main.Workspace.BoundingRectangle.Center());
 
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "System language"), out e, ConfigRoot);
+            Path = Util.Environment.InstallationPath + Util.Environment.EditorPathTS + "TextConfig.xml";
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Path, "System language"), out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "en");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Fallback language"), out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Path, "Fallback language"), out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "de");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", new string [] { "BR_Target language 1" }), out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Path, "Target languages", new string [] { "BR_Target language 1" }), out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "en");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", new string [] { "BR_Target language 2" }), out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Path, "Target languages", new string [] { "BR_Target language 2" }), out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "de");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Target languages", new string [] { "BR_Target language 3" }), out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Path, "Target languages", new string [] { "BR_Target language 3" }), out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, "fr");
-            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(editorPathTS + "TextConfig.xml", "Tmx files for target", new string [] { "BR_Tmx file 1" }), out e, ConfigRoot);
+            TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.Workspace, TreeConfig.FindXMLPath(Path, "Tmx files for target", new string [] { "BR_Tmx file 1" }), out e, ConfigRoot);
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 0);
             TreeConfig.IdeMain.SaveAll();
-            editor.Close();
-        }
+            IDE_Main.ActiveEditor.Close();
+         }
         void TM611_5_Layout() {
             Util.ConsoleOut(Util.Verbose.STEPS, "Inserting navigation and info content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, out content0_editor);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
+            AutomationElement docIATeditor;
+            while ((docIATeditor = content0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")))) == null)
+                Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Point workspaceCenter = IDE_Main.Workspace.BoundingRectangle.Center();
-            AutomationElement docIATeditor = content0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
             AutomationElement defaultLabel = docIATeditor.FindFirstDescendant(cf => cf.ByAutomationId("content_0_Label1"));
             TreeConfig.ClickAutomationElement(defaultLabel);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.DELETE); 
-            TreeConfig.IdeMain.SaveAll(); 
+            TreeConfig.IdeMain.SaveAll();
             
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_AreaContents"}, out var e);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
