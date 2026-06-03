@@ -118,6 +118,7 @@ Prepare Layout for Widget Pages
     Click                                  ${label1.Xpath}
     Press Key                              s'DEL'
     FlaUILib.Click Toolbar Button          Save All
+    Click Into IDE                         editor=True
     Edit Widget Size                       width=700    height=500    is_content=True
     Close Editor
     Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents    shortcut=0
