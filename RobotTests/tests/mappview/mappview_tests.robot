@@ -119,11 +119,11 @@ Prepare Layout for Widget Pages
 #    ${childs}=   Get Childs From Element   ${xpath}/Group
     @{children}      Find All Elements     ${xpath}/Group/*
     ${label1}        Set Variable          ${children[0]}
-    ${cXpath}    Set Variable    ${label1.Xpath}
-    ${cId}    Set Variable    ${label1.AutomationId}
-    ${cName}    Set Variable    ${label1.Name}
+    ${cXpath}        Set Variable    ${label1.Xpath}
+    ${cId}           Set Variable    ${label1.AutomationId}
+    ${cName}         Set Variable    ${label1.Name}
     ${cClassName}    Set Variable    ${label1.ClassName}
-    Click                                  ${cXpath}
+    Click                                  ${xpath}
     Key Press                              s'DEL'
     FlaUILib.Click Toolbar Button          Save All
     Edit Widget Size                       width=700    height=500    is_content=True
