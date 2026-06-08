@@ -672,7 +672,9 @@ namespace FlaUILibrary.Util {
             Dictionary<Rectangle, string> dict = new Dictionary<Rectangle, string>();
             PageIteratorLevel containingWord = PageIteratorLevel.Word;
             using (var engine = new TesseractEngine("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\Util\\tessdata", "eng", EngineMode.Default)) {
-                CaptureImage compImg = Capture.Element(ae);
+                //increase size of capture rectangle to increase OCR accuracy, as sometimes the text is not fully captured with the property window bounds (e.g. mapp View)
+                CaptureImage compImg = Capture.Rectangle(new Rectangle(ae.BoundingRectangle.Left, ae.BoundingRectangle.Top - 300, ae.BoundingRectangle.Width, ae.BoundingRectangle.Height + 300));
+                //CaptureImage compImg = Capture.Element(ae);
                 string file = "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\Util\\screenshots\\OCR_" + TreeConfig.RemoveSpecialChars(text) + ".png";
                 compImg.ToFile(file);
                 using (Page page = engine.Process(Pix.LoadFromFile(file))) {
