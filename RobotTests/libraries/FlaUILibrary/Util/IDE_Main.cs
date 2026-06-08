@@ -696,6 +696,7 @@ namespace FlaUILibrary.Util {
                     rec = d.Key;
                 }
             }
+            rec = new Rectangle(rec.Left, rec.Top + 300, rec.Width, rec.Height - 300); //compensate for increased capture rectangle
             return rec;
         }
         public static void SetIWorkspaceMinSize(AutomationElement scrollableEditor = null, bool percent = false) {
