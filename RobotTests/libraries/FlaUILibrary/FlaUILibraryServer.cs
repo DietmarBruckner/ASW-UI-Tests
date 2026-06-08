@@ -111,7 +111,7 @@ namespace FlaUILibrary
                     case "wait_for_idle":                   { _app?.WaitWhileBusy(TimeSpan.FromSeconds(Ai("timeout",30))); return Util.Util.Ok("idle"); }
                     case "wait_for_message":                return KwWaitForMessage(A("message"), Ai("timeout",30));
                     case "activate_simulation_mode":        return KwActivateSimulationMode();
-                    case "click_ide":                       return KwClickIDE(Ab("editor", false), Ab("position", false));
+                    case "click_ide":                       return KwClickIDE(Ab("editor", false), Ab("position", false), Ai("position_x",0), Ai("position_y",0));
                     case "select_component_version":        return KwSelectComponentVersion(A("component_name"), A("version"));
                     case "get_window_title":                return new { result = IDE_Main.MainWindow?.Title ?? "" };
                     case "insert_from_toolbox":             return KwInsertFromToolbox(A("view"), A("category"), A("component_name"), Ab("drag", false), Ai("xoffset", 0), Ai("yoffset", 0));
@@ -121,8 +121,11 @@ namespace FlaUILibrary
                     case "switch_to_view":                  return KwSwitchToView(A("view_type"), Ai("sizeX",400), Ai("sizeY",400));
                     case "find_and_select_item":            return KwFindAndSelectItem(A("item_name"), Ab("doubleclick", false));
                     case "get_configtree_xpath":            return KwGetConfigTreeXpath();
-                    case "get_iateditor_xpath":             return KwGetIATEditorXpath();
+                    case "get_editor_xpath":                return KwGetEditorXpath(A("editor_name"));
                     case "get_propertywindow_xpath":        return KwGetPropertyWindowXPath();
+                    case "rename_editor":                   return KwRenameEditor(A("new_name"));
+                    case "set_workspace_min_size":          return KwSetWorkspaceMinSize(A("editor_name"), Ab("percent", false));
+                    case "select_from_mappview_dropdown":   return KwSelectFromMappViewDropDown(A("property_name"), A("subproperty"), A("value"));
                     case "is_project_loaded":            return KwIsProjectLoaded();
                     case "get_dialog_text":      return KwGetDialogText(A("field_label"), A("dialog_title"));
                     case "open_context_menu":       return KwOpenContextMenu(A("identifier"), A("search_by","name"));
@@ -176,6 +179,20 @@ namespace FlaUILibrary
         }
         private object KwInvokeMenu(string menuName, string menuItem, string submenuItem) {
             return IDE_Main.InvokeMenuItem(IDE_Main.GetMenu(menuName), menuItem, submenuItem);
+        }
+        private object KwSetWorkspaceMinSize(string editorName, bool percent) {
+            AutomationElement editor = IDE_Main.ActiveEditor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName(editorName)));
+            if (editor == null) return Util.Util.Err("Editor not found: " + editorName);
+            IDE_Main.SetIWorkspaceMinSize(editor, percent);
+            return Util.Util.Ok("Workspace minimum size set", editorName);
+        }
+        private object KwSelectFromMappViewDropDown(string propertyName, string subproperty, string value) {
+            MappView.SelectFromMappViewDropDown(propertyName, subproperty, value);
+            return Util.Util.Ok("Selected from MappView dropdown", value);
+        }
+        private object KwRenameEditor(string newName) {
+            IDE_Main.ActiveEditor = IDE_Main.ActiveEditor.Rename(newName);
+            return Util.Util.Ok("editor_renamed", newName);
         }
         private object KwSwitchToView(string viewType, int x, int y) {
             TreeConfig.ViewType vtype;
@@ -324,16 +341,20 @@ namespace FlaUILibrary
         private object KwActivateSimulationMode() {
             return IDE_Main.ActivateSimulation();
         }
-        private object KwClickIDE(bool editor = false, bool position = false) {
+        private object KwClickIDE(bool editor = false, bool position = false, int position_x = 0, int position_y = 0) {
             if (position)
                 Mouse.Click();
             else {
-                if (editor == false)
-                    TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
-                else if (IDE_Main.ActiveEditor != null)
-                    TreeConfig.ClickAutomationElement(IDE_Main.ActiveEditor.ConfigWorkspace);
-                else
-                    return Util.Util.Err("No active editor to click on.");
+                if (position_x != 0 || position_y != 0)
+                    Mouse.Click(new Point(position_x, position_y));
+                else {
+                    if (editor == false)
+                        TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
+                    else if (IDE_Main.ActiveEditor != null)
+                        TreeConfig.ClickAutomationElement(IDE_Main.ActiveEditor.ConfigWorkspace);
+                    else
+                        return Util.Util.Err("No active editor to click on.");
+                }
             }
             return Util.Util.Ok("clicked_IDE", editor ? "editor" : position ? "current position" : "titlebar");
         }
@@ -358,16 +379,18 @@ namespace FlaUILibrary
 
             return new { result = xpath };
         }
-        private object KwGetIATEditorXpath() {
+        private object KwGetEditorXpath(string editor_name) {
             var editor = IDE_Main.ActiveEditor;
             if (editor == null) return Util.Util.Err("No active editor.");
-            var iateditor = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document));
-            if (iateditor == null) return Util.Util.Err("IAT editor not found in active editor.");
+            AutomationElement iateditor;
+            while ((iateditor = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document))) == null) 
+                Thread.Sleep(500);
+            if (iateditor.Name != editor_name) return Util.Util.Err("Editor not found in active editor.");
 
             bool reachedMainWindow;
             var xpath = BuildControlTypeXPath(iateditor, IDE_Main.MainWindow, out reachedMainWindow);
             if (!reachedMainWindow)
-                return Util.Util.Err("Could not build XPath to main window from IAT editor.");
+                return Util.Util.Err("Could not build XPath to main window from editor.");
 
             return new { result = xpath };
         }
@@ -419,7 +442,13 @@ namespace FlaUILibrary
                 default:                     vtype = TreeConfig.ViewType.LogicalView; break;
             }
             string cat = category ?? "";
-            Point point = new Point {X = xoffset, Y = yoffset};
+            Point point = new Point();
+            if (drag) {
+                if (xoffset == 0 && yoffset == 0)
+                point = IDE_Main.ActiveEditor.ConfigWorkspace.BoundingRectangle.Center();
+            }
+            else
+                point = new Point {X = xoffset, Y = yoffset};
             TreeConfig.IdeMain.InsertObjectFromToolBox(vtype, cat, componentName, drag, point);
             return Util.Util.Ok("inserted_from_toolbox", componentName);
         }

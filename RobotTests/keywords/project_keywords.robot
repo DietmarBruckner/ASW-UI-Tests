@@ -89,6 +89,6 @@ Switch To View Type
 Insert From ToolBox
     [Documentation]    Inserts a component from the Toolbox into the project by double-clicking it.
     [Arguments]        ${view}    ${component_name}    ${category}=None     ${drag}=False     ${xoffset}=0    ${yoffset}=0
-     FlaUILib.Insert From Toolbox    ${view}    ${component_name}    ${category}    ${drag}    ${xoffset}    ${yoffset}
+    FlaUILib.Insert From Toolbox    ${view}    ${component_name}    ${category}    ${drag}    ${xoffset}    ${yoffset}
     Log    Inserted from Toolbox: ${component_name}
 

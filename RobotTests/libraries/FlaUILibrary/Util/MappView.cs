@@ -266,7 +266,7 @@ namespace FlaUILibrary.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(1500));
             Mouse.Click(workspaceCenter);
             AutomationElement editor = page0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor")));
-            TreeConfig.IdeMain.SetIWorkspaceMinSize(editor, percent:true);
+            IDE_Main.SetIWorkspaceMinSize(editor, percent:true);
             Mouse.MoveTo(new Point {X = editor.BoundingRectangle.Left + (int)(editor.BoundingRectangle.Width * 50/width), Y = editor.BoundingRectangle.Top + (int)(editor.BoundingRectangle.Height * 300/height)});
             Mouse.Click();
             SelectFromMappViewDropDown("Common", "refId", "Navigation");
@@ -287,7 +287,7 @@ namespace FlaUILibrary.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             AutomationElement content_0Properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement docIATeditor = content0_editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("IAT-Editor")));
-            TreeConfig.IdeMain.SetIWorkspaceMinSize(docIATeditor);
+            IDE_Main.SetIWorkspaceMinSize(docIATeditor);
             int pageID = 0;
             string pageName, contentName;
             foreach(string text in TestWidgets) {
@@ -421,7 +421,7 @@ namespace FlaUILibrary.Util {
                 }
                 e = OpenEditor(p, c, textEditor:false);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
-                TreeConfig.IdeMain.SetIWorkspaceMinSize(IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor"))));
+                IDE_Main.SetIWorkspaceMinSize(IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor"))));
                 Mouse.MoveTo(new Point {X = IDE_Main.Workspace.BoundingRectangle.Left + (int)(IDE_Main.Workspace.BoundingRectangle.Width * (_left+_width/2)/width), Y = IDE_Main.Workspace.BoundingRectangle.Top + (int)(IDE_Main.Workspace.BoundingRectangle.Height * (_top+_height/2)/height)});
                 Mouse.Click();
                 int indexWidgetgroup = 0, indexWidget = 0;
@@ -477,7 +477,7 @@ namespace FlaUILibrary.Util {
             if (e != null && e.Name != String.Empty)
                 e.Close();
         }
-        void SelectFromMappViewDropDown(string property, string subproperty, string select) {
+        public static void SelectFromMappViewDropDown(string property, string subproperty, string select) {
             Util.ConsoleOut(Util.Verbose.FULL, "Selecting " + select + " in " + property + "." + subproperty);
             ScrollFindProperty(property, subproperty);
             AutomationElement properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
@@ -593,7 +593,7 @@ namespace FlaUILibrary.Util {
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
             TreeConfig.IdeMain.SaveAll();
         }
-        void ScrollFindProperty(string property, string sub = null, bool opensub = false) {
+        static void ScrollFindProperty(string property, string sub = null, bool opensub = false) {
             AutomationElement aproperties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             Mouse.Position = aproperties.BoundingRectangle.Center();
             Mouse.Click();

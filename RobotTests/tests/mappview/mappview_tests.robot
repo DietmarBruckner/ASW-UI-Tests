@@ -108,44 +108,82 @@ Prepare Layout for Widget Pages
     ...                Preconditions: mappView component available and configured
     [Tags]             mappview    configuration    trace:fw-mview-c2    trace:tm611    trace:sec-5.4
     Initialize Automation Studio
-    Navigate To mapp View                  logical view=True
-    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_content_0.content    shortcut=0
+#    Navigate To mapp View                  logical view=True
+#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_content_0.content    shortcut=0
     #Sleep                                  4s
-    ${xpath}                               FlaUILib.Get IAT Editor XPath
-    ${IAT_editor}    Find One Element      ${xpath}
-    @{children}      Find All Elements     ${xpath}/Group/*
-    ${label1}        Set Variable          ${children[0]}
-    Click                                  ${label1.Xpath}
-    Press Key                              s'DEL'
-    FlaUILib.Click Toolbar Button          Save All
+    #${xpath}                               FlaUILib.Get Editor XPath    editor_name=IAT-Editor
+#    ${IAT_editor}    Find One Element      ${xpath}
+#    @{children}      Find All Elements     ${xpath}/Group/*
+#    ${label1}        Set Variable          ${children[0]}
+#    Click                                  ${label1.Xpath}
+#    Press Key                              s'DELETE'
+#    Click Into IDE                         editor=True
+#    Edit Widget Size                       width=700    height=500    is_content=True
+#    Close Editor
+#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents    shortcut=0
+#    Insert From ToolBox                    Logical View    Page content
+#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents|BR_content_1.content    shortcut=0
+#    Wait Until Element Exist               ${xpath}
+#    Edit Widget Name                       Navigation
+#    Edit Widget Size                       width=100       height=500    is_content=True
+#    Sleep    1s
+#    Click Into IDE                         editor=True
+#    Insert From ToolBox                    Logical View    Navigation    drag=True
+#    Edit Widget Position                   top=0           left=0
+#    Edit Widget Size                       width=100       height=500
+#    FlaUILib.Click Toolbar Button          Save All
+#    Close Editor
+#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents    shortcut=0
+#    Insert From ToolBox                    Logical View    Page content
+#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents|BR_content_1.content    shortcut=0
+#    Wait Until Element Exist               ${xpath}
+#    Edit Widget Name                       Info_Pane
+#    Edit Widget Size                       height=100      is_content=True
+#    Click Into IDE
+#    Insert From ToolBox                    Logical View    Label    drag=True
+#    Edit Widget Position                   top=5           left=50
+#    Edit Widget Size                       width=200       height=30
+#    Insert From ToolBox                    Logical View    LanguageSelector    drag=True
+#    Edit Widget Position                   top=35          left=680
+#    FlaUILib.Click Toolbar Button          Save All
+#    Close Editor
+#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Layouts|BR_layout_0.layout
+#    Click Into IDE                         editor=True
+#    Edit Widget Size                       width=700       height=500    is_area=True
+#    Edit Widget Position                   top=100         left=100      is_area=True
+#    FlaUILib.Click Toolbar Button          Create Area
+#    Edit Widget Size                       width=100       height=500    is_area=True
+#    Edit Widget Position                   top=100         left=0        is_area=True
+#    FlaUILib.Click Toolbar Button          Create Area
+#    Edit Widget Size                       width=800       height=100    is_area=True
+#    Edit Widget Position                   top=0           left=0        is_area=True
+#    FlaUILib.Click Toolbar Button          Save All
+#    Close Editor
+    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_page_0.page    shortcut=0
     Click Into IDE                         editor=True
-    Edit Widget Size                       width=700    height=500    is_content=True
-    Close Editor
-    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents    shortcut=0
-    Insert From ToolBox                    Logical View    Page content
-    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents|BR_content_1.content    shortcut=0
-    Wait Until Element Exist               ${xpath}
-    Edit Widget Name                       Navigation
-    Edit Widget Size                       width=100       height=500    is_content=True
-    Insert From ToolBox                    Logical View    Navigation
-    Edit Widget Position                   top=0           left=0
-    Edit Widget Size                       width=100       height=500
+    FlaUILib.Set Workspace Minimum Size    editor_name=Page-Editor    percent=True
+    ${xpath}                               FlaUILib.Get Editor XPath    editor_name=Page-Editor
+    ${page_editor}                         Find One Element      ${xpath}
+    ${rect}=                               Get Rectangle Bounding From Element    ${xpath}
+    ${x_offset}=                           Evaluate    (${rect}[2] * 50)/800
+    ${click_x}=                            Evaluate    ${rect}[0] + ${x_offset}
+    ${y_offset}=                           Evaluate    (${rect}[3] * 300)/600
+    ${click_y}=                            Evaluate    ${rect}[1] + ${y_offset}
+    FlaUILib.Click Into IDE                position_x=${click_x}    position_y=${click_y}
+# Screenshot too small!
+    FlaUILib.Select From mappView DropDown
+    ...                                    property_name=Common    subproperty=refId    value=Navigation
+    ${x_offset}=                           Evaluate    (${rect}[2] * 400)/800
+    ${click_x}=                            Evaluate    ${rect}[0] + ${x_offset}
+    ${y_offset}=                           Evaluate    (${rect}[3] * 50)/600
+    ${click_y}=                            Evaluate    ${rect}[1] + ${y_offset}
+    FlaUILib.Click Into IDE                position_x=${click_x}    position_y=${click_y}
+    FlaUILib.Select From mappView DropDown
+    ...                                    property_name=Common    subproperty=refId    value=Info_Pane
     FlaUILib.Click Toolbar Button          Save All
     Close Editor
-    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents    shortcut=0
-    Insert From ToolBox                    Logical View    Page content
-    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents|BR_content_1.content    shortcut=0
-    Wait Until Element Exist               ${xpath}
-    Edit Widget Name                       Info_Pane
-    Edit Widget Size                       height=100      is_content=True
-    Click Into IDE
-    Insert From ToolBox                    Logical View    Label
-    Edit Widget Position                   top=5           left=50
-    Edit Widget Size                       width=200       height=30
-    Insert From ToolBox                    Logical View    LanguageSelector
-    Edit Widget Position                   top=35          left=680
-    FlaUILib.Click Toolbar Button          Save All
-    Close Editor
+    Build Project
+    Log    Layout and navigation prepared for widget page tests
 
 
 Insert All Widget Types

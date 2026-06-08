@@ -230,8 +230,8 @@ class RobotFlaulib:
         return self._call("insert_from_toolbox", view=view, category=category, component_name=component_name, drag=self._to_bool(drag), xoffset=xoffset, yoffset=yoffset)
 
     @keyword("Click into IDE")
-    def click_into_ide(self, editor=False, position=False):
-        return self._call("click_ide", editor=self._to_bool(editor), position=self._to_bool(position))
+    def click_into_ide(self, editor=False, position=False, position_x=0, position_y=0):
+        return self._call("click_ide", editor=self._to_bool(editor), position=self._to_bool(position), position_x=position_x, position_y=position_y)
 
     @keyword("Add Role")
     def add_role(self, rolename, addrole=True):
@@ -258,9 +258,9 @@ class RobotFlaulib:
         result = self._call("get_configtree_xpath")
         return result if isinstance(result, str) else result.get("result", "")
     
-    @keyword("Get IAT Editor XPath")
-    def get_iateditor_xpath(self):
-        result = self._call("get_iateditor_xpath")
+    @keyword("Get Editor XPath")
+    def get_editor_xpath(self, editor_name):
+        result = self._call("get_editor_xpath", editor_name=editor_name)
         return result if isinstance(result, str) else result.get("result", "")
     
     @keyword("Get Property Window XPath")
@@ -268,3 +268,15 @@ class RobotFlaulib:
         result = self._call("get_propertywindow_xpath")
         return result if isinstance(result, str) else result.get("result", "")
 
+    @keyword("Rename Editor")
+    def rename_editor(self, new_name):
+        return self._call("rename_editor", new_name=new_name)
+
+    @keyword("Set Workspace Minimum Size")
+    def set_workspace_min_size(self, editor_name, percent=False):
+        return self._call("set_workspace_min_size", editor_name=editor_name, percent=self._to_bool(percent))
+    
+    @keyword("Select From MappView Dropdown")
+    def select_from_mappview_dropdown(self, property_name, subproperty, value):
+        return self._call("select_from_mappview_dropdown", property_name=property_name, subproperty=subproperty, value=value)
+    

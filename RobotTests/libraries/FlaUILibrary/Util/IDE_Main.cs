@@ -172,7 +172,7 @@ namespace FlaUILibrary.Util {
                     _helpMenu = m.AsMenu();
             }
         }
-        void InitUIElements() {
+        static void InitUIElements() {
             foreach (AutomationElement a in MainWindow.FindAllChildren(_cf.ByControlType(ControlType.Pane))) {
                 string name = a.Name ?? "";
                 string autoId;
@@ -493,8 +493,10 @@ namespace FlaUILibrary.Util {
                     ViewTab = ViewTab.FindFirstChild(cf => cf.ByControlType(ControlType.TabItem).And(cf.ByName("Physical View")));
                     break;
             }
-            if (view != TreeConfig.ViewType.Workspace && view != TreeConfig.ViewType.PropertyWindow)
-                TreeConfig.ClickAutomationElement(ViewTab);
+            if (view != TreeConfig.ViewType.Workspace && view != TreeConfig.ViewType.PropertyWindow) {
+                if (ViewTab.Name != ProjectExplorer.Name)
+                    TreeConfig.ClickAutomationElement(ViewTab);
+            }
             else
                 Mouse.Click(Rect.Center());
             Sleep(TimeSpan.FromMilliseconds(300));
@@ -694,7 +696,7 @@ namespace FlaUILibrary.Util {
             }
             return rec;
         }
-        public void SetIWorkspaceMinSize(AutomationElement scrollableEditor = null, bool percent = false) {
+        public static void SetIWorkspaceMinSize(AutomationElement scrollableEditor = null, bool percent = false) {
             InitUIElements();
             Rectangle rect = UIElementsBounds["Workspace"];
             if (percent) {

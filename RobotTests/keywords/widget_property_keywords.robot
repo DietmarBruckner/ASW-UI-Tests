@@ -26,11 +26,11 @@ Scroll Find Property
     WHILE    not ${first_visible}
         @{items}=    Find All Elements    ${pw_xpath}/DataItem
         ${first}=    Get From List    ${items}    0
-        @{rect}=     Get Bounding Rectangle From Element    ${pw_xpath}
-        @{frect}=    Get Bounding Rectangle From Element    ${first.Xpath}
+        @{rect}=     Get Rectangle Bounding From Element    ${pw_xpath}
+        @{frect}=    Get Rectangle Bounding From Element    ${first.Xpath}
         # rect: [left, top, width, height]; frect same
         ${pw_bottom}=    Evaluate    ${rect}[1] + ${rect}[3]
-        ${fi_top}=       Evaluate    ${frect}[1]
+        ${fi_top}     Set Variable      ${frect}[1]
         ${fi_bottom}=    Evaluate    ${frect}[1] + ${frect}[3]
         IF    ${fi_top} >= ${rect}[1] and ${fi_bottom} <= ${pw_bottom}
             ${first_visible}=    Set Variable    ${TRUE}
@@ -52,11 +52,11 @@ Scroll Find Property
     IF    $sub_property is None
         ${visible}=    Set Variable    ${FALSE}
         WHILE    not ${visible}
-            @{rect}=     Get Bounding Rectangle From Element    ${pw_xpath}
-            @{prect}=    Get Bounding Rectangle From Element    ${prop.Xpath}
-            ${pw_top}=     Evaluate    ${rect}[1]
+            @{rect}=     Get Rectangle Bounding From Element    ${pw_xpath}
+            @{prect}=    Get Rectangle Bounding From Element    ${prop.Xpath}
+            ${pw_top}=     Set Variable    ${rect}[1]
             ${pw_bottom}=  Evaluate    ${rect}[1] + ${rect}[3]
-            ${p_top}=      Evaluate    ${prect}[1]
+            ${p_top}=      Set Variable    ${prect}[1]
             ${p_bottom}=   Evaluate    ${prect}[1] + ${prect}[3]
             IF    ${p_top} >= ${pw_top} and ${p_bottom} <= ${pw_bottom}
                 ${visible}=    Set Variable    ${TRUE}
@@ -64,7 +64,7 @@ Scroll Find Property
                 # Check if we have already scrolled to the end
                 @{all_items}=    Find All Elements    ${pw_xpath}/DataItem
                 ${last}=         Get From List    ${all_items}    -1
-                @{lrect}=        Get Bounding Rectangle From Element    ${last.Xpath}
+                @{lrect}=        Get Rectangle Bounding From Element    ${last.Xpath}
                 ${l_bottom}=     Evaluate    ${lrect}[1] + ${lrect}[3]
                 IF    ${p_top} < ${pw_top} and ${l_bottom} <= ${pw_bottom}
                     Log    Property '${property_name}' not visible; reached end of list.    WARN
@@ -86,11 +86,11 @@ Scroll Find Property
         ${sub_count}=    Get Length    ${subs}
         IF    ${sub_count} > 0
             ${sub}=    Set Variable    ${subs}[0]
-            @{rect}=     Get Bounding Rectangle From Element    ${pw_xpath}
-            @{srect}=    Get Bounding Rectangle From Element    ${sub.Xpath}
-            ${pw_top}=     Evaluate    ${rect}[1]
+            @{rect}=     Get Rectangle Bounding From Element    ${pw_xpath}
+            @{srect}=    Get Rectangle Bounding From Element    ${sub.Xpath}
+            ${pw_top}=     Set Variable    ${rect}[1]
             ${pw_bottom}=  Evaluate    ${rect}[1] + ${rect}[3]
-            ${s_top}=      Evaluate    ${srect}[1]
+            ${s_top}=      Set Variable    ${srect}[1]
             ${s_bottom}=   Evaluate    ${srect}[1] + ${srect}[3]
             IF    ${s_top} >= ${pw_top} and ${s_bottom} <= ${pw_bottom}
                 ${sub_visible}=    Set Variable    ${TRUE}
@@ -103,8 +103,8 @@ Scroll Find Property
             # Sub not yet revealed – check whether we are at end of list
             @{all_items}=    Find All Elements    ${pw_xpath}/DataItem
             ${last}=         Get From List    ${all_items}    -1
-            @{lrect}=        Get Bounding Rectangle From Element    ${last.Xpath}
-            @{rect}=         Get Bounding Rectangle From Element    ${pw_xpath}
+            @{lrect}=        Get Rectangle Bounding From Element    ${last.Xpath}
+            @{rect}=         Get Rectangle Bounding From Element    ${pw_xpath}
             ${pw_bottom}=    Evaluate    ${rect}[1] + ${rect}[3]
             ${l_bottom}=     Evaluate    ${lrect}[1] + ${lrect}[3]
             IF    ${l_bottom} <= ${pw_bottom}
@@ -121,12 +121,11 @@ Scroll Find Property
 
     IF    ${open_sub}
         # Click the expand arrow (left edge +5px, top+5px) of the sub-property header
-        @{srect}=    Get Bounding Rectangle From Element    ${sub.Xpath}
+        @{srect}=    Get Rectangle Bounding From Element    ${sub.Xpath}
         # srect: [left, top, width, height] — use Mouse Move To absolute coords + click
         ${click_x}=    Evaluate    ${srect}[0] + 5
         ${click_y}=    Evaluate    ${srect}[1] + 5
-        Mouse Move To Point    ${click_x}    ${click_y}
-        Mouse Click At Point   ${click_x}    ${click_y}
+        FlaUILib.Click Into IDE    position_x=${click_x}    position_y=${click_y}
         Scroll Down    ${pw_xpath}    2
     END
 
@@ -164,7 +163,7 @@ Edit Widget Size
         ${size_xpath}=      Set Variable    ${layout_xpath}/DataItem[@Name="Size"]
         IF    ${width} != -1
             ${width_xpath}=    Set Variable    ${size_xpath}/DataItem[@Name="width"]
-            ${cur}=    Get Value From Element    ${width_xpath}
+            ${cur}=    Get Property From Element    ${width_xpath}    VALUE
             IF    '${cur}' != '${width}'
                 Double Click    ${width_xpath}
                 Press Key    t'${width}'
@@ -173,7 +172,7 @@ Edit Widget Size
         END
         IF    ${height} != -1
             ${height_xpath}=    Set Variable    ${size_xpath}/DataItem[@Name="height"]
-            ${cur}=    Get Value From Element    ${height_xpath}
+            ${cur}=    Get Property From Element    ${height_xpath}    VALUE
             IF    '${cur}' != '${height}'
                 Double Click    ${height_xpath}
                 Press Key    t'${height}'
@@ -205,25 +204,23 @@ Edit Widget Position
         @{tops}=    Find All Elements    ${top_xpath}
         ${top_count}=    Get Length    ${tops}
         IF    ${top_count} == 0
-            @{prect}=    Get Bounding Rectangle From Element    ${parent_xpath}
+            @{prect}=    Get Rectangle Bounding From Element    ${parent_xpath}
             ${click_x}=    Evaluate    ${prect}[0] + 5
             ${click_y}=    Evaluate    ${prect}[1] + 5
-            Mouse Move To Point    ${click_x}    ${click_y}
-            Mouse Click At Point   ${click_x}    ${click_y}
+            FlaUILib.Click Into IDE    position_x=${click_x}    position_y=${click_y}
             Scroll Down    ${pw_xpath}    2
         ELSE
-            @{rect}=     Get Bounding Rectangle From Element    ${pw_xpath}
-            @{trect}=    Get Bounding Rectangle From Element    ${tops}[0].Xpath
-            ${pw_top}=     Evaluate    ${rect}[1]
+            @{rect}=     Get Rectangle Bounding From Element    ${pw_xpath}
+            @{trect}=    Get Rectangle Bounding From Element    ${tops[0].Xpath}
+            ${pw_top}=     Set Variable    ${rect}[1]
             ${pw_bottom}=  Evaluate    ${rect}[1] + ${rect}[3]
-            ${t_top}=      Evaluate    ${trect}[1]
+            ${t_top}=      Set Variable    ${trect}[1]
             ${t_bottom}=   Evaluate    ${trect}[1] + ${trect}[3]
             IF    not (${t_top} >= ${pw_top} and ${t_bottom} <= ${pw_bottom})
-                @{prect}=    Get Bounding Rectangle From Element    ${parent_xpath}
+                @{prect}=    Get Rectangle Bounding From Element    ${parent_xpath}
                 ${click_x}=    Evaluate    ${prect}[0] + 5
                 ${click_y}=    Evaluate    ${prect}[1] + 5
-                Mouse Move To Point    ${click_x}    ${click_y}
-                Mouse Click At Point   ${click_x}    ${click_y}
+                FlaUILib.Click Into IDE    position_x=${click_x}    position_y=${click_y}
                 Scroll Down    ${pw_xpath}    2
             END
         END
@@ -231,7 +228,7 @@ Edit Widget Position
 
     IF    ${top} != -1
         ${top_xpath}=    Set Variable    ${parent_xpath}/DataItem[@Name="top"]
-        ${cur}=    Get Value From Element    ${top_xpath}
+        ${cur}=    Get Property From Element    ${top_xpath}    VALUE
         IF    '${cur}' != '${top}'
             Double Click    ${top_xpath}
             Press Key    t'${top}'
@@ -240,7 +237,7 @@ Edit Widget Position
     END
     IF    ${left} != -1
         ${left_xpath}=    Set Variable    ${parent_xpath}/DataItem[@Name="left"]
-        ${cur}=    Get Value From Element    ${left_xpath}
+        ${cur}=    Get Property From Element    ${left_xpath}    VALUE
         IF    '${cur}' != '${left}'
             Double Click    ${left_xpath}
             Press Key    t'${left}'
@@ -288,8 +285,9 @@ Edit Widget Name
     ...                first "Name" property field at the top of the Property Window.
     [Arguments]    ${name}
     ${pw_xpath}=    FlaUILib.Get Property Window XPath
-    ${name_xpath}=  Set Variable    ${pw_xpath}/DataItem[@Name="Name"]
+    ${name_xpath}=  Set Variable    ${pw_xpath}/DataItem[@Name="Common"]/DataItem[@Name="Name"]
     Double Click    ${name_xpath}
     Press Key    t'${name}'
     Press Key    s'ENTER'
     FlaUILib.Click Toolbar Button    Save All
+    FlaUILib.Rename Editor    ${name}
