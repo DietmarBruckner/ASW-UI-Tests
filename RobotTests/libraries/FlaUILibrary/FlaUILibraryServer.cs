@@ -181,9 +181,12 @@ namespace FlaUILibrary
             return IDE_Main.InvokeMenuItem(IDE_Main.GetMenu(menuName), menuItem, submenuItem);
         }
         private object KwSetWorkspaceMinSize(string editorName, bool percent) {
-            AutomationElement editor = IDE_Main.ActiveEditor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName(editorName)));
-            if (editor == null) return Util.Util.Err("Editor not found: " + editorName);
-            IDE_Main.SetIWorkspaceMinSize(editor, percent);
+            var editor = IDE_Main.ActiveEditor;
+            if (editor == null) return Util.Util.Err("No active editor.");
+            AutomationElement page_editor;
+            while ((page_editor = editor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName(editorName)))) == null) 
+                Thread.Sleep(500);
+            IDE_Main.SetIWorkspaceMinSize(page_editor, percent);
             return Util.Util.Ok("Workspace minimum size set", editorName);
         }
         private object KwSelectFromMappViewDropDown(string propertyName, string subproperty, string value) {
