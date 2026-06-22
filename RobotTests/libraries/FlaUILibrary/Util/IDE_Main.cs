@@ -685,7 +685,7 @@ namespace FlaUILibrary.Util {
                                 dict.Add(new Rectangle(rect.X1, rect.Y1, rect.X2-rect.X1, rect.Y2-rect.Y1), iter.GetText(containingWord));
                         } while (iter.Next(containingWord));
                     }
-                }           
+                }
             }
             Rectangle rec = new Rectangle();
             int i, min = int.MaxValue;
@@ -694,6 +694,10 @@ namespace FlaUILibrary.Util {
                 if (i < min) {
                     min = i;
                     rec = d.Key;
+                }
+                else if (i == min) {
+                    if (d.Key.Top < rec.Top)
+                        rec = d.Key;
                 }
             }
             rec = new Rectangle(rec.Left, rec.Top + 300, rec.Width, rec.Height - 300); //compensate for increased capture rectangle
