@@ -108,57 +108,57 @@ Prepare Layout for Widget Pages
     ...                Preconditions: mappView component available and configured
     [Tags]             mappview    configuration    trace:fw-mview-c2    trace:tm611    trace:sec-5.4
     Initialize Automation Studio
-#    Navigate To mapp View                  logical view=True
-#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_content_0.content    shortcut=0
+    Navigate To mapp View                  logical view=True
+    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_content_0.content    shortcut=0
     #Sleep                                  4s
-    #${xpath}                               FlaUILib.Get Editor XPath    editor_name=IAT-Editor
-#    ${IAT_editor}    Find One Element      ${xpath}
-#    @{children}      Find All Elements     ${xpath}/Group/*
-#    ${label1}        Set Variable          ${children[0]}
-#    Click                                  ${label1.Xpath}
-#    Press Key                              s'DELETE'
-#    Click Into IDE                         editor=True
-#    Edit Widget Size                       width=700    height=500    is_content=True
-#    Close Editor
-#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents    shortcut=0
-#    Insert From ToolBox                    Logical View    Page content
-#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents|BR_content_1.content    shortcut=0
-#    Wait Until Element Exist               ${xpath}
-#    Edit Widget Name                       Navigation
-#    Edit Widget Size                       width=100       height=500    is_content=True
-#    Sleep    1s
-#    Click Into IDE                         editor=True
-#    Insert From ToolBox                    Logical View    Navigation    drag=True
-#    Edit Widget Position                   top=0           left=0
-#    Edit Widget Size                       width=100       height=500
-#    FlaUILib.Click Toolbar Button          Save All
-#    Close Editor
-#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents    shortcut=0
-#    Insert From ToolBox                    Logical View    Page content
-#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents|BR_content_1.content    shortcut=0
-#    Wait Until Element Exist               ${xpath}
-#    Edit Widget Name                       Info_Pane
-#    Edit Widget Size                       height=100      is_content=True
-#    Click Into IDE
-#    Insert From ToolBox                    Logical View    Label    drag=True
-#    Edit Widget Position                   top=5           left=50
-#    Edit Widget Size                       width=200       height=30
-#    Insert From ToolBox                    Logical View    LanguageSelector    drag=True
-#    Edit Widget Position                   top=35          left=680
-#    FlaUILib.Click Toolbar Button          Save All
-#    Close Editor
-#    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Layouts|BR_layout_0.layout
-#    Click Into IDE                         editor=True
-#    Edit Widget Size                       width=700       height=500    is_area=True
-#    Edit Widget Position                   top=100         left=100      is_area=True
-#    FlaUILib.Click Toolbar Button          Create Area
-#    Edit Widget Size                       width=100       height=500    is_area=True
-#    Edit Widget Position                   top=100         left=0        is_area=True
-#    FlaUILib.Click Toolbar Button          Create Area
-#    Edit Widget Size                       width=800       height=100    is_area=True
-#    Edit Widget Position                   top=0           left=0        is_area=True
-#    FlaUILib.Click Toolbar Button          Save All
-#    Close Editor
+    ${xpath}                               FlaUILib.Get Editor XPath    editor_name=IAT-Editor
+    ${IAT_editor}    Find One Element      ${xpath}
+    @{children}      Find All Elements     ${xpath}/Group/*
+    ${label1}        Set Variable          ${children[0]}
+    Click                                  ${label1.Xpath}
+    Press Key                              s'DELETE'
+    Click Into IDE                         editor=True
+    Edit Widget Size                       width=700    height=500    is_content=True
+    Close Editor
+    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents    shortcut=0
+    Insert From ToolBox                    Logical View    Page content
+    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents|BR_content_1.content    shortcut=0
+    Wait Until Element Exist               ${xpath}
+    Edit Widget Name                       Navigation
+    Edit Widget Size                       width=100       height=500    is_content=True
+    Sleep    1s
+    Click Into IDE                         editor=True
+    Insert From ToolBox                    Logical View    Navigation    drag=True
+    Edit Widget Position                   top=0           left=0
+    Edit Widget Size                       width=100       height=500
+    FlaUILib.Click Toolbar Button          Save All
+    Close Editor
+    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents    shortcut=0
+    Insert From ToolBox                    Logical View    Page content
+    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_AreaContents|BR_content_1.content    shortcut=0
+    Wait Until Element Exist               ${xpath}
+    Edit Widget Name                       Info_Pane
+    Edit Widget Size                       height=100      is_content=True
+    Click Into IDE
+    Insert From ToolBox                    Logical View    Label    drag=True
+    Edit Widget Position                   top=5           left=50
+    Edit Widget Size                       width=200       height=30
+    Insert From ToolBox                    Logical View    LanguageSelector    drag=True
+    Edit Widget Position                   top=35          left=680
+    FlaUILib.Click Toolbar Button          Save All
+    Close Editor
+    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Layouts|BR_layout_0.layout
+    Click Into IDE                         editor=True
+    Edit Widget Size                       width=700       height=500    is_area=True
+    Edit Widget Position                   top=100         left=100      is_area=True
+    FlaUILib.Click Toolbar Button          Create Area
+    Edit Widget Size                       width=100       height=500    is_area=True
+    Edit Widget Position                   top=100         left=0        is_area=True
+    FlaUILib.Click Toolbar Button          Create Area
+    Edit Widget Size                       width=800       height=100    is_area=True
+    Edit Widget Position                   top=0           left=0        is_area=True
+    FlaUILib.Click Toolbar Button          Save All
+    Close Editor
     Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_page_0.page    shortcut=0
     Click Into IDE                         editor=True
     FlaUILib.Set Workspace Minimum Size    editor_name=Page-Editor    percent=True
