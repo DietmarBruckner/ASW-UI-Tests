@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-06-22T10:37:54.205921" rpa="false" schemaversion="5">
+<suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
+<suite id="s1-s1" name="RobotTests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests">
+<suite id="s1-s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests">
+<suite id="s1-s1-s1-s1" name="mappView" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\mappView">
+<suite id="s1-s1-s1-s1-s1" name="mappView tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\mappView\mappView_tests.robot">
+<test id="s1-s1-s1-s1-s1-t1" name="Prepare Layout for Widget Pages" line="100">
+<kw name="Initialize Automation Studio" owner="ide_keywords">
+<kw name="Initialize Automation Studio" owner="FlaUILib">
+<arg>${AS_DEFAULT_TIMEOUT}</arg>
+<arg>${AS_VERBOSE}</arg>
+<status status="PASS" start="2026-06-22T10:37:54.916551" elapsed="0.988795"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-06-22T10:37:55.906279" level="INFO">Automation Studio initialised.</msg>
+<arg>Automation Studio initialised.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-06-22T10:37:55.905902" elapsed="0.000556"/>
+</kw>
+<doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
+<status status="PASS" start="2026-06-22T10:37:54.916140" elapsed="0.990451"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-06-22T10:37:55.907533" elapsed="1.315614"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-06-22T10:37:57.223737" level="INFO">Double-clicked tree path: BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_page_0.page</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-06-22T10:37:57.223383" elapsed="0.000526"/>
+</kw>
+<arg>Logical View</arg>
+<arg>BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_page_0.page</arg>
+<arg>shortcut=0</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-06-22T10:37:55.907112" elapsed="1.316899"/>
+</kw>
+<kw name="Click Into IDE" owner="ide_keywords">
+<kw name="Click into IDE" owner="FlaUILib">
+<arg>${editor}</arg>
+<arg>${position}</arg>
+<status status="PASS" start="2026-06-22T10:37:57.224769" elapsed="0.020460"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-06-22T10:37:57.246277" level="INFO">Clicked into IDE (editor=True, position=False)</msg>
+<arg>Clicked into IDE (editor=${editor}, position=${position})</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-06-22T10:37:57.245600" elapsed="0.001026"/>
+</kw>
+<arg>editor=True</arg>
+<doc>Clicks into the IDE to ensure it has focus, optionally on an open editor. Marked elements loose focus.</doc>
+<status status="PASS" start="2026-06-22T10:37:57.224405" elapsed="0.022379"/>
+</kw>
+<kw name="Set Workspace Minimum Size" owner="FlaUILib">
+<arg>editor_name=Page-Editor</arg>
+<arg>percent=True</arg>
+<status status="PASS" start="2026-06-22T10:37:57.247131" elapsed="2.353649"/>
+</kw>
+<kw name="Get Editor XPath" owner="FlaUILib">
+<msg time="2026-06-22T10:38:00.034995" level="INFO">${xpath} = /Window[1]/Pane[10]/Window/Pane[2]/Pane/Pane/Pane/Pane/Pane/Pane/Pane[3]/Pane/Pane[1]/Pane/Pane[2]/Pane/Pane/Pane//Document</msg>
+<var>${xpath}</var>
+<arg>editor_name=Page-Editor</arg>
+<status status="PASS" start="2026-06-22T10:37:59.601461" elapsed="0.433748"/>
+</kw>
+<kw name="Find One Element" owner="FlaUILibrary">
+<msg time="2026-06-22T10:38:00.521447" level="INFO">${page_editor} = &lt;FlaUILibrary.flaui.util.automationelement.AutomationElement object at 0x0000023FE8133A10&gt;</msg>
+<var>${page_editor}</var>
+<arg>${xpath}</arg>
+<doc>Find one element from given xpath.
+Runs immediately and without retrying later.
+Returns an AutomationElement which contains properties to Xpath.
+If AutomationId, ClassName or Name is set. Xpath can be used by these values and will be returned.</doc>
+<status status="PASS" start="2026-06-22T10:38:00.035635" elapsed="0.485986"/>
+</kw>
+<kw name="Get Rectangle Bounding From Element" owner="FlaUILibrary">
+<msg time="2026-06-22T10:38:00.685250" level="INFO">${rect} = [1155, 213, 2193, 1581]</msg>
+<var>${rect}</var>
+<arg>${xpath}</arg>
+<doc>Return rectangle value from element.</doc>
+<status status="PASS" start="2026-06-22T10:38:00.522037" elapsed="0.163408"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-06-22T10:38:00.686527" level="INFO">${x_offset} = 137.0625</msg>
+<var>${x_offset}</var>
+<arg>(${rect}[2] * 50)/800</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-06-22T10:38:00.685937" elapsed="0.000791"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-06-22T10:38:00.687362" level="INFO">${click_x} = 1292.0625</msg>
+<var>${click_x}</var>
+<arg>${rect}[0] + ${x_offset}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-06-22T10:38:00.686978" elapsed="0.000474"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-06-22T10:38:00.688038" level="INFO">${y_offset} = 790.5</msg>
+<var>${y_offset}</var>
+<arg>(${rect}[3] * 300)/600</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-06-22T10:38:00.687748" elapsed="0.000376"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2026-06-22T10:38:00.688731" level="INFO">${click_y} = 1003.5</msg>
+<var>${click_y}</var>
+<arg>${rect}[1] + ${y_offset}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2026-06-22T10:38:00.688369" elapsed="0.000449"/>
+</kw>
+<kw name="Click into IDE" owner="FlaUILib">
+<arg>position_x=${click_x}</arg>
+<arg>position_y=${click_y}</arg>
+<status status="PASS" start="2026-06-22T10:38:00.689057" elapsed="3.445902"/>
+</kw>
+<kw name="Select From MappView Dropdown" owner="FlaUILib">
+<msg time="2026-06-22T10:39:51.580694" level="FAIL">FlaUILibrary server did not become ready after auto-start</msg>
+<arg>property_name=Common</arg>
+<arg>subproperty=refId</arg>
+<arg>value=Navigation</arg>
+<status status="FAIL" start="2026-06-22T10:38:04.135818" elapsed="107.860708">FlaUILibrary server did not become ready after auto-start</status>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${x_offset}</var>
+<arg>(${rect}[2] * 400)/800</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2026-06-22T10:44:05.191384" elapsed="0.000277"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${click_x}</var>
+<arg>${rect}[0] + ${x_offset}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2026-06-22T10:44:05.192180" elapsed="0.000217"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${y_offset}</var>
+<arg>(${rect}[3] * 50)/600</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2026-06-22T10:44:05.192732" elapsed="0.000091"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${click_y}</var>
+<arg>${rect}[1] + ${y_offset}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2026-06-22T10:44:05.193153" elapsed="0.000103"/>
+</kw>
+<kw name="Click into IDE" owner="FlaUILib">
+<arg>position_x=${click_x}</arg>
+<arg>position_y=${click_y}</arg>
+<status status="NOT RUN" start="2026-06-22T10:44:05.193683" elapsed="0.000112"/>
+</kw>
+<kw name="Select From MappView Dropdown" owner="FlaUILib">
+<arg>property_name=Common</arg>
+<arg>subproperty=refId</arg>
+<arg>value=Info_Pane</arg>
+<status status="NOT RUN" start="2026-06-22T10:44:05.193988" elapsed="0.000089"/>
+</kw>
+<kw name="Click Toolbar Button" owner="FlaUILib">
+<arg>Save All</arg>
+<status status="NOT RUN" start="2026-06-22T10:44:05.194218" elapsed="0.000086"/>
+</kw>
+<kw name="Close Editor" owner="ide_keywords">
+<doc>Closes the currently active editor, optionally saving changes.</doc>
+<status status="NOT RUN" start="2026-06-22T10:44:05.194531" elapsed="0.000094"/>
+</kw>
+<kw name="Build Project" owner="project_keywords">
+<doc>Builds the active configuration and waits for completion.</doc>
+<status status="NOT RUN" start="2026-06-22T10:44:05.194876" elapsed="0.000084"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>Layout and navigation prepared for widget page tests</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-06-22T10:44:05.195104" elapsed="0.000077"/>
+</kw>
+<doc>Scenario: Prepare mappView layout for widget page tests
+Traceability ID: FW-MVIEW-C2
+Component: mappView
+Source Manual: agents/TM611-GER_Working_with_mapp_View_V6001_mV61.md
+Source Section: 5.4 Content and Widgets
+Evidence Type: Manual procedure
+Determinism: Deterministic UI path
+Preconditions: mappView component available and configured</doc>
+<tag>configuration</tag>
+<tag>mappview</tag>
+<tag>trace:fw-mview-c2</tag>
+<tag>trace:sec-5.4</tag>
+<tag>trace:tm611</tag>
+<status status="FAIL" start="2026-06-22T10:37:54.913269" elapsed="370.282215">FlaUILibrary server did not become ready after auto-start</status>
+</test>
+<doc>Test cases for MappView component configuration and widget insertion.</doc>
+<status status="FAIL" start="2026-06-22T10:37:54.242628" elapsed="370.961513"/>
+</suite>
+<status status="FAIL" start="2026-06-22T10:37:54.240458" elapsed="370.966897"/>
+</suite>
+<status status="FAIL" start="2026-06-22T10:37:54.238258" elapsed="370.994506"/>
+</suite>
+<status status="FAIL" start="2026-06-22T10:37:54.235852" elapsed="371.001681"/>
+</suite>
+<status status="FAIL" start="2026-06-22T10:37:54.210725" elapsed="371.029180"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="0" fail="1" skip="0">configuration</stat>
+<stat pass="0" fail="1" skip="0">mappview</stat>
+<stat pass="0" fail="1" skip="0">trace:fw-mview-c2</stat>
+<stat pass="0" fail="1" skip="0">trace:sec-5.4</stat>
+<stat pass="0" fail="1" skip="0">trace:tm611</stat>
+</tag>
+<suite>
+<stat name="ASW-UI-Tests" id="s1" pass="0" fail="1" skip="0">ASW-UI-Tests</stat>
+<stat name="RobotTests" id="s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests</stat>
+<stat name="Tests" id="s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests</stat>
+<stat name="mappView" id="s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.mappView</stat>
+<stat name="mappView tests" id="s1-s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.mappView.mappView tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2026-06-22T10:37:54.260221" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+</errors>
+</robot>
