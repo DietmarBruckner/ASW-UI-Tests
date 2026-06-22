@@ -483,6 +483,8 @@ namespace FlaUILibrary.Util {
             AutomationElement properties = IDE_Main.PropertyWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Table));
             AutomationElement aproperty = properties.FindFirstChild(cf => cf.ByName(property));
             AutomationElement asubproperty = aproperty.FindFirstChild(cf => cf.ByName(subproperty));
+            if (asubproperty.Patterns.Value.Pattern.Value == select)
+                return;
             Mouse.MoveTo(new Point {X = asubproperty.BoundingRectangle.Right - 15, Y = asubproperty.BoundingRectangle.Top + asubproperty.BoundingRectangle.Height/2});
             Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
