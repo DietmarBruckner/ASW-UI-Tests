@@ -695,7 +695,8 @@ namespace FlaUILibrary.Util {
                     min = i;
                     rec = d.Key;
                 }
-                else if (i == min) {
+                else if (i == min) {    
+                    //value has already been selected; assuming pop-up will open above the word, so select the one with the lowest Y coordinate
                     if (d.Key.Top < rec.Top)
                         rec = d.Key;
                 }
