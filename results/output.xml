@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-06-17T12:43:21.344507" rpa="false" schemaversion="5">
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-06-22T10:17:00.151337" rpa="false" schemaversion="5">
 <suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
 <suite id="s1-s1" name="RobotTests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests">
 <suite id="s1-s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests">
@@ -8,71 +8,40 @@
 <test id="s1-s1-s1-s1-s1-t1" name="Prepare Layout for Widget Pages" line="100">
 <kw name="Initialize Automation Studio" owner="ide_keywords">
 <kw name="Initialize Automation Studio" owner="FlaUILib">
+<msg time="2026-06-22T10:17:09.363543" level="FAIL">FlaUILibrary keyword 'initialize_automation_studio' failed: Object reference not set to an instance of an object.</msg>
 <arg>${AS_DEFAULT_TIMEOUT}</arg>
 <arg>${AS_VERBOSE}</arg>
-<status status="PASS" start="2026-06-17T12:43:22.022988" elapsed="0.954716"/>
+<status status="FAIL" start="2026-06-22T10:17:05.838863" elapsed="3.542190">FlaUILibrary keyword 'initialize_automation_studio' failed: Object reference not set to an instance of an object.</status>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-06-17T12:43:22.978580" level="INFO">Automation Studio initialised.</msg>
 <arg>Automation Studio initialised.</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-06-17T12:43:22.978231" elapsed="0.000521"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.398811" elapsed="0.000171"/>
 </kw>
 <doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
-<status status="PASS" start="2026-06-17T12:43:22.022573" elapsed="0.956302"/>
+<status status="FAIL" start="2026-06-22T10:17:05.837697" elapsed="14.561545">FlaUILibrary keyword 'initialize_automation_studio' failed: Object reference not set to an instance of an object.</status>
 </kw>
 <kw name="Expand and Click Tree Leaf" owner="ide_keywords">
-<kw name="Activate Tree Leaf" owner="FlaUILib">
-<arg>${viewtype}</arg>
-<arg>${tree_path}</arg>
-<arg>${editorname}</arg>
-<arg>${rootname}</arg>
-<arg>${program}</arg>
-<arg>${shortcut}</arg>
-<arg>${single_click}</arg>
-<arg>${filename}</arg>
-<arg>${filetree}</arg>
-<arg>${version}</arg>
-<status status="PASS" start="2026-06-17T12:43:22.979667" elapsed="1.271597"/>
-</kw>
-<kw name="Log" owner="BuiltIn">
-<msg time="2026-06-17T12:43:24.252405" level="INFO">Double-clicked tree path: BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_page_0.page</msg>
-<arg>Double-clicked tree path: ${tree_path}</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-06-17T12:43:24.251709" elapsed="0.001091"/>
-</kw>
 <arg>Logical View</arg>
 <arg>BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_page_0.page</arg>
 <arg>shortcut=0</arg>
 <doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
-<status status="PASS" start="2026-06-17T12:43:22.979227" elapsed="1.273809"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.399790" elapsed="0.000187"/>
 </kw>
 <kw name="Click Into IDE" owner="ide_keywords">
-<kw name="Click into IDE" owner="FlaUILib">
-<arg>${editor}</arg>
-<arg>${position}</arg>
-<status status="PASS" start="2026-06-17T12:43:24.254256" elapsed="0.021609"/>
-</kw>
-<kw name="Log" owner="BuiltIn">
-<msg time="2026-06-17T12:43:24.276841" level="INFO">Clicked into IDE (editor=True, position=False)</msg>
-<arg>Clicked into IDE (editor=${editor}, position=${position})</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-06-17T12:43:24.276171" elapsed="0.000840"/>
-</kw>
 <arg>editor=True</arg>
 <doc>Clicks into the IDE to ensure it has focus, optionally on an open editor. Marked elements loose focus.</doc>
-<status status="PASS" start="2026-06-17T12:43:24.253526" elapsed="0.023594"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.400329" elapsed="0.000156"/>
 </kw>
 <kw name="Set Workspace Minimum Size" owner="FlaUILib">
-<msg time="2026-06-17T12:43:24.579146" level="FAIL">FlaUILibrary keyword 'set_workspace_min_size' failed: Editor not found: Page-Editor</msg>
 <arg>editor_name=Page-Editor</arg>
 <arg>percent=True</arg>
-<status status="FAIL" start="2026-06-17T12:43:24.277505" elapsed="0.306551">FlaUILibrary keyword 'set_workspace_min_size' failed: Editor not found: Page-Editor</status>
+<status status="NOT RUN" start="2026-06-22T10:17:20.400940" elapsed="0.000170"/>
 </kw>
 <kw name="Get Editor XPath" owner="FlaUILib">
 <var>${xpath}</var>
 <arg>editor_name=Page-Editor</arg>
-<status status="NOT RUN" start="2026-06-17T12:49:50.563719" elapsed="0.000300"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.401566" elapsed="0.000165"/>
 </kw>
 <kw name="Find One Element" owner="FlaUILibrary">
 <var>${page_editor}</var>
@@ -81,100 +50,100 @@
 Runs immediately and without retrying later.
 Returns an AutomationElement which contains properties to Xpath.
 If AutomationId, ClassName or Name is set. Xpath can be used by these values and will be returned.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.564679" elapsed="0.000232"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.402254" elapsed="0.000230"/>
 </kw>
 <kw name="Get Rectangle Bounding From Element" owner="FlaUILibrary">
 <var>${rect}</var>
 <arg>${xpath}</arg>
 <doc>Return rectangle value from element.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.565478" elapsed="0.000225"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.402960" elapsed="0.000219"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
 <var>${x_offset}</var>
 <arg>(${rect}[2] * 50)/800</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.566249" elapsed="0.000213"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.403600" elapsed="0.000218"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
 <var>${click_x}</var>
 <arg>${rect}[0] + ${x_offset}</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.566934" elapsed="0.000209"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.404268" elapsed="0.000223"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
 <var>${y_offset}</var>
 <arg>(${rect}[3] * 300)/600</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.567797" elapsed="0.000187"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.405040" elapsed="0.000207"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
 <var>${click_y}</var>
 <arg>${rect}[1] + ${y_offset}</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.568509" elapsed="0.000212"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.405734" elapsed="0.000216"/>
 </kw>
 <kw name="Click into IDE" owner="FlaUILib">
 <arg>position_x=${click_x}</arg>
 <arg>position_y=${click_y}</arg>
-<status status="NOT RUN" start="2026-06-17T12:49:50.569153" elapsed="0.000184"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.406380" elapsed="0.000181"/>
 </kw>
 <kw name="Select From MappView Dropdown" owner="FlaUILib">
 <arg>property_name=Common</arg>
 <arg>subproperty=refId</arg>
 <arg>value=Navigation</arg>
-<status status="NOT RUN" start="2026-06-17T12:49:50.569693" elapsed="0.000182"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.406909" elapsed="0.000203"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
 <var>${x_offset}</var>
 <arg>(${rect}[2] * 400)/800</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.570180" elapsed="0.000158"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.407455" elapsed="0.000164"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
 <var>${click_x}</var>
 <arg>${rect}[0] + ${x_offset}</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.570616" elapsed="0.000143"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.407992" elapsed="0.000211"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
 <var>${y_offset}</var>
 <arg>(${rect}[3] * 50)/600</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.571023" elapsed="0.000146"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.408555" elapsed="0.000172"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
 <var>${click_y}</var>
 <arg>${rect}[1] + ${y_offset}</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.571437" elapsed="0.000134"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.409092" elapsed="0.000262"/>
 </kw>
 <kw name="Click into IDE" owner="FlaUILib">
 <arg>position_x=${click_x}</arg>
 <arg>position_y=${click_y}</arg>
-<status status="NOT RUN" start="2026-06-17T12:49:50.572232" elapsed="0.000176"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.409921" elapsed="0.000196"/>
 </kw>
 <kw name="Select From MappView Dropdown" owner="FlaUILib">
 <arg>property_name=Common</arg>
 <arg>subproperty=refId</arg>
 <arg>value=Info_Pane</arg>
-<status status="NOT RUN" start="2026-06-17T12:49:50.572751" elapsed="0.000195"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.410475" elapsed="0.000207"/>
 </kw>
 <kw name="Click Toolbar Button" owner="FlaUILib">
 <arg>Save All</arg>
-<status status="NOT RUN" start="2026-06-17T12:49:50.573345" elapsed="0.000163"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.411105" elapsed="0.000191"/>
 </kw>
 <kw name="Close Editor" owner="ide_keywords">
 <doc>Closes the currently active editor, optionally saving changes.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.573917" elapsed="0.000178"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.411815" elapsed="0.000191"/>
 </kw>
 <kw name="Build Project" owner="project_keywords">
 <doc>Builds the active configuration and waits for completion.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.574456" elapsed="0.000095"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.412584" elapsed="0.000269"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
 <arg>Layout and navigation prepared for widget page tests</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" start="2026-06-17T12:49:50.574865" elapsed="0.000114"/>
+<status status="NOT RUN" start="2026-06-22T10:17:20.413300" elapsed="0.000194"/>
 </kw>
 <doc>Scenario: Prepare mappView layout for widget page tests
 Traceability ID: FW-MVIEW-C2
@@ -189,18 +158,18 @@ Preconditions: mappView component available and configured</doc>
 <tag>trace:fw-mview-c2</tag>
 <tag>trace:sec-5.4</tag>
 <tag>trace:tm611</tag>
-<status status="FAIL" start="2026-06-17T12:43:22.019833" elapsed="388.555413">FlaUILibrary keyword 'set_workspace_min_size' failed: Editor not found: Page-Editor</status>
+<status status="FAIL" start="2026-06-22T10:17:05.830132" elapsed="14.583822">FlaUILibrary keyword 'initialize_automation_studio' failed: Object reference not set to an instance of an object.</status>
 </test>
 <doc>Test cases for MappView component configuration and widget insertion.</doc>
-<status status="FAIL" start="2026-06-17T12:43:21.398241" elapsed="389.183661"/>
+<status status="FAIL" start="2026-06-22T10:17:00.205172" elapsed="20.251724"/>
 </suite>
-<status status="FAIL" start="2026-06-17T12:43:21.395946" elapsed="389.206549"/>
+<status status="FAIL" start="2026-06-22T10:17:00.201826" elapsed="20.330442"/>
 </suite>
-<status status="FAIL" start="2026-06-17T12:43:21.393266" elapsed="389.212017"/>
+<status status="FAIL" start="2026-06-22T10:17:00.198792" elapsed="20.337309"/>
 </suite>
-<status status="FAIL" start="2026-06-17T12:43:21.389601" elapsed="389.218346"/>
+<status status="FAIL" start="2026-06-22T10:17:00.195257" elapsed="20.343716"/>
 </suite>
-<status status="FAIL" start="2026-06-17T12:43:21.349897" elapsed="389.259771"/>
+<status status="FAIL" start="2026-06-22T10:17:00.158449" elapsed="20.382943"/>
 </suite>
 <statistics>
 <total>
@@ -222,6 +191,6 @@ Preconditions: mappView component available and configured</doc>
 </suite>
 </statistics>
 <errors>
-<msg time="2026-06-17T12:43:21.414278" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+<msg time="2026-06-22T10:17:00.230679" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
 </errors>
 </robot>
