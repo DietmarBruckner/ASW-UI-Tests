@@ -702,7 +702,7 @@ namespace FlaUILibrary.Util {
                 }
             }
             //compensate for different origin of rectangle
-            //rec = new Rectangle(rec.Left, rec.Top + 300, rec.Width, rec.Height); 
+            rec = new Rectangle(rec.Left, rec.Top - 300, rec.Width, rec.Height); 
             return rec;
         }
         public static void SetIWorkspaceMinSize(AutomationElement scrollableEditor = null, bool percent = false) {
