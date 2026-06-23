@@ -139,7 +139,7 @@ namespace FlaUILibrary.Util {
             editor.Close();
         }
         void TM611_11_Localization() {
-             string tmxconfig = "LocalizableTexts.tmx";
+/*             string tmxconfig = "LocalizableTexts.tmx";
             Util.ConsoleOut(Util.Verbose.STEPS, "Inserting new Project Language container");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView"}, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.LogicalView, "", "Project Languages");
@@ -196,9 +196,9 @@ namespace FlaUILibrary.Util {
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, 0);
             TreeConfig.IdeMain.SaveAll();
             IDE_Main.ActiveEditor.Close();
-         }
+ */         }
         void TM611_5_Layout() {
-            Util.ConsoleOut(Util.Verbose.STEPS, "Inserting navigation and info content");
+/*             Util.ConsoleOut(Util.Verbose.STEPS, "Inserting navigation and info content");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_mappView", "BR_Visualization", "BR_Pages", "BR_page_0", "BR_content_0.content"}, out content0_editor);
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
             AutomationElement docIATeditor;
@@ -277,7 +277,7 @@ namespace FlaUILibrary.Util {
             page0_editor.Close();
             layout0_editor.Close();
             ip_editor.Close();
-        }
+ */        }
         void InsertWidgets() {
             Util.ConsoleOut(Util.Verbose.STEPS, "Inserting widgets");
             //content0_editor = IDE_Main.Editors.Find(x => x.Name.Contains("content_0.content"));

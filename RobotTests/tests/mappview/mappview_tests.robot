@@ -170,7 +170,6 @@ Prepare Layout for Widget Pages
     ${y_offset}=                           Evaluate    (${rect}[3] * 300)/600
     ${click_y}=                            Evaluate    ${rect}[1] + ${y_offset}
     FlaUILib.Click Into IDE                position_x=${click_x}    position_y=${click_y}
-# Screenshot too small!
     FlaUILib.Select From mappView DropDown
     ...                                    property_name=Common    subproperty=refId    value=Navigation
     ${x_offset}=                           Evaluate    (${rect}[2] * 400)/800
