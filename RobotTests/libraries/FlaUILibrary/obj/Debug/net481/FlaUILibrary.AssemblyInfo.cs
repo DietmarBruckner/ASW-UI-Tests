@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FlaUILibrary")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4673f00bfbe3cf6dca9180fbac4ed408b736b46d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fa9122c87716b14c0afb0cb1073fb6219eb6bc92")]
 [assembly: System.Reflection.AssemblyProductAttribute("FlaUILibrary")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FlaUILibrary")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
