@@ -31,6 +31,13 @@ namespace FlaUILibrary
         private IDE_Main Ide_Main { get; set; }
         private AppProject Project { get; set; }
 
+        // Crash-detection state
+        private volatile bool _appCrashed;
+        private string _crashDetail;
+        private Thread _monitorThread;
+        private volatile bool _intentionalStop;
+        private int _appProcessId = -1;
+
         public FlaUILibraryServer(string prefix = "http://localhost:5000/") {
             _listener = new HttpListener();
             _listener.Prefixes.Add(prefix);
@@ -88,6 +95,8 @@ namespace FlaUILibrary
         }
 
         private object ExecuteKeyword(string keyword, JObject args) {
+            if (_appCrashed)
+                return Util.Util.Err("CRASH: " + _crashDetail);
             try {
                 string A(string key, string def = null) => args?[key] != null ? (string)args[key] : def;
                 int    Ai(string key, int def = 0)    => args?[key] != null ? (int)args[key] : def;
@@ -127,6 +136,7 @@ namespace FlaUILibrary
                     case "set_workspace_min_size":          return KwSetWorkspaceMinSize(A("editor_name"), Ab("percent", false));
                     case "select_from_mappview_dropdown":   return KwSelectFromMappViewDropDown(A("property_name"), A("subproperty"), A("value"));
                     case "is_project_loaded":            return KwIsProjectLoaded();
+                    case "check_app_alive":              return KwCheckAppAlive();
                     case "get_dialog_text":      return KwGetDialogText(A("field_label"), A("dialog_title"));
                     case "open_context_menu":       return KwOpenContextMenu(A("identifier"), A("search_by","name"));
                     case "select_context_menu_item": return KwSelectContextMenuItem(A("menu_item"), A("submenu_item"));
@@ -144,9 +154,14 @@ namespace FlaUILibrary
         // ── IDE lifecycle ────────────────────────────────────────────────────
 
         private object KwInitAS(int timeout, string verbose) {
+            if (_app != null)
+            {
+                if (_appCrashed)
+                    return Util.Util.Err("CRASH: " + _crashDetail + " – call close_application first.");
+                return Util.Util.Ok("already initialized", IDE_Main.MainWindow.Title);
+            }
             string appPath = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\BR_AS_AS6_L001", "BuRSharedFilesPath", null) as string;
             if (string.IsNullOrEmpty(appPath)) return Util.Util.Err("Automation Studio 6 installation path not found in registry.");
-            if ( _app != null) return Util.Util.Ok("already initialized", IDE_Main.MainWindow.Title);
             try {_app = Application.Attach(appPath + "\\bin-en\\pg.exe"); } catch { _app = Application.Launch(appPath + "\\bin-en\\pg.exe"); }
             if ( _app == null) return Util.Util.Err("Could not find or start Automation Studio 6 process.");
             _app.WaitWhileMainHandleIsMissing(TimeSpan.FromSeconds(timeout));
@@ -165,16 +180,21 @@ namespace FlaUILibrary
                 case "full":  Util.Util.Environment.verbose = Util.Util.Verbose.FULL; break;
                 default:      Util.Util.Environment.verbose = Util.Util.Verbose.STEPS; break;
             }
+            _appCrashed = false;
+            _intentionalStop = false;
+            _appProcessId = _app.ProcessId;
+            StartCrashMonitoring();
             return Util.Util.Ok("Automation Studio 6 initialized", IDE_Main.MainWindow.Title);
         }
         private object KwCloseApp(bool saveChanges) {
+            _intentionalStop = true;
             if (_app == null) return Util.Util.Ok("Automation Studio 6 not running, nothing to close.");
             try {
                 _app.Close();
                 TryHandleSavePrompt(saveChanges);
             }
             catch { try { _app.Kill(); } catch { } }
-            _app = null; Ide_Main = null; Project = null;
+            _app = null; Ide_Main = null; Project = null; _appCrashed = false; _crashDetail = null;
             return Util.Util.Ok("Automation Studio 6 closed");
         }
         private object KwInvokeMenu(string menuName, string menuItem, string submenuItem) {
@@ -550,6 +570,110 @@ namespace FlaUILibrary
                 bmp.Save(fullPath, System.Drawing.Imaging.ImageFormat.Png);
             }
             return new { result = "saved", path = fullPath };
+        }
+
+        // ── Crash monitoring ─────────────────────────────────────────────────
+
+        /// <summary>
+        /// Starts a background thread that polls the Automation Studio process every 3 s.
+        /// Also subscribes to the Process.Exited event for immediate notification.
+        /// Sets _appCrashed when an unexpected exit is detected.
+        /// </summary>
+        private void StartCrashMonitoring()
+        {
+            if (_appProcessId < 0) return;
+
+            // Immediate notification via Process.Exited event
+            try
+            {
+                var proc = System.Diagnostics.Process.GetProcessById(_appProcessId);
+                proc.EnableRaisingEvents = true;
+                proc.Exited += (sender, e) =>
+                {
+                    if (_intentionalStop) return;
+                    int code = -1;
+                    try { code = proc.ExitCode; } catch { }
+                    _appCrashed = true;
+                    _crashDetail = $"Automation Studio crashed (exit code: {code})";
+                    Console.WriteLine("[CRASH MONITOR] " + _crashDetail);
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[CRASH MONITOR] Could not subscribe to process exit event: " + ex.Message);
+            }
+
+            // Polling thread as defensive fallback
+            _monitorThread = new Thread(() =>
+            {
+                while (!_intentionalStop)
+                {
+                    Thread.Sleep(3000);
+                    if (_intentionalStop) break;
+                    try
+                    {
+                        var proc = System.Diagnostics.Process.GetProcessById(_appProcessId);
+                        if (proc.HasExited && !_intentionalStop)
+                        {
+                            _appCrashed = true;
+                            _crashDetail = $"Automation Studio process (PID {_appProcessId}) has exited";
+                            Console.WriteLine("[CRASH MONITOR] " + _crashDetail);
+                            break;
+                        }
+                    }
+                    catch (ArgumentException)
+                    {
+                        // ArgumentException means the PID no longer exists in the OS
+                        if (!_intentionalStop)
+                        {
+                            _appCrashed = true;
+                            _crashDetail = $"Automation Studio process (PID {_appProcessId}) is no longer running";
+                            Console.WriteLine("[CRASH MONITOR] " + _crashDetail);
+                        }
+                        break;
+                    }
+                    catch { /* transient OS errors – continue polling */ }
+                }
+            })
+            {
+                IsBackground = true,
+                Name = "AppCrashMonitor"
+            };
+            _monitorThread.Start();
+        }
+
+        /// <summary>
+        /// Keyword: check_app_alive
+        /// Returns {result:"alive"}, {result:"crashed", detail:"..."}, or {result:"not_initialized"}.
+        /// Intended for use in RF suite teardowns or long-running keyword loops.
+        /// </summary>
+        private object KwCheckAppAlive()
+        {
+            if (_app == null)
+                return new { result = "not_initialized" };
+            if (_appCrashed)
+                return new { result = "crashed", detail = _crashDetail };
+            try
+            {
+                var proc = System.Diagnostics.Process.GetProcessById(_appProcessId);
+                if (proc.HasExited)
+                {
+                    _appCrashed = true;
+                    _crashDetail = $"Automation Studio process (PID {_appProcessId}) has exited";
+                    return new { result = "crashed", detail = _crashDetail };
+                }
+                return new { result = "alive" };
+            }
+            catch (ArgumentException)
+            {
+                _appCrashed = true;
+                _crashDetail = $"Automation Studio process (PID {_appProcessId}) is no longer running";
+                return new { result = "crashed", detail = _crashDetail };
+            }
+            catch (Exception ex)
+            {
+                return new { result = "unknown", detail = ex.Message };
+            }
         }
 
         private AutomationElement ResolveElement(string identifier, string searchBy) {
