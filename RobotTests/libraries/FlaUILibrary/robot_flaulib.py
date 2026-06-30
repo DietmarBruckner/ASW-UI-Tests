@@ -6,6 +6,7 @@ from pathlib import Path
 
 import requests
 from robot.api.deco import keyword, library
+from robot.libraries.BuiltIn import BuiltIn
 
 @library(scope="GLOBAL")
 class RobotFlaulib:
@@ -68,8 +69,11 @@ class RobotFlaulib:
             response.raise_for_status()
             result = response.json()
             if "error" in result:
+                detail = result["error"]
+                if detail.startswith("CRASH:"):
+                    BuiltIn().fatal_error(detail)
                 raise RuntimeError(
-                    f"FlaUILibrary keyword '{keyword_name}' failed: {result['error']}"
+                    f"FlaUILibrary keyword '{keyword_name}' failed: {detail}"
                 )
             return result.get("result", result)
         try:
@@ -220,6 +224,37 @@ class RobotFlaulib:
     @keyword("Wait For Transfer To Complete")
     def wait_for_transfer_to_complete(self, timeout=120):
         return self._call("wait_for_transfer", timeout=self._to_seconds(timeout))
+
+    @keyword("Check App Alive")
+    def check_app_alive(self):
+        """Polls the server for the Automation Studio process state.
+
+        Returns ``True`` when alive. Calls ``Fatal Error`` when a crash is
+        detected so the suite stops immediately. Intended for use in suite /
+        test teardowns and long-running keyword loops.
+        """
+        try:
+            resp = self._session.post(
+                f"{self.server_url}/keyword/check_app_alive",
+                data="{}",
+                timeout=self.timeout,
+            )
+            resp.raise_for_status()
+            result = resp.json()
+        except (requests.ConnectionError, requests.Timeout):
+            BuiltIn().fatal_error("CRASH: FlaUILibrary server is unreachable – Automation Studio may have crashed")
+
+        # Server-side crash guard may return {"error": "CRASH: ..."} instead
+        if "error" in result:
+            detail = result["error"]
+            if detail.startswith("CRASH:"):
+                BuiltIn().fatal_error(detail)
+            raise RuntimeError(f"check_app_alive failed: {detail}")
+
+        status = result.get("result", "unknown")
+        if status == "crashed":
+            BuiltIn().fatal_error("CRASH: " + result.get("detail", "Automation Studio is no longer running"))
+        return status == "alive"
 
     @keyword("Take Screenshot")
     def take_screenshot(self, filename=None, outputdir=None):
