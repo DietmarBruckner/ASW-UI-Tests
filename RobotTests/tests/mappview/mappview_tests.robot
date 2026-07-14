@@ -5,7 +5,7 @@ Resource            ${CURDIR}/../../keywords/widget_keywords.robot
 Resource            ${CURDIR}/../../keywords/widget_property_keywords.robot
 Library             FlaUILibrary    uia=UIA2
 
-#Suite Teardown      Close Automation Studio    save_changes=False
+Suite Teardown      FlaUILib.Check App Alive
 
 
 *** Test Cases ***

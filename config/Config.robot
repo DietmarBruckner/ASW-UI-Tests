@@ -59,7 +59,7 @@ ${UACS_VERSION}                     ${DEFAULT_UACS_VERSION}
 ${OPCUA_SERVER_PORT}                4840
 
 # Project Settings
-${PROJECT_NAME_PREFIX}              RobotTest
+${PROJECT_NAME}                     Basic_Project
 ${PROJECT_TEMP_PATH}                C:\\temp\\automation-studio-tests\\
 ${PROJECT_BACKUP_PATH}              C:\\temp\\automation-studio-backups\\
 ${PROJECT_DEFAULT_CONFIG_NAME}      Config1

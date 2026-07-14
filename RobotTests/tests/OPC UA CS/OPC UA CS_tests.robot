@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation       Test cases for OPCUA component configuration.
 Resource            ${CURDIR}/../../keywords/component_keywords.robot
-#Suite Teardown      Close Automation Studio    save_changes=False
+Suite Teardown      FlaUILib.Check App Alive
 
 
 *** Test Cases ***
@@ -17,7 +17,8 @@ Initialise OPCUA Version
     ...                Preconditions: OPC UA CS TP available
     [Tags]             opcua    configuration    smoke    trace:fw-opcua-c1
     Initialize Automation Studio
-    Select Working Version for Component    OPC     ${UACS_VERSION}
+    Select Working Version for Component    OPC      ${UACS_VERSION}
+    Verify Working Version For Component    OpcUaCs  ${UACS_VERSION}
     Build Project
     Log    OPC UA CS version initialised
 

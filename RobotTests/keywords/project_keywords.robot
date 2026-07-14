@@ -2,6 +2,7 @@
 Documentation       Keywords for Automation Studio project creation and management.
 ...                 All IDE interactions use FlaUILib (via ide_keywords.robot).
 Library             OperatingSystem
+Library             XML
 Resource            ${CURDIR}/ide_keywords.robot
 
 
@@ -52,6 +53,16 @@ Select Working Version for Component
         Log    No Change Runtime Versions dialog appeared.
     END
     Log    Working version selected: ${working_version}
+
+Verify Working Version For Component
+    [Documentation]                                    Verifies the component's version inside the Project - Change Runtime Version dialog.
+    [Arguments]                                        ${component_name}     ${expected_working_version} 
+
+    ${XML_root}=              Parse XML                ${PROJECT_TEMP_PATH}${PROJECT_NAME}\\${PROJECT_NAME}\\${PROJECT_NAME}.apj
+    ${technology_packages}=   Get Element              ${XML_root}    TechnologyPackages
+    ${component}=             Get Element              ${technology_packages}    ${component_name}
+    Element Attribute Should Be                        ${component}    Version   ${expected_working_version}
+    Log    Working version verified: ${expected_working_version}
 
 Activate Button in Workspace Editor
     [Documentation]    Clicks a button in the workspace editor, identified by its name.
