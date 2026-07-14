@@ -22,6 +22,7 @@ Initialise MappView Version
     [Tags]             mappview    configuration    smoke    trace:fw-mview-c1
     Initialize Automation Studio
     Select Working Version for Component    mapp View     ${VIEW_VERSION}
+    Verify Working Version For Component    mappView      ${VIEW_VERSION}
     Insert mapp View with Default Template
     Build Project
     Log    mappView version initialised
