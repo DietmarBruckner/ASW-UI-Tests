@@ -15,6 +15,7 @@ Initialise Automation Runtime Version
     [Tags]              automationruntime    configuration    smoke    trace:fw-ar-b1
     Initialize Automation Studio
     Select Working Version for Component    Automation Runtime    ${AR_VERSION}
+    Verify Working Version For Component    AutomationRuntime     ${AR_VERSION}
     Build Project
     
     Log    Automation Runtime version initialised
