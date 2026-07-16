@@ -227,6 +227,11 @@ namespace FlaUILibrary.Util {
                 menu.Click();
                 Sleep(800);
                 Menu popup = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(nameMenu))).AsMenu();
+                if (popup == null) {
+                    menu.Click();
+                    Sleep(800);
+                    popup = MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByName(nameMenu))).AsMenu();
+                }
                 AutomationElement toolBar = popup.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
                 var target = toolBar.FindAllChildren().FirstOrDefault(c => c.Name != null && c.Name.IndexOf(menuItemName) >= 0);
                 if (target == null) return Util.Err($"Menu item '{menuItemName}' not found in '{nameMenu}'");

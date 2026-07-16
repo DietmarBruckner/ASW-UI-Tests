@@ -57,10 +57,20 @@ Select Working Version for Component
 Verify Working Version For Component
     [Documentation]                                    Verifies the component's version inside the Project - Change Runtime Version dialog.
     [Arguments]                                        ${component_name}     ${expected_working_version} 
-
-    ${XML_root}=              Parse XML                ${PROJECT_TEMP_PATH}${PROJECT_NAME}\\${PROJECT_NAME}\\${PROJECT_NAME}.apj
-    ${technology_packages}=   Get Element              ${XML_root}    TechnologyPackages
-    ${component}=             Get Element              ${technology_packages}    ${component_name}
+    IF  "${component_name}" == "AutomationRuntime"
+        ${XML_root}=              Parse XML                ${PROJECT_TEMP_PATH}${PROJECT_NAME}\\${PROJECT_NAME}\\Physical\\${PROJECT_DEFAULT_CONFIG_NAME}\\${DEFAULT_CPU_TYPE}\\Cpu.pkg
+        ${configurations}=        Get Elements             ${XML_root}    Configuration
+        FOR  ${config}    IN    @{configurations}
+            ${moduleId}=          Get Element Attribute   ${config}    ModuleId
+            IF  "${moduleId}" == "${DEFAULT_CPU_TYPE}"
+                ${component}=     Get Element              ${config}    ${component_name}
+            END
+        END
+    ELSE
+        ${XML_root}=              Parse XML                ${PROJECT_TEMP_PATH}${PROJECT_NAME}\\${PROJECT_NAME}\\${PROJECT_NAME}.apj
+        ${technology_packages}=   Get Element              ${XML_root}    TechnologyPackages
+        ${component}=             Get Element              ${technology_packages}    ${component_name}
+    END
     Element Attribute Should Be                        ${component}    Version   ${expected_working_version}
     Log    Working version verified: ${expected_working_version}
 

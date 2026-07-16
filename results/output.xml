@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-07-14T11:52:42.984922" rpa="false" schemaversion="5">
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-07-14T12:41:14.803728" rpa="false" schemaversion="5">
 <suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
 <suite id="s1-s1" name="RobotTests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests">
 <suite id="s1-s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests">
-<suite id="s1-s1-s1-s1" name="OPC UA CS" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\OPC UA CS">
-<suite id="s1-s1-s1-s1-s1" name="OPC UA CS tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\OPC UA CS\OPC UA CS_tests.robot">
-<test id="s1-s1-s1-s1-s1-t1" name="Initialise OPCUA Version" line="9">
+<suite id="s1-s1-s1-s1" name="Automation Runtime" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\Automation Runtime">
+<suite id="s1-s1-s1-s1-s1" name="Automation Runtime" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\Automation Runtime\Automation Runtime.robot">
+<test id="s1-s1-s1-s1-s1-t1" name="Initialise Automation Runtime Version" line="6">
 <kw name="Initialize Automation Studio" owner="ide_keywords">
 <kw name="Initialize Automation Studio" owner="FlaUILib">
 <arg>${AS_DEFAULT_TIMEOUT}</arg>
 <arg>${AS_VERBOSE}</arg>
-<status status="PASS" start="2026-07-14T11:52:43.660529" elapsed="0.002521"/>
+<status status="PASS" start="2026-07-14T12:41:20.145224" elapsed="1.162761"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-07-14T11:52:43.663873" level="INFO">Automation Studio initialised.</msg>
+<msg time="2026-07-14T12:41:21.308931" level="INFO">Automation Studio initialised.</msg>
 <arg>Automation Studio initialised.</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-07-14T11:52:43.663557" elapsed="0.000473"/>
+<status status="PASS" start="2026-07-14T12:41:21.308545" elapsed="0.000568"/>
 </kw>
 <doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
-<status status="PASS" start="2026-07-14T11:52:43.660046" elapsed="0.004100"/>
+<status status="PASS" start="2026-07-14T12:41:20.144730" elapsed="1.164504"/>
 </kw>
 <kw name="Select Working Version for Component" owner="project_keywords">
 <kw name="Invoke IDE Menu" owner="ide_keywords">
@@ -27,204 +27,251 @@
 <arg>${menu_name}</arg>
 <arg>${menu_item}</arg>
 <arg>${submenu_item}</arg>
-<status status="PASS" start="2026-07-14T11:52:43.665303" elapsed="1.683872"/>
+<status status="PASS" start="2026-07-14T12:41:21.310524" elapsed="6.042410"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-07-14T11:52:45.349805" level="INFO">Menu invoked: Project &gt; Change Runtime Versions... &gt; None</msg>
+<msg time="2026-07-14T12:41:27.353644" level="INFO">Menu invoked: Project &gt; Change Runtime Versions... &gt; None</msg>
 <arg>Menu invoked: ${menu_name} &gt; ${menu_item} &gt; ${submenu_item}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-07-14T11:52:45.349399" elapsed="0.000572"/>
+<status status="PASS" start="2026-07-14T12:41:27.353192" elapsed="0.000688"/>
 </kw>
 <arg>Project</arg>
 <arg>Change Runtime Versions...</arg>
 <doc>Clicks a top-level menu and optionally a menu/sub-menu item.</doc>
-<status status="PASS" start="2026-07-14T11:52:43.664942" elapsed="1.685139"/>
+<status status="PASS" start="2026-07-14T12:41:21.310183" elapsed="6.043816"/>
 </kw>
 <kw name="Wait For Dialog" owner="FlaUILib">
-<msg time="2026-07-14T11:52:58.025465" level="INFO">${dialog_appeared} = False</msg>
+<msg time="2026-07-14T12:41:32.767730" level="INFO">${dialog_appeared} = False</msg>
 <var>${dialog_appeared}</var>
 <arg>${CPU_TYPE} - Properties</arg>
 <arg>5</arg>
-<status status="PASS" start="2026-07-14T11:52:45.350203" elapsed="12.675428"/>
+<status status="PASS" start="2026-07-14T12:41:27.354152" elapsed="5.413819"/>
 </kw>
 <if>
 <branch type="IF" condition="${dialog_appeared}">
 <kw name="Select Component Version" owner="FlaUILib">
 <arg>${component_name}</arg>
 <arg>${working_version}</arg>
-<status status="NOT RUN" start="2026-07-14T11:52:58.026039" elapsed="0.000095"/>
+<status status="NOT RUN" start="2026-07-14T12:41:32.768774" elapsed="0.000169"/>
 </kw>
 <kw name="Click Dialog Button" owner="FlaUILib">
 <arg>OK</arg>
 <arg>dialog_close=True</arg>
-<status status="NOT RUN" start="2026-07-14T11:52:58.026243" elapsed="0.000067"/>
+<status status="NOT RUN" start="2026-07-14T12:41:32.769116" elapsed="0.000114"/>
 </kw>
-<status status="NOT RUN" start="2026-07-14T11:52:58.025806" elapsed="0.000571"/>
+<status status="NOT RUN" start="2026-07-14T12:41:32.768181" elapsed="0.001132"/>
 </branch>
 <branch type="ELSE">
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-07-14T11:52:58.026838" level="INFO">No Change Runtime Versions dialog appeared.</msg>
+<msg time="2026-07-14T12:41:32.769863" level="INFO">No Change Runtime Versions dialog appeared.</msg>
 <arg>No Change Runtime Versions dialog appeared.</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-07-14T11:52:58.026572" elapsed="0.000517"/>
+<status status="PASS" start="2026-07-14T12:41:32.769575" elapsed="0.000423"/>
 </kw>
-<status status="PASS" start="2026-07-14T11:52:58.026420" elapsed="0.000752"/>
+<status status="PASS" start="2026-07-14T12:41:32.769375" elapsed="0.000709"/>
 </branch>
-<status status="PASS" start="2026-07-14T11:52:58.025777" elapsed="0.001430"/>
+<status status="PASS" start="2026-07-14T12:41:32.768146" elapsed="0.001976"/>
 </if>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-07-14T11:52:58.027698" level="INFO">Working version selected: 6.6.1</msg>
+<msg time="2026-07-14T12:41:32.771239" level="INFO">Working version selected: 6.6.3</msg>
 <arg>Working version selected: ${working_version}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-07-14T11:52:58.027288" elapsed="0.000563"/>
+<status status="PASS" start="2026-07-14T12:41:32.770212" elapsed="0.001479"/>
 </kw>
-<arg>OPC</arg>
-<arg>${UACS_VERSION}</arg>
+<arg>Automation Runtime</arg>
+<arg>${AR_VERSION}</arg>
 <doc>Selects the component's version inside the Project - Change Runtime Version dialog.</doc>
-<status status="PASS" start="2026-07-14T11:52:43.664541" elapsed="14.363419"/>
+<status status="PASS" start="2026-07-14T12:41:21.309687" elapsed="11.462327"/>
 </kw>
 <kw name="Verify Working Version For Component" owner="project_keywords">
+<if>
+<branch type="IF" condition="&quot;${component_name}&quot; == &quot;AutomationRuntime&quot;">
 <kw name="Parse Xml" owner="XML">
-<msg time="2026-07-14T11:53:10.083054" level="INFO">${XML_root} = &lt;Element 'Project' at 0x000002987150F8D0&gt;</msg>
+<msg time="2026-07-14T12:41:46.863110" level="INFO">${XML_root} = &lt;Element 'Cpu' at 0x0000028A9F82BE20&gt;</msg>
+<var>${XML_root}</var>
+<arg>${PROJECT_TEMP_PATH}${PROJECT_NAME}\\${PROJECT_NAME}\\Physical\\${PROJECT_DEFAULT_CONFIG_NAME}\\${DEFAULT_CPU_TYPE}\\Cpu.pkg</arg>
+<doc>Parses the given XML file or string into an element structure.</doc>
+<status status="PASS" start="2026-07-14T12:41:46.383958" elapsed="0.479302"/>
+</kw>
+<kw name="Get Elements" owner="XML">
+<msg time="2026-07-14T12:41:47.520571" level="INFO">${configurations} = [&lt;Element 'Configuration' at 0x0000028A9F838540&gt;]</msg>
+<var>${configurations}</var>
+<arg>${XML_root}</arg>
+<arg>Configuration</arg>
+<doc>Returns a list of elements in the ``source`` matching the ``xpath``.</doc>
+<status status="PASS" start="2026-07-14T12:41:46.863467" elapsed="0.657287"/>
+</kw>
+<for flavor="IN">
+<iter>
+<kw name="Get Element Attribute" owner="XML">
+<msg time="2026-07-14T12:41:52.735753" level="INFO">${moduleId} = X20CP1684</msg>
+<var>${moduleId}</var>
+<arg>${config}</arg>
+<arg>ModuleId</arg>
+<doc>Returns the named attribute of the specified element.</doc>
+<status status="PASS" start="2026-07-14T12:41:50.070664" elapsed="2.665258"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;${moduleId}&quot; == &quot;${DEFAULT_CPU_TYPE}&quot;">
+<kw name="Get Element" owner="XML">
+<msg time="2026-07-14T12:41:57.421711" level="INFO">${component} = &lt;Element 'AutomationRuntime' at 0x0000028A9F838590&gt;</msg>
+<var>${component}</var>
+<arg>${config}</arg>
+<arg>${component_name}</arg>
+<doc>Returns an element in the ``source`` matching the ``xpath``.</doc>
+<status status="PASS" start="2026-07-14T12:41:55.114831" elapsed="2.307027"/>
+</kw>
+<status status="PASS" start="2026-07-14T12:41:52.736152" elapsed="4.685852"/>
+</branch>
+<status status="PASS" start="2026-07-14T12:41:52.736121" elapsed="4.685936"/>
+</if>
+<var name="${config}">&lt;Element 'Configuration' at 0x0000028A9F838540&gt;</var>
+<status status="PASS" start="2026-07-14T12:41:48.696798" elapsed="8.725287"/>
+</iter>
+<var>${config}</var>
+<value>@{configurations}</value>
+<status status="PASS" start="2026-07-14T12:41:47.520926" elapsed="9.901213"/>
+</for>
+<status status="PASS" start="2026-07-14T12:41:45.424434" elapsed="11.997754"/>
+</branch>
+<branch type="ELSE">
+<kw name="Parse Xml" owner="XML">
 <var>${XML_root}</var>
 <arg>${PROJECT_TEMP_PATH}${PROJECT_NAME}\\${PROJECT_NAME}\\${PROJECT_NAME}.apj</arg>
 <doc>Parses the given XML file or string into an element structure.</doc>
-<status status="PASS" start="2026-07-14T11:53:08.769308" elapsed="1.313945"/>
+<status status="NOT RUN" start="2026-07-14T12:41:57.422449" elapsed="0.000104"/>
 </kw>
 <kw name="Get Element" owner="XML">
-<msg time="2026-07-14T11:53:28.068155" level="INFO">${technology_packages} = &lt;Element 'TechnologyPackages' at 0x000002987150FC40&gt;</msg>
 <var>${technology_packages}</var>
 <arg>${XML_root}</arg>
 <arg>TechnologyPackages</arg>
 <doc>Returns an element in the ``source`` matching the ``xpath``.</doc>
-<status status="PASS" start="2026-07-14T11:53:10.083476" elapsed="17.985549"/>
+<status status="NOT RUN" start="2026-07-14T12:41:57.422671" elapsed="0.000084"/>
 </kw>
 <kw name="Get Element" owner="XML">
-<msg time="2026-07-14T11:53:30.874374" level="INFO">${component} = &lt;Element 'OpcUaCs' at 0x000002987150FD80&gt;</msg>
 <var>${component}</var>
 <arg>${technology_packages}</arg>
 <arg>${component_name}</arg>
 <doc>Returns an element in the ``source`` matching the ``xpath``.</doc>
-<status status="PASS" start="2026-07-14T11:53:28.069805" elapsed="2.804746"/>
+<status status="NOT RUN" start="2026-07-14T12:41:57.422859" elapsed="0.000078"/>
 </kw>
+<status status="NOT RUN" start="2026-07-14T12:41:57.422221" elapsed="0.000774"/>
+</branch>
+<status status="PASS" start="2026-07-14T12:41:45.424402" elapsed="11.998625"/>
+</if>
 <kw name="Element Attribute Should Be" owner="XML">
 <arg>${component}</arg>
 <arg>Version</arg>
 <arg>${expected_working_version}</arg>
 <doc>Verifies that the specified attribute is ``expected``.</doc>
-<status status="PASS" start="2026-07-14T11:53:30.874764" elapsed="8.639582"/>
+<status status="PASS" start="2026-07-14T12:41:57.423096" elapsed="2.186355"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-07-14T11:53:46.679829" level="INFO">Working version verified: 6.6.1</msg>
+<msg time="2026-07-14T12:42:01.912411" level="INFO">Working version verified: 6.6.3</msg>
 <arg>Working version verified: ${expected_working_version}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-07-14T11:53:39.514554" elapsed="7.165454"/>
+<status status="PASS" start="2026-07-14T12:41:59.609861" elapsed="2.303015"/>
 </kw>
-<arg>OpcUaCs</arg>
-<arg>${UACS_VERSION}</arg>
+<arg>AutomationRuntime</arg>
+<arg>${AR_VERSION}</arg>
 <doc>Verifies the component's version inside the Project - Change Runtime Version dialog.</doc>
-<status status="PASS" start="2026-07-14T11:52:58.028308" elapsed="48.651866"/>
+<status status="PASS" start="2026-07-14T12:41:32.773781" elapsed="29.139352"/>
 </kw>
 <kw name="Build Project" owner="project_keywords">
 <kw name="Click Toolbar Button" owner="FlaUILib">
 <arg>Build Configuration</arg>
-<status status="PASS" start="2026-07-14T11:53:48.189894" elapsed="0.630602"/>
+<status status="PASS" start="2026-07-14T12:42:04.091915" elapsed="0.639412"/>
 </kw>
 <kw name="Wait For Message" owner="FlaUILib">
 <arg>Build:</arg>
 <arg>${timeout}</arg>
-<status status="PASS" start="2026-07-14T11:53:48.820713" elapsed="14.658093"/>
+<status status="PASS" start="2026-07-14T12:42:04.731741" elapsed="12.536659"/>
 </kw>
 <kw name="Wait For Dialog" owner="FlaUILib">
-<msg time="2026-07-14T11:54:15.067107" level="INFO">${dialog_appeared} = False</msg>
+<msg time="2026-07-14T12:42:20.574287" level="INFO">${dialog_appeared} = True</msg>
 <var>${dialog_appeared}</var>
 <arg>Build Project</arg>
 <arg>10</arg>
-<status status="PASS" start="2026-07-14T11:54:03.479024" elapsed="11.588262"/>
+<status status="PASS" start="2026-07-14T12:42:17.268604" elapsed="3.305870"/>
 </kw>
 <if>
 <branch type="IF" condition="${dialog_appeared}">
 <kw name="Click Dialog Button" owner="FlaUILib">
 <arg>Don't Transfer</arg>
 <arg>dialog_close=True</arg>
-<status status="NOT RUN" start="2026-07-14T11:54:15.067747" elapsed="0.000100"/>
+<status status="PASS" start="2026-07-14T12:42:20.574956" elapsed="4.889281"/>
 </kw>
-<status status="NOT RUN" start="2026-07-14T11:54:15.067499" elapsed="0.000416"/>
+<status status="PASS" start="2026-07-14T12:42:20.574653" elapsed="4.889755"/>
 </branch>
 <branch type="ELSE">
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-07-14T11:54:15.068388" level="INFO">No Transfer dialog appeared.</msg>
 <arg>No Transfer dialog appeared.</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-07-14T11:54:15.068104" elapsed="0.000410"/>
+<status status="NOT RUN" start="2026-07-14T12:42:25.464714" elapsed="0.000169"/>
 </kw>
-<status status="PASS" start="2026-07-14T11:54:15.067950" elapsed="0.000642"/>
+<status status="NOT RUN" start="2026-07-14T12:42:25.464475" elapsed="0.000502"/>
 </branch>
-<status status="PASS" start="2026-07-14T11:54:15.067450" elapsed="0.001178"/>
+<status status="PASS" start="2026-07-14T12:42:20.574628" elapsed="4.890396"/>
 </if>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-07-14T11:54:15.069176" level="INFO">Project build complete</msg>
+<msg time="2026-07-14T12:42:25.465885" level="INFO">Project build complete</msg>
 <arg>Project build complete</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-07-14T11:54:15.068718" elapsed="0.000654"/>
+<status status="PASS" start="2026-07-14T12:42:25.465126" elapsed="0.000938"/>
 </kw>
 <doc>Builds the active configuration and waits for completion.</doc>
-<status status="PASS" start="2026-07-14T11:53:46.680539" elapsed="28.389018"/>
+<status status="PASS" start="2026-07-14T12:42:01.913583" elapsed="23.552635"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-07-14T11:54:27.594084" level="INFO">OPC UA CS version initialised</msg>
-<arg>OPC UA CS version initialised</arg>
+<msg time="2026-07-14T12:42:25.467145" level="INFO">Automation Runtime version initialised</msg>
+<arg>Automation Runtime version initialised</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-07-14T11:54:15.070625" elapsed="12.523654"/>
+<status status="PASS" start="2026-07-14T12:42:25.466697" elapsed="0.000679"/>
 </kw>
-<doc>Scenario: Initialize OPC UA CS version
-Traceability ID: FW-OPCUA-C1
-Component: OPC UA CS
+<doc>Scenario: Initialize Automation Runtime version
+Traceability ID: FW-AR-B1
+Component: Automation Runtime
 Source Manual:
 Source Section:
 Evidence Type: Manual procedure
 Determinism: Deterministic UI path
-Preconditions: OPC UA CS TP available</doc>
+Preconditions:</doc>
+<tag>automationruntime</tag>
 <tag>configuration</tag>
-<tag>opcua</tag>
 <tag>smoke</tag>
-<tag>trace:fw-opcua-c1</tag>
-<status status="PASS" start="2026-07-14T11:52:43.656263" elapsed="103.938868"/>
+<tag>trace:fw-ar-b1</tag>
+<status status="PASS" start="2026-07-14T12:41:20.141648" elapsed="65.326113"/>
 </test>
-<kw name="Check App Alive" owner="FlaUILib" type="TEARDOWN">
-<doc>Polls the server for the Automation Studio process state.</doc>
-<status status="PASS" start="2026-07-14T11:54:27.598581" elapsed="0.003227"/>
-</kw>
-<doc>Test cases for OPCUA component configuration.</doc>
-<status status="PASS" start="2026-07-14T11:52:43.022982" elapsed="104.578932"/>
+<doc>Test cases for AutomationRuntime component configuration.</doc>
+<status status="PASS" start="2026-07-14T12:41:14.857298" elapsed="70.614983"/>
 </suite>
-<status status="PASS" start="2026-07-14T11:52:43.020663" elapsed="104.584134"/>
+<status status="PASS" start="2026-07-14T12:41:14.853949" elapsed="70.620978"/>
 </suite>
-<status status="PASS" start="2026-07-14T11:52:43.018284" elapsed="104.589027"/>
+<status status="PASS" start="2026-07-14T12:41:14.843118" elapsed="70.634118"/>
 </suite>
-<status status="PASS" start="2026-07-14T11:52:43.015585" elapsed="104.593898"/>
+<status status="PASS" start="2026-07-14T12:41:14.840546" elapsed="70.686410"/>
 </suite>
-<status status="PASS" start="2026-07-14T11:52:42.990522" elapsed="104.620730"/>
+<status status="PASS" start="2026-07-14T12:41:14.812416" elapsed="70.719721"/>
 </suite>
 <statistics>
 <total>
 <stat pass="1" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
+<stat pass="1" fail="0" skip="0">automationruntime</stat>
 <stat pass="1" fail="0" skip="0">configuration</stat>
-<stat pass="1" fail="0" skip="0">opcua</stat>
 <stat pass="1" fail="0" skip="0">smoke</stat>
-<stat pass="1" fail="0" skip="0">trace:fw-opcua-c1</stat>
+<stat pass="1" fail="0" skip="0">trace:fw-ar-b1</stat>
 </tag>
 <suite>
 <stat name="ASW-UI-Tests" id="s1" pass="1" fail="0" skip="0">ASW-UI-Tests</stat>
 <stat name="RobotTests" id="s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests</stat>
 <stat name="Tests" id="s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests</stat>
-<stat name="OPC UA CS" id="s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.OPC UA CS</stat>
-<stat name="OPC UA CS tests" id="s1-s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.OPC UA CS.OPC UA CS tests</stat>
+<stat name="Automation Runtime" id="s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.Automation Runtime</stat>
+<stat name="Automation Runtime" id="s1-s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.Automation Runtime.Automation Runtime</stat>
 </suite>
 </statistics>
 <errors>
-<msg time="2026-07-14T11:52:43.069690" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+<msg time="2026-07-14T12:41:15.068123" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
 </errors>
 </robot>
