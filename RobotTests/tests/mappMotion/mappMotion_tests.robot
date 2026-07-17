@@ -3,7 +3,7 @@ Documentation       First-wave test cases for mappMotion component configuration
 Resource            ${CURDIR}/../../keywords/project_keywords.robot
 Resource            ${CURDIR}/../../keywords/motion_keywords.robot
 Resource            ${CURDIR}/../../config/mappMotion/axis_profiles.robot
-Suite Teardown      Close Automation Studio    save_changes=False
+#Suite Teardown      Close Automation Studio    save_changes=False
 
 
 *** Test Cases ***
@@ -18,12 +18,17 @@ Initialise mappMotion Component
     ...                Determinism: Deterministic UI path
     ...                Preconditions: Automation Studio starts and project wizard is available
     [Tags]              mappmotion    configuration    smoke    trace:fw-motion-e0    trace:tm415    trace:sec-4.1
-    ${project_name}=    Set Variable    Motion_Init
-    ${project_path}=    Set Variable    ${PROJECT_TEMP_PATH}${project_name}
-    Create New Project In Automation Studio    ${project_name}    ${project_path}
-    Initialize MappMotion Component
+    #${project_name}=    Set Variable    Motion_Init
+    #${project_path}=    Set Variable    ${PROJECT_TEMP_PATH}${project_name}
+    #Create New Project In Automation Studio    ${project_name}    ${project_path}
+    #Initialize MappMotion Component
+    #Build Project
+    #Log    mappMotion component initialized and project built
+
+    Initialize Automation Studio
+    Select Working Version for Component    mapp Motion     ${DEFAULT_MOT_VERSION}
     Build Project
-    Log    mappMotion component initialized and project built
+    Log    mappMotion version initialised
 
 
 Add Axis And Configure Basic Parameters

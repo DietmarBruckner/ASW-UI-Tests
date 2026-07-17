@@ -11,6 +11,7 @@ Library             ${CURDIR}\\..\\libraries\\FlaUILibrary\\robot_flaulib.py    
 Initialize Automation Studio
     [Documentation]    Launches (or attaches to) Automation Studio IDE and waits until ready.
     FlaUILib.Initialize Automation Studio    ${AS_DEFAULT_TIMEOUT}    ${AS_VERBOSE}
+    FlaUILib.Click Into IDE
     Log    Automation Studio initialised.
 
 Close Automation Studio

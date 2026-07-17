@@ -622,7 +622,7 @@ namespace FlaUILibrary.Util {
             AutomationElement componentsListView = componentsTab.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid));
             AutomationElement [] componentItems = componentsListView.FindAllDescendants(cf => cf.ByControlType(ControlType.DataItem));
             AutomationElement componentItem = null;
-            using (var engine = new TesseractEngine("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\Util\\tessdata", "eng", EngineMode.Default)) {
+            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\Util\\tessdata", "eng", EngineMode.Default)) {
                 if (componentName == "Automation Runtime") {
                     componentItem = componentItems.FirstOrDefault(c => c.Name.IndexOf(".ArCfg", StringComparison.OrdinalIgnoreCase) >= 0);
                 }
@@ -634,7 +634,7 @@ namespace FlaUILibrary.Util {
                         if (item.Name.IndexOf(".DomainCfg", StringComparison.OrdinalIgnoreCase) >= 0) {
                             AutomationElement compText = item.FindAllChildren(cf => cf.ByControlType(ControlType.Custom))[0];
                             CaptureImage compImg = Capture.Element(compText);
-                            string file = "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\Util\\screenshots\\OCR.png";
+                            string file = "C:\\Temp\\automation-studio-tests\\OCR.png";
                             compImg.ToFile(file);
                             Page page = engine.Process(Pix.LoadFromFile(file));
                             string text = page.GetText();

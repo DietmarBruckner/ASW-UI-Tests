@@ -97,18 +97,20 @@ Navigate To User/Role System
 
 Add User Role in Role.role
     [Documentation]    Adds a user role in the Role.role tree under User/Role System.
-    [Arguments]        ${rolename}   ${xpath}     ${addrole}=True
-    ${text_tree}=    Find One Element    ${xpath}
-    Click Into IDE   editor=True
-    IF    ${addrole}
-        Click Toolbar Button    Add "Role" Element
-    END
-    @{all_rows}=    Find All Elements    ${text_tree.Xpath}/TreeItem
-    ${last_row}=    Get From List    ${all_rows}    -1
-    ${role_name}=   ${last_row}.Name + _Name
-    ${rolenamefield}=    Find One Element    ${last_row.Xpath}/*[@Name="$role_name"]
-    Double Click    ${rolenamefield.Xpath}
-    Press Key    t'${rolename}'
+    [Arguments]        ${rolename}     ${addrole}=True
+    #${text_tree}=    Find One Element    ${xpath}
+    #Click Into IDE   editor=True
+    #IF    ${addrole}
+    #    Click Toolbar Button    Add "Role" Element
+    #END
+    #@{all_rows}=    Find All Elements    ${text_tree.Xpath}/TreeItem
+    #${last_row}=    Get From List    ${all_rows}    -1
+    #${role_name}=   Catenate    SEPARATOR=    ${last_row.Name}    _Name
+    #${rolenamefield}=    Find One Element    ${last_row.Xpath}/*[@Name="$role_name"]
+    #Double Click    ${rolenamefield.Xpath}
+    #Press Key    t'${rolename}'
+
+    FlaUILib.Add Role    ${rolename}    addrole=${addrole}
     Log    User role added: ${rolename}
 
 Add User in User.user

@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj": {}
+    "C:\\projects\\GIT\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj": {
+    "C:\\projects\\GIT\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj",
+        "projectUniqueName": "C:\\projects\\GIT\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj",
         "projectName": "FlaUITests",
-        "projectPath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj",
-        "packagesPath": "C:\\Users\\ATDIBRU\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\obj\\",
+        "projectPath": "C:\\projects\\GIT\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj",
+        "packagesPath": "C:\\Users\\wimmer2a\\.nuget\\packages\\",
+        "outputPath": "C:\\projects\\GIT\\ASW-UI-Tests\\FlaUITests\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\ATDIBRU\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\wimmer2a\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net481"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net481": {
@@ -56,12 +62,18 @@
               "target": "Package",
               "version": "[17.14.1, )"
             },
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.3, )",
+              "autoReferenced": true
+            },
             "Tesseract": {
               "target": "Package",
               "version": "[5.2.0, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

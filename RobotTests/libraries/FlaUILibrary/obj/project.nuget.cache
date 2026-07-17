@@ -1,15 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "6Y9kWEl3xp4=",
+  "dgSpecHash": "b1S2mM59oVI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
+  "projectFilePath": "C:\\projects\\GIT\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\flaui.core\\5.0.0\\flaui.core.5.0.0.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\flaui.uia2\\5.0.0\\flaui.uia2.5.0.0.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\system.codedom\\8.0.0\\system.codedom.8.0.0.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\system.management\\8.0.0\\system.management.8.0.0.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\tesseract\\5.2.0\\tesseract.5.2.0.nupkg.sha512"
+    "C:\\Users\\wimmer2a\\.nuget\\packages\\flaui.core\\5.0.0\\flaui.core.5.0.0.nupkg.sha512",
+    "C:\\Users\\wimmer2a\\.nuget\\packages\\flaui.uia2\\5.0.0\\flaui.uia2.5.0.0.nupkg.sha512",
+    "C:\\Users\\wimmer2a\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.3\\microsoft.netframework.referenceassemblies.1.0.3.nupkg.sha512",
+    "C:\\Users\\wimmer2a\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net481\\1.0.3\\microsoft.netframework.referenceassemblies.net481.1.0.3.nupkg.sha512",
+    "C:\\Users\\wimmer2a\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\wimmer2a\\.nuget\\packages\\system.codedom\\8.0.0\\system.codedom.8.0.0.nupkg.sha512",
+    "C:\\Users\\wimmer2a\\.nuget\\packages\\system.management\\8.0.0\\system.management.8.0.0.nupkg.sha512",
+    "C:\\Users\\wimmer2a\\.nuget\\packages\\tesseract\\5.2.0\\tesseract.5.2.0.nupkg.sha512"
   ],
   "logs": []
 }
