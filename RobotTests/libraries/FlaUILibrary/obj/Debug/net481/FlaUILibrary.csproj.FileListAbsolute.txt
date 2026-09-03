@@ -33,7 +33,6 @@ C:\projects\GIT\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\bin\Debug\net481\
 C:\projects\GIT\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\bin\Debug\net481\System.CodeDom.dll
 C:\projects\GIT\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\bin\Debug\net481\Tesseract.dll
 C:\projects\GIT\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\obj\Debug\net481\FlaUILibrary.csproj.AssemblyReference.cache
-C:\projects\GIT\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\obj\Debug\net481\FlaUILibrary.exe.config
 C:\projects\GIT\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\obj\Debug\net481\FlaUILibrary.GeneratedMSBuildEditorConfig.editorconfig
 C:\projects\GIT\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\obj\Debug\net481\FlaUILibrary.AssemblyInfoInputs.cache
 C:\projects\GIT\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\obj\Debug\net481\FlaUILibrary.AssemblyInfo.cs

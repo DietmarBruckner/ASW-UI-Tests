@@ -12,17 +12,6 @@
             "stopAtEntry": false,
             "enableStepFiltering": true,
             "cwd": "${workspaceFolder}/RobotTests/libraries/FlaUILibrary"
-        },
-        {
-            "name": "Debug FlaUITests",
-            "type": "clr",
-            "request": "launch",
-            "preLaunchTask": "build-FlaUITests",
-            "program": "${workspaceFolder}/FlaUITests/bin/Debug/net481/FlaUITests.exe",
-            "args": [],
-            "console": "internalConsole",
-            "stopAtEntry": false,
-            "enableStepFiltering": true
         }
     ]
 }
