@@ -384,10 +384,7 @@
       "outputPath": "C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-<<<<<<< HEAD
-=======
         "C:\\projects\\Git\\ASW-UI-Tests\\NuGet.Config",
->>>>>>> c4698619ca70e3853cc63c5b39726d95e4e2ded1
         "C:\\Users\\ATALWIM\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
