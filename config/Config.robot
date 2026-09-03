@@ -6,6 +6,11 @@ Resource            ${CURDIR}\\Diagnostics\\targets.robot
 Resource            ${CURDIR}\\mappMotion\\all.robot
 Resource            ${CURDIR}\\mappView\\all.robot
 Resource            ${CURDIR}\\OPC UA CS\\all.robot
+Resource            ${CURDIR}\\mappCockpit\\all.robot
+Resource            ${CURDIR}\\mappControl\\all.robot
+Resource            ${CURDIR}\\mappServices\\all.robot
+Resource            ${CURDIR}\\mappSafety\\all.robot
+Resource            ${CURDIR}\\mappVision\\all.robot
 
 *** Variables ***
 # Hardware Configuration for Automation Studio 6 Tests

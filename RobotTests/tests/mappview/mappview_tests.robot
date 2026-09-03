@@ -110,6 +110,10 @@ Prepare Layout for Widget Pages
     [Tags]             mappview    configuration    trace:fw-mview-c2    trace:tm611    trace:sec-5.4
     Initialize Automation Studio
     Navigate To mapp View                  logical view=True
+    Expand and Click Tree Leaf             Logical View    BR_mappView    shortcut=0
+    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization    shortcut=0
+    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages   shortcut=0
+    Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_page_0   shortcut=0
     Expand and Click Tree Leaf             Logical View    BR_mappView|BR_Visualization|BR_Pages|BR_page_0|BR_content_0.content    shortcut=0
     #Sleep                                  4s
     ${xpath}                               FlaUILib.Get Editor XPath    editor_name=IAT-Editor

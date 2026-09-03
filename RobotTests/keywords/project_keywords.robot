@@ -28,6 +28,7 @@ Create New Project In Automation Studio
     END
     FlaUILib.Set Dialog Field Value    configurationNameTextBox   ${config_name}
     FlaUILib.Click Dialog Button       Next
+    Sleep    5s    Waiting for CPU selection dialog to appear
     FlaUILib.Type Slowly Into Dialog Field   searchTermTextBox    ${cpu_type}
     FlaUILib.Click Dialog Button       Finish
     FlaUILib.Wait For Message          finished.    timeout=20
@@ -45,7 +46,7 @@ Select Working Version for Component
     [Arguments]        ${component_name}     ${working_version} 
     # Navigate the working version tree/list inside the dialog and select the given working_version string
     Invoke IDE Menu                    Project    Change Runtime Versions...
-    ${dialog_appeared}=    FlaUILib.Wait For Dialog    ${CPU_TYPE} - Properties    5
+    ${dialog_appeared}=    FlaUILib.Wait For Dialog    ${CPU_TYPE} - Properties    15
     IF    ${dialog_appeared}
         FlaUILib.Select Component Version    ${component_name}     ${working_version}
         FlaUILib.Click Dialog Button   OK    dialog_close=True
@@ -86,7 +87,7 @@ Build Project
     [Arguments]                                        ${timeout}=60
     FlaUILib.Click Toolbar Button                      Build Configuration
     FlaUILib.Wait For Message                          Build:           ${timeout}
-    ${dialog_appeared}=    FlaUILib.Wait For Dialog    Build Project    10
+    ${dialog_appeared}=    FlaUILib.Wait For Dialog    Build Project    ${timeout}
     IF    ${dialog_appeared}
         FlaUILib.Click Dialog Button                   Don't Transfer    dialog_close=True
     ELSE

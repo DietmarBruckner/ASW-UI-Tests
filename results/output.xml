@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-07-14T12:41:14.803728" rpa="false" schemaversion="5">
 <suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
 <suite id="s1-s1" name="RobotTests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests">
@@ -6,10 +7,35 @@
 <suite id="s1-s1-s1-s1" name="Automation Runtime" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\Automation Runtime">
 <suite id="s1-s1-s1-s1-s1" name="Automation Runtime" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\Automation Runtime\Automation Runtime.robot">
 <test id="s1-s1-s1-s1-s1-t1" name="Initialise Automation Runtime Version" line="6">
+=======
+<robot generator="Robot 7.4.2 (Python 3.14.7 on win32)" generated="2026-09-03T10:50:14.202909" rpa="false" schemaversion="5">
+<suite id="s1" name="ASW-UI-Tests" source="C:\projects\Git\ASW-UI-Tests">
+<suite id="s1-s1" name="RobotTests" source="C:\projects\Git\ASW-UI-Tests\RobotTests">
+<suite id="s1-s1-s1" name="Tests" source="C:\projects\Git\ASW-UI-Tests\RobotTests\tests">
+<suite id="s1-s1-s1-s1" name="Automation Studio" source="C:\projects\Git\ASW-UI-Tests\RobotTests\tests\Automation Studio">
+<suite id="s1-s1-s1-s1-s1" name="Automation Studio tests" source="C:\projects\Git\ASW-UI-Tests\RobotTests\tests\Automation Studio\Automation Studio_tests.robot">
+<test id="s1-s1-s1-s1-s1-t1" name="Initialise Automation Studio And Create New Project" line="9">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-09-03T10:50:15.460462" level="INFO">${project_name} = Basic_Project</msg>
+<var>${project_name}</var>
+<arg>Basic_Project</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-09-03T10:50:15.460060" elapsed="0.000531"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2026-09-03T10:50:15.461287" level="INFO">${project_path} = C:\temp\automation-studio-tests\Basic_Project</msg>
+<var>${project_path}</var>
+<arg>${PROJECT_TEMP_PATH}${project_name}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2026-09-03T10:50:15.460925" elapsed="0.000516"/>
+</kw>
+<kw name="Create New Project In Automation Studio" owner="project_keywords">
+>>>>>>> c4698619ca70e3853cc63c5b39726d95e4e2ded1
 <kw name="Initialize Automation Studio" owner="ide_keywords">
 <kw name="Initialize Automation Studio" owner="FlaUILib">
 <arg>${AS_DEFAULT_TIMEOUT}</arg>
 <arg>${AS_VERBOSE}</arg>
+<<<<<<< HEAD
 <status status="PASS" start="2026-07-14T12:41:20.145224" elapsed="1.162761"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
@@ -22,11 +48,28 @@
 <status status="PASS" start="2026-07-14T12:41:20.144730" elapsed="1.164504"/>
 </kw>
 <kw name="Select Working Version for Component" owner="project_keywords">
+=======
+<status status="PASS" start="2026-09-03T10:50:15.462459" elapsed="0.373932"/>
+</kw>
+<kw name="Click into IDE" owner="FlaUILib">
+<status status="PASS" start="2026-09-03T10:50:15.836719" elapsed="0.037375"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-03T10:50:15.874853" level="INFO">Automation Studio initialised.</msg>
+<arg>Automation Studio initialised.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-03T10:50:15.874410" elapsed="0.000663"/>
+</kw>
+<doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
+<status status="PASS" start="2026-09-03T10:50:15.462228" elapsed="0.413009"/>
+</kw>
+>>>>>>> c4698619ca70e3853cc63c5b39726d95e4e2ded1
 <kw name="Invoke IDE Menu" owner="ide_keywords">
 <kw name="Invoke Menu" owner="FlaUILib">
 <arg>${menu_name}</arg>
 <arg>${menu_item}</arg>
 <arg>${submenu_item}</arg>
+<<<<<<< HEAD
 <status status="PASS" start="2026-07-14T12:41:21.310524" elapsed="6.042410"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
@@ -202,11 +245,95 @@
 <status status="PASS" start="2026-07-14T12:42:20.574956" elapsed="4.889281"/>
 </kw>
 <status status="PASS" start="2026-07-14T12:42:20.574653" elapsed="4.889755"/>
+=======
+<status status="PASS" start="2026-09-03T10:50:15.875918" elapsed="1.169715"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-03T10:50:17.046297" level="INFO">Menu invoked: File &gt; New Project... &gt; None</msg>
+<arg>Menu invoked: ${menu_name} &gt; ${menu_item} &gt; ${submenu_item}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-03T10:50:17.045898" elapsed="0.000560"/>
+</kw>
+<arg>File</arg>
+<arg>New Project...</arg>
+<doc>Clicks a top-level menu and optionally a menu/sub-menu item.</doc>
+<status status="PASS" start="2026-09-03T10:50:15.875538" elapsed="1.171038"/>
+</kw>
+<kw name="Wait For Dialog" owner="FlaUILib">
+<arg>New Project</arg>
+<status status="PASS" start="2026-09-03T10:50:17.046705" elapsed="1.624281"/>
+</kw>
+<kw name="Type Into Dialog Field" owner="FlaUILib">
+<arg>projectNameTextBox</arg>
+<arg>${project_name}</arg>
+<status status="PASS" start="2026-09-03T10:50:18.671177" elapsed="0.566329"/>
+</kw>
+<kw name="Set Dialog Field Value" owner="FlaUILib">
+<arg>pathTextBox</arg>
+<arg>${project_path}</arg>
+<status status="PASS" start="2026-09-03T10:50:19.237745" elapsed="1.149685"/>
+</kw>
+<kw name="Select Working Version In New Project Dialog" owner="project_keywords">
+<kw name="Select From ComboBox" owner="ide_keywords">
+<kw name="Select From ComboBox" owner="FlaUILib">
+<arg>${combo_label}</arg>
+<arg>${item_text}</arg>
+<status status="PASS" start="2026-09-03T10:50:20.388710" elapsed="1.340951"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-03T10:50:21.730268" level="INFO">Selected from combo box: cbWorkingVersion &gt; 6.3</msg>
+<arg>Selected from combo box: ${combo_label} &gt; ${item_text}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-03T10:50:21.729902" elapsed="0.000516"/>
+</kw>
+<arg>cbWorkingVersion</arg>
+<arg>${working_version}</arg>
+<doc>Selects a value from a combo box by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-09-03T10:50:20.388413" elapsed="1.342124"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-03T10:50:21.730952" level="INFO">Working version selected: 6.3</msg>
+<arg>Working version selected: ${working_version}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-03T10:50:21.730677" elapsed="0.000402"/>
+</kw>
+<arg>${working_version}</arg>
+<doc>Selects the AS working version inside the New Project dialog.</doc>
+<status status="PASS" start="2026-09-03T10:50:20.387901" elapsed="1.343288"/>
+</kw>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Next</arg>
+<status status="PASS" start="2026-09-03T10:50:21.731304" elapsed="1.800155"/>
+</kw>
+<kw name="Wait For Dialog" owner="FlaUILib">
+<msg time="2026-09-03T10:50:24.160967" level="INFO">${dialog_appeared} = True</msg>
+<var>${dialog_appeared}</var>
+<arg>Automation Studio</arg>
+<arg>2</arg>
+<status status="PASS" start="2026-09-03T10:50:23.532050" elapsed="0.629110"/>
+</kw>
+<if>
+<branch type="IF" condition="${dialog_appeared}">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-03T10:50:24.162137" level="INFO">Create path question dialog appeared, proceeding with yes.</msg>
+<arg>Create path question dialog appeared, proceeding with yes.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-03T10:50:24.161680" elapsed="0.000639"/>
+</kw>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<msg time="2026-09-03T10:50:24.177235" level="FAIL">FlaUILibrary keyword 'click_dialog_button' failed: Button 'Yes' not found</msg>
+<arg>Yes</arg>
+<arg>dialog_close=True</arg>
+<status status="FAIL" start="2026-09-03T10:50:24.162479" elapsed="0.018858">FlaUILibrary keyword 'click_dialog_button' failed: Button 'Yes' not found</status>
+</kw>
+<status status="FAIL" start="2026-09-03T10:50:24.161334" elapsed="0.020153">FlaUILibrary keyword 'click_dialog_button' failed: Button 'Yes' not found</status>
+>>>>>>> c4698619ca70e3853cc63c5b39726d95e4e2ded1
 </branch>
 <branch type="ELSE">
 <kw name="Log" owner="BuiltIn">
-<arg>No Transfer dialog appeared.</arg>
+<arg>No Create path question dialog appeared, assuming path exists and proceeding.</arg>
 <doc>Logs the given message with the given level.</doc>
+<<<<<<< HEAD
 <status status="NOT RUN" start="2026-07-14T12:42:25.464714" elapsed="0.000169"/>
 </kw>
 <status status="NOT RUN" start="2026-07-14T12:42:25.464475" elapsed="0.000502"/>
@@ -252,12 +379,96 @@ Preconditions:</doc>
 <status status="PASS" start="2026-07-14T12:41:14.840546" elapsed="70.686410"/>
 </suite>
 <status status="PASS" start="2026-07-14T12:41:14.812416" elapsed="70.719721"/>
+=======
+<status status="NOT RUN" start="2026-09-03T10:50:24.181704" elapsed="0.000088"/>
+</kw>
+<status status="NOT RUN" start="2026-09-03T10:50:24.181539" elapsed="0.000314"/>
+</branch>
+<status status="FAIL" start="2026-09-03T10:50:24.161305" elapsed="0.020579">FlaUILibrary keyword 'click_dialog_button' failed: Button 'Yes' not found</status>
+</if>
+<kw name="Set Dialog Field Value" owner="FlaUILib">
+<arg>configurationNameTextBox</arg>
+<arg>${config_name}</arg>
+<status status="NOT RUN" start="2026-09-03T10:50:24.181966" elapsed="0.000073"/>
+</kw>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Next</arg>
+<status status="NOT RUN" start="2026-09-03T10:50:24.182140" elapsed="0.000062"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>5s</arg>
+<arg>Waiting for CPU selection dialog to appear</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2026-09-03T10:50:24.182309" elapsed="0.000063"/>
+</kw>
+<kw name="Type Slowly Into Dialog Field" owner="FlaUILib">
+<arg>searchTermTextBox</arg>
+<arg>${cpu_type}</arg>
+<status status="NOT RUN" start="2026-09-03T10:50:24.182466" elapsed="0.000059"/>
+</kw>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Finish</arg>
+<status status="NOT RUN" start="2026-09-03T10:50:24.182613" elapsed="0.000068"/>
+</kw>
+<kw name="Wait For Message" owner="FlaUILib">
+<arg>finished.</arg>
+<arg>timeout=20</arg>
+<status status="NOT RUN" start="2026-09-03T10:50:24.182785" elapsed="0.000062"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>Project "${project_name}" created at ${project_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-09-03T10:50:24.182958" elapsed="0.000064"/>
+</kw>
+<arg>${project_name}</arg>
+<arg>${project_path}</arg>
+<doc>Creates a new Automation Studio project.
+Opens File &gt; New Project, fills in name and location, selects CPU, confirms.</doc>
+<status status="FAIL" start="2026-09-03T10:50:15.461811" elapsed="8.721312">FlaUILibrary keyword 'click_dialog_button' failed: Button 'Yes' not found</status>
+</kw>
+<kw name="Activate Simulation Mode" owner="ide_keywords">
+<doc>Activates simulation mode in the IDE, if not already active.</doc>
+<status status="NOT RUN" start="2026-09-03T10:50:24.183391" elapsed="0.000097"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>Automation Studio and new project initialised</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-09-03T10:50:24.183678" elapsed="0.000111"/>
+</kw>
+<doc>Scenario: Initialize Automation Studio and create a new project
+Traceability ID: FW-AS-B1
+Component: Automation Studio
+Source Manual: agents/TM213TRE.462-ENG_Automation_Runtime_V3003.md
+Source Section: 3 Installation and commissioning
+Evidence Type: Manual procedure
+Determinism: Deterministic UI path
+Preconditions:</doc>
+<tag>automationstudio</tag>
+<tag>configuration</tag>
+<tag>smoke</tag>
+<tag>trace:fw-as-b1</tag>
+<tag>trace:sec-3</tag>
+<tag>trace:tm213</tag>
+<status status="FAIL" start="2026-09-03T10:50:15.454998" elapsed="8.729000">FlaUILibrary keyword 'click_dialog_button' failed: Button 'Yes' not found</status>
+</test>
+<doc>Test cases for Automation Studio component configuration.</doc>
+<status status="FAIL" start="2026-09-03T10:50:14.251547" elapsed="9.938700"/>
+</suite>
+<status status="FAIL" start="2026-09-03T10:50:14.244634" elapsed="9.948145"/>
+</suite>
+<status status="FAIL" start="2026-09-03T10:50:14.242203" elapsed="9.952573"/>
+</suite>
+<status status="FAIL" start="2026-09-03T10:50:14.239337" elapsed="9.961457"/>
+</suite>
+<status status="FAIL" start="2026-09-03T10:50:14.207496" elapsed="9.996497"/>
+>>>>>>> c4698619ca70e3853cc63c5b39726d95e4e2ded1
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="0" skip="0">All Tests</stat>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
 </total>
 <tag>
+<<<<<<< HEAD
 <stat pass="1" fail="0" skip="0">automationruntime</stat>
 <stat pass="1" fail="0" skip="0">configuration</stat>
 <stat pass="1" fail="0" skip="0">smoke</stat>
@@ -273,5 +484,24 @@ Preconditions:</doc>
 </statistics>
 <errors>
 <msg time="2026-07-14T12:41:15.068123" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+=======
+<stat pass="0" fail="1" skip="0">automationstudio</stat>
+<stat pass="0" fail="1" skip="0">configuration</stat>
+<stat pass="0" fail="1" skip="0">smoke</stat>
+<stat pass="0" fail="1" skip="0">trace:fw-as-b1</stat>
+<stat pass="0" fail="1" skip="0">trace:sec-3</stat>
+<stat pass="0" fail="1" skip="0">trace:tm213</stat>
+</tag>
+<suite>
+<stat name="ASW-UI-Tests" id="s1" pass="0" fail="1" skip="0">ASW-UI-Tests</stat>
+<stat name="RobotTests" id="s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests</stat>
+<stat name="Tests" id="s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests</stat>
+<stat name="Automation Studio" id="s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.Automation Studio</stat>
+<stat name="Automation Studio tests" id="s1-s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.Automation Studio.Automation Studio tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2026-09-03T10:50:14.270935" level="WARN">Imported resource file 'C:\projects\Git\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+>>>>>>> c4698619ca70e3853cc63c5b39726d95e4e2ded1
 </errors>
 </robot>

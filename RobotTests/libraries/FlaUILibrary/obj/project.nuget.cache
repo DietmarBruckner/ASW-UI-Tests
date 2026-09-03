@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "sfFyFRzc7Aw=",
+=======
+  "dgSpecHash": "TLkqhMQR138=",
+>>>>>>> c4698619ca70e3853cc63c5b39726d95e4e2ded1
   "success": true,
   "projectFilePath": "C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
   "expectedPackageFiles": [
