@@ -1,16 +1,37 @@
 {
   "version": 2,
-  "dgSpecHash": "nllyAmqz44Y=",
-  "success": true,
-  "projectFilePath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj",
+  "dgSpecHash": "oF6C2sbt6UQ=",
+  "success": false,
+  "projectFilePath": "C:\\projects\\Git\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\flaui.core\\5.0.0\\flaui.core.5.0.0.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\flaui.uia2\\5.0.0\\flaui.uia2.5.0.0.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\microsoft.codecoverage\\17.14.1\\microsoft.codecoverage.17.14.1.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\microsoft.net.test.sdk\\17.14.1\\microsoft.net.test.sdk.17.14.1.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\system.codedom\\8.0.0\\system.codedom.8.0.0.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\system.management\\8.0.0\\system.management.8.0.0.nupkg.sha512",
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\tesseract\\5.2.0\\tesseract.5.2.0.nupkg.sha512"
+    "C:\\Users\\ATALWIM\\.nuget\\packages\\flaui.core\\5.0.0\\flaui.core.5.0.0.nupkg.sha512",
+    "C:\\Users\\ATALWIM\\.nuget\\packages\\flaui.uia2\\5.0.0\\flaui.uia2.5.0.0.nupkg.sha512",
+    "C:\\Users\\ATALWIM\\.nuget\\packages\\system.codedom\\8.0.0\\system.codedom.8.0.0.nupkg.sha512",
+    "C:\\Users\\ATALWIM\\.nuget\\packages\\system.management\\8.0.0\\system.management.8.0.0.nupkg.sha512",
+    "C:\\Users\\ATALWIM\\.nuget\\packages\\tesseract\\5.2.0\\tesseract.5.2.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "Unable to resolve 'Microsoft.NET.Test.Sdk (>= 17.14.1)' for 'net481'.",
+      "projectPath": "C:\\projects\\Git\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj",
+      "filePath": "C:\\projects\\Git\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj",
+      "libraryId": "Microsoft.NET.Test.Sdk",
+      "targetGraphs": [
+        "net481"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "Unable to resolve 'Microsoft.NET.Test.Sdk (>= 17.14.1)' for 'net481/win-x86'.",
+      "projectPath": "C:\\projects\\Git\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj",
+      "filePath": "C:\\projects\\Git\\ASW-UI-Tests\\FlaUITests\\FlaUITests.csproj",
+      "libraryId": "Microsoft.NET.Test.Sdk",
+      "targetGraphs": [
+        "net481/win-x86"
+      ]
+    }
+  ]
 }

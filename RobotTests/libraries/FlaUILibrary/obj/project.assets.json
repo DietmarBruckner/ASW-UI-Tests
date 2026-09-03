@@ -1,7 +1,7 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
-    ".NETFramework,Version=v4.8.1": {
+    "net481": {
       "FlaUI.Core/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -106,7 +106,7 @@
         }
       }
     },
-    ".NETFramework,Version=v4.8.1/win-x86": {
+    "net481/win-x86": {
       "FlaUI.Core/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -364,7 +364,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    ".NETFramework,Version=v4.8.1": [
+    "net481": [
       "FlaUI.Core >= 5.0.0",
       "FlaUI.UIA2 >= 5.0.0",
       "Newtonsoft.Json >= 13.0.1",
@@ -372,28 +372,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ATDIBRU\\.nuget\\packages\\": {}
+    "C:\\Users\\ATALWIM\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
+      "projectUniqueName": "C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
       "projectName": "FlaUILibrary",
-      "projectPath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
-      "packagesPath": "C:\\Users\\ATDIBRU\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\obj\\",
+      "projectPath": "C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\FlaUILibrary.csproj",
+      "packagesPath": "C:\\Users\\ATALWIM\\.nuget\\packages\\",
+      "outputPath": "C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ATDIBRU\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\ATALWIM\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net481"
       ],
-      "sources": {
-        "https://api.nuget.org/v3/index.json": {}
-      },
       "frameworks": {
         "net481": {
+          "framework": "net481",
           "targetAlias": "net481",
           "projectReferences": {}
         }
@@ -408,10 +406,11 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.400"
     },
     "frameworks": {
       "net481": {
+        "framework": "net481",
         "targetAlias": "net481",
         "dependencies": {
           "FlaUI.Core": {
@@ -431,7 +430,7 @@
             "version": "[5.2.0, )"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400\\RuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {
