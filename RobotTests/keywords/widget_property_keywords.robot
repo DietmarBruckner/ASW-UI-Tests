@@ -22,22 +22,7 @@ Scroll Find Property
     Click    ${pw_xpath}
 
     # ── Scroll UP until the first DataItem is visible (= top of list) ─────────
-    ${first_visible}=    Set Variable    ${FALSE}
-    WHILE    not ${first_visible}
-        @{items}=    Find All Elements    ${pw_xpath}/DataItem
-        ${first}=    Get From List    ${items}    0
-        @{rect}=     Get Rectangle Bounding From Element    ${pw_xpath}
-        @{frect}=    Get Rectangle Bounding From Element    ${first.Xpath}
-        # rect: [left, top, width, height]; frect same
-        ${pw_bottom}=    Evaluate    ${rect}[1] + ${rect}[3]
-        ${fi_top}     Set Variable      ${frect}[1]
-        ${fi_bottom}=    Evaluate    ${frect}[1] + ${frect}[3]
-        IF    ${fi_top} >= ${rect}[1] and ${fi_bottom} <= ${pw_bottom}
-            ${first_visible}=    Set Variable    ${TRUE}
-        ELSE
-            Scroll Up    ${pw_xpath}    1
-        END
-    END
+    Press Key    s'HOME'    ${pw_xpath}
 
     # ── Find the target property group ────────────────────────────────────────
     @{groups}=    Find All Elements    ${pw_xpath}/DataItem[@Name="${property_name}"]
@@ -75,7 +60,8 @@ Scroll Find Property
                 ${prop}=      Set Variable    ${groups}[0]
             END
         END
-        Scroll Down    ${pw_xpath}    2
+        Press Key    s'NEXT'    ${pw_xpath}
+        #Scroll Down    ${pw_xpath}    2
         RETURN
     END
 
@@ -95,7 +81,8 @@ Scroll Find Property
             IF    ${s_top} >= ${pw_top} and ${s_bottom} <= ${pw_bottom}
                 ${sub_visible}=    Set Variable    ${TRUE}
             ELSE
-                Scroll Down    ${pw_xpath}    1
+                Press Key    s'NEXT'    ${pw_xpath}
+                #Scroll Down    ${pw_xpath}    1
                 @{groups}=    Find All Elements    ${pw_xpath}/DataItem[@Name="${property_name}"]
                 ${prop}=      Set Variable    ${groups}[0]
             END
@@ -111,7 +98,8 @@ Scroll Find Property
                 Log    Sub-property '${sub_property}' not found; reached end of list.    WARN
                 RETURN
             END
-            Scroll Down    ${pw_xpath}    1
+            Press Key    s'NEXT'    ${pw_xpath}
+            #Scroll Down    ${pw_xpath}    1
             @{groups}=    Find All Elements    ${pw_xpath}/DataItem[@Name="${property_name}"]
             ${prop}=      Set Variable    ${groups}[0]
         END

@@ -131,8 +131,8 @@ namespace FlaUILibrary.Util {
             TreeConfig.IdeMain.RemoveTrailingWhitespaceFromXML(adocText);
             visname = "Test_Visu";
             Rectangle rec = TreeConfig.IdeMain.FindWordinCapture(adocText, "\"vis_0\"");
-            Mouse.MoveTo(new Point {X = adocText.BoundingRectangle.X + rec.X + rec.Width/2, Y = adocText.BoundingRectangle.Y + rec.Y});
-            Mouse.DoubleClick();
+            //Mouse.MoveTo(new Point {X = adocText.BoundingRectangle.X + rec.X + rec.Width/2, Y = adocText.BoundingRectangle.Y + rec.Y});
+            Mouse.DoubleClick(new Point {X = adocText.BoundingRectangle.X + rec.X + rec.Width/2, Y = adocText.BoundingRectangle.Y + rec.Y});
             Keyboard.Type(visname);
             TreeConfig.IdeMain.SaveAll();
             editor = editor.Rename(visname + ".vis");
@@ -422,8 +422,8 @@ namespace FlaUILibrary.Util {
                 e = OpenEditor(p, c, textEditor:false);
                 System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
                 IDE_Main.SetIWorkspaceMinSize(IDE_Main.Workspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Document).And(cf.ByName("Page-Editor"))));
-                Mouse.MoveTo(new Point {X = IDE_Main.Workspace.BoundingRectangle.Left + (int)(IDE_Main.Workspace.BoundingRectangle.Width * (_left+_width/2)/width), Y = IDE_Main.Workspace.BoundingRectangle.Top + (int)(IDE_Main.Workspace.BoundingRectangle.Height * (_top+_height/2)/height)});
-                Mouse.Click();
+                //Mouse.MoveTo(new Point {X = IDE_Main.Workspace.BoundingRectangle.Left + (int)(IDE_Main.Workspace.BoundingRectangle.Width * (_left+_width/2)/width), Y = IDE_Main.Workspace.BoundingRectangle.Top + (int)(IDE_Main.Workspace.BoundingRectangle.Height * (_top+_height/2)/height)});
+                Mouse.Click(new Point {X = IDE_Main.Workspace.BoundingRectangle.Left + (int)(IDE_Main.Workspace.BoundingRectangle.Width * (_left+_width/2)/width), Y = IDE_Main.Workspace.BoundingRectangle.Top + (int)(IDE_Main.Workspace.BoundingRectangle.Height * (_top+_height/2)/height)});
                 int indexWidgetgroup = 0, indexWidget = 0;
                 foreach (var WidgetGroup in MappViewObjects.AllWidgets) {
                     if (!MappViewObjects.toTestWidgetGroups[MappViewObjects.AllWidgets.IndexOf(WidgetGroup)])
@@ -485,8 +485,8 @@ namespace FlaUILibrary.Util {
             AutomationElement asubproperty = aproperty.FindFirstChild(cf => cf.ByName(subproperty));
             if (asubproperty.Patterns.Value.Pattern.Value == select)
                 return;
-            Mouse.MoveTo(new Point {X = asubproperty.BoundingRectangle.Right - 15, Y = asubproperty.BoundingRectangle.Top + asubproperty.BoundingRectangle.Height/2});
-            Mouse.Click();
+            //Mouse.MoveTo(new Point {X = asubproperty.BoundingRectangle.Right - 15, Y = asubproperty.BoundingRectangle.Top + asubproperty.BoundingRectangle.Height/2});
+            Mouse.Click(new Point {X = asubproperty.BoundingRectangle.Right - 15, Y = asubproperty.BoundingRectangle.Top + asubproperty.BoundingRectangle.Height/2});
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             Mouse.Click();
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(500));

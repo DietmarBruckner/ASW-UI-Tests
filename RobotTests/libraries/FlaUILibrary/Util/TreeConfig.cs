@@ -215,9 +215,8 @@ namespace FlaUILibrary.Util {
                             Sleep(TimeSpan.FromMilliseconds(200));
                             AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
                             Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
-                            Mouse.MoveTo(expandButton.GetClickablePoint());
                             if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
-                                Mouse.Click();
+                                Mouse.Click(expandButton.GetClickablePoint());
                             Sleep(TimeSpan.FromMilliseconds(200));
                             editor = e;
                             return;
@@ -243,9 +242,8 @@ namespace FlaUILibrary.Util {
                             Sleep(TimeSpan.FromMilliseconds(200));
                             AutomationElement combobox = root.Parent.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
                             Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
-                            Mouse.MoveTo(expandButton.GetClickablePoint());
                             if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
-                                Mouse.Click();
+                                Mouse.Click(expandButton.GetClickablePoint());
                             Sleep(TimeSpan.FromMilliseconds(200));
                             editor = e;
                             return;

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using FlaUI.Core.AutomationElements;
@@ -242,7 +243,7 @@ namespace FlaUILibrary.Util {
                 toolBar = subPopup.FindFirstChild(cf => cf.ByControlType(ControlType.ToolBar));
                 var subTarget = toolBar.FindAllChildren().FirstOrDefault(c => c.Name != null && c.Name.IndexOf(subMenuItemName) >= 0);
                 if (subTarget == null) return Util.Err($"Submenu item '{subMenuItemName}' not found");
-                Mouse.MoveTo(subTarget.BoundingRectangle.Center()); 
+                //Mouse.MoveTo(subTarget.BoundingRectangle.Center()); 
                 subTarget.AsMenuItem().Click(); 
                 Sleep(500);
                 return Util.Ok("submenu_item_clicked", subMenuItemName);
@@ -305,7 +306,6 @@ namespace FlaUILibrary.Util {
                 //just move or needs resize?
                 bool fitsScreen = wbr.Width <= sr.Width && wbr.Height <= sr.Height;
                 if (fitsScreen) {
-                    Mouse.MoveTo(point);
                     Mouse.Drag(point, sr.Left + sr.Width / 2 - wbr.Left - wbr.Width / 2, 20 - wbr.Top - wbr.Height / 2);
                 }
             }
@@ -394,7 +394,6 @@ namespace FlaUILibrary.Util {
                 if (elementsListViewRect.Height < 100) {
                     Util.ConsoleOut(Util.Verbose.FULL, "Elements list size too small to make elements visible - trying to make it bigger.");
                     Point point = new Point { X = categoriesListViewRect.Left + 30, Y = categoriesListViewRect.Bottom + 1};
-                    //Mouse.MoveTo(point);
                     Mouse.DragVertically(point, elementsListViewRect.Height - 101);
                 }
             }
@@ -676,11 +675,15 @@ namespace FlaUILibrary.Util {
             Util.ConsoleOut(Util.Verbose.FULL, "No text available, searching for word \"" + text + "\" in element: " + ae.Name);
             Dictionary<Rectangle, string> dict = new Dictionary<Rectangle, string>();
             PageIteratorLevel containingWord = PageIteratorLevel.Word;
-            using (var engine = new TesseractEngine("C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\Util\\tessdata", "eng", EngineMode.Default)) {
+            // AppContext.BaseDirectory is ".../FlaUILibrary/bin/<Config>/<TFM>/", so go up 3 levels to reach the project root
+            string utilDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Util"));
+            using (var engine = new TesseractEngine(Path.Combine(utilDir, "tessdata"), "eng", EngineMode.Default)) {
                 //increase size of capture rectangle to increase OCR accuracy, as sometimes the text is not fully captured with the property window bounds (e.g. mapp View)
                 CaptureImage compImg = Capture.Rectangle(new Rectangle(ae.BoundingRectangle.Left, ae.BoundingRectangle.Top - 300, ae.BoundingRectangle.Width, ae.BoundingRectangle.Height + 300));
                 //CaptureImage compImg = Capture.Element(ae);
-                string file = "C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\libraries\\FlaUILibrary\\Util\\screenshots\\OCR_" + TreeConfig.RemoveSpecialChars(text) + ".png";
+                string screenshotsDir = Path.Combine(utilDir, "screenshots");
+                Directory.CreateDirectory(screenshotsDir);
+                string file = Path.Combine(screenshotsDir, "OCR_" + TreeConfig.RemoveSpecialChars(text) + ".png");
                 compImg.ToFile(file);
                 using (Page page = engine.Process(Pix.LoadFromFile(file))) {
                     using (var iter = page.GetIterator()) {
@@ -921,18 +924,18 @@ namespace FlaUILibrary.Util {
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             AutomationElement combobox = configTree.FindFirstChild(cf => cf.ByAutomationId("100")).FindFirstChild(cf => cf.ByControlType(ControlType.ComboBox));
             Button expandButton = combobox.FindFirstChild(cf => cf.ByControlType(ControlType.Button)).AsButton();
-            Mouse.MoveTo(expandButton.GetClickablePoint());
+            //Mouse.MoveTo(expandButton.GetClickablePoint());
             if (IDE_Main.MainWindow.Parent.FindFirstChild(cf => cf.ByControlType(ControlType.List)) == null) //if list is not yet open, click to open it
-                Mouse.Click();
+                Mouse.Click(expandButton.GetClickablePoint());
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
             TreeConfig.ClickComboBoxTreeItem(IDE_Main.MainWindow, Role);
-            Mouse.MoveTo(newUserTreeItemPwdValue.BoundingRectangle.Center());
-            Mouse.DoubleClick();
+            //Mouse.MoveTo(newUserTreeItemPwdValue.BoundingRectangle.Center());
+            Mouse.DoubleClick(newUserTreeItemPwdValue.BoundingRectangle.Center());
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             Keyboard.Type(Password);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
-            Mouse.MoveTo(newUserTreeItemName.BoundingRectangle.Center());
-            Mouse.DoubleClick();
+            //Mouse.MoveTo(newUserTreeItemName.BoundingRectangle.Center());
+            Mouse.DoubleClick(newUserTreeItemName.BoundingRectangle.Center());
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             Keyboard.Type(Name);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
@@ -948,8 +951,8 @@ namespace FlaUILibrary.Util {
             }
             AutomationElement newRoleTreeItem = configTree.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem)).Last();
             AutomationElement newRoleTreeItemName = newRoleTreeItem.FindFirstChild(cf => cf.ByName(newRoleTreeItem.Name + "_Name"));
-            Mouse.MoveTo(newRoleTreeItemName.BoundingRectangle.Center());
-            Mouse.DoubleClick();
+            //Mouse.MoveTo(newRoleTreeItemName.BoundingRectangle.Center());
+            Mouse.DoubleClick(newRoleTreeItemName.BoundingRectangle.Center());
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(300));
             Keyboard.Type(Name);
             Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
@@ -1005,8 +1008,7 @@ namespace FlaUILibrary.Util {
                     rec = Tab.BoundingRectangle;
                     point = new Point {X = rec.Right - 10, Y = rec.Top + 10};
                 }
-                Mouse.MoveTo(point);
-                Mouse.Click();
+                Mouse.Click(point);
                 Editors.Remove(this);
             }
             public static Editor OpenOrAttach(string Name) {
