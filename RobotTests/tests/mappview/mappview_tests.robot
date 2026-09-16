@@ -4,6 +4,7 @@ Resource            ${CURDIR}/../../keywords/component_keywords.robot
 Resource            ${CURDIR}/../../keywords/widget_keywords.robot
 Resource            ${CURDIR}/../../keywords/widget_property_keywords.robot
 Library             FlaUILibrary    uia=UIA2
+Library    ${CURDIR}/../../libraries/FlaUILibrary/robot_flaulib.py    server_url=http://localhost:5000
 
 Suite Teardown      FlaUILib.Check App Alive
 
@@ -189,7 +190,7 @@ Prepare Layout for Widget Pages
     Build Project
     Log    Layout and navigation prepared for widget page tests
 
-
+*** Comment ***
 Insert All Widget Types
     [Documentation]    Scenario: Insert complete widget catalog into visualization
     ...                Traceability ID: FW-MVIEW-D3

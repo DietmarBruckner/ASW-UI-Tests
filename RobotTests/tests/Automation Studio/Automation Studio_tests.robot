@@ -1,5 +1,6 @@
 *** Settings ***
 Documentation       Test cases for Automation Studio component configuration.
+Library    ${CURDIR}/../../libraries/FlaUILibrary/robot_flaulib.py    server_url=http://localhost:5000
 Resource            ${CURDIR}/../../keywords/component_keywords.robot
 Suite Teardown      FlaUILib.Check App Alive
 

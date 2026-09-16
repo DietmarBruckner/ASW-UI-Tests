@@ -5,19 +5,34 @@
             "label": "build-solution",
             "dependsOn": [
                 "build-FlaUITests",
-                "build-FlaUILibrary"
+                "build-FlaUILibrary_debug",
+                "build-FlaUILibrary_release"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": []
         },
         {
-            "label": "build-FlaUILibrary",
+            "label": "build-FlaUILibrary_debug",
             "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Msbuild\\Current\\Bin\\MSBuild.exe",
             "type": "process",
             "args": [
                 "${workspaceFolder}/RobotTests/libraries/FlaUILibrary/FlaUILibrary.csproj",
                 "/t:Build",
                 "/p:Configuration=Debug",
+                "/p:Platform=AnyCPU"
+            ],
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "build-FlaUILibrary_release",
+            "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Msbuild\\Current\\Bin\\MSBuild.exe",
+            "type": "process",
+            "args": [
+                "${workspaceFolder}/RobotTests/libraries/FlaUILibrary/FlaUILibrary.csproj",
+                "/t:Build",
+                "/p:Configuration=Release",
                 "/p:Platform=AnyCPU"
             ],
             "problemMatcher": [

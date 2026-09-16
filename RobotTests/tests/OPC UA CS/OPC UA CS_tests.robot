@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation       Test cases for OPCUA component configuration.
 Resource            ${CURDIR}/../../keywords/component_keywords.robot
+Library    ${CURDIR}/../../libraries/FlaUILibrary/robot_flaulib.py    server_url=http://localhost:5000
 Suite Teardown      FlaUILib.Check App Alive
 
 
