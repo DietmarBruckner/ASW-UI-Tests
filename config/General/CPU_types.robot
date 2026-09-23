@@ -1,6 +1,8 @@
 *** Variables ***
-${DEFAULT_CPU_TYPE}                 X20CP1684
+${DEFAULT_CPU_TYPE}                 ${SUPPORTED_CPU_TYPES}[0]
 @{SUPPORTED_CPU_TYPES}
 ...    X20CP1684
 ...    X20CP1686X
-...    X20CP1586
+...    4PPC50.121E-10B
+...    4PPC80.0702-13B
+...    5PPC2200.AL18-000

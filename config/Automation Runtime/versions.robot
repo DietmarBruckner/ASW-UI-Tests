@@ -1,5 +1,5 @@
 *** Variables ***
-${DEFAULT_AR_VERSION}                 6.6.3
+${DEFAULT_AR_VERSION}                 6.8.1
 @{SUPPORTED_AR_VERSIONS}
 ...    6.0.2
 ...    6.1.1
@@ -9,3 +9,4 @@ ${DEFAULT_AR_VERSION}                 6.6.3
 ...    6.5.1
 ...    6.6.2
 ...    6.6.3
+...    6.8.1

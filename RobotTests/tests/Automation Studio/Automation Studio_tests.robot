@@ -1,8 +1,7 @@
 *** Settings ***
 Documentation       Test cases for Automation Studio component configuration.
-Library    ${CURDIR}/../../libraries/FlaUILibrary/robot_flaulib.py    server_url=http://localhost:5000
 Resource            ${CURDIR}/../../keywords/component_keywords.robot
-Suite Teardown      FlaUILib.Check App Alive
+Suite Teardown      Stop FlaUI Server
 
 *** Test Cases ***
 
@@ -16,8 +15,12 @@ Initialise Automation Studio And Create New Project
     ...                Determinism: Deterministic UI path
     ...                Preconditions: 
     [Tags]              automationstudio    configuration    smoke    trace:fw-as-b1    trace:tm213    trace:sec-3
+    Start FlaUI Server
     ${project_path}=    Set Variable    ${PROJECT_TEMP_PATH}${PROJECT_NAME}
     Create New Project In Automation Studio    ${PROJECT_NAME}    ${project_path}
     Activate Simulation Mode
+    Sleep    5s
+    Click Into IDE
+    Stop FlaUI Server
 
     Log    Automation Studio and new project initialised

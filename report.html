@@ -5,7 +5,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="Robot Framework 7.4.2 (Python 3.14.3 on win32)" name="Generator">
+<meta content="Robot Framework 7.5 (Python 3.14.7 on win32)" name="Generator">
 <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKcAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAqAAAAAAAAAAAAAAAAAAAALIAAAD/AAAA4AAAANwAAADcAAAA3AAAANwAAADcAAAA3AAAANwAAADcAAAA4AAAAP8AAACxAAAAAAAAAKYAAAD/AAAAuwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/AAAA/wAAAKkAAAD6AAAAzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN8AAAD/AAAA+gAAAMMAAAAAAAAAAgAAAGsAAABrAAAAawAAAGsAAABrAAAAawAAAGsAAABrAAAADAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAIsAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAANEAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAAAAAAAAMgAAADIAAAAyAAAAMgAAADIAAAAyAAAAMgAAADIAAAAFAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAADwAAAB8AAAAAAAAAGAAAABcAAAAAAAAAH8AAABKAAAAAAAAAAAAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAADCAAAA/wAAACkAAADqAAAA4QAAAAAAAAD7AAAA/wAAALAAAAAGAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAIwAAAP4AAAD/AAAA/wAAAGAAAAAAAAAAAAAAAMkAAAD/AAAAigAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAAAAAAAIAAAAcAAAABkAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAAAAAAAAA2gAAAP8AAAD7AAAAywAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN4AAAD/AAAAqwAAAP8AAACvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALIAAAD/AAAAsgAAAAAAAAC5AAAA/wAAAMoAAADAAAAAwAAAAMAAAADAAAAAwAAAAMAAAADAAAAAwAAAAMkAAAD/AAAAvAAAAAAAAAAAAAAAAAAAAKwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAArQAAAAAAAAAAwAMAAIABAAAf+AAAP/wAAD/8AAAgBAAAP/wAAD/8AAA//AAAJIwAADHEAAA//AAAP/wAAB/4AACAAQAAwAMAAA==">
 <style media="all">
 :root {
@@ -546,6 +546,28 @@ input[type='submit']:hover, input[type='button']:hover {
 #test-details th, #test-details td {
     padding: 0.2em;
 }
+#test-details .metadata {
+    table-layout: auto;
+    width: 100%;
+    border-spacing: 0;
+}
+#test-details .metadata th, #test-details .metadata td {
+    padding: 0 0 0.2em 0;
+    vertical-align: top;
+    text-align: left;
+    background: transparent;
+}
+#test-details .metadata th {
+    width: 1%;
+    padding-right: 0.6em;
+    font-weight: bold;
+}
+#test-details .metadata td {
+    overflow-wrap: anywhere;
+}
+#test-details .details-col-metadata .details-limited {
+    overflow-x: hidden;
+}
 .details-limited {
     max-height: 20em;
     overflow: auto;
@@ -570,8 +592,21 @@ input[type='submit']:hover, input[type='button']:hover {
 .details-col-doc {
     min-width: 10em;
 }
+.details-col-metadata {
+    min-width: 10em;
+}
 .details-col-tags {
     min-width: 10em;
+}
+.details-col-tags .tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+.details-col-tags .label {
+    margin: 0 0.3em 0.3em 0;
+    font-size: 1em;
+    letter-spacing: normal;
 }
 .details-col-crit {
     width: 3.5em;
@@ -927,6 +962,7 @@ window.model = (function () {
         test.fullName = data.parent.fullName + '.' + test.name;
         test.formatParentName = function () { return util.formatParentName(test); };
         test.timeout = data.timeout;
+        test.metadata = data.metadata;
         test.populateKeywords = createIterablePopulator('Keyword');
         test.childrenNames = ['keyword'];
         test.isChildrenLoaded = data.isChildrenLoaded;
@@ -1375,7 +1411,7 @@ window.testdata = function () {
             timeout: strings.get(element[3]),
             args: strings.get(element[5]),
             assign: strings.get(element[6]),
-            tags: strings.get(element[7]),
+            tags: tags(element[7], strings),
             doc: function () {
                 var doc = strings.get(element[4]);
                 this.doc = function () { return doc; };
@@ -1410,7 +1446,7 @@ window.testdata = function () {
         return util.map(taglist, strings.get);
     }
     function createTest(parent, element, strings, index) {
-        var status = element[4];
+        var status = element[5];
         var test = model.Test({
             parent: parent,
             id: 't' + (index + 1),
@@ -1421,6 +1457,7 @@ window.testdata = function () {
                 return doc;
             },
             timeout: strings.get(element[1]),
+            metadata: parseMetadata(element[4], strings),
             status: parseStatus(status),
             message: function () {
                 var msg = status.length == 4 ? strings.get(status[3]) : '';
@@ -1429,9 +1466,9 @@ window.testdata = function () {
             },
             times: model.Times(times(status)),
             tags: tags(element[3], strings),
-            isChildrenLoaded: typeof(element[5]) !== 'number'
+            isChildrenLoaded: typeof(element[6]) !== 'number'
         });
-        lazyPopulateKeywordsFromFile(test, element[5], strings);
+        lazyPopulateKeywordsFromFile(test, element[6], strings);
         return test;
     }
     function createSuite(parent, element, strings, index) {
@@ -1881,22 +1918,22 @@ storage = function () {
 window.output = {};
 </script>
 <script type="text/javascript">
-window.output["suite"] = [1,2,3,4,[],[0,0,792],[],[[5,0,6,[7,8,9,10],[1,716,8],[]],[11,0,12,[7,8,9,13,14,15],[1,724,9],[]],[16,0,17,[7,18,8,19,20,15],[1,734,23],[]],[21,0,22,[23,8,24,25,26,27,28],[0,758,18,29],[]],[30,0,31,[8,32,33,34,15,28],[0,776,15,35],[]]],[],[5,3,2,0]];
+window.output["suite"] = [1,2,3,4,[],[0,0,139111],[],[[5,0,6,[7,8,9,10],[],[1,5873,49455],[]],[11,0,12,[7,8,13,14,15],[],[0,55329,78614,16],[]],[17,0,18,[8,19,20,13,21,15],[],[0,133943,2,22],[]]],[],[3,1,2,0]];
 </script>
 <script type="text/javascript">
 window.output["strings"] = [];
 </script>
 <script type="text/javascript">
-window.output["strings"] = window.output["strings"].concat(["*","*mappView tests","*c:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\tests\\mappView\\mappView_tests.robot","eNqzSVTIKEpNs1VKy8xJtdLX10+20g8tTi0q1ncMcfF0CgrV989LdSnKLEtVNTLQBWJHJyf9gqL8rNTkEqCa4HDdUE/dkNRiICcoPym/BMIsAZO5iQUFYZmp5XBGPFhcrwikUMmO3jba6CfaAQB5w1I8","*<p>Test cases for MappView component configuration and widget insertion.\x3c/p>","*Initialise MappView Version","*<p>Scenario: Initialize mapp View version Traceability ID: FW-MVIEW-C1 Component: mappView Source Manual: Source Section: Evidence Type: Manual procedure Determinism: Deterministic UI path Preconditions: mappView component available\x3c/p>","*configuration","*mappview","*smoke","*trace:fw-mview-c1","*Configure MappView Server","eNp9j8Fug0AMRH/FP0ASWonDKsql0IoDUlUoHJGzOMQt610tCxF/X5AaNaeeLMszbzxHdyo1CXq2Cl6sXLifPIFB52qmG4zkZ/KA0sE6+bKAtsZMwhoDWwFnfYDKoyY888BhgTxV8NpERZ1nTZTGK9Q4KyRB/VFLO3lNUKBMOCjAfj2P+6pI4jh6yz7axvpvlr69cbi2m6vdbG2dHA5xa+ok3pnuDilJb58oeN49/dMgm7kjWfXV4kj9RoPzVlO36VMK5A0Lj0Y9LIE1fObgMFzh3ZO20vEWNz600feGwCPgjDzgeSBg2fBf63vHvTv9AEl5gcA=","*trace:fw-mview-d1","*trace:sec-3.2","*trace:tm611","*Insert and Configure Localization","*<p>Scenario: Insert and configure localization resource Traceability ID: FW-MVIEW-D2 Component: mappView Source Manual: agents/TM611-GER_Working_with_mapp_View_V6001_mV61.md Source Section: 11 Localization Evidence Type: Manual procedure Determinism: Deterministic UI path Preconditions: mappView component is available in project\x3c/p>","*localization","*trace:fw-mview-d2","*trace:sec-11","*Insert All Widget Types","*<p>Scenario: Insert complete widget catalog into visualization Traceability ID: FW-MVIEW-D3 Component: mappView Source Manual: agents/TM642-ENG_Diagnostics__charts__customized_widgets_V6000_mV65.md Source Section: 4 Customized widgets Evidence Type: Manual procedure Determinism: Deterministic UI path Preconditions: Widget catalog file is loaded and editor is open\x3c/p>","*comprehensive","*regression","*trace:fw-mview-d3","*trace:sec-4","*trace:tm642","*widgets","eNp9z80KglAQhuG9VzE7aRP0u2hrGS36gaDWB89oUzpzGI9JXX1GhBLYBTzvzHfEO6rJITWUV4olSJJUqmgXQTAawE7gho9a1EJN/gJsCoRww+TJ5PRE2BrnToQ1RFI4YWQfQioV22EQjPt8pGg8wonK6l0xnoThoHLFpMMnfXzvkH9wLAor23zFWRuY9gXW6OFMNkNfQqxSNM9zSh05619eovp29afSwvm/k5vl6r3SNYXHl7wAje+C4A==","*Insert Button Widget And Configure Properties","*<p>Scenario: Insert button widget and set visual properties Traceability ID: FW-MVIEW-D4 Component: mappView Source Manual: agents/TM611-GER_Working_with_mapp_View_V6001_mV61.md Source Section: 5.4 Content and Widgets Evidence Type: Manual procedure Determinism: Deterministic UI path Preconditions: Visualization content editor is open\x3c/p>","*properties","*trace:fw-mview-d4","*trace:sec-5.4","eNqVzrsOgkAQheGep5iO2Jh4LWwREwovCQnWG3bAUdjZDLsSfHqhgphQ+ADfOX+KbxRVQaGo8oINcJ57EdSHIFgt4MLwwq5l0dCSe4BRNUKYGHKkKvognJW1GWELEdeWDRoXQsHe6GUQrOd8JKgcQkaNH1aUIzZwE35iPuGbOX61aH7wiQVi3VeZchzYzvc3KG5sv5MucfK8m4MpOkiO8dBq+4VuJPt/yRf9xYBO"]);
+window.output["strings"] = window.output["strings"].concat(["*","*OPC UA CS tests","*C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\tests\\OPC UA CS\\OPC UA CS_tests.robot","*RobotTests/tests/OPC%20UA%20CS/OPC%20UA%20CS_tests.robot","*<p>Test cases for OPCUA component configuration.\x3c/p>","*Initialise OPCUA Version","*<p>Scenario: Initialize OPC UA CS version Traceability ID: FW-OPCUA-C1 Component: OPC UA CS Source Manual: Source Section: Evidence Type: Manual procedure Determinism: Deterministic UI path Preconditions: OPC UA CS TP available\x3c/p>","*configuration","*opcua","*smoke","*trace:fw-opcua-c1","*Activate OPCUA Client Server With Anonymous Access and BR_Engineer","*<p>Scenario: Activate OPC UA CS with anonymous access and BR_Engineer user Traceability ID: FW-OPCUA-C4 Component: OPC UA CS Source Manual: Source Section: TM611_3_1_ActivateOPCUACS Evidence Type: Automated UI procedure Determinism: Deterministic UI path Preconditions: OPC UA CS package is available and project is open\x3c/p>","*security","*trace:fw-opcua-c4","*trace:tm611","*Execution terminated by signal","*Configure OPCUA RBAC Roles, Users, And Default Permissions","*<p>Scenario: Replicate TM611_10 RBAC flow for OPC UA/CS Traceability ID: FW-OPCUA-C5 Component: OPC UA CS Source Manual: Source Section: TM611_10_RBAC Evidence Type: Automated UI procedure Determinism: Deterministic UI path Preconditions: OPC UA CS package is available and project is open\x3c/p>","*rbac","*robot:exit","*trace:fw-opcua-c5","*Test execution stopped due to a fatal error."]);
 </script>
 <script type="text/javascript">
-window.output["stats"] = [[{"elapsed":"00:00:00","fail":2,"label":"All Tests","pass":3,"skip":0}],[{"elapsed":"00:00:00","fail":1,"label":"comprehensive","pass":0,"skip":0},{"elapsed":"00:00:00","fail":0,"label":"configuration","pass":3,"skip":0},{"elapsed":"00:00:00","fail":0,"label":"localization","pass":1,"skip":0},{"elapsed":"00:00:00","fail":2,"label":"mappview","pass":3,"skip":0},{"elapsed":"00:00:00","fail":1,"label":"properties","pass":0,"skip":0},{"elapsed":"00:00:00","fail":1,"label":"regression","pass":0,"skip":0},{"elapsed":"00:00:00","fail":0,"label":"smoke","pass":2,"skip":0},{"elapsed":"00:00:00","fail":0,"label":"trace:fw-mview-c1","pass":1,"skip":0},{"elapsed":"00:00:00","fail":0,"label":"trace:fw-mview-d1","pass":1,"skip":0},{"elapsed":"00:00:00","fail":0,"label":"trace:fw-mview-d2","pass":1,"skip":0},{"elapsed":"00:00:00","fail":1,"label":"trace:fw-mview-d3","pass":0,"skip":0},{"elapsed":"00:00:00","fail":1,"label":"trace:fw-mview-d4","pass":0,"skip":0},{"elapsed":"00:00:00","fail":0,"label":"trace:sec-11","pass":1,"skip":0},{"elapsed":"00:00:00","fail":0,"label":"trace:sec-3.2","pass":1,"skip":0},{"elapsed":"00:00:00","fail":1,"label":"trace:sec-4","pass":0,"skip":0},{"elapsed":"00:00:00","fail":1,"label":"trace:sec-5.4","pass":0,"skip":0},{"elapsed":"00:00:00","fail":1,"label":"trace:tm611","pass":2,"skip":0},{"elapsed":"00:00:00","fail":1,"label":"trace:tm642","pass":0,"skip":0},{"elapsed":"00:00:00","fail":2,"label":"widgets","pass":0,"skip":0}],[{"elapsed":"00:00:01","fail":2,"id":"s1","label":"mappView tests","name":"mappView tests","pass":3,"skip":0}]];
+window.output["stats"] = [[{"elapsed":"00:02:08","fail":2,"label":"All Tests","pass":1,"skip":0}],[{"combined":"NOT robot:exit","elapsed":"00:02:08","fail":1,"info":"combined","label":"NOT robot:exit","pass":1,"skip":0},{"elapsed":"00:02:08","fail":1,"label":"configuration","pass":1,"skip":0},{"elapsed":"00:02:08","fail":2,"label":"opcua","pass":1,"skip":0},{"elapsed":"00:00:00","fail":1,"label":"rbac","pass":0,"skip":0},{"elapsed":"00:01:19","fail":2,"label":"security","pass":0,"skip":0},{"elapsed":"00:00:49","fail":0,"label":"smoke","pass":1,"skip":0},{"elapsed":"00:00:49","fail":0,"label":"trace:fw-opcua-c1","pass":1,"skip":0},{"elapsed":"00:01:19","fail":1,"label":"trace:fw-opcua-c4","pass":0,"skip":0},{"elapsed":"00:00:00","fail":1,"label":"trace:fw-opcua-c5","pass":0,"skip":0},{"elapsed":"00:01:19","fail":2,"label":"trace:tm611","pass":0,"skip":0}],[{"elapsed":"00:02:19","fail":2,"id":"s1","label":"OPC UA CS tests","name":"OPC UA CS tests","pass":1,"skip":0}]];
 </script>
 <script type="text/javascript">
-window.output["baseMillis"] = 1780319294636;
+window.output["baseMillis"] = 1789566272649;
 </script>
 <script type="text/javascript">
-window.output["generated"] = 825;
+window.output["generated"] = 139121;
 </script>
 <script type="text/javascript">
 window.output["expand_keywords"] = null;
@@ -2241,12 +2278,12 @@ function renderTestDetailsRows(tests, target) {
 }
 
 function configureTableSorter(sortByStatus) {
-    var config = {headers: {3: {sorter: 'status'},
-                            5: {sortInitialOrder: 'desc'},
-                            6: {sorter: 'times'}},
+    var config = {headers: {4: {sorter: 'status'},
+                            6: {sortInitialOrder: 'desc'},
+                            7: {sorter: 'times'}},
                   selectorSort: '.details-col-header'};
     if (sortByStatus)
-        config['sortList'] = [[3, 0]];
+        config['sortList'] = [[4, 0]];
     $('#test-details').tablesorter(config);
 }
 
@@ -2261,18 +2298,24 @@ function toggleDetailsColumn(name) {
     var column = $('.details-col-' + name);
     column.toggleClass('hidden');
     var hidden = column.hasClass('hidden');
+    if (name === 'tags') {
+      column.find('.tags').toggle();
+    }
     storage.set(name, hidden ? 'hidden' : 'visible');
     column.find('.details-col-toggle').html(hidden ? '&hellip;' : '&times;');
 }
 
 function hideHiddenDetailsColumns(elem) {
-    var names = ['doc', 'tags', 'msg', 'elapsed', 'times'];
+    var names = ['doc', 'metadata', 'tags', 'msg', 'elapsed', 'times'];
     for (var i = 0; i < names.length; i++) {
         var name = names[i];
-        if (storage.get(name, 'visible') == 'hidden') {
+        if (storage.get(name, 'visible') === 'hidden') {
             var column = elem.find('.details-col-' + name);
             column.addClass('hidden');
             column.find('.details-col-toggle').html('&hellip;');
+            if (name === 'tags') {
+                column.find('.tags').hide();
+            }
         }
     }
 }
@@ -2679,6 +2722,10 @@ function hideHiddenDetailsColumns(elem) {
           <div class='details-col-toggle' onclick="toggleDetailsColumn('doc')">&times;</div>
           <div class='details-col-header'>Documentation</div>
         </th>
+        <th class="details-col-metadata" title="Metadata">
+          <div class='details-col-toggle' onclick="toggleDetailsColumn('metadata')">&times;</div>
+          <div class='details-col-header'>Metadata</div>
+        </th>
         <th class="details-col-tags" title="Tags">
           <div class='details-col-toggle' onclick="toggleDetailsColumn('tags')">&times;</div>
           <div class='details-col-header'>Tags</div>
@@ -2717,7 +2764,8 @@ function hideHiddenDetailsColumns(elem) {
     </td>
   {{/if}}
     <td class="details-col-doc"><div class="doc details-limited">{{html doc()}}</div></td>
-    <td class="details-col-tags"><div>{{html tags.join(', ')}}</div></td>
+    <td class="details-col-metadata"><div class="details-limited">{{if metadata.length}}<table class="metadata">{{each metadata}}<tr><th>{{html $value[0]}}:</th><td class="doc">{{html $value[1]}}</td></tr>{{/each}}</table>{{/if}}</div></td>
+    <td class="details-col-tags"><div class="tags">{{each tags}}<span class="label">{{html $value}}</span>{{/each}}</div></td>
     <td class="details-col-status"><div><span class="label ${status.toLowerCase()}">${status}</span></div></td>
     <td class="details-col-msg"><div class="message details-limited">{{html message()}}</div></td>
     <td class="details-col-elapsed"><div>${times.elapsedTime}</div></td>

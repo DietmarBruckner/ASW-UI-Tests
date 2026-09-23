@@ -3,16 +3,30 @@ Documentation       Keywords for Automation Studio project creation and manageme
 ...                 All IDE interactions use FlaUILib (via ide_keywords.robot).
 Library             OperatingSystem
 Library             XML
+Library             Process
 Resource            ${CURDIR}/ide_keywords.robot
 
 
 *** Keywords ***
+Start FlaUI Server
+    [Documentation]    Starts the FlaUI server for IDE interactions.
+    Run Process    powershell.exe     if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){${CURDIR}/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}    timeout=5s    on_timeout=continue
+    Sleep    5s    Waiting for FlaUI server to start
+
+Stop FlaUI Server
+    [Documentation]    Stops the FlaUI server for IDE interactions.
+    Run Process    powershell.exe     if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}    timeout=5s    on_timeout=continue
+    Sleep    5s    Waiting for FlaUI server to stop
 
 Create New Project In Automation Studio
     [Documentation]    Creates a new Automation Studio project.
     ...                Opens File > New Project, fills in name and location, selects CPU, confirms.
     [Arguments]        ${project_name}    ${project_path}    ${config_name}=${PROJECT_DEFAULT_CONFIG_NAME}    ${cpu_type}=${CPU_TYPE}    ${working_version}=${AS_WORKING_VERSION}
     Initialize Automation Studio
+    Click Into IDE
+    Sleep    5s
+    Press Key    s'ESC'    #Dismiss the crash reporter in case it popped up
+    Sleep    5s
     Invoke IDE Menu                    File    New Project...
     FlaUILib.Wait For Dialog           New Project
     FlaUILib.Type Into Dialog Field    projectNameTextBox         ${project_name}
