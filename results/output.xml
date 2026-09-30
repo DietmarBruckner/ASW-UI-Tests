@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.5 (Python 3.14.7 on win32)" generated="2026-09-29T10:46:33.076449" rpa="false" schemaversion="5">
+<suite id="s1" name="ASW-UI-Tests" source="C:\projects\Git\ASW-UI-Tests">
+<suite id="s1-s1" name="RobotTests" source="C:\projects\Git\ASW-UI-Tests\RobotTests">
+<suite id="s1-s1-s1" name="Tests" source="C:\projects\Git\ASW-UI-Tests\RobotTests\tests">
+<suite id="s1-s1-s1-s1" name="mappServices" source="C:\projects\Git\ASW-UI-Tests\RobotTests\tests\mappServices">
+<suite id="s1-s1-s1-s1-s1" name="mappServices tests" source="C:\projects\Git\ASW-UI-Tests\RobotTests\tests\mappServices\mappServices_tests.robot">
+<test id="s1-s1-s1-s1-s1-t1" name="Configure Basic Alarm System" line="32">
+<kw name="Start FlaUI Server" owner="project_keywords">
+<kw name="Run Process" owner="Process">
+<msg time="2026-09-29T10:46:34.476224" level="INFO">Starting process:
+powershell.exe "if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}"</msg>
+<msg time="2026-09-29T10:46:34.496733" level="INFO">Waiting for process to complete.</msg>
+<msg time="2026-09-29T10:46:35.300971" level="INFO">Process completed.</msg>
+<arg>powershell.exe</arg>
+<arg>if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}</arg>
+<arg>timeout=3s</arg>
+<arg>on_timeout=continue</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<status status="PASS" start="2026-09-29T10:46:34.475676" elapsed="0.825652"/>
+</kw>
+<kw name="Run Process" owner="Process">
+<msg time="2026-09-29T10:46:35.302144" level="INFO">Starting process:
+powershell.exe "if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){C:\projects\Git\ASW-UI-Tests\RobotTests\keywords/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}"</msg>
+<msg time="2026-09-29T10:46:35.332227" level="INFO">Waiting for process to complete.</msg>
+<msg time="2026-09-29T10:46:38.346076" level="INFO">Process did not complete in 3 seconds.</msg>
+<msg time="2026-09-29T10:46:38.346457" level="INFO">Leaving process intact.</msg>
+<arg>powershell.exe</arg>
+<arg>if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\keywords/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}</arg>
+<arg>timeout=3s</arg>
+<arg>on_timeout=continue</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<status status="PASS" start="2026-09-29T10:46:35.301695" elapsed="3.045040"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-09-29T10:46:43.348690" level="INFO">Slept 5 seconds.</msg>
+<msg time="2026-09-29T10:46:43.349057" level="INFO">Waiting for FlaUI server to start</msg>
+<arg>5s</arg>
+<arg>Waiting for FlaUI server to start</arg>
+<doc>Pauses execution for the given time.</doc>
+<status status="PASS" start="2026-09-29T10:46:38.347218" elapsed="5.002059"/>
+</kw>
+<doc>Starts the FlaUI server for IDE interactions.</doc>
+<status status="PASS" start="2026-09-29T10:46:34.474792" elapsed="8.874788"/>
+</kw>
+<kw name="Initialize Automation Studio" owner="ide_keywords">
+<kw name="Initialize Automation Studio" owner="FlaUILib">
+<arg>${AS_DEFAULT_TIMEOUT}</arg>
+<arg>${AS_VERBOSE}</arg>
+<status status="PASS" start="2026-09-29T10:46:43.351088" elapsed="0.905521"/>
+</kw>
+<kw name="Click into IDE" owner="FlaUILib">
+<status status="PASS" start="2026-09-29T10:46:44.256862" elapsed="0.028415"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:46:44.285883" level="INFO">Automation Studio initialised.</msg>
+<arg>Automation Studio initialised.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:46:44.285543" elapsed="0.000492"/>
+</kw>
+<doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
+<status status="PASS" start="2026-09-29T10:46:43.350386" elapsed="0.935774"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-09-29T10:46:44.287021" elapsed="2.831527"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:46:47.119165" level="INFO">Double-clicked tree path: BR_X20CP1684|BR_mappServices</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:46:47.118826" elapsed="0.000507"/>
+</kw>
+<arg>Configuration View</arg>
+<arg>BR_${CPU_TYPE}|BR_mappServices</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-09-29T10:46:44.286508" elapsed="2.832938"/>
+</kw>
+<kw name="Insert From ToolBox" owner="project_keywords">
+<kw name="Insert From Toolbox" owner="FlaUILib">
+<arg>${view}</arg>
+<arg>${component_name}</arg>
+<arg>${category}</arg>
+<arg>${drag}</arg>
+<arg>${xoffset}</arg>
+<arg>${yoffset}</arg>
+<status status="PASS" start="2026-09-29T10:46:47.120163" elapsed="2.912428"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:46:50.033211" level="INFO">Inserted from Toolbox: Basic Alarm System</msg>
+<arg>Inserted from Toolbox: ${component_name}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:46:50.032869" elapsed="0.000521"/>
+</kw>
+<arg>Configuration View</arg>
+<arg>Basic Alarm System</arg>
+<doc>Inserts a component from the Toolbox into the project by double-clicking it.</doc>
+<status status="PASS" start="2026-09-29T10:46:47.119792" elapsed="2.913729"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-09-29T10:46:50.034382" elapsed="3.990539"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:46:54.025561" level="INFO">Double-clicked tree path: BR_X20CP1684|BR_mappServices|BR_AlarmCore.mpalarmxcore</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:46:54.025206" elapsed="0.000510"/>
+</kw>
+<arg>Configuration View</arg>
+<arg>BR_${CPU_TYPE}|BR_mappServices|BR_AlarmCore.mpalarmxcore</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-09-29T10:46:50.033803" elapsed="3.992046"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-09-29T10:46:54.026752" elapsed="2.146394"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:46:56.173775" level="INFO">Double-clicked tree path: BR_General|BR_Enable Cockpit</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:46:56.173426" elapsed="0.000499"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_gAlarmXCore</arg>
+<arg>editorname=e</arg>
+<arg>tree_path=BR_General|BR_Enable Cockpit</arg>
+<arg>shortcut=-1</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-09-29T10:46:54.026216" elapsed="2.147821"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-09-29T10:46:56.174854" elapsed="0.633935"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:46:56.809685" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:46:56.809368" elapsed="0.000477"/>
+</kw>
+<status status="PASS" start="2026-09-29T10:46:56.808998" elapsed="0.000941"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-09-29T10:46:56.810240" elapsed="0.000099"/>
+</kw>
+<status status="NOT RUN" start="2026-09-29T10:46:56.809986" elapsed="0.000425"/>
+</branch>
+<status status="PASS" start="2026-09-29T10:46:56.808965" elapsed="0.001478"/>
+</if>
+<arg>item_number=0</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-09-29T10:46:56.174460" elapsed="0.636025"/>
+</kw>
+<kw name="Close Editor" owner="ide_keywords">
+<kw name="Close Active Editor" owner="FlaUILib">
+<arg>${save_changes}</arg>
+<status status="PASS" start="2026-09-29T10:46:56.811073" elapsed="1.541755"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:46:58.353539" level="INFO">Active editor closed (save_changes=True)</msg>
+<arg>Active editor closed (save_changes=${save_changes})</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:46:58.353143" elapsed="0.000555"/>
+</kw>
+<doc>Closes the currently active editor, optionally saving changes.</doc>
+<status status="PASS" start="2026-09-29T10:46:56.810761" elapsed="1.543055"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-09-29T10:46:58.354715" elapsed="4.373227"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:47:02.728569" level="INFO">Double-clicked tree path: BR_X20CP1684|BR_mappServices|BR_AlarmList.mpalarmxlist</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:47:02.728220" elapsed="0.000508"/>
+</kw>
+<arg>Configuration View</arg>
+<arg>BR_${CPU_TYPE}|BR_mappServices|BR_AlarmList.mpalarmxlist</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-09-29T10:46:58.354296" elapsed="4.374544"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-09-29T10:47:02.729830" elapsed="2.782881"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:47:05.513371" level="INFO">Double-clicked tree path: BR_Alarm List|BR_Alarm: |BR_Name</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:47:05.513012" elapsed="0.000514"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_gAlarmXList</arg>
+<arg>editorname=e</arg>
+<arg>tree_path=BR_Alarm List|BR_Alarm: |BR_Name</arg>
+<arg>shortcut=-1</arg>
+<arg>single_click=True</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-09-29T10:47:02.729334" elapsed="2.784303"/>
+</kw>
+<kw name="Press Key" owner="FlaUILibrary">
+<arg>t'test1'</arg>
+<doc>Keyboard control to execute a user defined one shortcut or text.
+press_only and release_only supports key shortcut only, not text.</doc>
+<status status="PASS" start="2026-09-29T10:47:05.514106" elapsed="0.017185"/>
+</kw>
+<kw name="Press Key" owner="FlaUILibrary">
+<arg>s'ENTER'</arg>
+<doc>Keyboard control to execute a user defined one shortcut or text.
+press_only and release_only supports key shortcut only, not text.</doc>
+<status status="PASS" start="2026-09-29T10:47:05.531699" elapsed="0.001834"/>
+</kw>
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-09-29T10:47:05.534234" elapsed="3.161712"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:47:08.696588" level="INFO">Double-clicked tree path: BR_Alarm List|BR_Alarm: test1|BR_Behavior</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:47:08.696233" elapsed="0.000506"/>
+</kw>
+<arg>Workspace</arg>
+<arg>rootname=BR_gAlarmXList</arg>
+<arg>editorname=e</arg>
+<arg>tree_path=BR_Alarm List|BR_Alarm: test1|BR_Behavior</arg>
+<arg>shortcut=-1</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-09-29T10:47:05.533823" elapsed="3.163032"/>
+</kw>
+<kw name="Select From TreeComboBox" owner="ide_keywords">
+<kw name="Select From TreeComboBox" owner="FlaUILib">
+<arg>${item_label}</arg>
+<arg>${item_number}</arg>
+<status status="PASS" start="2026-09-29T10:47:08.697651" elapsed="0.632127"/>
+</kw>
+<if>
+<branch type="IF" condition="$item_label is not None">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:47:09.330614" level="INFO">Selected from tree combo box: None</msg>
+<arg>Selected from tree combo box: ${item_label}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:47:09.330302" elapsed="0.000463"/>
+</kw>
+<status status="PASS" start="2026-09-29T10:47:09.329974" elapsed="0.000884"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>Selected from tree combo box item number: ${item_number}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-09-29T10:47:09.331169" elapsed="0.000128"/>
+</kw>
+<status status="NOT RUN" start="2026-09-29T10:47:09.330898" elapsed="0.000477"/>
+</branch>
+<status status="PASS" start="2026-09-29T10:47:09.329950" elapsed="0.001459"/>
+</if>
+<arg>item_number=3</arg>
+<doc>Selects a value from a combo box in a tree by opening it and clicking the item.</doc>
+<status status="PASS" start="2026-09-29T10:47:08.697275" elapsed="0.634183"/>
+</kw>
+<kw name="Close Editor" owner="ide_keywords">
+<kw name="Close Active Editor" owner="FlaUILib">
+<arg>${save_changes}</arg>
+<status status="PASS" start="2026-09-29T10:47:09.331991" elapsed="1.571281"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-09-29T10:47:10.903888" level="INFO">Active editor closed (save_changes=True)</msg>
+<arg>Active editor closed (save_changes=${save_changes})</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-09-29T10:47:10.903522" elapsed="0.000552"/>
+</kw>
+<doc>Closes the currently active editor, optionally saving changes.</doc>
+<status status="PASS" start="2026-09-29T10:47:09.331711" elapsed="1.572476"/>
+</kw>
+<kw name="Stop FlaUI Server" owner="project_keywords">
+<kw name="Run Process" owner="Process">
+<msg time="2026-09-29T10:47:10.905228" level="INFO">Starting process:
+powershell.exe "if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}"</msg>
+<msg time="2026-09-29T10:47:10.908660" level="INFO">Waiting for process to complete.</msg>
+<msg time="2026-09-29T10:47:11.711724" level="INFO">Process completed.</msg>
+<arg>powershell.exe</arg>
+<arg>if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}</arg>
+<arg>timeout=3s</arg>
+<arg>on_timeout=continue</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<status status="PASS" start="2026-09-29T10:47:10.904863" elapsed="0.807097"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-09-29T10:47:16.713450" level="INFO">Slept 5 seconds.</msg>
+<msg time="2026-09-29T10:47:16.713892" level="INFO">Waiting for FlaUI server to stop</msg>
+<arg>5s</arg>
+<arg>Waiting for FlaUI server to stop</arg>
+<doc>Pauses execution for the given time.</doc>
+<status status="PASS" start="2026-09-29T10:47:11.712203" elapsed="5.001936"/>
+</kw>
+<doc>Stops the FlaUI server for IDE interactions.</doc>
+<status status="PASS" start="2026-09-29T10:47:10.904495" elapsed="5.810302"/>
+</kw>
+<status status="PASS" start="2026-09-29T10:46:34.464888" elapsed="42.250610"/>
+</test>
+<doc>Test cases for MappView component configuration and widget insertion.</doc>
+<status status="PASS" start="2026-09-29T10:46:33.130329" elapsed="43.589418"/>
+</suite>
+<status status="PASS" start="2026-09-29T10:46:33.127392" elapsed="43.595221"/>
+</suite>
+<status status="PASS" start="2026-09-29T10:46:33.123502" elapsed="43.601951"/>
+</suite>
+<status status="PASS" start="2026-09-29T10:46:33.113696" elapsed="43.613823"/>
+</suite>
+<status status="PASS" start="2026-09-29T10:46:33.080967" elapsed="43.651810"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="ASW-UI-Tests" id="s1" pass="1" fail="0" skip="0">ASW-UI-Tests</stat>
+<stat name="RobotTests" id="s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests</stat>
+<stat name="Tests" id="s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests</stat>
+<stat name="mappServices" id="s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.mappServices</stat>
+<stat name="mappServices tests" id="s1-s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.mappServices.mappServices tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2026-09-29T10:46:33.163884" level="WARN">Imported resource file 'C:\projects\Git\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+</errors>
+</robot>

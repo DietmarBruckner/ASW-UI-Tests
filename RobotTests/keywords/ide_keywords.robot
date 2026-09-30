@@ -28,7 +28,7 @@ Invoke IDE Menu
 
 Expand and Click Tree Leaf
     [Documentation]    Expands a tree node and (double)-clicks a leaf node in the active tree.
-    [Arguments]        ${viewtype}    ${tree_path}=None    ${editorname}=None    ${rootname}=None    ${program}=False    ${shortcut}=-1     ${single_click}=False    ${filename}=None    ${filetree}=None    ${version}=None
+    [Arguments]        ${viewtype}    ${tree_path}=${NONE}    ${editorname}=${NONE}    ${rootname}=${NONE}    ${program}=False    ${shortcut}=-1     ${single_click}=False    ${filename}=${NONE}    ${filetree}=${NONE}    ${version}=${NONE}
     FlaUILib.Activate Tree Leaf    ${viewtype}    ${tree_path}    ${editorname}    ${rootname}    ${program}    ${shortcut}    ${single_click}    ${filename}    ${filetree}    ${version}
     Log    Double-clicked tree path: ${tree_path}
 

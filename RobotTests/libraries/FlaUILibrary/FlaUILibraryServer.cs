@@ -334,9 +334,9 @@ namespace FlaUILibrary
             if (rootName != null)
                 ConfigRoot = TreeConfig.IdeMain.GetWorkspaceConfigRoot(IDE_Main.ActiveEditor, rootName);
             if (editorName != "e")
-                TreeConfig.ActivateTreeLeaf(vtype, ls, out IDE_Main.ActiveEditor, root:ConfigRoot, shortcut: shortcut);
+                TreeConfig.ActivateTreeLeaf(vtype, ls, out IDE_Main.ActiveEditor, root:ConfigRoot, shortcut: shortcut, singleclicklast: singleClick, program: program);
             else
-                TreeConfig.ActivateTreeLeaf(vtype, ls, out var e, root:ConfigRoot, shortcut: shortcut);
+                TreeConfig.ActivateTreeLeaf(vtype, ls, out var e, root:ConfigRoot, shortcut: shortcut, singleclicklast: singleClick, program: program);
 
             return Util.Util.Ok("tree_leaf_activated", treePath);
         }
