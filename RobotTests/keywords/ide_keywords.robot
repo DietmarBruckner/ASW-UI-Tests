@@ -71,6 +71,17 @@ Activate Simulation Mode
     FlaUILib.Activate Simulation Mode
     Log    Simulation mode activated
 
+Generate Program
+    [Documentation]    Generates and renames a program in the logical view.
+    [Arguments]        ${name}    ${ab}=False    ${ansi_c}=False    ${ansi_cpp}=False    ${cfc}=False    ${cnc}=False    ${fbd}=False    ${il}=False    ${ld}=False    ${reaction}=False    ${robot}=False    ${sfc}=False    ${stoop}=False    ${st}=False    ${all_in_one}=False
+    FlaUILib.Generate Program    ${name}    ${ab}    ${ansi_c}    ${ansi_cpp}    ${cfc}    ${cnc}    ${fbd}    ${il}    ${ld}    ${reaction}    ${robot}    ${sfc}    ${stoop}    ${st}    ${all_in_one}
+
+Generate Variables
+    [Documentation]    Creates IDE variables and returns their generated names and PLC types. Supported types: BOOL, USINT, SINT, UINT, INT, UDINT, DINT, REAL, LREAL, DT; append [] for nested arrays (for example, REAL[]).
+    [Arguments]        ${var_name}    ${var_type}    ${package}=${EMPTY}
+    ${generated_variables}=    FlaUILib.Generate Variables    ${var_name}    ${var_type}    ${package}
+    RETURN    ${generated_variables}
+
 Take IDE Screenshot
     [Documentation]    Captures a screenshot of the IDE window.
     [Arguments]        ${filename}=${NONE}    ${outputdir}=${NONE}
@@ -94,6 +105,14 @@ Click Into IDE
     FlaUILib.Click into IDE    ${editor}    ${position}
     Log    Clicked into IDE (editor=${editor}, position=${position})
 
+Send Inputs from List
+    [Documentation]    Sends each input with Press Key, followed by the delimiter.
+    [Arguments]        ${inputs}    ${delimiter}
+    FOR    ${input}    IN    @{inputs}
+        Press Key    ${input}
+        Press Key    ${delimiter}
+    END
+
 Close Editor
     [Documentation]    Closes the currently active editor, optionally saving changes.
     [Arguments]        ${save_changes}=True
@@ -106,3 +125,4 @@ Get ConfigTree Xpath
     ${xpath}=    FlaUILib.Get ConfigTree Xpath
     Log    Configuration tree item XPath: ${xpath}
     RETURN    ${xpath}
+

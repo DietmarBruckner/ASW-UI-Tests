@@ -264,6 +264,31 @@ class RobotFlaulib:
     def insert_from_toolbox(self, view, component_name, category=None, drag=False, xoffset=0, yoffset=0):
         return self._call("insert_from_toolbox", view=view, category=category, component_name=component_name, drag=self._to_bool(drag), xoffset=xoffset, yoffset=yoffset)
 
+    @keyword("Generate Program")
+    def generate_program(self, name, ab=False, ansi_c=False, ansi_cpp=False, cfc=False, cnc=False, fbd=False, il=False, ld=False, reaction=False, robot=False, sfc=False, stoop=False, st=False, all_in_one=False):
+        return self._call(
+            "generate_program",
+            name=name,
+            ab=self._to_bool(ab),
+            ansi_c=self._to_bool(ansi_c),
+            ansi_cpp=self._to_bool(ansi_cpp),
+            cfc=self._to_bool(cfc),
+            cnc=self._to_bool(cnc),
+            fbd=self._to_bool(fbd),
+            il=self._to_bool(il),
+            ld=self._to_bool(ld),
+            reaction=self._to_bool(reaction),
+            robot=self._to_bool(robot),
+            sfc=self._to_bool(sfc),
+            stoop=self._to_bool(stoop),
+            st=self._to_bool(st),
+            all_in_one=self._to_bool(all_in_one),
+        )
+
+    @keyword("Generate Variables")
+    def generate_variables(self, var_name, var_type, package=""):
+        return self._call("generate_variables", var_name=var_name, var_type=var_type, package=package)
+
     @keyword("Click into IDE")
     def click_into_ide(self, editor=False, position=False, position_x=0, position_y=0):
         return self._call("click_ide", editor=self._to_bool(editor), position=self._to_bool(position), position_x=position_x, position_y=position_y)

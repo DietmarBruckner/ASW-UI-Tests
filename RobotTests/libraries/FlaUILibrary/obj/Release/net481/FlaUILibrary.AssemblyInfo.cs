@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FlaUILibrary")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+666028f9eb5308e8ffa44d3c65ee591d5732eea6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56eb77f5adf1711991d3a838eed3aca136bf8297")]
 [assembly: System.Reflection.AssemblyProductAttribute("FlaUILibrary")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FlaUILibrary")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

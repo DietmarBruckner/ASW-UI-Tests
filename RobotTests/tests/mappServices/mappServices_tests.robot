@@ -35,14 +35,27 @@ Configure Basic Alarm System
     Expand and Click Tree Leaf    Configuration View     BR_${CPU_TYPE}|BR_mappServices
     Insert From ToolBox           Configuration View    Basic Alarm System
     Expand and Click Tree Leaf    Configuration View    BR_${CPU_TYPE}|BR_mappServices|BR_AlarmCore.mpalarmxcore
-    Expand and Click Tree Leaf             Workspace     rootname=BR_gAlarmXCore    editorname=e    tree_path=BR_General|BR_Enable Cockpit    shortcut=-1
-    Select From TreeComboBox               item_number=0
+    Expand and Click Tree Leaf    Workspace     rootname=BR_gAlarmXCore    editorname=e    tree_path=BR_General|BR_Enable Cockpit    shortcut=-1
+    Select From TreeComboBox      item_number=0
+    Expand and Click Tree Leaf    Workspace     rootname=BR_gAlarmXCore    editorname=e    tree_path=BR_General|BR_Enable OPC UA Interface    shortcut=-1
+    Select From TreeComboBox      item_number=0
     Close Editor
     Expand and Click Tree Leaf    Configuration View    BR_${CPU_TYPE}|BR_mappServices|BR_AlarmList.mpalarmxlist
-    Expand and Click Tree Leaf             Workspace     rootname=BR_gAlarmXList    editorname=e    tree_path=BR_Alarm List|BR_Alarm: |BR_Name  shortcut=-1    single_click=True
-    Press Key    t'test1'
-    Press Key    s'ENTER'
-    Expand and Click Tree Leaf             Workspace     rootname=BR_gAlarmXList    editorname=e    tree_path=BR_Alarm List|BR_Alarm: test1|BR_Behavior  shortcut=-1
-    Select From TreeComboBox               item_number=3
+    Expand and Click Tree Leaf    Workspace     rootname=BR_gAlarmXList    editorname=e    tree_path=BR_Alarm List|BR_Alarm: |BR_Name  shortcut=-1    single_click=True
+    Press Key                     t'test1'
+    Press Key                     s'ENTER'
+    Expand and Click Tree Leaf    Workspace     rootname=BR_gAlarmXList    editorname=e    tree_path=BR_Alarm List|BR_Alarm: test1|BR_Behavior  shortcut=-1
+    Select From TreeComboBox      item_number=3
     Close Editor
+    Generate Program              name=BasicAlarmSystemProgram    ansi_c=True
+    Expand and Click Tree Leaf    Logical View    BR_BasicAlarmSystemProgram|BR_Cyclic.c
+    Press Key                     s'CTRL+A'
+    Press Key                     s'DELETE'
+    ${myList}=    Create List     t'#include <bur/plctypes.h>'    t' '    t'#ifdef _DEFAULT_INCLUDES'    t'#include <AsDefault.h>'    t'#endif'    t' '    t'void _CYCLIC ProgramCyclic(void)'    t'{'    t'MpAlarmXCore_0.MpLink = &gAlarmXCore;'    t'MpAlarmXCore_0.Enable = 1;'    t'MpAlarmXCore(&MpAlarmXCore_0);'    t'}'
+    Send Inputs from List         ${myList}    s'ENTER'
+    Close Editor
+    Generate Variables            MpAlarmXCore_0   MpAlarmXCore    BasicAlarmSystemProgram
+    Close Editor
+    Build Project
     Stop FlaUI Server
+    Log    Basic Alarm System created

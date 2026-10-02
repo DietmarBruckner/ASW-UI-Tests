@@ -827,7 +827,27 @@ namespace FlaUILibrary.Util {
             s = Name + s.Substring(s.IndexOf("::"));
             e.Rename(s);
         }
-        public void GenerateVariables(Object o, out string [][] strings, string package = "") {
+        public void GenerateVariables(string var_name, string var_type, string package = "") {
+            if (package == string.Empty)
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_Global.var"}, out ActiveEditor);
+            else
+                TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.LogicalView, new List<string> { "BR_" + package, "BR_Variables.var"}, out ActiveEditor, Editorname:package + "::" + "Variables.var [Variable Declaration]", shortcut:0);
+            Mouse.Click(ActiveEditor.ConfigWorkspace.BoundingRectangle.Center());
+            AutomationElement configTree = ActiveEditor.ConfigWorkspace.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree));
+            Button newVariable = ActiveEditor.ConfigWorkspace.FindFirstChild(cf => cf.ByName("Variable Declaration")).FindFirstChild(cf => cf.ByName("Add Variable")).AsButton();
+            newVariable.Click();
+            
+            Keyboard.Type(var_name);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+            Sleep(TimeSpan.FromMilliseconds(300));
+            AutomationElement varVar = configTree.FindFirstChild(cf => cf.ByName("BR_" + var_name));
+            AutomationElement varType = varVar.FindFirstChild(cf => cf.ByName("BR_" + var_name + "_Type"));
+            varType.Click();
+            Keyboard.Type(var_type);
+            Keyboard.TypeVirtualKeyCode((ushort)FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
+        }
+        
+        /*public void GenerateVariables(Object o, out string [][] strings, string package = "") {
             Editor e;
             string [] sout;
             strings = new string[((Array) o).Length][];
@@ -888,7 +908,7 @@ namespace FlaUILibrary.Util {
                 strings[i] = sout;
                 i++;
             }
-        }
+        }*/
         public AutomationElement GetWorkspaceToolbar(string WindowSubString) {
             AutomationElement ConfigWorkspaceWindow = Workspace.FindAllChildren(cf => cf.ByControlType(ControlType.Window)).FirstOrDefault(cf => cf.Name.IndexOf(WindowSubString) >= 0);
             return ConfigWorkspaceWindow.FindAllChildren().First(cf => cf.ClassName.IndexOf("ToolBar") >= 0);

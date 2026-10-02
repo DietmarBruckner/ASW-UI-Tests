@@ -124,6 +124,8 @@ namespace FlaUILibrary
                     case "select_component_version":        return KwSelectComponentVersion(A("component_name"), A("version"));
                     case "get_window_title":                return new { result = IDE_Main.MainWindow?.Title ?? "" };
                     case "insert_from_toolbox":             return KwInsertFromToolbox(A("view"), A("category"), A("component_name"), Ab("drag", false), Ai("xoffset", 0), Ai("yoffset", 0));
+                    case "generate_program":                return KwGenerateProgram(A("name"), Ab("ab"), Ab("ansi_c"), Ab("ansi_cpp"), Ab("cfc"), Ab("cnc"), Ab("fbd"), Ab("il"), Ab("ld"), Ab("reaction"), Ab("robot"), Ab("sfc"), Ab("stoop"), Ab("st"), Ab("all_in_one"));
+                    case "generate_variables":              return KwGenerateVariables(A("var_name"), A("var_type"), A("package", ""));
                     case "add_role":                        return KwAddRole(A("rolename"), Ab("add_role", true));
                     case "add_user":                        return KwAddUser(A("username"), A("password"), A("role"), Ab("add_user", true));
                     case "close_active_editor":             return KwCloseActiveEditor(Ab("save_changes", true));
@@ -475,6 +477,63 @@ namespace FlaUILibrary
             TreeConfig.IdeMain.InsertObjectFromToolBox(vtype, cat, componentName, drag, point);
             return Util.Util.Ok("inserted_from_toolbox", componentName);
         }
+        private object KwGenerateProgram(string name, bool ab, bool ansiC, bool ansiCpp, bool cfc, bool cnc, bool fbd, bool il, bool ld, bool reaction, bool robot, bool sfc, bool stoop, bool st, bool allInOne) {
+            Ide_Main.GenerateProgram(name, ab, ansiC, ansiCpp, cfc, cnc, fbd, il, ld, reaction, robot, sfc, stoop, st, allInOne);
+            return Util.Util.Ok("program_generated", name);
+        }
+
+        private object KwGenerateVariables(string var_name, string var_type, string package) {
+            if (string.IsNullOrWhiteSpace(var_name))
+                return Util.Util.Err("var_name is required");
+            if (string.IsNullOrWhiteSpace(var_type))
+                return Util.Util.Err("var_type is required");
+
+            Ide_Main.GenerateVariables(var_name, var_type, package ?? "");
+            return Util.Util.Ok("var_generated", var_name);
+        }
+
+        /*private object KwGenerateVariables(JArray values, string valueType, string package) {
+            if (values == null)
+                return Util.Util.Err("values must be a JSON list");
+            if (string.IsNullOrWhiteSpace(valueType))
+                return Util.Util.Err("value_type is required");
+
+            bool nested = valueType.EndsWith("[]", StringComparison.Ordinal);
+            string scalarTypeName = nested ? valueType.Substring(0, valueType.Length - 2) : valueType;
+            Type scalarType;
+            switch (scalarTypeName.Trim().ToUpperInvariant()) {
+                case "BOOL": scalarType = typeof(bool); break;
+                case "USINT": scalarType = typeof(byte); break;
+                case "SINT": scalarType = typeof(sbyte); break;
+                case "UINT": scalarType = typeof(ushort); break;
+                case "INT": scalarType = typeof(short); break;
+                case "UDINT": scalarType = typeof(uint); break;
+                case "DINT": scalarType = typeof(int); break;
+                case "REAL": scalarType = typeof(float); break;
+                case "LREAL": scalarType = typeof(double); break;
+                case "DT": scalarType = typeof(DateTime); break;
+                default: return Util.Util.Err("Unsupported value_type: " + valueType);
+            }
+
+            Type itemType = nested ? scalarType.MakeArrayType() : scalarType;
+            Array typedValues = Array.CreateInstance(itemType, values.Count);
+            for (int index = 0; index < values.Count; index++) {
+                if (nested) {
+                    JArray nestedValues = values[index] as JArray;
+                    if (nestedValues == null)
+                        return Util.Util.Err("Each value must be a list when value_type ends with []");
+                    Array typedNestedValues = Array.CreateInstance(scalarType, nestedValues.Count);
+                    for (int nestedIndex = 0; nestedIndex < nestedValues.Count; nestedIndex++)
+                        typedNestedValues.SetValue(nestedValues[nestedIndex].ToObject(scalarType), nestedIndex);
+                    typedValues.SetValue(typedNestedValues, index);
+                }
+                else
+                    typedValues.SetValue(values[index].ToObject(scalarType), index);
+            }
+
+            Ide_Main.GenerateVariables(typedValues, out string[][] generatedVariables, package ?? "");
+            return new { result = generatedVariables };
+        }*/
         private object KwGetDialogText(string fieldLabel, string dialogTitle)
         {
             var dialog = dialogTitle != null ? GetModalWindow(dialogTitle) : (_modalWindows?.LastOrDefault() ?? IDE_Main.MainWindow);

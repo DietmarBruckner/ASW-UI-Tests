@@ -49,7 +49,7 @@ namespace FlaUILibrary.Util {
             TM611_6_Navigation();
             TreeConfig.IdeMain.Build();
             //CreatePageContentsShortcut();
-            TM611_8_Binding();
+            //TM611_8_Binding();
         }
         void CreatePageContentsShortcut() {
             int pageID = 0;
@@ -356,7 +356,7 @@ namespace FlaUILibrary.Util {
             SelectFromMappViewDropDown("Data", "navRefId", "navigation_0");
             navcontent_editor.Close();
         }
-        void TM611_8_Binding() {
+        /*void TM611_8_Binding() {
             Util.ConsoleOut(Util.Verbose.STEPS, "Inserting OPC UA/CS default view");
             TreeConfig.ActivateTreeLeaf(TreeConfig.ViewType.ConfigurationView, new List<string> { "BR_" + Project.CPU, "BR_Connectivity", "BR_OpcUaCs"}, out var e);
             TreeConfig.IdeMain.InsertObjectFromToolBox(TreeConfig.ViewType.ConfigurationView, "", "DefaultView");
@@ -443,7 +443,7 @@ namespace FlaUILibrary.Util {
                 doc = null;
                 e.Close();
             }
-        }
+        }*/
         string GetTextFromEditor() {
             Keyboard.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.CONTROL, FlaUI.Core.WindowsAPI.VirtualKeyShort.KEY_A);
             System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
