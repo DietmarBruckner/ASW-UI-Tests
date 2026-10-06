@@ -5,7 +5,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="Robot Framework 7.5 (Python 3.14.7 on win32)" name="Generator">
+<meta content="Robot Framework 7.4.2 (Python 3.14.3 on win32)" name="Generator">
 <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKcAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAqAAAAAAAAAAAAAAAAAAAALIAAAD/AAAA4AAAANwAAADcAAAA3AAAANwAAADcAAAA3AAAANwAAADcAAAA4AAAAP8AAACxAAAAAAAAAKYAAAD/AAAAuwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/AAAA/wAAAKkAAAD6AAAAzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN8AAAD/AAAA+gAAAMMAAAAAAAAAAgAAAGsAAABrAAAAawAAAGsAAABrAAAAawAAAGsAAABrAAAADAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAIsAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAANEAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAAAAAAAAMgAAADIAAAAyAAAAMgAAADIAAAAyAAAAMgAAADIAAAAFAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAADwAAAB8AAAAAAAAAGAAAABcAAAAAAAAAH8AAABKAAAAAAAAAAAAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAADCAAAA/wAAACkAAADqAAAA4QAAAAAAAAD7AAAA/wAAALAAAAAGAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAIwAAAP4AAAD/AAAA/wAAAGAAAAAAAAAAAAAAAMkAAAD/AAAAigAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAAAAAAAIAAAAcAAAABkAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAAAAAAAAA2gAAAP8AAAD7AAAAywAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN4AAAD/AAAAqwAAAP8AAACvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALIAAAD/AAAAsgAAAAAAAAC5AAAA/wAAAMoAAADAAAAAwAAAAMAAAADAAAAAwAAAAMAAAADAAAAAwAAAAMkAAAD/AAAAvAAAAAAAAAAAAAAAAAAAAKwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAArQAAAAAAAAAAwAMAAIABAAAf+AAAP/wAAD/8AAAgBAAAP/wAAD/8AAA//AAAJIwAADHEAAA//AAAP/wAAB/4AACAAQAAwAMAAA==">
 <style media="all">
 :root {
@@ -574,22 +574,6 @@ th.stats-col-graph:hover {
 .metadata td {
     vertical-align: top;
 }
-.metadata .tags {
-    display: flex;
-    flex-wrap: wrap;
-}
-.metadata .tags .label {
-    font-size: 1em;
-    margin: 0 7px 2px 0;
-    padding: 1px 5px;
-    letter-spacing: normal;
-}
-/* https://stackoverflow.com/questions/75238633 */
-@supports (-moz-appearance: none) {
-    .metadata .tags .label {
-        padding-top: 3px;
-    }
-}
 .keyword-metadata {
     font-size: 0.9em;
 }
@@ -1135,7 +1119,6 @@ window.model = (function () {
         test.fullName = data.parent.fullName + '.' + test.name;
         test.formatParentName = function () { return util.formatParentName(test); };
         test.timeout = data.timeout;
-        test.metadata = data.metadata;
         test.populateKeywords = createIterablePopulator('Keyword');
         test.childrenNames = ['keyword'];
         test.isChildrenLoaded = data.isChildrenLoaded;
@@ -1584,7 +1567,7 @@ window.testdata = function () {
             timeout: strings.get(element[3]),
             args: strings.get(element[5]),
             assign: strings.get(element[6]),
-            tags: tags(element[7], strings),
+            tags: strings.get(element[7]),
             doc: function () {
                 var doc = strings.get(element[4]);
                 this.doc = function () { return doc; };
@@ -1619,7 +1602,7 @@ window.testdata = function () {
         return util.map(taglist, strings.get);
     }
     function createTest(parent, element, strings, index) {
-        var status = element[5];
+        var status = element[4];
         var test = model.Test({
             parent: parent,
             id: 't' + (index + 1),
@@ -1630,7 +1613,6 @@ window.testdata = function () {
                 return doc;
             },
             timeout: strings.get(element[1]),
-            metadata: parseMetadata(element[4], strings),
             status: parseStatus(status),
             message: function () {
                 var msg = status.length == 4 ? strings.get(status[3]) : '';
@@ -1639,9 +1621,9 @@ window.testdata = function () {
             },
             times: model.Times(times(status)),
             tags: tags(element[3], strings),
-            isChildrenLoaded: typeof(element[6]) !== 'number'
+            isChildrenLoaded: typeof(element[5]) !== 'number'
         });
-        lazyPopulateKeywordsFromFile(test, element[6], strings);
+        lazyPopulateKeywordsFromFile(test, element[5], strings);
         return test;
     }
     function createSuite(parent, element, strings, index) {
@@ -2091,25 +2073,25 @@ storage = function () {
 window.output = {};
 </script>
 <script type="text/javascript">
-window.output["suite"] = [1,2,3,0,[],[0,0,16940],[[4,5,6,0,[],[0,32,16906],[[7,8,9,0,[],[0,35,16899],[[10,11,12,0,[],[0,38,16895],[[13,14,15,16,[],[0,41,16889],[],[[17,0,18,[],[],[0,6761,10163,19],[[0,20,21,0,22,0,0,[],[1,6765,8471],[[0,23,24,0,25,26,0,[],[1,6766,422],[[6767,2,27],[6786,2,28],[7188,2,29]]],[0,23,24,0,25,30,0,[],[1,7188,3044],[[7189,2,31],[7224,2,28],[10231,2,32],[10232,2,33]]],[0,34,35,0,36,37,0,[],[1,10233,5003],[[15234,2,38],[15235,2,39]]]]],[0,40,41,0,42,0,0,[],[1,15237,1075],[[0,40,43,0,0,44,0,[],[1,15238,1054],[]],[0,45,43,0,0,0,0,[],[1,16292,19],[]],[0,46,35,0,47,48,0,[],[1,16311,1],[[16311,2,48]]]]],[0,49,41,0,50,51,0,[],[0,16312,612],[[0,52,43,0,0,53,0,[],[0,16312,611],[[16919,5,19]]],[0,46,35,0,47,54,0,[],[3,16924,0],[]]]],[0,55,21,0,56,0,0,[],[3,16924,0],[]]]]],[],[1,0,1,0]]],[],[],[1,0,1,0]]],[],[],[1,0,1,0]]],[],[],[1,0,1,0]]],[],[],[1,0,1,0]];
+window.output["suite"] = [1,2,3,0,[],[0,0,46073],[[4,5,6,0,[],[0,33,46037],[[7,8,9,0,[],[0,39,46028],[[10,11,12,0,[],[0,51,46011],[[13,14,15,16,[],[0,54,46002],[],[[17,0,18,[19,20,21,22],[0,8924,31904,23],[[0,24,25,0,26,0,0,0,[1,8930,5663],[[0,27,28,0,29,30,0,0,[1,8931,327],[[8931,2,31],[8955,2,32],[9257,2,33]]],[0,27,28,0,29,34,0,0,[1,9258,331],[[9258,2,35],[9286,2,32],[9589,2,33]]],[0,36,37,0,38,39,0,0,[1,9589,5003],[[14590,2,40],[14591,2,41]]]]],[0,42,43,0,44,0,0,0,[1,14594,9336],[[0,42,45,0,0,46,0,0,[1,14595,9297],[]],[0,47,45,0,0,0,0,0,[1,23892,37],[]],[0,48,37,0,49,50,0,0,[1,23930,1],[[23930,2,50]]]]],[0,51,25,0,52,53,0,0,[0,23931,16894],[[0,54,43,0,55,56,0,0,[1,23931,1190],[[0,57,45,0,0,58,0,0,[1,23932,1188],[]],[0,48,37,0,49,59,0,0,[1,25120,1],[[25121,2,60]]]]],[0,61,45,0,0,62,63,0,[0,25122,15701],[]],[5,63,0,0,0,0,0,0,[3,40823,1],[[0,64,45,0,0,65,0,0,[3,40824,0],[]],[0,66,45,0,0,67,0,0,[3,40824,0],[]]]],[7,0,0,0,0,0,0,0,[3,40824,0],[[0,48,37,0,49,68,0,0,[3,40824,0],[]]]],[0,48,37,0,49,69,0,0,[3,40825,0],[]]]],[0,70,25,0,71,0,0,0,[3,40825,0],[]],[0,72,25,0,73,0,0,0,[3,40827,0],[]],[0,48,37,0,49,74,0,0,[3,40827,0],[]]]]],[[2,72,25,0,73,0,0,0,[1,40846,5209],[[0,27,28,0,29,30,0,0,[1,40847,206],[[40847,2,31],[40851,2,32],[41053,2,33]]],[0,36,37,0,38,75,0,0,[1,41053,5002],[[46054,2,40],[46055,2,76]]]]]],[1,0,1,0]]],[],[],[1,0,1,0]]],[],[],[1,0,1,0]]],[],[],[1,0,1,0]]],[],[],[1,0,1,0]];
 </script>
 <script type="text/javascript">
 window.output["strings"] = [];
 </script>
 <script type="text/javascript">
-window.output["strings"] = window.output["strings"].concat(["*","*ASW-UI-Tests","*C:\\projects\\Git\\ASW-UI-Tests","*..","*RobotTests","*C:\\projects\\Git\\ASW-UI-Tests\\RobotTests","*../RobotTests","*Tests","*C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\tests","*../RobotTests/tests","*mappMotion","*C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\tests\\mappMotion","*../RobotTests/tests/mappMotion","*mappMotion tests","*C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\tests\\mappMotion\\mappMotion_tests.robot","*../RobotTests/tests/mappMotion/mappMotion_tests.robot","*<p>First-wave test cases for mappMotion component configuration.\x3c/p>","*Add ACOPOS","*<p>Scenario: Add ACOPOS drive to the project\x3c/p>","*FlaUILibrary keyword 'activate_tree_leaf' failed: Der Objektverweis wurde nicht auf eine Objektinstanz festgelegt.","*Start FlaUI Server","*project_keywords","*<p>Starts the FlaUI server for IDE interactions.\x3c/p>","*Run Process","*Process","*<p>Runs a process and waits for it to complete.\x3c/p>","*powershell.exe    if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}    timeout=3s    on_timeout=continue","*Starting process:\npowershell.exe \"if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}\"","*Waiting for process to complete.","*Process completed.","*powershell.exe    if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){C:\\\\projects\\\\Git\\\\ASW-UI-Tests\\\\RobotTests\\\\keywords/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}    timeout=3s    on_timeout=continue","*Starting process:\npowershell.exe \"if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\keywords/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}\"","*Process did not complete in 3 seconds.","*Leaving process intact.","*Sleep","*BuiltIn","*<p>Pauses execution for the given time.\x3c/p>","*5s    Waiting for FlaUI server to start","*Slept 5 seconds.","*Waiting for FlaUI server to start","*Initialize Automation Studio","*ide_keywords","*<p>Launches (or attaches to) Automation Studio IDE and waits until ready.\x3c/p>","*FlaUILib","*${AS_DEFAULT_TIMEOUT}    ${AS_VERBOSE}","*Click into IDE","*Log","*<p>Logs the given message with the given level.\x3c/p>","*Automation Studio initialised.","*Expand and Click Tree Leaf","*<p>Expands a tree node and (double)-clicks a leaf node in the active tree.\x3c/p>","*Physical View    BR_X20CP1684|BR_PLK    shortcut=-1    single_click=True","*Activate Tree Leaf","eNpNzdEKgCAMBdBf6cH/ErGlI3MylxHiv5eg4N7O5V6makF45E3Qtv9UFQbQyYgfhh2FOJprFphIFiYmx+Yayp5Y7C2TGF0AbQPac0QHBljmnf3lYAHOSLF9QIczUQ==","*Double-clicked tree path: ${tree_path}","*Stop FlaUI Server","*<p>Stops the FlaUI server for IDE interactions.\x3c/p>","*Imported resource file 'C:\\projects\\Git\\ASW-UI-Tests\\config\\Automation Studio\\config.robot' is empty.","eNqVjb0KwlAMhV8lW6d2c+kmIuLgUhWXC6XWVCI155Ibwcf3toJ0dQmHnJ9vawYjURpkZCo2dYiGB/eewk48rI+X8rwvT5zyo8EV/pU+32cX4wEu0IVsZ6+yKVwQlEZRplVNDSe8rOc/UT10kPuS1b0ltbk77fxAN3AihRNn16sP/5dQ1A=="]);
+window.output["strings"] = window.output["strings"].concat(["*","*ASW-UI-Tests","*C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests","*..","*RobotTests","*C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests","*../RobotTests","*Tests","*C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\tests","*../RobotTests/tests","*mappServices","*C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\tests\\mappServices","*../RobotTests/tests/mappServices","*mappServices tests","*C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\tests\\mappServices\\mappServices_tests.robot","*../RobotTests/tests/mappServices/mappServices_tests.robot","*<p>Test cases for MappView component configuration and widget insertion.\x3c/p>","*Initialise MappServices Version","*<p>Scenario: Initialize mapp Services version Traceability ID: FW-MCT-C1 Component: MappServices Source Manual: Source Section: Evidence Type: Manual procedure Determinism: Deterministic UI path Preconditions: mappCockpit component available\x3c/p>","*configuration","*mappservices","*smoke","*trace:fw-mcp-c1","*Execution terminated by signal","*Start FlaUI Server","*project_keywords","*<p>Starts the FlaUI server for IDE interactions.\x3c/p>","*Run Process","*Process","*<p>Runs a process and waits for it to complete.\x3c/p>","*powershell.exe    if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}    timeout=3s    on_timeout=continue","*Starting process:\npowershell.exe \"if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}\"","*Waiting for process to complete.","*Process completed.","*powershell.exe    if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){C:\\\\Users\\\\ATDIBRU\\\\OneDrive - ABB\\\\projects\\\\ASW-UI-Tests\\\\RobotTests\\\\keywords/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}    timeout=3s    on_timeout=continue","*Starting process:\npowershell.exe \"if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\keywords/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}\"","*Sleep","*BuiltIn","*<p>Pauses the test executed for the given time.\x3c/p>","*5s    Waiting for FlaUI server to start","*Slept 5 seconds.","*Waiting for FlaUI server to start","*Initialize Automation Studio","*ide_keywords","*<p>Launches (or attaches to) Automation Studio IDE and waits until ready.\x3c/p>","*FlaUILib","*${AS_DEFAULT_TIMEOUT}    ${AS_VERBOSE}","*Click into IDE","*Log","*<p>Logs the given message with the given level.\x3c/p>","*Automation Studio initialised.","*Select Working Version for Component","*<p>Selects the component's version inside the Project - Change Runtime Version dialog.\x3c/p>","*mapp Services    ${DEFAULT_SERV_VERSION}","*Invoke IDE Menu","*<p>Clicks a top-level menu and optionally a menu/sub-menu item.\x3c/p>","*Project    Change Runtime Versions...","*Invoke Menu","*${menu_name}    ${menu_item}    ${submenu_item}","*Menu invoked: ${menu_name} &gt; ${menu_item} &gt; ${submenu_item}","*Menu invoked: Project &gt; Change Runtime Versions... &gt; None","*Wait For Dialog","*${CPU_TYPE} - Properties    15","*${dialog_appeared}","*Select Component Version","*${component_name}    ${working_version}","*Click Dialog Button","*OK    dialog_close=True","*No Change Runtime Versions dialog appeared.","*Working version selected: ${working_version}","*Build Project","*<p>Builds the active configuration and waits for completion.\x3c/p>","*Stop FlaUI Server","*<p>Stops the FlaUI server for IDE interactions.\x3c/p>","*MappServices version initialised","*5s    Waiting for FlaUI server to stop","*Waiting for FlaUI server to stop","*Imported resource file 'C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\config\\Automation Studio\\config.robot' is empty."]);
 </script>
 <script type="text/javascript">
-window.output["stats"] = [[{"elapsed":"00:00:10","fail":1,"label":"All Tests","pass":0,"skip":0}],[],[{"elapsed":"00:00:17","fail":1,"id":"s1","label":"ASW-UI-Tests","name":"ASW-UI-Tests","pass":0,"skip":0},{"elapsed":"00:00:17","fail":1,"id":"s1-s1","label":"ASW-UI-Tests.RobotTests","name":"RobotTests","pass":0,"skip":0},{"elapsed":"00:00:17","fail":1,"id":"s1-s1-s1","label":"ASW-UI-Tests.RobotTests.Tests","name":"Tests","pass":0,"skip":0},{"elapsed":"00:00:17","fail":1,"id":"s1-s1-s1-s1","label":"ASW-UI-Tests.RobotTests.Tests.mappMotion","name":"mappMotion","pass":0,"skip":0},{"elapsed":"00:00:17","fail":1,"id":"s1-s1-s1-s1-s1","label":"ASW-UI-Tests.RobotTests.Tests.mappMotion.mappMotion tests","name":"mappMotion tests","pass":0,"skip":0}]];
+window.output["stats"] = [[{"elapsed":"00:00:32","fail":1,"label":"All Tests","pass":0,"skip":0}],[{"elapsed":"00:00:32","fail":1,"label":"configuration","pass":0,"skip":0},{"elapsed":"00:00:32","fail":1,"label":"mappservices","pass":0,"skip":0},{"elapsed":"00:00:32","fail":1,"label":"smoke","pass":0,"skip":0},{"elapsed":"00:00:32","fail":1,"label":"trace:fw-mcp-c1","pass":0,"skip":0}],[{"elapsed":"00:00:46","fail":1,"id":"s1","label":"ASW-UI-Tests","name":"ASW-UI-Tests","pass":0,"skip":0},{"elapsed":"00:00:46","fail":1,"id":"s1-s1","label":"ASW-UI-Tests.RobotTests","name":"RobotTests","pass":0,"skip":0},{"elapsed":"00:00:46","fail":1,"id":"s1-s1-s1","label":"ASW-UI-Tests.RobotTests.Tests","name":"Tests","pass":0,"skip":0},{"elapsed":"00:00:46","fail":1,"id":"s1-s1-s1-s1","label":"ASW-UI-Tests.RobotTests.Tests.mappServices","name":"mappServices","pass":0,"skip":0},{"elapsed":"00:00:46","fail":1,"id":"s1-s1-s1-s1-s1","label":"ASW-UI-Tests.RobotTests.Tests.mappServices.mappServices tests","name":"mappServices tests","pass":0,"skip":0}]];
 </script>
 <script type="text/javascript">
-window.output["errors"] = [[72,3,57],[6754,4,58]];
+window.output["errors"] = [[168,3,77]];
 </script>
 <script type="text/javascript">
-window.output["baseMillis"] = 1791205758971;
+window.output["baseMillis"] = 1791292223932;
 </script>
 <script type="text/javascript">
-window.output["generated"] = 16944;
+window.output["generated"] = 46132;
 </script>
 <script type="text/javascript">
 window.output["expand_keywords"] = null;
@@ -2373,16 +2355,10 @@ function addExecutionLog(main) {
           <td class="doc">{{html doc()}}</td>
         </tr>
         {{/if}}
-        {{each metadata}}
-        <tr>
-          <th>{{html $value[0]}}:</th>
-          <td class="doc">{{html $value[1]}}</td>
-        </tr>
-        {{/each}}
         {{if tags.length}}
         <tr>
           <th>Tags:</th>
-          <td><div class="tags">{{each tags}}<span class="label">{{html $value}}</span>{{/each}}</div></td>
+          <td>{{html tags.join(', ')}}</td>
         </tr>
         {{/if}}
         {{if timeout}}
@@ -2435,10 +2411,10 @@ function addExecutionLog(main) {
           <td class="doc">{{html doc()}}</td>
         </tr>
         {{/if}}
-        {{if tags.length}}
+        {{if tags}}
         <tr>
           <th>Tags:</th>
-          <td><div class="tags">{{each tags}}<span class="label">{{html $value}}</span>{{/each}}</div></td>
+          <td>{{html tags}}</td>
         </tr>
         {{/if}}
         {{if timeout}}
