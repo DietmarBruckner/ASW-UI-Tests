@@ -25,11 +25,21 @@ Initialise mappMotion Component
     #Build Project
     #Log    mappMotion component initialized and project built
 
+    Start FlaUI Server
     Initialize Automation Studio
     Select Working Version for Component    mapp Motion     ${DEFAULT_MOT_VERSION}
     Build Project
+    Stop FlaUI Server
     Log    mappMotion version initialised
 
+
+Add ACOPOS
+    [Documentation]    Scenario: Add ACOPOS drive to the project
+    Start FlaUI Server
+    Initialize Automation Studio
+    #Switch To View Type    Physical View
+    Expand and Click Tree Leaf    Physical View     BR_X20CP1684|BR_PLK    shortcut=-1    single_click=True
+    Stop FlaUI Server
 
 Add Axis And Configure Basic Parameters
     [Documentation]    Scenario: Add axis and set base drive parameters

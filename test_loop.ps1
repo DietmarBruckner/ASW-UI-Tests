@@ -22,7 +22,7 @@ $runCounter = 0
 do
 {
     $runCounter++
-    $cpuType = $cpuTypes[($runCounter - 1) % $cpuTypes.Count]
+    $cpuType = $cpuTypes[0]#[($runCounter - 1) % $cpuTypes.Count]
     Write-Host ("Current run: " + $runCounter.ToString())
     Write-Host ("CPU type: " + $cpuType)
 
@@ -35,6 +35,7 @@ do
     robot --variable ("CPU_TYPE:" + $cpuType) --outputdir ($resultPath + "\" + $runCounter.ToString() + "\ar") ($testPath + "\RobotTests\tests\Automation Runtime\Automation Runtime.robot")
     robot --variable ("CPU_TYPE:" + $cpuType) --outputdir ($resultPath + "\" + $runCounter.ToString() + "\opcua") ($testPath + "\RobotTests\tests\OPC UA CS\OPC UA CS_tests.robot")
     robot --variable ("CPU_TYPE:" + $cpuType) --outputdir ($resultPath + "\" + $runCounter.ToString() + "\mappview") ($testPath + "\RobotTests\tests\mappview\mappView_tests.robot")
+    robot --variable ("CPU_TYPE:" + $cpuType) --outputdir ($resultPath + "\" + $runCounter.ToString() + "\mappservices") ($testPath + "\RobotTests\tests\mappServices\mappServices_tests.robot")
 
     #close AS
     robot --variable ("CPU_TYPE:" + $cpuType) --outputdir ($resultPath + "\" + $runCounter.ToString() + "\close_all") ($testPath + "\RobotTests\tests\close_all\close_all.robot")

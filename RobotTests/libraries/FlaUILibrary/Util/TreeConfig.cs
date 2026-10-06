@@ -151,6 +151,7 @@ namespace FlaUILibrary.Util {
                 case ViewType.ConfigurationView:    substr = "_Configuration"; break;
                 case ViewType.BindingWindow:        substr = "_Address Space"; break;
                 case ViewType.Workspace:            substr = "_Name"; break;
+                case ViewType.PhysicalView:          substr = "_Name"; break;
                 default:                            substr = ""; break;
             }
             if (leaves != null) {
@@ -176,6 +177,7 @@ namespace FlaUILibrary.Util {
                     ae = IdeMain.GetActiveConfigurtion();
                     break;
                 case ViewType.PhysicalView:
+                    ae = IdeMain.GetPhysicalViewRoot();
                     break;
                 case ViewType.BindingWindow:
                     AutomationElement Tab = root.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tab));

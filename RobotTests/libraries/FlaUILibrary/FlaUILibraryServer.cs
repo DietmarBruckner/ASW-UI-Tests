@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Capturing;
 using FlaUI.Core.Conditions;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
@@ -282,12 +283,13 @@ namespace FlaUILibrary
             return new Point(r.Left + r.Width / 2, r.Top + r.Height / 2);
         }
         private object KwClickDialogButton(string buttonName, string dialogTitle, bool dialogClose) {
-            Window dialog = dialogTitle != null ? GetModalWindow(dialogTitle) : (_modalWindows?.LastOrDefault()) ?? IDE_Main.MainWindow;
+            Window dialog = dialogTitle != null ? GetModalWindow(dialogTitle, 5) : (_modalWindows?.LastOrDefault()) ?? IDE_Main.MainWindow;
             if (dialog == null) return Util.Util.Err("Dialog not found: " + dialogTitle);
             var btn  = dialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(buttonName)))
                     ?? dialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(buttonName + " >")))
+                    ?? dialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId(buttonName)))
                     ?? dialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId(buttonName + " >")))
-                    ?? dialog.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByAutomationId(buttonName + " >")));
+                    ?? FindDialogButtonByOcr(dialog, buttonName);
             if (btn == null) return Util.Util.Err($"Button '{buttonName}' not found");
             btn.AsButton().Invoke(); Thread.Sleep(500);
             if (dialogClose) {
@@ -296,6 +298,31 @@ namespace FlaUILibrary
                 TreeConfig.ClickAutomationElement(IDE_Main.MainWindow.TitleBar);
             }
             return Util.Util.Ok("button_clicked", buttonName);
+        }
+        private static AutomationElement FindDialogButtonByOcr(Window dialog, string buttonName) {
+            string NormalizeCaption(string caption) => string.Join(" ", (caption ?? "")
+                .Replace("&", "").Trim().TrimEnd('>').Trim()
+                .Split((char[])null, StringSplitOptions.RemoveEmptyEntries));
+
+            string expectedCaption = NormalizeCaption(buttonName);
+            if (expectedCaption.Length == 0) return null;
+            var buttons = dialog.FindAllDescendants(cf => cf.ByControlType(ControlType.Button))
+                .Where(button => button.IsEnabled && !button.IsOffscreen && !button.BoundingRectangle.IsEmpty).ToArray();
+            if (buttons.Length == 0) return null;
+            string tessdata = Directory.GetDirectories(System.Environment.CurrentDirectory, "tessdata", SearchOption.AllDirectories)[0];
+            string captureFile = "C:\\Temp\\automation-studio-tests\\FlaUILibrary_OCR.png";
+            using (var engine = new Tesseract.TesseractEngine(tessdata, "eng", Tesseract.EngineMode.Default)) {
+                foreach (var button in buttons) {
+                    Capture.Element(button).ToFile(captureFile);
+                    var image = Tesseract.Pix.LoadFromFile(captureFile);
+                    var page = engine.Process(image);
+                    if (string.Equals(NormalizeCaption(page.GetText()), expectedCaption, StringComparison.OrdinalIgnoreCase))
+                        return button;
+                    page.Dispose();
+                }
+            }
+            File.Delete(captureFile);
+            return null;
         }
         private object KwFindAndSelectItem(string itemName, bool doubleclick = false) {
             Window dialog = _modalWindows?.Last() ?? IDE_Main.MainWindow;
@@ -329,6 +356,7 @@ namespace FlaUILibrary
             switch (viewType) {
                 case "Logical View":         vtype = TreeConfig.ViewType.LogicalView; break;
                 case "Configuration View":   vtype = TreeConfig.ViewType.ConfigurationView; break;
+                case "Physical View":        vtype = TreeConfig.ViewType.PhysicalView; break;
                 case "Binding Window":       vtype = TreeConfig.ViewType.BindingWindow; break;
                 case "Workspace":            vtype = TreeConfig.ViewType.Workspace; break;
                 default:                     vtype = TreeConfig.ViewType.LogicalView; break;

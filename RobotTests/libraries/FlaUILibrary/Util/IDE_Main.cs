@@ -511,6 +511,13 @@ namespace FlaUILibrary.Util {
             AutomationElement [] allConfigurations = treeElement.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
             return allConfigurations.First(cf => cf.Name.IndexOf("[Active]", StringComparison.OrdinalIgnoreCase) >= 0) ?? throw new Exception("Active configuration not found");
         }
+
+        public AutomationElement GetPhysicalViewRoot() {
+            SwitchView(TreeConfig.ViewType.PhysicalView);
+            AutomationElement treeElement = ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tree).And(cf.ByAutomationId("treeView")));
+            AutomationElement [] allConfigurations = treeElement.FindAllChildren(cf => cf.ByControlType(ControlType.TreeItem));
+            return allConfigurations[0];
+        }
         public AutomationElement GetLogicalViewRoot(AppProject project) {
             SwitchView(TreeConfig.ViewType.LogicalView);
             return ProjectExplorer.FindFirstDescendant(cf => cf.ByControlType(ControlType.TreeItem).And(cf.ByName("BR_" + project.Name.Substring(0, project.Name.IndexOf(".")))));
@@ -626,7 +633,7 @@ namespace FlaUILibrary.Util {
             AutomationElement componentsListView = componentsTab.FindFirstDescendant(cf => cf.ByControlType(ControlType.DataGrid));
             AutomationElement [] componentItems = componentsListView.FindAllDescendants(cf => cf.ByControlType(ControlType.DataItem));
             AutomationElement componentItem = null;
-            using (var engine = new TesseractEngine(System.Environment.CurrentDirectory + "\\Util\\tessdata", "eng", EngineMode.Default)) {
+            using (var engine = new TesseractEngine(Directory.GetDirectories(System.Environment.CurrentDirectory, "tessdata", SearchOption.AllDirectories)[0], "eng", EngineMode.Default)) {
                 if (componentName == "Automation Runtime") {
                     componentItem = componentItems.FirstOrDefault(c => c.Name.IndexOf(".ArCfg", StringComparison.OrdinalIgnoreCase) >= 0);
                 }

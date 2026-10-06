@@ -25,9 +25,13 @@ Create New Project In Automation Studio
     [Arguments]        ${project_name}    ${project_path}    ${config_name}=${PROJECT_DEFAULT_CONFIG_NAME}    ${cpu_type}=${CPU_TYPE}    ${working_version}=${AS_WORKING_VERSION}
     Initialize Automation Studio
     Click Into IDE
-    Sleep    5s
-    Press Key    s'ESC'    #Dismiss the crash reporter in case it popped up
-    Sleep    5s
+    Sleep    2s
+    TRY
+        FlaUILib.Click Dialog Button    Keep report    Diagnostics Reporter    False    #Dismiss the crash reporter in case it popped up, but keep the report
+    EXCEPT
+        Log    Crash reporter not found, continuing.
+    END
+    Sleep    2s
     Invoke IDE Menu                    File    New Project...
     FlaUILib.Wait For Dialog           New Project
     FlaUILib.Type Into Dialog Field    projectNameTextBox         ${project_name}
