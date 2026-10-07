@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <robot generator="Robot 7.5 (Python 3.14.7 on win32)" generated="2026-10-07T09:59:48.037778" rpa="false" schemaversion="5">
 <suite id="s1" name="ASW-UI-Tests" source="C:\projects\Git\ASW-UI-Tests">
 <suite id="s1-s1" name="RobotTests" source="C:\projects\Git\ASW-UI-Tests\RobotTests">
@@ -12,11 +13,27 @@
 powershell.exe "if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}"</msg>
 <msg time="2026-10-07T09:59:49.343097" level="INFO">Waiting for process to complete.</msg>
 <msg time="2026-10-07T09:59:49.544251" level="INFO">Process completed.</msg>
+=======
+<robot generator="Robot 7.4.2 (Python 3.14.3 on win32)" generated="2026-10-06T15:35:50.078168" rpa="false" schemaversion="5">
+<suite id="s1" name="ASW-UI-Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests">
+<suite id="s1-s1" name="RobotTests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests">
+<suite id="s1-s1-s1" name="Tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests">
+<suite id="s1-s1-s1-s1" name="mappMotion" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\mappMotion">
+<suite id="s1-s1-s1-s1-s1" name="mappMotion tests" source="C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\mappMotion\mappMotion_tests.robot">
+<test id="s1-s1-s1-s1-s1-t1" name="Initialise mappMotion Component" line="11">
+<kw name="Start FlaUI Server" owner="project_keywords">
+<kw name="Run Process" owner="Process">
+<msg time="2026-10-06T15:35:55.392630" level="INFO">Starting process:
+powershell.exe "if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}"</msg>
+<msg time="2026-10-06T15:35:55.423436" level="INFO">Waiting for process to complete.</msg>
+<msg time="2026-10-06T15:35:55.625179" level="INFO">Process completed.</msg>
+>>>>>>> 48a0f0ed5424fafdc9dadafcb54665dc5ce665ed
 <arg>powershell.exe</arg>
 <arg>if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}</arg>
 <arg>timeout=3s</arg>
 <arg>on_timeout=continue</arg>
 <doc>Runs a process and waits for it to complete.</doc>
+<<<<<<< HEAD
 <status status="PASS" start="2026-10-07T09:59:49.317747" elapsed="0.226749"/>
 </kw>
 <kw name="Run Process" owner="Process">
@@ -25,11 +42,21 @@ powershell.exe "if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyCont
 <msg time="2026-10-07T09:59:49.564219" level="INFO">Waiting for process to complete.</msg>
 <msg time="2026-10-07T09:59:52.577198" level="INFO">Process did not complete in 3 seconds.</msg>
 <msg time="2026-10-07T09:59:52.578030" level="INFO">Leaving process intact.</msg>
+=======
+<status status="PASS" start="2026-10-06T15:35:55.392213" elapsed="0.233402"/>
+</kw>
+<kw name="Run Process" owner="Process">
+<msg time="2026-10-06T15:35:55.626402" level="INFO">Starting process:
+powershell.exe "if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\keywords/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}"</msg>
+<msg time="2026-10-06T15:35:55.656310" level="INFO">Waiting for process to complete.</msg>
+<msg time="2026-10-06T15:35:55.960026" level="INFO">Process completed.</msg>
+>>>>>>> 48a0f0ed5424fafdc9dadafcb54665dc5ce665ed
 <arg>powershell.exe</arg>
-<arg>if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\keywords/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}</arg>
+<arg>if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){C:\\Users\\ATDIBRU\\OneDrive - ABB\\projects\\ASW-UI-Tests\\RobotTests\\keywords/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}</arg>
 <arg>timeout=3s</arg>
 <arg>on_timeout=continue</arg>
 <doc>Runs a process and waits for it to complete.</doc>
+<<<<<<< HEAD
 <status status="PASS" start="2026-10-07T09:59:49.544786" elapsed="3.033778"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
@@ -42,11 +69,26 @@ powershell.exe "if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyCont
 </kw>
 <doc>Starts the FlaUI server for IDE interactions.</doc>
 <status status="PASS" start="2026-10-07T09:59:49.317030" elapsed="8.266496"/>
+=======
+<status status="PASS" start="2026-10-06T15:35:55.625900" elapsed="0.334790"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-10-06T15:36:00.962818" level="INFO">Slept 5 seconds.</msg>
+<msg time="2026-10-06T15:36:00.963352" level="INFO">Waiting for FlaUI server to start</msg>
+<arg>5s</arg>
+<arg>Waiting for FlaUI server to start</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2026-10-06T15:35:55.961338" elapsed="5.002246"/>
+</kw>
+<doc>Starts the FlaUI server for IDE interactions.</doc>
+<status status="PASS" start="2026-10-06T15:35:55.391459" elapsed="5.572340"/>
+>>>>>>> 48a0f0ed5424fafdc9dadafcb54665dc5ce665ed
 </kw>
 <kw name="Initialize Automation Studio" owner="ide_keywords">
 <kw name="Initialize Automation Studio" owner="FlaUILib">
 <arg>${AS_DEFAULT_TIMEOUT}</arg>
 <arg>${AS_VERBOSE}</arg>
+<<<<<<< HEAD
 <status status="PASS" start="2026-10-07T09:59:57.585465" elapsed="0.798448"/>
 </kw>
 <kw name="Click into IDE" owner="FlaUILib">
@@ -568,15 +610,96 @@ press_only and release_only supports key shortcut only, not text.</doc>
 </kw>
 <doc>Closes the currently active editor, optionally saving changes.</doc>
 <status status="PASS" start="2026-10-07T10:00:40.739746" elapsed="1.536983"/>
+=======
+<status status="PASS" start="2026-10-06T15:36:00.965627" elapsed="9.561448"/>
+</kw>
+<kw name="Click into IDE" owner="FlaUILib">
+<status status="PASS" start="2026-10-06T15:36:10.527293" elapsed="0.041931"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-06T15:36:10.569872" level="INFO">Automation Studio initialised.</msg>
+<arg>Automation Studio initialised.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-06T15:36:10.569480" elapsed="0.000592"/>
+</kw>
+<doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
+<status status="PASS" start="2026-10-06T15:36:00.964511" elapsed="9.605681"/>
+</kw>
+<kw name="Select Working Version for Component" owner="project_keywords">
+<kw name="Invoke IDE Menu" owner="ide_keywords">
+<kw name="Invoke Menu" owner="FlaUILib">
+<arg>${menu_name}</arg>
+<arg>${menu_item}</arg>
+<arg>${submenu_item}</arg>
+<status status="PASS" start="2026-10-06T15:36:10.573093" elapsed="1.197599"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-06T15:36:11.771291" level="INFO">Menu invoked: Project &gt; Change Runtime Versions... &gt; None</msg>
+<arg>Menu invoked: ${menu_name} &gt; ${menu_item} &gt; ${submenu_item}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-06T15:36:11.770926" elapsed="0.000574"/>
+</kw>
+<arg>Project</arg>
+<arg>Change Runtime Versions...</arg>
+<doc>Clicks a top-level menu and optionally a menu/sub-menu item.</doc>
+<status status="PASS" start="2026-10-06T15:36:10.572427" elapsed="1.199188"/>
+</kw>
+<kw name="Wait For Dialog" owner="FlaUILib">
+<msg time="2026-10-06T15:36:16.966389" level="INFO">${dialog_appeared} = True</msg>
+<var>${dialog_appeared}</var>
+<arg>${CPU_TYPE} - Properties</arg>
+<arg>15</arg>
+<status status="PASS" start="2026-10-06T15:36:11.771744" elapsed="5.194983"/>
+</kw>
+<if>
+<branch type="IF" condition="${dialog_appeared}">
+<kw name="Select Component Version" owner="FlaUILib">
+<arg>${component_name}</arg>
+<arg>${working_version}</arg>
+<status status="PASS" start="2026-10-06T15:36:16.967474" elapsed="1.134201"/>
+</kw>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>OK</arg>
+<arg>dialog_close=True</arg>
+<status status="PASS" start="2026-10-06T15:36:18.102085" elapsed="13.134421"/>
+</kw>
+<status status="PASS" start="2026-10-06T15:36:16.967038" elapsed="14.269612"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>No Change Runtime Versions dialog appeared.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-10-06T15:36:31.236912" elapsed="0.000104"/>
+</kw>
+<status status="NOT RUN" start="2026-10-06T15:36:31.236706" elapsed="0.000379"/>
+</branch>
+<status status="PASS" start="2026-10-06T15:36:16.966989" elapsed="14.270129"/>
+</if>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-06T15:36:31.237482" level="INFO">Working version selected: 6.7.2</msg>
+<arg>Working version selected: ${working_version}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-06T15:36:31.237206" elapsed="0.000499"/>
+</kw>
+<arg>mapp Motion</arg>
+<arg>${DEFAULT_MOT_VERSION}</arg>
+<doc>Selects the component's version inside the Project - Change Runtime Version dialog.</doc>
+<status status="PASS" start="2026-10-06T15:36:10.571173" elapsed="20.666629"/>
+>>>>>>> 48a0f0ed5424fafdc9dadafcb54665dc5ce665ed
 </kw>
 <kw name="Build Project" owner="project_keywords">
 <kw name="Click Toolbar Button" owner="FlaUILib">
 <arg>Build Configuration</arg>
+<<<<<<< HEAD
 <status status="PASS" start="2026-10-07T10:00:42.277456" elapsed="0.831886"/>
+=======
+<status status="PASS" start="2026-10-06T15:36:31.238515" elapsed="0.548774"/>
+>>>>>>> 48a0f0ed5424fafdc9dadafcb54665dc5ce665ed
 </kw>
 <kw name="Wait For Message" owner="FlaUILib">
 <arg>Build:</arg>
 <arg>${timeout}</arg>
+<<<<<<< HEAD
 <status status="PASS" start="2026-10-07T10:00:43.109555" elapsed="26.454973"/>
 </kw>
 <kw name="Wait For Dialog" owner="FlaUILib">
@@ -585,20 +708,37 @@ press_only and release_only supports key shortcut only, not text.</doc>
 <arg>Build Project</arg>
 <arg>${timeout}</arg>
 <status status="PASS" start="2026-10-07T10:01:09.564767" elapsed="2.538465"/>
+=======
+<status status="PASS" start="2026-10-06T15:36:31.787551" elapsed="19.524268"/>
+</kw>
+<kw name="Wait For Dialog" owner="FlaUILib">
+<msg time="2026-10-06T15:36:55.918921" level="INFO">${dialog_appeared} = True</msg>
+<var>${dialog_appeared}</var>
+<arg>Build Project</arg>
+<arg>${timeout}</arg>
+<status status="PASS" start="2026-10-06T15:36:51.312042" elapsed="4.607111"/>
+>>>>>>> 48a0f0ed5424fafdc9dadafcb54665dc5ce665ed
 </kw>
 <if>
 <branch type="IF" condition="${dialog_appeared}">
 <kw name="Click Dialog Button" owner="FlaUILib">
 <arg>Don't Transfer</arg>
 <arg>dialog_close=True</arg>
+<<<<<<< HEAD
 <status status="PASS" start="2026-10-07T10:01:12.103621" elapsed="3.541154"/>
 </kw>
 <status status="PASS" start="2026-10-07T10:01:12.103417" elapsed="3.541691"/>
+=======
+<status status="PASS" start="2026-10-06T15:36:55.919678" elapsed="2.785613"/>
+</kw>
+<status status="PASS" start="2026-10-06T15:36:55.919341" elapsed="2.786090"/>
+>>>>>>> 48a0f0ed5424fafdc9dadafcb54665dc5ce665ed
 </branch>
 <branch type="ELSE">
 <kw name="Log" owner="BuiltIn">
 <arg>No Transfer dialog appeared.</arg>
 <doc>Logs the given message with the given level.</doc>
+<<<<<<< HEAD
 <status status="NOT RUN" start="2026-10-07T10:01:15.645790" elapsed="0.000238"/>
 </kw>
 <status status="NOT RUN" start="2026-10-07T10:01:15.645235" elapsed="0.001013"/>
@@ -620,11 +760,35 @@ press_only and release_only supports key shortcut only, not text.</doc>
 powershell.exe "if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}"</msg>
 <msg time="2026-10-07T10:01:15.652566" level="INFO">Waiting for process to complete.</msg>
 <msg time="2026-10-07T10:01:15.854272" level="INFO">Process completed.</msg>
+=======
+<status status="NOT RUN" start="2026-10-06T15:36:58.705668" elapsed="0.000101"/>
+</kw>
+<status status="NOT RUN" start="2026-10-06T15:36:58.705471" elapsed="0.000367"/>
+</branch>
+<status status="PASS" start="2026-10-06T15:36:55.919314" elapsed="2.786565"/>
+</if>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-06T15:36:58.706203" level="INFO">Project build complete</msg>
+<arg>Project build complete</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-06T15:36:58.705958" elapsed="0.000435"/>
+</kw>
+<doc>Builds the active configuration and waits for completion.</doc>
+<status status="PASS" start="2026-10-06T15:36:31.238202" elapsed="27.468293"/>
+</kw>
+<kw name="Stop FlaUI Server" owner="project_keywords">
+<kw name="Run Process" owner="Process">
+<msg time="2026-10-06T15:36:58.707499" level="INFO">Starting process:
+powershell.exe "if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}"</msg>
+<msg time="2026-10-06T15:36:58.711458" level="INFO">Waiting for process to complete.</msg>
+<msg time="2026-10-06T15:36:59.014281" level="INFO">Process completed.</msg>
+>>>>>>> 48a0f0ed5424fafdc9dadafcb54665dc5ce665ed
 <arg>powershell.exe</arg>
 <arg>if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}</arg>
 <arg>timeout=3s</arg>
 <arg>on_timeout=continue</arg>
 <doc>Runs a process and waits for it to complete.</doc>
+<<<<<<< HEAD
 <status status="PASS" start="2026-10-07T10:01:15.648575" elapsed="0.206000"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
@@ -656,22 +820,85 @@ powershell.exe "if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyCont
 <status status="PASS" start="2026-10-07T09:59:48.071881" elapsed="92.798508"/>
 </suite>
 <status status="PASS" start="2026-10-07T09:59:48.042044" elapsed="92.832415"/>
+=======
+<status status="PASS" start="2026-10-06T15:36:58.707156" elapsed="0.307640"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-10-06T15:37:04.015761" level="INFO">Slept 5 seconds.</msg>
+<msg time="2026-10-06T15:37:04.016301" level="INFO">Waiting for FlaUI server to stop</msg>
+<arg>5s</arg>
+<arg>Waiting for FlaUI server to stop</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2026-10-06T15:36:59.015056" elapsed="5.001819"/>
+</kw>
+<doc>Stops the FlaUI server for IDE interactions.</doc>
+<status status="PASS" start="2026-10-06T15:36:58.706840" elapsed="5.310353"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-06T15:37:04.018892" level="INFO">mappMotion version initialised</msg>
+<arg>mappMotion version initialised</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-06T15:37:04.017925" elapsed="0.001378"/>
+</kw>
+<doc>Scenario: Initialize mappMotion component in a clean project
+Traceability ID: FW-MOTION-E0
+Component: mappMotion
+Source Manual: agents/TM415TRE.492-ENG_Introduction_to_mapp_Axis_V3004.md
+Source Section: 4.1 Configuring the single axis
+Evidence Type: Manual procedure
+Determinism: Deterministic UI path
+Preconditions: Automation Studio starts and project wizard is available</doc>
+<tag>configuration</tag>
+<tag>mappmotion</tag>
+<tag>smoke</tag>
+<tag>trace:fw-motion-e0</tag>
+<tag>trace:sec-4.1</tag>
+<tag>trace:tm415</tag>
+<status status="PASS" start="2026-10-06T15:35:55.383689" elapsed="68.636167"/>
+</test>
+<doc>First-wave test cases for mappMotion component configuration.</doc>
+<status status="PASS" start="2026-10-06T15:35:50.120749" elapsed="73.912400"/>
+</suite>
+<status status="PASS" start="2026-10-06T15:35:50.115545" elapsed="73.939400"/>
+</suite>
+<status status="PASS" start="2026-10-06T15:35:50.112891" elapsed="73.947574"/>
+</suite>
+<status status="PASS" start="2026-10-06T15:35:50.109678" elapsed="73.959432"/>
+</suite>
+<status status="PASS" start="2026-10-06T15:35:50.082382" elapsed="74.021715"/>
+>>>>>>> 48a0f0ed5424fafdc9dadafcb54665dc5ce665ed
 </suite>
 <statistics>
 <total>
 <stat pass="1" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
+<stat pass="1" fail="0" skip="0">configuration</stat>
+<stat pass="1" fail="0" skip="0">mappmotion</stat>
+<stat pass="1" fail="0" skip="0">smoke</stat>
+<stat pass="1" fail="0" skip="0">trace:fw-motion-e0</stat>
+<stat pass="1" fail="0" skip="0">trace:sec-4.1</stat>
+<stat pass="1" fail="0" skip="0">trace:tm415</stat>
 </tag>
 <suite>
 <stat name="ASW-UI-Tests" id="s1" pass="1" fail="0" skip="0">ASW-UI-Tests</stat>
 <stat name="RobotTests" id="s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests</stat>
 <stat name="Tests" id="s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests</stat>
+<<<<<<< HEAD
 <stat name="mappControl" id="s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.mappControl</stat>
 <stat name="mappControl tests" id="s1-s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.mappControl.mappControl tests</stat>
 </suite>
 </statistics>
 <errors>
 <msg time="2026-10-07T09:59:48.115909" level="WARN">Imported resource file 'C:\projects\Git\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+=======
+<stat name="mappMotion" id="s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.mappMotion</stat>
+<stat name="mappMotion tests" id="s1-s1-s1-s1-s1" pass="1" fail="0" skip="0">ASW-UI-Tests.RobotTests.Tests.mappMotion.mappMotion tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2026-10-06T15:35:50.170200" level="WARN">Imported resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+<msg time="2026-10-06T15:35:55.376083" level="ERROR">Error in file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\tests\mappMotion\mappMotion_tests.robot' on line 5: Resource file 'C:\Users\ATDIBRU\OneDrive - ABB\projects\ASW-UI-Tests\RobotTests\config\mappMotion\axis_profiles.robot' does not exist.</msg>
+>>>>>>> 48a0f0ed5424fafdc9dadafcb54665dc5ce665ed
 </errors>
 </robot>
