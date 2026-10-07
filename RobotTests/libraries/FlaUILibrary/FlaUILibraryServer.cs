@@ -490,6 +490,7 @@ namespace FlaUILibrary
             switch (view) {
                 case "Logical View":         vtype = TreeConfig.ViewType.LogicalView; break;
                 case "Configuration View":   vtype = TreeConfig.ViewType.ConfigurationView; break;
+                case "Physical View":        vtype = TreeConfig.ViewType.PhysicalView; break;
                 case "Binding Window":       vtype = TreeConfig.ViewType.BindingWindow; break;
                 case "Workspace":            vtype = TreeConfig.ViewType.Workspace; break;
                 default:                     vtype = TreeConfig.ViewType.LogicalView; break;
