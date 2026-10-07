@@ -29,7 +29,7 @@ Insert mapp View with Default Template
     Log                                    mappView inserted with default template
 
 Navigate To mapp View
-    [Documentation]    Navigates to the DefaultView node under OpcUa in the Configuration View
+    [Documentation]    Navigates to the mappView node in the Configuration or Logical View
     [Arguments]        ${logical view}=False
     IF   ${logical view}
         Expand and Click Tree Leaf         Logical View      BR_mappView
@@ -124,4 +124,30 @@ Add User in User.user
 
 
 # ── Convenience ───────────────────────────────────────────────────────────────
+
+# ── mappMotion ─────────────────────────────────────────────────────────
+
+Insert ACOPOS Drive
+    [Documentation]    Inserts an ACOPOS drive to the PLK interface.
+    [Arguments]        ${Model}    ${NumAxis}    ${IFname}    ${Motor1}    ${Motor2}    ${Motor3}
+    Expand and Click Tree Leaf                 Physical View     BR_PLK    shortcut=0    single_click=True
+    Insert From ToolBox                        Physical View     ${Model}
+    ${dialog_appeared}=    FlaUILib.Wait For Dialog    New Drive    10
+    IF    ${dialog_appeared}
+        FlaUILib.Type Into Dialog Field        searchTermTextBox         ${IFname}
+        FlaUILib.Click Dialog Button           Next
+        FlaUILib.Type Into Dialog Field        searchTermTextBox         ${Motor1}
+        IF     ${NumAxis} >= 2
+            FlaUILib.Click Dialog Button       Next
+            FlaUILib.Type Into Dialog Field    searchTermTextBox         ${Motor2}
+        END
+        IF     ${NumAxis} >= 3
+            FlaUILib.Click Dialog Button       Next
+            FlaUILib.Type Into Dialog Field    searchTermTextBox         ${Motor3}
+        END
+        FlaUILib.Click Dialog Button           Finish      dialog_close=True
+    ELSE
+        Log                                    No new drive dialog appeared.
+    END
+    Log                                        ACOPOS drive inserted with default template
 

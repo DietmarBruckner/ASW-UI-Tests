@@ -167,7 +167,7 @@ namespace FlaUILibrary.Util {
                 case ViewType.LogicalView:
                     ae = IdeMain.GetLogicalViewRoot(CurrentProject);
                     if (shortcut == -1)
-                        ClickConfigTreeItem(viewType, ae, "_Object Name", true);
+                        ClickConfigTreeItem(viewType, ae, substr, true);
                     if (leaves == null) {
                         editor = e;
                         return;
@@ -178,6 +178,7 @@ namespace FlaUILibrary.Util {
                     break;
                 case ViewType.PhysicalView:
                     ae = IdeMain.GetPhysicalViewRoot();
+                    ClickConfigTreeItem(viewType, ae, substr, false);
                     break;
                 case ViewType.BindingWindow:
                     AutomationElement Tab = root.FindFirstDescendant(cf => cf.ByControlType(ControlType.Tab));

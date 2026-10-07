@@ -2,7 +2,7 @@
 Documentation       First-wave test cases for mappMotion component configuration.
 Resource            ${CURDIR}/../../keywords/project_keywords.robot
 Resource            ${CURDIR}/../../keywords/motion_keywords.robot
-Resource            ${CURDIR}/../../config/mappMotion/axis_profiles.robot
+Resource            ${CURDIR}/../../../config/mappMotion/axis_profiles.robot
 #Suite Teardown      Close Automation Studio    save_changes=False
 
 
@@ -18,16 +18,10 @@ Initialise mappMotion Component
     ...                Determinism: Deterministic UI path
     ...                Preconditions: Automation Studio starts and project wizard is available
     [Tags]              mappmotion    configuration    smoke    trace:fw-motion-e0    trace:tm415    trace:sec-4.1
-    #${project_name}=    Set Variable    Motion_Init
-    #${project_path}=    Set Variable    ${PROJECT_TEMP_PATH}${project_name}
-    #Create New Project In Automation Studio    ${project_name}    ${project_path}
-    #Initialize MappMotion Component
-    #Build Project
-    #Log    mappMotion component initialized and project built
-
     Start FlaUI Server
     Initialize Automation Studio
     Select Working Version for Component    mapp Motion     ${DEFAULT_MOT_VERSION}
+    Verify Working Version For Component    mappMotion      ${DEFAULT_MOT_VERSION}
     Build Project
     Stop FlaUI Server
     Log    mappMotion version initialised
@@ -37,10 +31,10 @@ Add ACOPOS
     [Documentation]    Scenario: Add ACOPOS drive to the project
     Start FlaUI Server
     Initialize Automation Studio
-    #Switch To View Type    Physical View
-    Expand and Click Tree Leaf    Physical View     BR_X20CP1684|BR_PLK    shortcut=-1    single_click=True
+    Insert ACOPOS Drive             8EI8X8HWT10.xxxx-1    3     8EAC0150.003-1		8LSA57.DB030S100-3    8LSA57.DB030S100-3    8LSA57.DB030S100-3
     Stop FlaUI Server
 
+*** Comments ***
 Add Axis And Configure Basic Parameters
     [Documentation]    Scenario: Add axis and set base drive parameters
     ...                Traceability ID: FW-MOTION-E1
