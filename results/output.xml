@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.5 (Python 3.14.7 on win32)" generated="2026-10-08T13:03:29.998087" rpa="false" schemaversion="5">
+<suite id="s1" name="ASW-UI-Tests" source="C:\projects\Git\ASW-UI-Tests">
+<suite id="s1-s1" name="RobotTests" source="C:\projects\Git\ASW-UI-Tests\RobotTests">
+<suite id="s1-s1-s1" name="Tests" source="C:\projects\Git\ASW-UI-Tests\RobotTests\tests">
+<suite id="s1-s1-s1-s1" name="mappMotion" source="C:\projects\Git\ASW-UI-Tests\RobotTests\tests\mappMotion">
+<suite id="s1-s1-s1-s1-s1" name="mappMotion tests" source="C:\projects\Git\ASW-UI-Tests\RobotTests\tests\mappMotion\mappMotion_tests.robot">
+<test id="s1-s1-s1-s1-s1-t1" name="Add ACOPOS" line="31">
+<kw name="Start FlaUI Server" owner="project_keywords" type="SETUP">
+<if>
+<branch type="IF" condition="${DEBUGGING}">
+<kw name="Log" owner="BuiltIn">
+<arg>Starting debug FlaUI server (manually in VS code)...</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-10-08T13:03:35.915374" elapsed="0.000106"/>
+</kw>
+<status status="NOT RUN" start="2026-10-08T13:03:35.914800" elapsed="0.000777"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run Process" owner="Process">
+<msg time="2026-10-08T13:03:35.916116" level="INFO">Starting process:
+powershell.exe "if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}"</msg>
+<msg time="2026-10-08T13:03:35.940639" level="INFO">Waiting for process to complete.</msg>
+<msg time="2026-10-08T13:03:36.142098" level="INFO">Process completed.</msg>
+<arg>powershell.exe</arg>
+<arg>if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}</arg>
+<arg>timeout=3s</arg>
+<arg>on_timeout=continue</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<status status="PASS" start="2026-10-08T13:03:35.915764" elapsed="0.226645"/>
+</kw>
+<kw name="Run Process" owner="Process">
+<msg time="2026-10-08T13:03:36.143119" level="INFO">Starting process:
+powershell.exe "if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){C:\projects\Git\ASW-UI-Tests\RobotTests\keywords/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}"</msg>
+<msg time="2026-10-08T13:03:36.173185" level="INFO">Waiting for process to complete.</msg>
+<msg time="2026-10-08T13:03:39.190597" level="INFO">Process did not complete in 3 seconds.</msg>
+<msg time="2026-10-08T13:03:39.190807" level="INFO">Leaving process intact.</msg>
+<arg>powershell.exe</arg>
+<arg>if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){C:\\projects\\Git\\ASW-UI-Tests\\RobotTests\\keywords/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}</arg>
+<arg>timeout=3s</arg>
+<arg>on_timeout=continue</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<status status="PASS" start="2026-10-08T13:03:36.142671" elapsed="3.048473"/>
+</kw>
+<status status="PASS" start="2026-10-08T13:03:35.915619" elapsed="3.275704"/>
+</branch>
+<status status="PASS" start="2026-10-08T13:03:35.914776" elapsed="3.276613"/>
+</if>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-10-08T13:03:44.192618" level="INFO">Slept 5 seconds.</msg>
+<msg time="2026-10-08T13:03:44.192874" level="INFO">Waiting for FlaUI server to start</msg>
+<arg>5s</arg>
+<arg>Waiting for FlaUI server to start</arg>
+<doc>Pauses execution for the given time.</doc>
+<status status="PASS" start="2026-10-08T13:03:39.191572" elapsed="5.001448"/>
+</kw>
+<doc>Starts the FlaUI server for IDE interactions.</doc>
+<status status="PASS" start="2026-10-08T13:03:35.914470" elapsed="8.278714"/>
+</kw>
+<kw name="Initialize Automation Studio" owner="ide_keywords">
+<kw name="Initialize Automation Studio" owner="FlaUILib">
+<arg>${AS_DEFAULT_TIMEOUT}</arg>
+<arg>${AS_VERBOSE}</arg>
+<status status="PASS" start="2026-10-08T13:03:44.194065" elapsed="0.769512"/>
+</kw>
+<kw name="Click into IDE" owner="FlaUILib">
+<status status="PASS" start="2026-10-08T13:03:44.963787" elapsed="0.027341"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-08T13:03:44.991727" level="INFO">Automation Studio initialised.</msg>
+<arg>Automation Studio initialised.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-08T13:03:44.991402" elapsed="0.000479"/>
+</kw>
+<doc>Launches (or attaches to) Automation Studio IDE and waits until ready.</doc>
+<status status="PASS" start="2026-10-08T13:03:44.193573" elapsed="0.798425"/>
+</kw>
+<kw name="Insert ACOPOS Drive" owner="component_keywords">
+<kw name="Expand and Click Tree Leaf" owner="ide_keywords">
+<kw name="Activate Tree Leaf" owner="FlaUILib">
+<arg>${viewtype}</arg>
+<arg>${tree_path}</arg>
+<arg>${editorname}</arg>
+<arg>${rootname}</arg>
+<arg>${program}</arg>
+<arg>${shortcut}</arg>
+<arg>${single_click}</arg>
+<arg>${filename}</arg>
+<arg>${filetree}</arg>
+<arg>${version}</arg>
+<status status="PASS" start="2026-10-08T13:03:44.993292" elapsed="2.609627"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-10-08T13:03:47.603508" level="INFO">Double-clicked tree path: BR_PLK</msg>
+<arg>Double-clicked tree path: ${tree_path}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-10-08T13:03:47.603177" elapsed="0.000492"/>
+</kw>
+<arg>Physical View</arg>
+<arg>BR_PLK</arg>
+<arg>shortcut=0</arg>
+<arg>single_click=True</arg>
+<doc>Expands a tree node and (double)-clicks a leaf node in the active tree.</doc>
+<status status="PASS" start="2026-10-08T13:03:44.992894" elapsed="2.610882"/>
+</kw>
+<kw name="Insert From ToolBox" owner="project_keywords">
+<kw name="Insert From Toolbox" owner="FlaUILib">
+<msg time="2026-10-08T13:03:52.637554" level="FAIL">FlaUILibrary keyword 'insert_from_toolbox' failed: 8EI8X8HWTxxx10.xxxx-1 element not found
+Error screenshot: C:\projects\Git\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\bin\Release\net481\error-screenshots\error_20261008_110352_440_f0d02cf6c5ca45e49ff36d6c4a4f7a25.png</msg>
+<arg>${view}</arg>
+<arg>${component_name}</arg>
+<arg>${category}</arg>
+<arg>${drag}</arg>
+<arg>${xoffset}</arg>
+<arg>${yoffset}</arg>
+<status status="FAIL" start="2026-10-08T13:03:47.604292" elapsed="5.037352">FlaUILibrary keyword 'insert_from_toolbox' failed: 8EI8X8HWTxxx10.xxxx-1 element not found
+Error screenshot: C:\projects\Git\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\bin\Release\net481\error-screenshots\error_20261008_110352_440_f0d02cf6c5ca45e49ff36d6c4a4f7a25.png</status>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<arg>Inserted from Toolbox: ${component_name}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-10-08T13:03:52.641921" elapsed="0.000114"/>
+</kw>
+<arg>Physical View</arg>
+<arg>${Model}</arg>
+<doc>Inserts a component from the Toolbox into the project by double-clicking it.</doc>
+<status status="FAIL" start="2026-10-08T13:03:47.603948" elapsed="5.038218">FlaUILibrary keyword 'insert_from_toolbox' failed: 8EI8X8HWTxxx10.xxxx-1 element not found
+Error screenshot: C:\projects\Git\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\bin\Release\net481\error-screenshots\error_20261008_110352_440_f0d02cf6c5ca45e49ff36d6c4a4f7a25.png</status>
+</kw>
+<kw name="Wait For Dialog" owner="FlaUILib">
+<var>${dialog_appeared}</var>
+<arg>New Drive</arg>
+<arg>10</arg>
+<status status="NOT RUN" start="2026-10-08T13:03:52.642305" elapsed="0.000077"/>
+</kw>
+<if>
+<branch type="IF" condition="${dialog_appeared}">
+<kw name="Type Into Dialog Field" owner="FlaUILib">
+<arg>searchTermTextBox</arg>
+<arg>${IFname}</arg>
+<status status="NOT RUN" start="2026-10-08T13:03:52.642583" elapsed="0.000064"/>
+</kw>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Next</arg>
+<status status="NOT RUN" start="2026-10-08T13:03:52.642751" elapsed="0.000061"/>
+</kw>
+<kw name="Type Into Dialog Field" owner="FlaUILib">
+<arg>searchTermTextBox</arg>
+<arg>${Motor1}</arg>
+<status status="NOT RUN" start="2026-10-08T13:03:52.642908" elapsed="0.000057"/>
+</kw>
+<if>
+<branch type="IF" condition="${NumAxis} &gt;= 2">
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Next</arg>
+<status status="NOT RUN" start="2026-10-08T13:03:52.643145" elapsed="0.000070"/>
+</kw>
+<kw name="Type Into Dialog Field" owner="FlaUILib">
+<arg>searchTermTextBox</arg>
+<arg>${Motor2}</arg>
+<status status="NOT RUN" start="2026-10-08T13:03:52.643319" elapsed="0.000061"/>
+</kw>
+<status status="NOT RUN" start="2026-10-08T13:03:52.643040" elapsed="0.000402"/>
+</branch>
+<status status="NOT RUN" start="2026-10-08T13:03:52.643027" elapsed="0.000446"/>
+</if>
+<if>
+<branch type="IF" condition="${NumAxis} &gt;= 3">
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Next</arg>
+<status status="NOT RUN" start="2026-10-08T13:03:52.643598" elapsed="0.000061"/>
+</kw>
+<kw name="Type Into Dialog Field" owner="FlaUILib">
+<arg>searchTermTextBox</arg>
+<arg>${Motor3}</arg>
+<status status="NOT RUN" start="2026-10-08T13:03:52.643754" elapsed="0.000059"/>
+</kw>
+<status status="NOT RUN" start="2026-10-08T13:03:52.643508" elapsed="0.000358"/>
+</branch>
+<status status="NOT RUN" start="2026-10-08T13:03:52.643498" elapsed="0.000395"/>
+</if>
+<kw name="Click Dialog Button" owner="FlaUILib">
+<arg>Finish</arg>
+<arg>dialog_close=True</arg>
+<status status="NOT RUN" start="2026-10-08T13:03:52.643947" elapsed="0.000058"/>
+</kw>
+<status status="NOT RUN" start="2026-10-08T13:03:52.642479" elapsed="0.001578"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" owner="BuiltIn">
+<arg>No new drive dialog appeared.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-10-08T13:03:52.644206" elapsed="0.000067"/>
+</kw>
+<status status="NOT RUN" start="2026-10-08T13:03:52.644081" elapsed="0.000250"/>
+</branch>
+<status status="NOT RUN" start="2026-10-08T13:03:52.642461" elapsed="0.001895"/>
+</if>
+<kw name="Log" owner="BuiltIn">
+<arg>ACOPOS drive inserted with default template</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-10-08T13:03:52.644450" elapsed="0.000064"/>
+</kw>
+<arg>8EI8X8HWTxxx10.xxxx-1</arg>
+<arg>3</arg>
+<arg>8EAC0150.003-1</arg>
+<arg>8LSA57.DB030S100-3</arg>
+<arg>8LSA57.DB030S100-3</arg>
+<arg>8LSA57.DB030S100-3</arg>
+<doc>Inserts an ACOPOS drive to the PLK interface.</doc>
+<status status="FAIL" start="2026-10-08T13:03:44.992517" elapsed="7.652095">FlaUILibrary keyword 'insert_from_toolbox' failed: 8EI8X8HWTxxx10.xxxx-1 element not found
+Error screenshot: C:\projects\Git\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\bin\Release\net481\error-screenshots\error_20261008_110352_440_f0d02cf6c5ca45e49ff36d6c4a4f7a25.png</status>
+</kw>
+<kw name="Stop FlaUI Server" owner="project_keywords" type="TEARDOWN">
+<if>
+<branch type="IF" condition="${DEBUGGING}">
+<kw name="Log" owner="BuiltIn">
+<arg>Stopping debug FlaUI server (manually in VS code)...</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-10-08T13:03:52.645541" elapsed="0.000082"/>
+</kw>
+<status status="NOT RUN" start="2026-10-08T13:03:52.645344" elapsed="0.000345"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run Process" owner="Process">
+<msg time="2026-10-08T13:03:52.646146" level="INFO">Starting process:
+powershell.exe "if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}"</msg>
+<msg time="2026-10-08T13:03:52.649486" level="INFO">Waiting for process to complete.</msg>
+<msg time="2026-10-08T13:03:52.850866" level="INFO">Process completed.</msg>
+<arg>powershell.exe</arg>
+<arg>if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}</arg>
+<arg>timeout=3s</arg>
+<arg>on_timeout=continue</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<status status="PASS" start="2026-10-08T13:03:52.645837" elapsed="0.205280"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-10-08T13:03:57.851897" level="INFO">Slept 5 seconds.</msg>
+<msg time="2026-10-08T13:03:57.852119" level="INFO">Waiting for FlaUI server to stop</msg>
+<arg>5s</arg>
+<arg>Waiting for FlaUI server to stop</arg>
+<doc>Pauses execution for the given time.</doc>
+<status status="PASS" start="2026-10-08T13:03:52.851369" elapsed="5.000834"/>
+</kw>
+<status status="PASS" start="2026-10-08T13:03:52.645718" elapsed="5.206726"/>
+</branch>
+<status status="PASS" start="2026-10-08T13:03:52.645330" elapsed="5.207197"/>
+</if>
+<doc>Stops the FlaUI server for IDE interactions.</doc>
+<status status="PASS" start="2026-10-08T13:03:52.645069" elapsed="5.207546"/>
+</kw>
+<doc>Scenario: Add ACOPOS drive to the project</doc>
+<status status="FAIL" start="2026-10-08T13:03:35.911143" elapsed="21.942101">FlaUILibrary keyword 'insert_from_toolbox' failed: 8EI8X8HWTxxx10.xxxx-1 element not found
+Error screenshot: C:\projects\Git\ASW-UI-Tests\RobotTests\libraries\FlaUILibrary\bin\Release\net481\error-screenshots\error_20261008_110352_440_f0d02cf6c5ca45e49ff36d6c4a4f7a25.png</status>
+</test>
+<kw name="Stop FlaUI Server" owner="project_keywords" type="TEARDOWN">
+<if>
+<branch type="IF" condition="${DEBUGGING}">
+<kw name="Log" owner="BuiltIn">
+<arg>Stopping debug FlaUI server (manually in VS code)...</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" start="2026-10-08T13:03:57.863167" elapsed="0.000084"/>
+</kw>
+<status status="NOT RUN" start="2026-10-08T13:03:57.862942" elapsed="0.000380"/>
+</branch>
+<branch type="ELSE">
+<kw name="Run Process" owner="Process">
+<msg time="2026-10-08T13:03:57.863820" level="INFO">Starting process:
+powershell.exe "if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}"</msg>
+<msg time="2026-10-08T13:03:57.871701" level="INFO">Waiting for process to complete.</msg>
+<msg time="2026-10-08T13:03:58.073514" level="INFO">Process completed.</msg>
+<arg>powershell.exe</arg>
+<arg>if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}</arg>
+<arg>timeout=3s</arg>
+<arg>on_timeout=continue</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<status status="PASS" start="2026-10-08T13:03:57.863485" elapsed="0.210456"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2026-10-08T13:04:03.075772" level="INFO">Slept 5 seconds.</msg>
+<msg time="2026-10-08T13:04:03.076475" level="INFO">Waiting for FlaUI server to stop</msg>
+<arg>5s</arg>
+<arg>Waiting for FlaUI server to stop</arg>
+<doc>Pauses execution for the given time.</doc>
+<status status="PASS" start="2026-10-08T13:03:58.074439" elapsed="5.002382"/>
+</kw>
+<status status="PASS" start="2026-10-08T13:03:57.863355" elapsed="5.213586"/>
+</branch>
+<status status="PASS" start="2026-10-08T13:03:57.862924" elapsed="5.214052"/>
+</if>
+<doc>Stops the FlaUI server for IDE interactions.</doc>
+<status status="PASS" start="2026-10-08T13:03:57.862691" elapsed="5.214325"/>
+</kw>
+<doc>First-wave test cases for mappMotion component configuration.</doc>
+<status status="FAIL" start="2026-10-08T13:03:30.046105" elapsed="33.030987"/>
+</suite>
+<status status="FAIL" start="2026-10-08T13:03:30.037805" elapsed="33.043645"/>
+</suite>
+<status status="FAIL" start="2026-10-08T13:03:30.035378" elapsed="33.048577"/>
+</suite>
+<status status="FAIL" start="2026-10-08T13:03:30.032438" elapsed="33.053643"/>
+</suite>
+<status status="FAIL" start="2026-10-08T13:03:30.002357" elapsed="33.094692"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="ASW-UI-Tests" id="s1" pass="0" fail="1" skip="0">ASW-UI-Tests</stat>
+<stat name="RobotTests" id="s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests</stat>
+<stat name="Tests" id="s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests</stat>
+<stat name="mappMotion" id="s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.mappMotion</stat>
+<stat name="mappMotion tests" id="s1-s1-s1-s1-s1" pass="0" fail="1" skip="0">ASW-UI-Tests.RobotTests.Tests.mappMotion.mappMotion tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2026-10-08T13:03:30.076811" level="WARN">Imported resource file 'C:\projects\Git\ASW-UI-Tests\config\Automation Studio\config.robot' is empty.</msg>
+</errors>
+</robot>

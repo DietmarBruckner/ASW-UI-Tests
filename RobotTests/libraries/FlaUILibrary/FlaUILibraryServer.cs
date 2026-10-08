@@ -58,7 +58,7 @@ namespace FlaUILibrary
                     _ = Task.Run(() => HandleRequest(context));
                 }
                 catch (HttpListenerException) { break; }
-                catch (Exception ex) { Console.WriteLine("Listener loop error: " + ex.Message); }
+                catch (Exception ex) { Console.WriteLine("Listener loop error: " + ex.ToString()); }
             }
         }
         private void HandleRequest(HttpListenerContext context) {
@@ -103,10 +103,12 @@ namespace FlaUILibrary
             if (payload.Property("error") != null ||
                 (string)payload["result"] == "crashed")
             {
-                TrySaveErrorScreenshot();
+                var screenshotPath = TrySaveErrorScreenshot();
+                if (screenshotPath != null)
+                    payload["screenshot"] = screenshotPath;
             }
 
-            return result;
+            return payload;
         }
         private object ExecuteKeywordCore(string keyword, JObject args) {
             if (_appCrashed)
@@ -673,7 +675,7 @@ namespace FlaUILibrary
             return new { result = "saved", path = fullPath };
         }
 
-        private void TrySaveErrorScreenshot()
+        private string TrySaveErrorScreenshot()
         {
             try
             {
@@ -690,10 +692,12 @@ namespace FlaUILibrary
                 }
 
                 Console.WriteLine("Error screenshot: " + path);
+                return path;
             }
             catch (Exception screenshotError)
             {
                 Console.WriteLine("Screenshot failed: " + screenshotError.Message);
+                return null;
             }
         }
 
