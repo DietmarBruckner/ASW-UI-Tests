@@ -32,7 +32,6 @@ Add ACOPOS
     [Documentation]    Scenario: Add ACOPOS drive to the project
     Initialize Automation Studio
     Insert ACOPOS Drive             8EI8X8HWT10.xxxx-1    3     8EAC0150.003-1		8LSA57.DB030S100-3    8LSA57.DB030S100-3    8LSA57.DB030S100-3
-    Stop FlaUI Server
 
 *** Comments ***
 Add Axis And Configure Basic Parameters
