@@ -95,7 +95,20 @@ namespace FlaUILibrary
             catch (Exception ex) { Console.WriteLine("HandleRequest error: " + ex.Message); }
         }
 
-        private object ExecuteKeyword(string keyword, JObject args) {
+        private object ExecuteKeyword(string keyword, JObject args)
+        {
+            var result = ExecuteKeywordCore(keyword, args);
+            var payload = JObject.FromObject(result);
+
+            if (payload.Property("error") != null ||
+                (string)payload["result"] == "crashed")
+            {
+                TrySaveErrorScreenshot();
+            }
+
+            return result;
+        }
+        private object ExecuteKeywordCore(string keyword, JObject args) {
             if (_appCrashed)
                 return Util.Util.Err("CRASH: " + _crashDetail);
             try {
@@ -658,6 +671,30 @@ namespace FlaUILibrary
                 bmp.Save(fullPath, System.Drawing.Imaging.ImageFormat.Png);
             }
             return new { result = "saved", path = fullPath };
+        }
+
+        private void TrySaveErrorScreenshot()
+        {
+            try
+            {
+                var directory = Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory, "error-screenshots");
+                Directory.CreateDirectory(directory);
+
+                var path = Path.Combine(directory,
+                    $"error_{DateTime.UtcNow:yyyyMMdd_HHmmss_fff}_{Guid.NewGuid():N}.png");
+
+                using (var image = Capture.Screen())
+                {
+                    image.ToFile(path);
+                }
+
+                Console.WriteLine("Error screenshot: " + path);
+            }
+            catch (Exception screenshotError)
+            {
+                Console.WriteLine("Screenshot failed: " + screenshotError.Message);
+            }
         }
 
         // ── Crash monitoring ─────────────────────────────────────────────────

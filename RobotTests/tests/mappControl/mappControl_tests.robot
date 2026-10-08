@@ -5,7 +5,9 @@ Resource            ${CURDIR}/../../keywords/widget_keywords.robot
 Resource            ${CURDIR}/../../keywords/widget_property_keywords.robot
 Library             FlaUILibrary    uia=UIA2
 
-#Suite Teardown      Close Automation Studio    save_changes=False
+Suite Teardown      Stop FlaUI Server
+Test Setup          Start FlaUI Server
+Test Teardown       Stop FlaUI Server
 
 
 *** Test Cases ***
@@ -27,7 +29,6 @@ Initialise MappControl Version
 
 
 Configure Temp Control System
-    Start FlaUI Server
     Initialize Automation Studio
     Expand and Click Tree Leaf    Configuration View     BR_${CPU_TYPE}|BR_mappControl
     Insert From ToolBox           Configuration View    Temperature Controller
@@ -46,5 +47,4 @@ Configure Temp Control System
     Generate Variables            tempPar   MpTempControllerParType    TempControl
     Close Editor
     Build Project
-    Stop FlaUI Server
     Log    Basic Temp Control created

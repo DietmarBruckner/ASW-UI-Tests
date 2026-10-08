@@ -6,6 +6,8 @@ Resource            ${CURDIR}/../../keywords/widget_property_keywords.robot
 Library             FlaUILibrary    uia=UIA2
 
 Suite Teardown      Stop FlaUI Server
+Test Setup          Start FlaUI Server
+Test Teardown       Stop FlaUI Server
 
 
 *** Test Cases ***
@@ -20,13 +22,11 @@ Initialise MappView Version
     ...                Determinism: Deterministic UI path
     ...                Preconditions: mappView component available
     [Tags]             mappview    configuration    smoke    trace:fw-mview-c1
-    Start FlaUI Server
     Initialize Automation Studio
     Select Working Version for Component    mapp View     ${VIEW_VERSION}
     Verify Working Version For Component    mappView      ${VIEW_VERSION}
     Insert mapp View with Default Template
     Build Project
-    Stop FlaUI Server
     Log    mappView version initialised
 
 
@@ -40,7 +40,6 @@ Configure MappView Server
     ...                Determinism: Deterministic UI path
     ...                Preconditions: mappView component is available in project
     [Tags]             mappview    configuration    smoke    trace:fw-mview-d1    trace:tm611    trace:sec-3.2
-    Start FlaUI Server
     Initialize Automation Studio
     Navigate To mapp View
     Insert From ToolBox                    Configuration View    mapp View Configuration
@@ -52,7 +51,6 @@ Configure MappView Server
     Select From TreeComboBox               item_number=2
     Close Editor
     Build Project
-    Stop FlaUI Server
     Log    MappView configured with protocol and startup user
 
 Insert and Configure Localization
@@ -65,7 +63,6 @@ Insert and Configure Localization
     ...                Determinism: Deterministic UI path
     ...                Preconditions: mappView component is available in project
     [Tags]             mappview    configuration    localization    trace:fw-mview-d2    trace:tm611    trace:sec-11
-    Start FlaUI Server
     Initialize Automation Studio
     Navigate To mapp View                  logical view=True
     Insert From ToolBox                    Logical View    Project Languages
@@ -101,7 +98,6 @@ Insert and Configure Localization
     FlaUILib.Click Toolbar Button          Save All
     Close Editor
     Build Project
-    Stop FlaUI Server
     Log    Localization resource inserted and configured
 
 Prepare Layout for Widget Pages
@@ -114,7 +110,6 @@ Prepare Layout for Widget Pages
     ...                Determinism: Deterministic UI path
     ...                Preconditions: mappView component available and configured
     [Tags]             mappview    configuration    trace:fw-mview-c2    trace:tm611    trace:sec-5.4
-    Start FlaUI Server
     Initialize Automation Studio
     Navigate To mapp View                  logical view=True
     Expand and Click Tree Leaf             Logical View    BR_mappView    shortcut=0
@@ -194,7 +189,6 @@ Prepare Layout for Widget Pages
     FlaUILib.Click Toolbar Button          Save All
     Close Editor
     Build Project
-    Stop FlaUI Server
     Log    Layout and navigation prepared for widget page tests
 
 *** Comments ***

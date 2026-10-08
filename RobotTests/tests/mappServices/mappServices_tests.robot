@@ -6,6 +6,8 @@ Resource            ${CURDIR}/../../keywords/widget_property_keywords.robot
 Library             FlaUILibrary    uia=UIA2
 
 Suite Teardown      Stop FlaUI Server
+Test Setup          Start FlaUI Server
+Test Teardown       Stop FlaUI Server
 
 
 *** Test Cases ***
@@ -20,17 +22,13 @@ Initialise MappServices Version
     ...                Determinism: Deterministic UI path
     ...                Preconditions: mappCockpit component available
     [Tags]             mappservices    configuration    smoke    trace:fw-mcp-c1
-    Start FlaUI Server
     Initialize Automation Studio
     Select Working Version for Component    mapp Services     ${DEFAULT_SERV_VERSION}
-    #Insert mapp View with Default Template
     Build Project
-    Stop FlaUI Server
     Log    MappServices version initialised
 
 
 Configure Basic Alarm System
-    Start FlaUI Server
     Initialize Automation Studio
     Expand and Click Tree Leaf    Configuration View     BR_${CPU_TYPE}|BR_mappServices
     Insert From ToolBox           Configuration View    Basic Alarm System
@@ -57,5 +55,4 @@ Configure Basic Alarm System
     Generate Variables            MpAlarmXCore_0   MpAlarmXCore    BasicAlarmSystemProgram
     Close Editor
     Build Project
-    Stop FlaUI Server
     Log    Basic Alarm System created
