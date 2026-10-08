@@ -23,6 +23,7 @@ Initialise mappMotion Component
     [Tags]              mappmotion    configuration    smoke    trace:fw-motion-e0    trace:tm415    trace:sec-4.1
     Initialize Automation Studio
     Select Working Version for Component    mapp Motion     ${DEFAULT_MOT_VERSION}
+    Verify Working Version For Component    mappMotion      ${DEFAULT_MOT_VERSION}
     Build Project
     Log    mappMotion version initialised
 
@@ -30,8 +31,8 @@ Initialise mappMotion Component
 Add ACOPOS
     [Documentation]    Scenario: Add ACOPOS drive to the project
     Initialize Automation Studio
-    Expand and Click Tree Leaf    Physical View     BR_PLK    shortcut=0    single_click=True
-    Insert From ToolBox    Physical View    8EI8X8HWT10.xxxx-1
+    Insert ACOPOS Drive             8EI8X8HWT10.xxxx-1    3     8EAC0150.003-1		8LSA57.DB030S100-3    8LSA57.DB030S100-3    8LSA57.DB030S100-3
+    Stop FlaUI Server
 
 *** Comments ***
 Add Axis And Configure Basic Parameters
