@@ -1,0 +1,12 @@
+# Reports
+/results/*
+*.html
+*.xml
+
+# Python
+__pycache__/
+*.pyc
+
+# Build Artifacts
+*/build/*
+*/release/*
