@@ -74,3 +74,4 @@ ${TEST_LOG_LEVEL}                   INFO
 ${SCREENSHOT_ON_FAILURE}            True
 ${CAPTURE_IDE_STATE_ON_ERROR}       True
 ${TARGET_CONTROLLER_IP}             192.168.1.10
+${DEBUGGING}                        False

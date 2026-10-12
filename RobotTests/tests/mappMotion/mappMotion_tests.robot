@@ -2,8 +2,11 @@
 Documentation       First-wave test cases for mappMotion component configuration.
 Resource            ${CURDIR}/../../keywords/project_keywords.robot
 Resource            ${CURDIR}/../../keywords/motion_keywords.robot
-Resource            ${CURDIR}/../../../../config/mappMotion/axis_profiles.robot
-#Suite Teardown      Close Automation Studio    save_changes=False
+Resource            ${CURDIR}/../../../config/mappMotion/axis_profiles.robot
+
+Suite Teardown      Stop FlaUI Server
+Test Setup          Start FlaUI Server
+Test Teardown       Stop FlaUI Server
 
 
 *** Test Cases ***
@@ -18,21 +21,17 @@ Initialise mappMotion Component
     ...                Determinism: Deterministic UI path
     ...                Preconditions: Automation Studio starts and project wizard is available
     [Tags]              mappmotion    configuration    smoke    trace:fw-motion-e0    trace:tm415    trace:sec-4.1
-    Start FlaUI Server
     Initialize Automation Studio
     Select Working Version for Component    mapp Motion     ${DEFAULT_MOT_VERSION}
     Verify Working Version For Component    mappMotion      ${DEFAULT_MOT_VERSION}
     Build Project
-    Stop FlaUI Server
     Log    mappMotion version initialised
 
 
 Add ACOPOS
     [Documentation]    Scenario: Add ACOPOS drive to the project
-    Start FlaUI Server
     Initialize Automation Studio
     Insert ACOPOS Drive             8EI8X8HWT10.xxxx-1    3     8EAC0150.003-1		8LSA57.DB030S100-3    8LSA57.DB030S100-3    8LSA57.DB030S100-3
-    Stop FlaUI Server
 
 *** Comments ***
 Add Axis And Configure Basic Parameters

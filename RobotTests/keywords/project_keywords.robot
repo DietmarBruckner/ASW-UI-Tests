@@ -10,14 +10,23 @@ Resource            ${CURDIR}/ide_keywords.robot
 *** Keywords ***
 Start FlaUI Server
     [Documentation]    Starts the FlaUI server for IDE interactions.
-    Run Process    powershell.exe     if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}    timeout=3s    on_timeout=continue
-    Run Process    powershell.exe     if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){${CURDIR}/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}    timeout=3s    on_timeout=continue
+    IF    ${DEBUGGING}
+        Log    Starting debug FlaUI server (manually in VS code)...
+    ELSE
+        Run Process    powershell.exe     if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}    timeout=3s    on_timeout=continue
+        Run Process    powershell.exe     if($null -eq (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){${CURDIR}/../libraries/FlaUILibrary/bin/Release/net481/FlaUILibrary.exe}    timeout=3s    on_timeout=continue
+    END
+    
     Sleep    5s    Waiting for FlaUI server to start
 
 Stop FlaUI Server
     [Documentation]    Stops the FlaUI server for IDE interactions.
-    Run Process    powershell.exe     if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}    timeout=3s    on_timeout=continue
-    Sleep    5s    Waiting for FlaUI server to stop
+    IF    ${DEBUGGING}
+        Log    Stopping debug FlaUI server (manually in VS code)...
+    ELSE
+        Run Process    powershell.exe     if($null -ne (Get-Process FlaUILibrary -ErrorAction SilentlyContinue)){Stop-Process -Name FlaUILibrary -Force}    timeout=3s    on_timeout=continue
+        Sleep    5s    Waiting for FlaUI server to stop
+    END
 
 Create New Project In Automation Studio
     [Documentation]    Creates a new Automation Studio project.

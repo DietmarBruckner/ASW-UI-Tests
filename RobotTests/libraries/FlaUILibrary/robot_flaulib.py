@@ -70,6 +70,9 @@ class RobotFlaulib:
             result = response.json()
             if "error" in result:
                 detail = result["error"]
+                screenshot = result.get("screenshot")
+                if screenshot:
+                    detail += f"\nError screenshot: {screenshot}"
                 if detail.startswith("CRASH:"):
                     BuiltIn().fatal_error(detail)
                 raise RuntimeError(
@@ -247,6 +250,9 @@ class RobotFlaulib:
         # Server-side crash guard may return {"error": "CRASH: ..."} instead
         if "error" in result:
             detail = result["error"]
+            screenshot = result.get("screenshot")
+            if screenshot:
+                detail += f"\nError screenshot: {screenshot}"
             if detail.startswith("CRASH:"):
                 BuiltIn().fatal_error(detail)
             raise RuntimeError(f"check_app_alive failed: {detail}")
@@ -339,4 +345,3 @@ class RobotFlaulib:
     @keyword("Select From MappView Dropdown")
     def select_from_mappview_dropdown(self, property_name, subproperty, value):
         return self._call("select_from_mappview_dropdown", property_name=property_name, subproperty=subproperty, value=value)
-    

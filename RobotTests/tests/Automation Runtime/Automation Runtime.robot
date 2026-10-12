@@ -1,7 +1,11 @@
 *** Settings ***
 Documentation       Test cases for AutomationRuntime component configuration.
 Resource            ${CURDIR}/../../keywords/component_keywords.robot
+
 Suite Teardown      Stop FlaUI Server
+Test Setup          Start FlaUI Server
+Test Teardown       Stop FlaUI Server
+
 *** Test Cases ***
 
 Initialise Automation Runtime Version
@@ -14,12 +18,10 @@ Initialise Automation Runtime Version
     ...                Determinism: Deterministic UI path
     ...                Preconditions: 
     [Tags]              automationruntime    configuration    smoke    trace:fw-ar-b1
-    Start FlaUI Server
     Initialize Automation Studio
     Select Working Version for Component    Automation Runtime    ${AR_VERSION}
     Verify Working Version For Component    AutomationRuntime     ${AR_VERSION}
     Build Project
-    Stop FlaUI Server
 
     Log    Automation Runtime version initialised
 
