@@ -1,12 +1,11 @@
 # Reports
-/results/*
+**/results/
 *.html
 *.xml
 
 # Python
-__pycache__/
-*.pyc
+**/__pycache__/
 
 # Build Artifacts
-*/build/*
-*/release/*
+**/Debug
+**/Release
