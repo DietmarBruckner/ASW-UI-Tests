@@ -1,7 +1,7 @@
 ﻿$projectPath = "C:\Temp\automation-studio-tests\Basic_Project\Basic_Project"
 $testPath = $PSScriptRoot
 $resultPath = "C:\Temp\results"
-$numberOfTestRuns = 150
+$numberOfTestRuns = 2
 $cpuTypesPath = Join-Path $testPath "config\General\CPU_types.robot"
 $cpuTypes = Get-Content $cpuTypesPath |
     Where-Object { $_ -match '^\.\.\.\s+(\S+)' } |

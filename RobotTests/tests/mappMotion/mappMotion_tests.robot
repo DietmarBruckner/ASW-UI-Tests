@@ -3,6 +3,7 @@ Documentation       First-wave test cases for mappMotion component configuration
 Resource            ${CURDIR}/../../keywords/project_keywords.robot
 Resource            ${CURDIR}/../../keywords/motion_keywords.robot
 Resource            ${CURDIR}/../../../config/mappMotion/axis_profiles.robot
+Library             FlaUILibrary    uia=UIA2
 
 Suite Teardown      Stop FlaUI Server
 Test Setup          Start FlaUI Server

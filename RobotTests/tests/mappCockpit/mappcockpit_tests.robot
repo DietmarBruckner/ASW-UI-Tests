@@ -4,7 +4,6 @@ Resource            ${CURDIR}/../../keywords/component_keywords.robot
 Resource            ${CURDIR}/../../keywords/widget_keywords.robot
 Resource            ${CURDIR}/../../keywords/widget_property_keywords.robot
 Library             FlaUILibrary    uia=UIA2
-Library    ${CURDIR}/../../libraries/FlaUILibrary/robot_flaulib.py    server_url=http://localhost:5000
 
 Suite Teardown      FlaUILib.Check App Alive
 

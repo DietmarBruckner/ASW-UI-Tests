@@ -1,7 +1,10 @@
 *** Settings ***
 Documentation       Test cases for OPCUA component configuration.
 Resource            ${CURDIR}/../../keywords/component_keywords.robot
+Library             FlaUILibrary    uia=UIA2
 Suite Teardown      Stop FlaUI Server
+Test Setup          Start FlaUI Server
+Test Teardown       Stop FlaUI Server
 
 
 *** Test Cases ***
@@ -16,12 +19,10 @@ Initialise OPCUA Version
     ...                Determinism: Deterministic UI path
     ...                Preconditions: OPC UA CS TP available
     [Tags]             opcua    configuration    smoke    trace:fw-opcua-c1
-    Start FlaUI Server
     Initialize Automation Studio
     Select Working Version for Component    OPC      ${UACS_VERSION}
     Verify Working Version For Component    OpcUaCs  ${UACS_VERSION}
     Build Project
-    Stop FlaUI Server
     Log    OPC UA CS version initialised
 
 Activate OPCUA Client Server With Anonymous Access and BR_Engineer
@@ -34,7 +35,6 @@ Activate OPCUA Client Server With Anonymous Access and BR_Engineer
     ...                Determinism: Deterministic UI path
     ...                Preconditions: OPC UA CS package is available and project is open
     [Tags]             opcua    configuration    security    trace:fw-opcua-c4    trace:tm611
-    Start FlaUI Server
     Initialize Automation Studio
     Navigate To OPCUA Default View
     Activate Button in Workspace Editor   Change Advanced Parameter Visibility
@@ -45,7 +45,6 @@ Activate OPCUA Client Server With Anonymous Access and BR_Engineer
     Expand and Click Tree Leaf            Workspace     rootname=BR_ClientServerConfiguration    editorname=e    filename=OPCUACS    filetree=Anonymous Access|BR_User Role 1    version=${UACS_VERSION}
     Select From TreeComboBox              item_number=2
     Build Project
-    Stop FlaUI Server
     Log    OPC UA client/server activation with anonymous access and BR_Engineer configured successfully
 
 
@@ -59,7 +58,6 @@ Configure OPCUA RBAC Roles, Users, And Default Permissions
     ...                Determinism: Deterministic UI path
     ...                Preconditions: OPC UA CS package is available and project is open
     [Tags]             opcua    rbac    security    trace:fw-opcua-c5    trace:tm611
-    Start FlaUI Server
     Initialize Automation Studio
     Navigate To User/Role System
     Insert From ToolBox                    Configuration View    Role
@@ -118,5 +116,4 @@ Configure OPCUA RBAC Roles, Users, And Default Permissions
     Select From TreeComboBox              item_number=1
     Close Editor
     Build Project
-    Stop FlaUI Server
     Log    OPC UA RBAC roles, users and default permissions configured successfully
